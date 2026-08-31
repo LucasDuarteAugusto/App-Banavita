@@ -1,0 +1,17 @@
+{
+  "name": "banavita-license-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gerador offline de licenças Banavita para ativação por dispositivo",
+  "type": "module",
+  "bin": {
+    "banavita-license": "./src/generate-license.js"
+  },
+  "scripts": {
+    "generate": "node ./src/generate-license.js",
+    "generate-keys": "node ./src/generate-keys.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
