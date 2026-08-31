@@ -1,0 +1,13 @@
+{
+  "name": "banavita-speech-model",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Download do modelo GGML Whisper para Banavita ASR",
+  "type": "module",
+  "scripts": {
+    "download": "node ./src/download-model.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

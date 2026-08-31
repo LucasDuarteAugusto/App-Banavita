@@ -15,6 +15,9 @@ interface ProdutoDao {
     @Query("SELECT * FROM produto ORDER BY PRO_DESCRICAO ASC")
     fun observeAll(): Flow<List<ProdutoEntity>>
 
+    @Query("SELECT * FROM produto ORDER BY PRO_DESCRICAO ASC")
+    suspend fun getAll(): List<ProdutoEntity>
+
     @Query("SELECT * FROM produto WHERE PRO_ID = :id")
     suspend fun getById(id: UUID): ProdutoEntity?
 

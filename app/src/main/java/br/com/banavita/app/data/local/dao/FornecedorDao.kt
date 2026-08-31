@@ -15,6 +15,9 @@ interface FornecedorDao {
     @Query("SELECT * FROM fornecedor ORDER BY FOR_NOME ASC")
     fun observeAll(): Flow<List<FornecedorEntity>>
 
+    @Query("SELECT * FROM fornecedor ORDER BY FOR_NOME ASC")
+    suspend fun getAll(): List<FornecedorEntity>
+
     @Query("SELECT * FROM fornecedor WHERE FOR_ID = :id")
     suspend fun getById(id: UUID): FornecedorEntity?
 

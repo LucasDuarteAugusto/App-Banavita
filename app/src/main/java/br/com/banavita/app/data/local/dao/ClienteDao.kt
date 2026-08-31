@@ -15,6 +15,9 @@ interface ClienteDao {
     @Query("SELECT * FROM cliente ORDER BY CLI_NOME ASC")
     fun observeAll(): Flow<List<ClienteEntity>>
 
+    @Query("SELECT * FROM cliente ORDER BY CLI_NOME ASC")
+    suspend fun getAll(): List<ClienteEntity>
+
     @Query("SELECT * FROM cliente WHERE CLI_ID = :id")
     suspend fun getById(id: UUID): ClienteEntity?
 

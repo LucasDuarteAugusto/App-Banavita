@@ -15,6 +15,9 @@ interface GrupoDao {
     @Query("SELECT * FROM grupo ORDER BY GRU_NOME ASC")
     fun observeAll(): Flow<List<GrupoEntity>>
 
+    @Query("SELECT * FROM grupo ORDER BY GRU_NOME ASC")
+    suspend fun getAll(): List<GrupoEntity>
+
     @Query("SELECT * FROM grupo WHERE GRU_ID = :id")
     suspend fun getById(id: UUID): GrupoEntity?
 
