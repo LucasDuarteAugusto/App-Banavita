@@ -9,7 +9,7 @@ object LicenseConstants {
     const val LICENSE_VERSION = 1
     const val MONTHLY_DURATION_MILLIS = 30L * 24L * 60L * 60L * 1000L
 
-    const val PUBLIC_KEY_PEM = """
+    val PUBLIC_KEY_PEM = """
         -----BEGIN PUBLIC KEY-----
         MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAreIq8BZRzD6nMXjmRXUm
         Ek9dQqlRSbPnwC9thTdAUSE18aUbzd+EczCfLEiR/YNgANQcAeHXE1PfeKn2AiVU
@@ -19,5 +19,5 @@ object LicenseConstants {
         OqOYlOpBPNC9fo3v6VuSpETX6X3pThkKicBmaufWwYdGmAQIk4sUsg9hlgS+bQbS
         rQIDAQAB
         -----END PUBLIC KEY-----
-    """.trimIndent() // ERROR - Const 'val' initializer must be a constant value
+    """.trimIndent()
 }

@@ -1,6 +1,7 @@
 package br.com.banavita.app.data.local.activation
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import br.com.banavita.app.domain.model.LicenseType
@@ -45,16 +46,16 @@ class ActivationLocalDataSource @Inject constructor(
     }
 
     fun saveActivation(storedActivation: StoredActivation) {
-        preferences.edit() // WARNING - Use the KTX extension function SharedPreferences.edit instead?
-            .putString(KEY_LICENSE_TOKEN, storedActivation.licenseToken)
-            .putString(KEY_LICENSE_TYPE, storedActivation.licenseType.name)
-            .putLong(KEY_ACTIVATED_AT, storedActivation.activatedAtEpochMillis)
-            .putBoolean(KEY_HARDWARE_BACKED, storedActivation.hardwareBacked)
-            .apply()
+        preferences.edit {
+            putString(KEY_LICENSE_TOKEN, storedActivation.licenseToken)
+            putString(KEY_LICENSE_TYPE, storedActivation.licenseType.name)
+            putLong(KEY_ACTIVATED_AT, storedActivation.activatedAtEpochMillis)
+            putBoolean(KEY_HARDWARE_BACKED, storedActivation.hardwareBacked)
+        }
     }
 
     fun clearActivation() {
-        preferences.edit().clear().apply() // WARNING - Use the KTX extension function SharedPreferences.edit instead?
+        preferences.edit { clear() }
     }
 
     companion object {

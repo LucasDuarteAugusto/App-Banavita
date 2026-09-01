@@ -1,5 +1,6 @@
 package br.com.banavita.app.core.security
 
+import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyInfo
 import android.security.keystore.KeyProperties
@@ -52,7 +53,12 @@ class AndroidDeviceKeystoreManager @Inject constructor() : DeviceKeystoreManager
         return try {
             val factory = KeyFactory.getInstance(entry.privateKey.algorithm, ANDROID_KEYSTORE)
             val keyInfo = factory.getKeySpec(entry.privateKey, KeyInfo::class.java)
-            keyInfo.isInsideSecureHardware // WARNING - val isInsideSecureHardware: Boolean' is deprecated. Deprecated in Java.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                keyInfo.securityLevel >= KeyProperties.SECURITY_LEVEL_TRUSTED_ENVIRONMENT
+            } else {
+                @Suppress("DEPRECATION")
+                keyInfo.isInsideSecureHardware
+            }
         } catch (_: Exception) {
             false
         }

@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class AndroidDeviceFingerprintProvider @Inject constructor(
-    @ApplicationContext private val context: Context, // WARNING - The annotation is only applied to the parameter. An explicit annotation use-site target is recommended.
+    @param:ApplicationContext private val context: Context,
     private val deviceKeystoreManager: DeviceKeystoreManager,
 ) : DeviceFingerprintProvider {
 

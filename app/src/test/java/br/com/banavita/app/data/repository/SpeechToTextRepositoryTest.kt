@@ -39,7 +39,7 @@ class SpeechToTextRepositoryTest {
         repository = SpeechToTextRepository(
             speechModelManager = modelManager,
             whisperEngine = fakeEngine,
-            audioCapture = AudioCapture(),
+            audioCapture = AudioCapture(context),
         )
     }
 

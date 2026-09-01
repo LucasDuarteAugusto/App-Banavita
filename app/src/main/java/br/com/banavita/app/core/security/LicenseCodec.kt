@@ -105,5 +105,20 @@ class LicenseCodec @Inject constructor() {
 data class ParsedLicense(
     val payload: LicensePayload,
     val canonicalMessage: String,
-    val signatureBytes: ByteArray, // WARNING - Property with 'Array' type in a 'data' class: it is recommended to override 'equals()' and 'hashCode()'
-)
+    val signatureBytes: ByteArray,
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ParsedLicense) return false
+        return payload == other.payload &&
+            canonicalMessage == other.canonicalMessage &&
+            signatureBytes.contentEquals(other.signatureBytes)
+    }
+
+    override fun hashCode(): Int {
+        var result = payload.hashCode()
+        result = 31 * result + canonicalMessage.hashCode()
+        result = 31 * result + signatureBytes.contentHashCode()
+        return result
+    }
+}

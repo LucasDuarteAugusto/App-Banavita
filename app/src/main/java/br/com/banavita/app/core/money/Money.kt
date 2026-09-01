@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 object Money {
-    private val CENT_SCALE = 2 // WARNING - must be const
+    private const val CENT_SCALE = 2
 
     fun toCents(value: BigDecimal): Long =
         value.setScale(CENT_SCALE, RoundingMode.HALF_UP)

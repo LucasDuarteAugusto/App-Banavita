@@ -122,12 +122,12 @@ object VendaExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val clienteCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.clienteCue)
-        val clienteRaw = if (!clienteCue.isNullOrBlank()) {
+        val clienteRaw: ExtractionField<String> = if (!clienteCue.isNullOrBlank()) {
             ExtractionField(clienteCue, clienteCue, 0.8f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedVendaSlots(item = item, clienteRaw = clienteRaw) // ERROR - Argument type mismatch: actual type is 'ExtractionField<CapturedType(out String)>', but 'ExtractionField<String>' was expected.
+        return ParsedVendaSlots(item = item, clienteRaw = clienteRaw)
     }
 }
 
@@ -136,12 +136,12 @@ object CompraExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val fornecedorCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.fornecedorCue)
-        val fornecedorRaw = if (!fornecedorCue.isNullOrBlank()) {
+        val fornecedorRaw: ExtractionField<String> = if (!fornecedorCue.isNullOrBlank()) {
             ExtractionField(fornecedorCue, fornecedorCue, 0.75f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedCompraSlots(item = item, fornecedorRaw = fornecedorRaw) // ERROR - Argument type mismatch: actual type is 'ExtractionField<CapturedType(out String)>', but 'ExtractionField<String>' was expected.
+        return ParsedCompraSlots(item = item, fornecedorRaw = fornecedorRaw)
     }
 }
 

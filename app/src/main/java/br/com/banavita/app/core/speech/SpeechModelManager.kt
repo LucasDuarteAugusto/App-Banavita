@@ -12,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 open class SpeechModelManager @Inject constructor(
-    @ApplicationContext private val context: Context, // WARNING - The annotation is only applied to the parameter. An explicit annotation use-site target is recommended.
+    @param:ApplicationContext private val context: Context,
 ) {
     fun modelsDirectory(): File =
         File(context.filesDir, SpeechConstants.MODELS_DIR_NAME).also { it.mkdirs() }
