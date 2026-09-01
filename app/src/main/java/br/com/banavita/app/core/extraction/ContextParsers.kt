@@ -127,7 +127,7 @@ object VendaExtractionParser {
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedVendaSlots(item = item, clienteRaw = clienteRaw)
+        return ParsedVendaSlots(item = item, clienteRaw = clienteRaw) // ERROR - Argument type mismatch: actual type is 'ExtractionField<CapturedType(out String)>', but 'ExtractionField<String>' was expected.
     }
 }
 
@@ -141,7 +141,7 @@ object CompraExtractionParser {
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedCompraSlots(item = item, fornecedorRaw = fornecedorRaw)
+        return ParsedCompraSlots(item = item, fornecedorRaw = fornecedorRaw) // ERROR - Argument type mismatch: actual type is 'ExtractionField<CapturedType(out String)>', but 'ExtractionField<String>' was expected.
     }
 }
 

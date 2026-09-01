@@ -19,5 +19,5 @@ object LicenseConstants {
         OqOYlOpBPNC9fo3v6VuSpETX6X3pThkKicBmaufWwYdGmAQIk4sUsg9hlgS+bQbS
         rQIDAQAB
         -----END PUBLIC KEY-----
-    """.trimIndent()
+    """.trimIndent() // ERROR - Const 'val' initializer must be a constant value
 }

@@ -31,7 +31,7 @@ class AudioCapture @Inject constructor() {
             channelConfig,
             audioFormat,
             bufferSize,
-        )
+        ) // ERROR - Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with checkPermission) or explicitly handle a potential SecurityException
         if (recorder.state != AudioRecord.STATE_INITIALIZED) {
             recorder.release()
             throw SpeechAudioException("Falha ao inicializar AudioRecord")

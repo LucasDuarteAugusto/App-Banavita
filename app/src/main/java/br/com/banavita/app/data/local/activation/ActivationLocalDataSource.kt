@@ -45,7 +45,7 @@ class ActivationLocalDataSource @Inject constructor(
     }
 
     fun saveActivation(storedActivation: StoredActivation) {
-        preferences.edit()
+        preferences.edit() // WARNING - Use the KTX extension function SharedPreferences.edit instead?
             .putString(KEY_LICENSE_TOKEN, storedActivation.licenseToken)
             .putString(KEY_LICENSE_TYPE, storedActivation.licenseType.name)
             .putLong(KEY_ACTIVATED_AT, storedActivation.activatedAtEpochMillis)
@@ -54,7 +54,7 @@ class ActivationLocalDataSource @Inject constructor(
     }
 
     fun clearActivation() {
-        preferences.edit().clear().apply()
+        preferences.edit().clear().apply() // WARNING - Use the KTX extension function SharedPreferences.edit instead?
     }
 
     companion object {

@@ -1,12 +1,12 @@
 package br.com.banavita.app.data.mapper
 
 import br.com.banavita.app.data.local.entity.ClienteEntity
-import br.com.banavita.app.data.local.entity.CompraEntity
+import br.com.banavita.app.data.local.entity.CompraEntity // WARNING - Unused import directive
 import br.com.banavita.app.data.local.entity.CompraItemEntity
 import br.com.banavita.app.data.local.entity.FornecedorEntity
 import br.com.banavita.app.data.local.entity.GrupoEntity
 import br.com.banavita.app.data.local.entity.ProdutoEntity
-import br.com.banavita.app.data.local.entity.VendaEntity
+import br.com.banavita.app.data.local.entity.VendaEntity // WARNING - Unused import directive
 import br.com.banavita.app.data.local.entity.VendaItemEntity
 import br.com.banavita.app.data.local.relation.CompraWithItems
 import br.com.banavita.app.data.local.relation.VendaWithItems

@@ -52,7 +52,7 @@ class AndroidDeviceKeystoreManager @Inject constructor() : DeviceKeystoreManager
         return try {
             val factory = KeyFactory.getInstance(entry.privateKey.algorithm, ANDROID_KEYSTORE)
             val keyInfo = factory.getKeySpec(entry.privateKey, KeyInfo::class.java)
-            keyInfo.isInsideSecureHardware
+            keyInfo.isInsideSecureHardware // WARNING - val isInsideSecureHardware: Boolean' is deprecated. Deprecated in Java.
         } catch (_: Exception) {
             false
         }

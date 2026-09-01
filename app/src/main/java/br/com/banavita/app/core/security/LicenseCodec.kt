@@ -105,5 +105,5 @@ class LicenseCodec @Inject constructor() {
 data class ParsedLicense(
     val payload: LicensePayload,
     val canonicalMessage: String,
-    val signatureBytes: ByteArray,
+    val signatureBytes: ByteArray, // WARNING - Property with 'Array' type in a 'data' class: it is recommended to override 'equals()' and 'hashCode()'
 )

@@ -14,5 +14,5 @@ object SpeechConstants {
         "422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898"
 
     const val MODEL_DOWNLOAD_URL =
-        "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin"
+        "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin" // WARNING - Property MODEL_DOWNLOAD_URL is never used
 }
