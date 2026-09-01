@@ -1,13 +1,13 @@
 # Download do modelo Whisper GGML (Banavita)
 
-Ferramenta de PC para obter `ggml-base-q5_1.bin` e instalar como **sidecar** no aparelho.
+Ferramenta de PC para obter `ggml-base-q5_1.bin` e prepará-lo para **embutir no APK**.
 
 ## Pré-requisitos
 
 - Node.js 14+
-- `adb` (Android platform-tools) para enviar ao celular
+- JDK 17+ e Android SDK (para gerar o APK)
 
-## Baixar o modelo
+## Baixar e copiar para assets
 
 ```bash
 cd tools/speech-model
@@ -18,6 +18,7 @@ Isso grava:
 
 - `models/ggml-base-q5_1.bin` (~57 MB, gitignored)
 - `checksums.json` com SHA-256
+- cópia em `app/src/main/assets/models/ggml-base-q5_1.bin` (gitignored)
 
 SHA-256 esperado:
 
@@ -27,15 +28,37 @@ SHA-256 esperado:
 
 Deve coincidir com `SpeechConstants.ACTIVE_MODEL_SHA256` no app.
 
-## Instalar no aparelho (sidecar)
+## Gerar o APK
 
-O APK **não** embute o modelo. Path no app:
+No Android Studio: **Build → Make Project** ou **Build APK**.
+
+Via Gradle:
+
+```bash
+./gradlew assembleDebug
+```
+
+O task `preBuild` copia o modelo de `tools/speech-model/models/` para assets (se ainda não estiver lá) e falha com instruções claras se o `.bin` estiver ausente.
+
+Para build **sem** modelo (UI sem voz):
+
+```bash
+./gradlew assembleDebug -PskipSpeechModel
+```
+
+## No aparelho
+
+Na **primeira execução** com uso de voz, o app extrai o modelo para:
 
 ```
 /data/data/br.com.banavita.app/files/models/ggml-base-q5_1.bin
 ```
 
-Fluxo típico (build debug):
+Não é necessário `adb push` em instalações normais.
+
+### Sidecar manual (legado / debug)
+
+Útil se você buildou com `-PskipSpeechModel` ou quer testar um `.bin` alternativo:
 
 ```bash
 adb push models/ggml-base-q5_1.bin /data/local/tmp/ggml-base-q5_1.bin

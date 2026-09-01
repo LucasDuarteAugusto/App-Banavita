@@ -33,17 +33,23 @@ class SpeechModelManagerTest {
     }
 
     @Test
-    fun `arquivo muito pequeno retorna TOO_SMALL`() {
+    fun `arquivo muito pequeno tenta reinstalar e retorna MISSING sem asset`() {
         val file = manager.modelFile()
         file.writeBytes(ByteArray(100))
-        assertEquals(ModelStatus.TOO_SMALL, manager.ensureModelReady())
+        assertEquals(ModelStatus.MISSING, manager.ensureModelReady())
     }
 
     @Test
-    fun `checksum invalido retorna INVALID_CHECKSUM`() {
+    fun `checksum invalido tenta reinstalar e retorna MISSING sem asset`() {
         val file = manager.modelFile()
         file.writeBytes(ByteArray(2_000_000) { 1 })
-        assertEquals(ModelStatus.INVALID_CHECKSUM, manager.ensureModelReady())
+        assertEquals(ModelStatus.MISSING, manager.ensureModelReady())
+    }
+
+    @Test
+    fun `installBundledModelFromAssets retorna false quando asset ausente`() {
+        assertTrue(!manager.installBundledModelFromAssets())
+        assertEquals(ModelStatus.MISSING, manager.ensureModelReady())
     }
 
     @Test

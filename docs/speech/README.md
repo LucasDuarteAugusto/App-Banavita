@@ -1,6 +1,6 @@
 # ASR offline Banavita (whisper.cpp / PT-BR)
 
-Transcrição de voz **100% local** com whisper.cpp + modelo GGML quantizado. Idioma forçado: **português (`pt`)**. Sem telas nesta etapa — apenas backend.
+Transcrição de voz **100% local** com whisper.cpp + modelo GGML quantizado. Idioma forçado: **português (`pt`)**.
 
 ## Pipeline
 
@@ -29,9 +29,44 @@ flowchart LR
 | Arquivo | `ggml-base-q5_1.bin` (~57 MB) |
 | Perfil | `MINIMUM` (Galaxy A17 8 GB+) |
 | SHA-256 | `422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898` |
-| Distribuição | Sidecar em `filesDir/models/` (não vai no APK) |
+| Distribuição | **Embutido no APK** (`assets/models/`) |
 
 Perfis **INTERMEDIATE** / **PREMIUM** existem no `SpeechModelCatalog` como reservados (sem download automático).
+
+## Extração na primeira execução
+
+O modelo **não** fica em memória dentro do APK: na primeira vez que o ASR é necessário, `SpeechModelManager` copia o arquivo de `assets/models/` para:
+
+```
+files/models/ggml-base-q5_1.bin
+```
+
+A cópia valida tamanho mínimo e SHA-256. Se o arquivo local estiver corrompido, a extração dos assets é repetida.
+
+## Build do APK
+
+Antes do primeiro build (ou ao atualizar o modelo):
+
+```bash
+cd tools/speech-model
+npm run download
+```
+
+Isso baixa o `.bin`, grava checksums e copia para `app/src/main/assets/models/`. O Gradle também executa `copySpeechModelToAssets` no `preBuild`.
+
+Build normal:
+
+```bash
+./gradlew assembleDebug
+```
+
+Build sem modelo (só desenvolvimento de UI, voz indisponível):
+
+```bash
+./gradlew assembleDebug -PskipSpeechModel
+```
+
+Detalhes em [tools/speech-model/README.md](../../tools/speech-model/README.md).
 
 ## Sotaque interior paulista (caipira)
 
@@ -61,16 +96,6 @@ release()
 - JNI: `WhisperLib` → dispatcher single-thread `whisper-inference`
 - Build: NDK + CMake 3.22+ no [app/build.gradle.kts](../../app/build.gradle.kts)
 
-## Instalação do modelo
-
-Ver [tools/speech-model/README.md](../../tools/speech-model/README.md).
-
-```bash
-cd tools/speech-model
-npm run download
-# depois adb push / run-as conforme o README da ferramenta
-```
-
 ## Exceções
 
 | Tipo | Quando |
@@ -79,9 +104,7 @@ npm run download
 | `SpeechEngineException` | Falha nativa whisper |
 | `SpeechAudioException` | Microfone/WAV inválido |
 
-## Limites desta etapa
+## Limites
 
-- Sem UI de microfone.
-- Sem classificação de venda/compra a partir do texto.
 - Sem streaming parcial (batch: grava → transcreve).
 - Só `arm64-v8a`.

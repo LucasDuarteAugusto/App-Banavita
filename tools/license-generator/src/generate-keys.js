@@ -30,8 +30,8 @@ function main() {
   if (fs.existsSync(ANDROID_CONSTANTS_PATH)) {
     const kotlinSource = fs.readFileSync(ANDROID_CONSTANTS_PATH, 'utf8');
     const updated = kotlinSource.replace(
-      /const val PUBLIC_KEY_PEM = """[\s\S]*?"""/,
-      `const val PUBLIC_KEY_PEM = """\n${publicKey.trim()}\n    """`,
+      /(?:const )?val PUBLIC_KEY_PEM = """[\s\S]*?"""/,
+      `val PUBLIC_KEY_PEM = """\n${publicKey.trim()}\n    """`,
     );
     fs.writeFileSync(ANDROID_CONSTANTS_PATH, updated, 'utf8');
     console.log(`Chave pública sincronizada em:\n${ANDROID_CONSTANTS_PATH}`);

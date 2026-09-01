@@ -4,6 +4,62 @@ Controle de acesso por dispositivo, sem servidor, usando fingerprint + Android K
 
 Objetivo: impedir que um APK compartilhado seja usado livremente em outro celular. Cada aparelho gera um código único; só uma licença assinada por você libera aquele aparelho.
 
+## Guia rápido: testar no celular
+
+Use este fluxo na primeira vez (ou após regenerar chaves):
+
+### 1. Gerar par de chaves (uma vez no PC)
+
+```bash
+cd tools/license-generator
+npm run generate-keys
+```
+
+Isso cria `keys/private.pem` (só no seu PC) e **atualiza** a chave pública em `app/.../LicenseConstants.kt`.  
+**Depois disso, gere o APK de novo** — o app precisa da mesma chave pública que o gerador usa para assinar.
+
+> Se você já tem `private.pem` de antes, **não** rode `generate-keys` de novo (invalida licenças antigas). Só gere a licença com a chave existente.
+
+### 2. Instalar o APK no celular
+
+Instale o build debug ou release (Android Studio → Run, ou `assembleDebug`).
+
+### 3. Copiar o código do aparelho
+
+1. Abra o app → tela **Liberação do aplicativo**
+2. Toque no ícone de **copiar** ao lado do código `BAN1-REQ-...`
+3. Envie para o PC (WhatsApp, e-mail, etc.)
+
+### 4. Gerar a licença no PC
+
+```bash
+cd tools/license-generator
+npm run generate -- --request "BAN1-REQ-COLE_AQUI" --type permanent
+```
+
+Para testes, use `permanent`. Para assinatura mensal:
+
+```bash
+npm run generate -- --request "BAN1-REQ-..." --type monthly
+```
+
+A saída é um token `BAN1-LIC-...` (pode ser longo — copie inteiro).
+
+### 5. Ativar no celular
+
+1. Cole o `BAN1-LIC-...` no campo **Licença**
+2. Toque em **Liberar aplicativo**
+3. Se ok, o app abre a tela principal
+
+### Problemas comuns
+
+| Sintoma | Causa provável | Solução |
+|---------|----------------|---------|
+| Assinatura inválida | Chave pública do APK ≠ par da `private.pem` | Rode `generate-keys`, rebuild do APK, gere licença de novo |
+| Dispositivo não corresponde | Licença de outro celular | Gere com o `BAN1-REQ-...` **deste** aparelho |
+| Licença expirada | Tipo `monthly` após 30 dias | Gere nova licença ou use `permanent` em testes |
+| Factory reset | `ANDROID_ID` mudou | Novo `BAN1-REQ-...` → nova licença |
+
 ## Fluxo operacional
 
 ```mermaid
@@ -27,7 +83,7 @@ sequenceDiagram
 1. O app gera um **código de solicitação** (`BAN1-REQ-...`).
 2. O usuário envia esse código para você (WhatsApp, etc.).
 3. Você gera uma **licença** (`BAN1-LIC-...`) no PC com a chave privada.
-4. O usuário cola a licença no app (tela futura).
+4. O usuário cola a licença no app (tela de ativação).
 5. O app valida e, se ok, libera o uso.
 
 ## Fingerprints do dispositivo
@@ -243,15 +299,16 @@ Aliases de tipo aceitos: `permanent`/`permanente`, `monthly`/`mensal`/`1month`.
 | Root | Pode tentar falsificar prefs/fingerprint. |
 | Objetivo realista | Bloquear uso casual do APK compartilhado — não é DRM militar. |
 
-## Próximo passo (UI)
+## UI de ativação
 
-Ainda não implementado:
+Implementada em `ui/activation/`:
 
-- Tela de ativação exibindo `buildActivationRequest().requestCode` (copiar/compartilhar)
-- Campo para colar `BAN1-LIC-...` e chamar `activate(...)`
-- Gate no `MainActivity` / navegação: se `!isActivated()` → só tela de ativação
-- Mensagens de erro mapeadas às exceções acima
-- Opcional: mostrar dias restantes para `MONTHLY` via `expiresAtEpochMillis`
+- Exibe e copia o código `BAN1-REQ-...`
+- Campo para colar `BAN1-LIC-...` e botão **Liberar aplicativo**
+- Gate em `BanavitaApp`: se `!isActivated()` → só tela de ativação
+- Erros mapeados para mensagens na tela (assinatura, dispositivo, expiração)
+
+Mockup: `docs/ui/mockups/activation.png`
 
 ## Testes relacionados
 

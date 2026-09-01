@@ -6,6 +6,7 @@ import br.com.banavita.app.domain.model.SpeechModelSpec
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
 import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,6 +24,51 @@ open class SpeechModelManager @Inject constructor(
         File(modelsDirectory(), spec.fileName)
 
     open fun ensureModelReady(spec: SpeechModelSpec = activeSpec()): ModelStatus {
+        var status = validateModelFile(spec)
+        if (status != ModelStatus.READY) {
+            installBundledModelFromAssets(spec)
+            status = validateModelFile(spec)
+        }
+        return status
+    }
+
+    /**
+     * Copia o modelo embutido em [assets][SpeechConstants.MODELS_DIR_NAME] para [filesDir]
+     * na primeira execução (ou quando o arquivo local está ausente/corrompido).
+     */
+    open fun installBundledModelFromAssets(spec: SpeechModelSpec = activeSpec()): Boolean {
+        val target = modelFile(spec)
+        val assetPath = "${SpeechConstants.MODELS_DIR_NAME}/${spec.fileName}"
+        val temp = File(modelsDirectory(), "${spec.fileName}.tmp")
+
+        if (target.exists()) {
+            target.delete()
+        }
+        temp.delete()
+
+        return try {
+            context.assets.open(assetPath).use { input ->
+                temp.outputStream().buffered().use { output ->
+                    input.copyTo(output)
+                }
+            }
+            if (!temp.renameTo(target)) {
+                temp.inputStream().use { input ->
+                    target.outputStream().buffered().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+                temp.delete()
+            }
+            validateModelFile(spec) == ModelStatus.READY
+        } catch (_: IOException) {
+            temp.delete()
+            target.delete()
+            false
+        }
+    }
+
+    private fun validateModelFile(spec: SpeechModelSpec): ModelStatus {
         val file = modelFile(spec)
         if (!file.exists()) {
             return ModelStatus.MISSING

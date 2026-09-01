@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
@@ -102,6 +103,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.security.crypto)
@@ -119,4 +121,44 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     debugImplementation(libs.androidx.ui.tooling)
+}
+
+val speechModelFileName = "ggml-base-q5_1.bin"
+val speechModelSource = rootProject.file("tools/speech-model/models/$speechModelFileName")
+val speechModelAssetsDir = layout.projectDirectory.dir("src/main/assets/models")
+
+tasks.register<Copy>("copySpeechModelToAssets") {
+    group = "banavita"
+    description = "Copia o modelo GGML baixado para assets/ antes do build"
+    from(speechModelSource)
+    into(speechModelAssetsDir)
+    onlyIf { speechModelSource.exists() }
+}
+
+tasks.register("verifySpeechModelForBuild") {
+    group = "banavita"
+    description = "Garante que o modelo ASR está em assets/ (use -PskipSpeechModel para pular)"
+    dependsOn("copySpeechModelToAssets")
+    doLast {
+        if (project.hasProperty("skipSpeechModel")) {
+            logger.warn("skipSpeechModel: APK será gerado sem modelo ASR embutido")
+            return@doLast
+        }
+        val asset = speechModelAssetsDir.file(speechModelFileName).asFile
+        if (!asset.exists()) {
+            throw GradleException(
+                """
+                Modelo ASR ausente para embutir no APK.
+                Execute:
+                  cd tools/speech-model && npm run download
+                Depois gere o APK novamente.
+                Para build sem voz (dev): ./gradlew assembleDebug -PskipSpeechModel
+                """.trimIndent(),
+            )
+        }
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("verifySpeechModelForBuild")
 }

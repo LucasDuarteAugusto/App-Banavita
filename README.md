@@ -4,10 +4,10 @@ Aplicativo para controle offline do negócio Banavita.
 
 ## Stack
 
-- Kotlin + Jetpack Compose (UI placeholder)
+- Kotlin + Jetpack Compose
 - Room (SQLite) com KSP
 - Hilt + Coroutines/Flow
-- Arquitetura MVVM/Clean (camada de dados implementada)
+- Arquitetura MVVM/Clean
 - ASR offline: whisper.cpp + GGML quantizado (PT-BR)
 
 ## Requisitos de build
@@ -16,14 +16,15 @@ Aplicativo para controle offline do negócio Banavita.
 - Android SDK (API 35)
 - Android NDK (para whisper.cpp / arm64-v8a)
 - Android Studio Ladybug ou superior (recomendado)
+- Modelo ASR: `cd tools/speech-model && npm run download` (obrigatório antes do primeiro build com voz)
 
 ## Requisitos de dispositivo (IA local)
 
-O app usa speech-to-text **offline**. Aparelhos com **4 GB de RAM não são suportados** para ASR. Só **arm64-v8a**. Espaço livre recomendado ≥ **500 MB** (modelo + áudio temporário + banco). Permissão `RECORD_AUDIO` necessária para captura.
+O app usa speech-to-text **offline**. Aparelhos com **4 GB de RAM não são suportados** para ASR. Só **arm64-v8a**. Espaço livre recomendado ≥ **500 MB** (modelo extraído ~57 MB + áudio temporário + banco). Permissão `RECORD_AUDIO` necessária para captura.
 
 | Perfil | Exemplos reais | Hardware | Modelo ASR |
 |--------|----------------|----------|------------|
-| **Mínimo** (adotado agora) | Galaxy A17 8 GB, Galaxy A35 8 GB, mid-entry equivalentes | 8 GB RAM, 128 GB armazenamento, CPU ~Exynos 1330 / Helio G99 | **`ggml-base-q5_1`** (~75 MB). Fallback futuro: `tiny-q8` só se base for inviável |
+| **Mínimo** (adotado agora) | Galaxy A17 8 GB, Galaxy A35 8 GB, mid-entry equivalentes | 8 GB RAM, 128 GB armazenamento, CPU ~Exynos 1330 / Helio G99 | **`ggml-base-q5_1`** (~57 MB no APK) |
 | **Intermediário** (reservado) | Galaxy A54 / A55, Galaxy M54, Redmi Note 13 Pro | 8 GB+ RAM, UFS melhor | Futuro: `ggml-base-q8_0` ou `ggml-small-q5_1` |
 | **Premium** (reservado) | Galaxy S23 / S24, A56 high-end, Pixel 7+ | 8–12 GB RAM, SoC forte | Futuro: `ggml-small-q8_0` ou `medium` quantizado |
 
@@ -39,10 +40,12 @@ app/src/main/java/br/com/banavita/app/
   data/repository/     # Repositórios transacionais + speech
   domain/              # Modelos e exceções de domínio
   core/                # Money, tempo, segurança/ativação, speech (ASR)
+  ui/                  # Compose: telas, navegação, voz
 docs/database/         # Schema SQLite
 docs/activation/       # Controle de acesso offline
 docs/speech/           # ASR whisper.cpp PT-BR
 docs/extraction/       # Extração heurística do transcript
+docs/ui/               # Mockups das telas Compose
 tools/license-generator/  # Gerador de licenças (PC)
 tools/speech-model/       # Download do modelo GGML (PC)
 ```
@@ -57,7 +60,7 @@ Ver [docs/activation/README.md](docs/activation/README.md) e [tools/license-gene
 
 ## Transcrição de voz (ASR)
 
-Ver [docs/speech/README.md](docs/speech/README.md). Backend whisper.cpp, idioma forçado `pt`, modelo sidecar (não embutido no APK).
+Ver [docs/speech/README.md](docs/speech/README.md). Backend whisper.cpp, idioma forçado `pt`, modelo **embutido no APK** (extraído para `files/models/` na primeira execução).
 
 ## Extração / classificação
 
@@ -69,12 +72,18 @@ Ver [docs/extraction/README.md](docs/extraction/README.md). Heurísticas PT-BR +
 - [x] Controle de acesso offline (backend + gerador Node.js)
 - [x] IA local para transcrever áudios em português (backend ASR)
 - [x] IA local para classificar e extrair informações (backend heurístico)
-- [ ] Tela de cadastro de produtos
-- [ ] Tela de cadastro de clientes
-- [ ] Tela de cadastro vendas
-- [ ] Tela de cadastro de compras
-- [ ] Tela de acompanhamento de vendas
-- [ ] Tela de acompanhamento de compras
+- [x] Navegação principal (Início, Vendas, Compras, Cadastros)
+- [x] Tela inicial (atalho para nova venda)
+- [x] Tela de cadastro de produtos
+- [x] Tela de cadastro de clientes
+- [x] Tela de cadastro de fornecedores
+- [x] Tela de cadastro de grupos
+- [x] Tela de consulta de estoque
+- [x] Tela de cadastro de vendas
+- [x] Tela de cadastro de compras
+- [x] Tela de acompanhamento de vendas
+- [x] Tela de acompanhamento de compras
+- [x] Cadastro por voz (microfone nas listas e formulários novos)
 
 ## Testes
 

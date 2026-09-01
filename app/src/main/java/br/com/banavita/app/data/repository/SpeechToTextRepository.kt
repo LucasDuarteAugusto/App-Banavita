@@ -30,8 +30,8 @@ class SpeechToTextRepository @Inject constructor(
         if (status != ModelStatus.READY) {
             throw SpeechModelException(
                 "Modelo ASR indisponível ($status). " +
-                    "Copie ${speechModelManager.activeSpec().fileName} para " +
-                    speechModelManager.modelsDirectory().absolutePath,
+                    "Reinstale o app ou gere o APK com o modelo embutido " +
+                    "(${speechModelManager.activeSpec().fileName}).",
             )
         }
         if (!whisperEngine.isLoaded) {

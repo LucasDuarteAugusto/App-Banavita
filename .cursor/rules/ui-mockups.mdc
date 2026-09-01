@@ -1,0 +1,18 @@
+---
+description: Regenerar mockups das telas Compose quando a UI mudar
+globs: app/src/main/java/br/com/banavita/app/ui/**/*.kt
+alwaysApply: false
+---
+
+# Mockups de tela
+
+Quando criar ou alterar uma tela Compose, gere (ou regenere) o PNG em `docs/ui/mockups/` para refletir o código atual.
+
+Regras:
+
+- Um arquivo por tela/estado real (lista, formulário novo, formulário editar, overlay de voz).
+- A imagem deve seguir o layout do código: top bar verde `#2E7D32`, 4 abas só nas rotas de topo (Início, Vendas, Compras, Cadastros), FABs de voz pequenos (mic à esquerda, `+` à direita nas listas; só mic nos formulários novos).
+- Estoque não tem mic nem `+`.
+- Formulário em edição não tem mic; tem botão Excluir.
+- Apague mockups que não correspondam mais a uma tela existente.
+- Atualize o índice em `docs/ui/README.md`.
