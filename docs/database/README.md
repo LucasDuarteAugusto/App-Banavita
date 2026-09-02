@@ -6,7 +6,8 @@ Documentação da camada de persistência offline do aplicativo Banavita.
 
 - **Motor:** SQLite via Room ORM (KSP)
 - **Arquivo:** `banavita.db`
-- **Versão do schema:** 1
+- **Versão do schema:** 3
+- **Migrações:** `MIGRATION_1_2` (financeiro) e `MIGRATION_2_3` (agenda). Sem `fallbackToDestructiveMigration`.
 - **Estratégia de delete:** hard delete (sem `deleted_at`)
 - **Identificadores:** UUID (`TEXT`, 36 caracteres)
 - **Datas:** epoch millis (`INTEGER`)
@@ -22,6 +23,10 @@ erDiagram
     fornecedor ||--o{ compra : fornece
     venda ||--|{ venda_item : contem
     compra ||--|{ compra_item : contem
+    venda ||--o{ recebimento : baixa
+    compra ||--o{ pagamento : baixa
+    cliente ||--o{ evento : opcional
+    fornecedor ||--o{ evento : opcional
     produto ||--o{ venda_item : saida
     produto ||--o{ compra_item : entrada
 ```
@@ -82,6 +87,7 @@ erDiagram
 | VEN_DATA | INTEGER | NOT NULL |
 | VEN_CLIENTE | TEXT | NULL, FK → cliente.CLI_ID (RESTRICT) |
 | VEN_VLRTOT | INTEGER | NOT NULL (snapshot da soma dos itens) |
+| VEN_PRAZO | INTEGER | NOT NULL, default 0 (0 = à vista, 1 = a prazo) |
 
 Índices: `VEN_DATA`, `VEN_CLIENTE`
 
@@ -110,6 +116,7 @@ erDiagram
 | COM_DATA | INTEGER | NOT NULL |
 | COM_FORNECEDOR | TEXT | NULL, FK → fornecedor.FOR_ID (RESTRICT) |
 | COM_VLRTOT | INTEGER | NOT NULL |
+| COM_PRAZO | INTEGER | NOT NULL, default 0 (0 = à vista, 1 = a prazo) |
 
 Índices: `COM_DATA`, `COM_FORNECEDOR`
 
@@ -127,6 +134,49 @@ erDiagram
 | COI_VLRTOT | INTEGER | NOT NULL |
 
 Índices: `COI_COMPRA`, `COI_PRODUTO`
+
+### `recebimento` (schema v2)
+
+| Coluna | Tipo | Restrições |
+|--------|------|------------|
+| REC_ID | TEXT | PK |
+| created_at | INTEGER | NOT NULL |
+| updated_at | INTEGER | NOT NULL |
+| REC_VENDA | TEXT | NOT NULL, FK → venda.VEN_ID (CASCADE) |
+| REC_DATA | INTEGER | NOT NULL |
+| REC_VALOR | INTEGER | NOT NULL, > 0 |
+
+À vista: o create da venda grava uma baixa do total. A prazo: saldo = total − SUM(recebimentos).
+
+### `pagamento` (schema v2)
+
+| Coluna | Tipo | Restrições |
+|--------|------|------------|
+| PAG_ID | TEXT | PK |
+| created_at | INTEGER | NOT NULL |
+| updated_at | INTEGER | NOT NULL |
+| PAG_COMPRA | TEXT | NOT NULL, FK → compra.COM_ID (CASCADE) |
+| PAG_DATA | INTEGER | NOT NULL |
+| PAG_VALOR | INTEGER | NOT NULL, > 0 |
+
+### `evento` (schema v3)
+
+| Coluna | Tipo | Restrições |
+|--------|------|------------|
+| EVE_ID | TEXT | PK |
+| created_at | INTEGER | NOT NULL |
+| updated_at | INTEGER | NOT NULL |
+| EVE_TITULO | TEXT | NOT NULL |
+| EVE_DATAHORA | INTEGER | NOT NULL |
+| EVE_OBS | TEXT | NULL |
+| EVE_CLIENTE | TEXT | NULL, FK → cliente (RESTRICT) |
+| EVE_FORNECEDOR | TEXT | NULL, FK → fornecedor (RESTRICT) |
+| EVE_NOTIFICAR | INTEGER | NOT NULL, default 1 |
+| EVE_ANTECIPACAO_MIN | INTEGER | NULL (15, 60 ou 1440) |
+| EVE_NOTIF_TITULO | TEXT | NULL |
+| EVE_NOTIF_CORPO | TEXT | NULL |
+
+Não vincular cliente e fornecedor ao mesmo tempo (regra no repositório).
 
 ## View de estoque
 
@@ -149,6 +199,8 @@ Não há coluna de estoque em `produto`. A view é a fonte da verdade para saldo
    - Venda/compra: delete remove cabeçalho; itens caem por CASCADE.
    - Produto/grupo/cliente/fornecedor: delete bloqueado se houver referências (COUNT no repositório + FK RESTRICT).
 5. **Auditoria.** `created_at` imutável; `updated_at` atualizado pelo repositório a cada alteração.
+6. **Financeiro.** Venda/compra à vista geram baixa automática do total. A receber/A pagar leem só documentos a prazo com saldo > 0.
+7. **Agenda.** Lembretes via `ReminderScheduler` (AlarmManager). Excluir evento cancela o alarme.
 
 ## Pacotes Kotlin
 

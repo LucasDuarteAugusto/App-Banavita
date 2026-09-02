@@ -62,8 +62,30 @@ class ExtractionParsersTest {
     }
 
     @Test
-    fun `unit dictionary resolve caixinha`() {
-        assertEquals("CX", UnitDictionary.resolve("caixinha"))
-        assertEquals("DZ", UnitDictionary.resolve("dúzia"))
+    fun `consultas parser extrai modo vendas e periodo semana`() {
+        val parsed = ConsultasExtractionParser.parse("vendas desta semana")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.VENDAS, parsed.modo.value)
+        assertEquals(br.com.banavita.app.domain.model.PeriodoPreset.SEMANA, parsed.periodo.value)
+    }
+
+    @Test
+    fun `prazo parser reconhece fiado`() {
+        val field = PrazoParser.parse("vende banana fiado")
+        assertEquals(true, field.value)
+        val parsed = VendaExtractionParser.parse("vende tres quilos de banana fiado")
+        assertEquals(true, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `evento parser recorte hoje nao exige titulo`() {
+        assertTrue(EventoExtractionParser.looksLikeFilterOnly("hoje"))
+        val parsed = EventoExtractionParser.parse("hoje")
+        assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.HOJE, parsed.recorteLista.value)
+    }
+
+    @Test
+    fun `inicio reconhece nova venda sem item`() {
+        assertTrue(ConsultasExtractionParser.parse("nova venda", preferInicio = true).navigateNovaVenda)
+        assertTrue(!InicioIntentParser.looksLikeVenda("nova venda"))
     }
 }

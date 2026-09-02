@@ -122,7 +122,13 @@ private fun titleForRoute(route: String?): String {
         route == BanavitaRoutes.CADASTROS_FORNECEDORES -> R.string.cadastros_fornecedores_title
         route == BanavitaRoutes.CADASTROS_PRODUTOS -> R.string.cadastros_produtos_title
         route == BanavitaRoutes.CADASTROS_GRUPOS -> R.string.cadastros_grupos_title
-        route == BanavitaRoutes.CADASTROS_ESTOQUE -> R.string.cadastros_estoque_title
+        route?.startsWith("consultas/estoque/") == true -> R.string.estoque_detalhe_title
+        route?.startsWith("consultas/receber/") == true -> R.string.consultas_mode_receber
+        route?.startsWith("consultas/pagar/") == true -> R.string.consultas_mode_pagar
+        route?.startsWith("consultas") == true -> R.string.consultas_title
+        route == BanavitaRoutes.AGENDA -> R.string.agenda_title
+        route == BanavitaRoutes.AGENDA_FORM_NEW -> R.string.agenda_form_new_title
+        route?.startsWith("agenda/edit/") == true -> R.string.agenda_form_edit_title
         route == BanavitaRoutes.GRUPO_FORM_NEW -> R.string.grupo_form_new_title
         route?.startsWith("cadastros/grupos/edit/") == true -> R.string.grupo_form_edit_title
         route == BanavitaRoutes.CLIENTE_FORM_NEW -> R.string.cliente_form_new_title

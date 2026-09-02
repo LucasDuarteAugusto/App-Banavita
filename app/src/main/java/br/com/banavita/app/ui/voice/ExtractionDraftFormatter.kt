@@ -43,6 +43,7 @@ object ExtractionDraftFormatter {
                         add(fieldLine("Preço unit.", item.valorUnitarioCentavos))
                     }
                     add(entityLine("Cliente", fields.cliente?.label, fields.clienteRaw))
+                    add(DraftReviewLine("Pagamento", if (fields.aPrazo.value == true) "A prazo" else "À vista", fields.aPrazo.confidence))
                 }
             }
             is ExtractionFields.CompraDraft -> {
@@ -55,8 +56,28 @@ object ExtractionDraftFormatter {
                         add(fieldLine("Preço unit.", item.valorUnitarioCentavos))
                     }
                     add(entityLine("Fornecedor", fields.fornecedor?.label, fields.fornecedorRaw))
+                    add(DraftReviewLine("Pagamento", if (fields.aPrazo.value == true) "A prazo" else "À vista", fields.aPrazo.confidence))
                 }
             }
+            is ExtractionFields.ConsultasDraft -> listOf(
+                DraftReviewLine("Modo", fields.modo.value?.name?.lowercase() ?: "—", fields.modo.confidence),
+                fieldLine("Busca", fields.busca),
+                DraftReviewLine("Período", fields.periodo.value?.name?.lowercase() ?: "—", fields.periodo.confidence),
+                DraftReviewLine("Visão", fields.visao.value?.name?.lowercase() ?: "—", fields.visao.confidence),
+                DraftReviewLine("Só zerados", if (fields.somenteZerados.value == true) "sim" else "não", fields.somenteZerados.confidence),
+            )
+            is ExtractionFields.BaixaDraft -> listOf(
+                DraftReviewLine("Tipo", fields.tipo.name.lowercase(), 1f),
+                entityLine("Parceiro", fields.parceiro?.label, fields.parceiroRaw),
+                fieldLine("Valor", fields.valorCentavos),
+            )
+            is ExtractionFields.EventoDraft -> listOf(
+                fieldLine("Título", fields.titulo),
+                fieldLine("Quando", fields.dataHoraMillis),
+                fieldLine("Observação", fields.observacao),
+                entityLine("Cliente", fields.cliente?.label, fields.clienteRaw),
+                DraftReviewLine("Lembrete", if (fields.notificar.value != false) "ligado" else "desligado", fields.notificar.confidence),
+            )
         }.filter { it.value.isNotBlank() && it.value != "—" }
 
     private fun fieldLine(label: String, field: ExtractionField<*>): DraftReviewLine =
@@ -72,7 +93,9 @@ object ExtractionDraftFormatter {
         val value = field.value
         if (value == null) return field.rawSpan ?: "—"
         return when (value) {
-            is Long -> formatCurrency(value)
+            is Long -> {
+                if (value > 1_000_000_000_000L) value.toString() else formatCurrency(value)
+            }
             is Double -> if (value % 1.0 == 0.0) value.toLong().toString() else value.toString()
             else -> value.toString()
         }

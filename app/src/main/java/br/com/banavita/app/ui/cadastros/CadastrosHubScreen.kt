@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Category
-import androidx.compose.material.icons.filled.Inventory
 import androidx.compose.material.icons.filled.LocalShipping
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.ShoppingBag
@@ -65,12 +64,6 @@ fun CadastrosHubScreen(
             titleRes = R.string.cadastros_grupos,
             descriptionRes = R.string.cadastros_grupos_desc,
             icon = Icons.Default.Category,
-        ),
-        CadastroEntry(
-            route = BanavitaRoutes.CADASTROS_ESTOQUE,
-            titleRes = R.string.cadastros_estoque,
-            descriptionRes = R.string.cadastros_estoque_desc,
-            icon = Icons.Default.Inventory,
         ),
     )
 

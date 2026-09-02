@@ -13,11 +13,13 @@ data class ParsedLineItem(
 data class ParsedVendaSlots(
     val item: ParsedLineItem,
     val clienteRaw: ExtractionField<String>,
+    val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
 )
 
 data class ParsedCompraSlots(
     val item: ParsedLineItem,
     val fornecedorRaw: ExtractionField<String>,
+    val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
 )
 
 data class ParsedNomeTelefone(
@@ -127,7 +129,11 @@ object VendaExtractionParser {
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedVendaSlots(item = item, clienteRaw = clienteRaw)
+        return ParsedVendaSlots(
+            item = item,
+            clienteRaw = clienteRaw,
+            aPrazo = PrazoParser.parse(transcript),
+        )
     }
 }
 
@@ -141,7 +147,11 @@ object CompraExtractionParser {
         } else {
             ExtractionField(null, null, 0f)
         }
-        return ParsedCompraSlots(item = item, fornecedorRaw = fornecedorRaw)
+        return ParsedCompraSlots(
+            item = item,
+            fornecedorRaw = fornecedorRaw,
+            aPrazo = PrazoParser.parse(transcript),
+        )
     }
 }
 

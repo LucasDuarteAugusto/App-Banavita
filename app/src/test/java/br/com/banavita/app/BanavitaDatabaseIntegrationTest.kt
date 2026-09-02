@@ -85,8 +85,21 @@ class BanavitaDatabaseIntegrationTest {
         grupoRepository = GrupoRepository(grupoDao)
         produtoRepository = ProdutoRepository(produtoDao, grupoDao)
         clienteRepository = ClienteRepository(clienteDao)
-        compraRepository = CompraRepository(compraDao, fornecedorDao, documentoItemFactory)
-        vendaRepository = VendaRepository(vendaDao, clienteDao, documentoItemFactory, estoqueValidator)
+        compraRepository = CompraRepository(
+            database,
+            compraDao,
+            fornecedorDao,
+            documentoItemFactory,
+            database.pagamentoDao(),
+        )
+        vendaRepository = VendaRepository(
+            database,
+            vendaDao,
+            clienteDao,
+            documentoItemFactory,
+            estoqueValidator,
+            database.recebimentoDao(),
+        )
         estoqueRepository = EstoqueRepository(estoqueDao)
     }
 

@@ -1,0 +1,20 @@
+---
+description: Registrar toda criação ou alteração de código em docs/Modifications
+alwaysApply: true
+---
+
+# Log de modificações
+
+Sempre que criar ou alterar código (Kotlin, Gradle, recursos, testes, native), escreva um `.md` em `docs/Modifications/` **na mesma tarefa**, antes de encerrar.
+
+- Nome: `YYYY-MM-DD-titulo-curto.md` (data de hoje). Se a mesma sessão continuar no mesmo dia e assunto, atualize o arquivo existente.
+- Objetivo: o autor revisar no Android Studio só pelos caminhos listados, sem varrer o repo.
+- Não substitua este log por commit message, README do módulo ou mockup.
+
+Inclua no arquivo:
+
+1. Resumo em 1–3 frases
+2. Tabela **Criado** / **Alterado** / **Removido** com caminho a partir da raiz
+3. O que conferir na IDE (arquivos, telas, Sync Gradle)
+
+Não registre nesta pasta mudanças que sejam só o próprio log.

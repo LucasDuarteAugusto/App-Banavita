@@ -81,6 +81,7 @@ class CompraFormViewModel @Inject constructor(
                         it.copy(
                             dataInput = DateInputParser.formatForInput(compra.data),
                             fornecedorId = compra.fornecedorId,
+                            aPrazo = compra.aPrazo,
                             itens = itens.ifEmpty { listOf(DocumentLineItemFormState()) },
                             isLoading = false,
                         )
@@ -103,6 +104,10 @@ class CompraFormViewModel @Inject constructor(
 
     fun onFornecedorSelected(fornecedorId: UUID?) {
         _uiState.update { it.copy(fornecedorId = fornecedorId, errorMessage = null) }
+    }
+
+    fun onAPrazoChange(value: Boolean) {
+        _uiState.update { it.copy(aPrazo = value, errorMessage = null) }
     }
 
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
@@ -167,7 +172,7 @@ class CompraFormViewModel @Inject constructor(
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
             runCatching {
                 if (compraId == null) {
-                    compraRepository.create(data, state.fornecedorId, inputsResult.inputs)
+                    compraRepository.create(data, state.fornecedorId, inputsResult.inputs, state.aPrazo)
                 } else {
                     compraRepository.update(compraId, data, state.fornecedorId, inputsResult.inputs)
                 }

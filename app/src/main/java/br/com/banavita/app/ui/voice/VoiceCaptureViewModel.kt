@@ -6,6 +6,9 @@ import br.com.banavita.app.data.repository.ExtractionRepository
 import br.com.banavita.app.data.repository.SpeechToTextRepository
 import br.com.banavita.app.domain.exception.BanavitaDomainException
 import br.com.banavita.app.domain.exception.ExtractionConfirmException
+import br.com.banavita.app.domain.model.extraction.ConfirmResult
+import br.com.banavita.app.domain.model.extraction.ExtractionDraft
+import br.com.banavita.app.domain.model.extraction.ExtractionFields
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,15 +67,29 @@ class VoiceCaptureViewModel @Inject constructor(
         }
     }
 
-    fun confirmDraft(onSuccess: () -> Unit) {
+    fun onDraftEdited(draft: ExtractionDraft) {
+        extractionRepository.updateDraft(draft)
+        _uiState.update { it.copy(draft = draft, errorMessage = null) }
+    }
+
+    fun confirmDraft(onSuccess: (ConfirmResult) -> Unit) {
         val draft = _uiState.value.draft ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(phase = VoiceCapturePhase.PROCESSING, statusMessage = "Salvando…") }
+            val applying = draft.fields is ExtractionFields.ConsultasDraft ||
+                (draft.fields is ExtractionFields.EventoDraft &&
+                    draft.fields.recorteLista.isPresent &&
+                    draft.fields.titulo.value.isNullOrBlank())
+            _uiState.update {
+                it.copy(
+                    phase = VoiceCapturePhase.PROCESSING,
+                    statusMessage = if (applying) "Aplicando…" else "Salvando…",
+                )
+            }
             runCatching {
                 extractionRepository.confirmDraft(draft.id)
-            }.onSuccess {
+            }.onSuccess { result ->
                 reset()
-                onSuccess()
+                onSuccess(result)
             }.onFailure { error ->
                 _uiState.update {
                     it.copy(

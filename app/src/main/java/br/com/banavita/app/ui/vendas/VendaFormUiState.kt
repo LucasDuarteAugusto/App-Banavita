@@ -13,6 +13,7 @@ data class VendaFormUiState(
     val clientes: List<Cliente> = emptyList(),
     val produtos: List<Produto> = emptyList(),
     val itens: List<DocumentLineItemFormState> = listOf(DocumentLineItemFormState()),
+    val aPrazo: Boolean = false,
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,

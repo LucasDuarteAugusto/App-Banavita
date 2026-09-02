@@ -10,12 +10,17 @@ import java.util.Locale
 private val currencyFormat = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
 private val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     .withZone(ZoneId.systemDefault())
+private val dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+    .withZone(ZoneId.systemDefault())
 
 fun formatCurrency(centavos: Long): String =
     currencyFormat.format(Money.fromCents(centavos))
 
 fun formatDate(epochMillis: Long): String =
     dateFormat.format(Instant.ofEpochMilli(epochMillis))
+
+fun formatDateTime(epochMillis: Long): String =
+    dateTimeFormat.format(Instant.ofEpochMilli(epochMillis))
 
 fun formatQuantity(value: Double, unidade: String): String {
     val quantity = if (value % 1.0 == 0.0) {

@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 
 val VoiceListContentPadding = PaddingValues(
@@ -28,7 +29,7 @@ fun VoiceEnabledScreen(
     voiceContext: VoiceScreenContext,
     addContentDescription: String,
     onAddClick: () -> Unit,
-    onVoiceSuccess: () -> Unit = {},
+    onVoiceSuccess: (ConfirmResult) -> Unit = {},
     modifier: Modifier = Modifier,
     showAddFab: Boolean = true,
     viewModel: VoiceCaptureViewModel = hiltViewModel(),
@@ -84,6 +85,7 @@ fun VoiceEnabledScreen(
                     errorMessage = uiState.errorMessage,
                     onConfirm = { viewModel.confirmDraft(onVoiceSuccess) },
                     onDiscard = viewModel::discardDraft,
+                    onDraftChange = viewModel::onDraftEdited,
                 )
             }
         }
@@ -98,7 +100,7 @@ fun VoiceEnabledScreen(
 fun VoiceEnabledFormHost(
     voiceContext: VoiceScreenContext,
     enabled: Boolean,
-    onVoiceSuccess: () -> Unit,
+    onVoiceSuccess: (ConfirmResult) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: VoiceCaptureViewModel = hiltViewModel(),
     content: @Composable (Modifier) -> Unit,

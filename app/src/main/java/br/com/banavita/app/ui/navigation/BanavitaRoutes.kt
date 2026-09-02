@@ -1,5 +1,8 @@
 package br.com.banavita.app.ui.navigation
 
+import android.net.Uri
+import br.com.banavita.app.domain.model.ConsultaModo
+import br.com.banavita.app.domain.model.PeriodoPreset
 import java.util.UUID
 
 object BanavitaRoutes {
@@ -11,7 +14,18 @@ object BanavitaRoutes {
     const val CADASTROS_FORNECEDORES = "cadastros/fornecedores"
     const val CADASTROS_PRODUTOS = "cadastros/produtos"
     const val CADASTROS_GRUPOS = "cadastros/grupos"
-    const val CADASTROS_ESTOQUE = "cadastros/estoque"
+
+    const val CONSULTAS = "consultas?modo={modo}&busca={busca}&periodo={periodo}"
+    const val ARG_MODO = "modo"
+    const val ARG_BUSCA = "busca"
+    const val ARG_PERIODO = "periodo"
+    const val ESTOQUE_DETALHE = "consultas/estoque/{produtoId}"
+    const val RECEBER_DETALHE = "consultas/receber/{clienteId}"
+    const val PAGAR_DETALHE = "consultas/pagar/{fornecedorId}"
+
+    const val AGENDA = "agenda"
+    const val AGENDA_FORM_NEW = "agenda/novo"
+    const val AGENDA_FORM_EDIT = "agenda/edit/{eventoId}"
 
     const val GRUPO_FORM_NEW = "cadastros/grupos/novo"
     const val GRUPO_FORM_EDIT = "cadastros/grupos/edit/{grupoId}"
@@ -33,19 +47,39 @@ object BanavitaRoutes {
     const val ARG_PRODUTO_ID = "produtoId"
     const val ARG_VENDA_ID = "vendaId"
     const val ARG_COMPRA_ID = "compraId"
+    const val ARG_EVENTO_ID = "eventoId"
 
     val topLevelRoutes = setOf(HOME, VENDAS, COMPRAS, CADASTROS)
 
-    fun isTopLevel(route: String?): Boolean = route in topLevelRoutes
+    fun isTopLevel(route: String?): Boolean {
+        if (route == null) return false
+        val base = route.substringBefore("?")
+        return base in topLevelRoutes
+    }
 
     fun topLevelRouteFor(route: String?): String? = when {
         route == null -> null
         route == HOME || route.startsWith("$HOME/") -> HOME
+        route.startsWith("consultas") || route.startsWith("agenda") -> HOME
         route == VENDAS || route.startsWith("$VENDAS/") -> VENDAS
         route == COMPRAS || route.startsWith("$COMPRAS/") -> COMPRAS
         route == CADASTROS || route.startsWith("$CADASTROS/") -> CADASTROS
         else -> null
     }
+
+    fun consultas(
+        modo: ConsultaModo = ConsultaModo.ESTOQUE,
+        busca: String? = null,
+        periodo: PeriodoPreset? = null,
+    ): String {
+        val encodedBusca = Uri.encode(busca.orEmpty())
+        val periodoName = periodo?.name.orEmpty()
+        return "consultas?modo=${modo.route}&busca=$encodedBusca&periodo=$periodoName"
+    }
+
+    fun estoqueDetalhe(produtoId: UUID): String = "consultas/estoque/$produtoId"
+    fun receberDetalhe(clienteId: UUID): String = "consultas/receber/$clienteId"
+    fun pagarDetalhe(fornecedorId: UUID): String = "consultas/pagar/$fornecedorId"
 
     fun grupoEdit(grupoId: UUID): String = "cadastros/grupos/edit/$grupoId"
     fun clienteEdit(clienteId: UUID): String = "cadastros/clientes/edit/$clienteId"
@@ -53,4 +87,5 @@ object BanavitaRoutes {
     fun produtoEdit(produtoId: UUID): String = "cadastros/produtos/edit/$produtoId"
     fun vendaEdit(vendaId: UUID): String = "vendas/edit/$vendaId"
     fun compraEdit(compraId: UUID): String = "compras/edit/$compraId"
+    fun eventoEdit(eventoId: UUID): String = "agenda/edit/$eventoId"
 }

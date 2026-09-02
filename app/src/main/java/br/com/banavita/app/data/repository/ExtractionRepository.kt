@@ -8,6 +8,7 @@ import br.com.banavita.app.domain.exception.ExtractionDraftNotFoundException
 import br.com.banavita.app.domain.exception.ExtractionParseException
 import br.com.banavita.app.domain.model.DocumentoItemInput
 import br.com.banavita.app.domain.model.TranscriptionResult
+import br.com.banavita.app.domain.model.extraction.BaixaTipo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.ExtractionDraft
 import br.com.banavita.app.domain.model.extraction.ExtractionFields
@@ -26,6 +27,8 @@ class ExtractionRepository @Inject constructor(
     private val fornecedorRepository: FornecedorRepository,
     private val produtoRepository: ProdutoRepository,
     private val grupoRepository: GrupoRepository,
+    private val financeiroRepository: FinanceiroRepository,
+    private val eventoRepository: EventoRepository,
 ) {
     suspend fun extract(
         transcript: String,
@@ -46,6 +49,10 @@ class ExtractionRepository @Inject constructor(
 
     fun getCurrentDraft(): ExtractionDraft? = sessionCache.get()
 
+    fun updateDraft(draft: ExtractionDraft) {
+        sessionCache.put(draft)
+    }
+
     fun discardDraft(draftId: UUID) {
         sessionCache.getIfId(draftId)
             ?: throw ExtractionDraftNotFoundException("Rascunho $draftId não encontrado na sessão.")
@@ -63,6 +70,9 @@ class ExtractionRepository @Inject constructor(
             is ExtractionFields.FornecedorDraft -> confirmFornecedor(fields)
             is ExtractionFields.ProdutoDraft -> confirmProduto(fields)
             is ExtractionFields.GrupoDraft -> confirmGrupo(fields)
+            is ExtractionFields.ConsultasDraft -> confirmConsultas(fields)
+            is ExtractionFields.BaixaDraft -> confirmBaixa(fields)
+            is ExtractionFields.EventoDraft -> confirmEvento(fields)
         }
         sessionCache.clear()
         return result
@@ -88,6 +98,7 @@ class ExtractionRepository @Inject constructor(
                     valorUnitarioCentavos = item.valorUnitarioCentavos.value,
                 ),
             ),
+            aPrazo = fields.aPrazo.value == true,
         )
         return ConfirmResult.VendaCriada(vendaId)
     }
@@ -111,6 +122,7 @@ class ExtractionRepository @Inject constructor(
                     valorUnitarioCentavos = valor,
                 ),
             ),
+            aPrazo = fields.aPrazo.value == true,
         )
         return ConfirmResult.CompraCriada(compraId)
     }
@@ -149,5 +161,62 @@ class ExtractionRepository @Inject constructor(
             ?: throw ExtractionConfirmException("Nome do grupo ausente.")
         val id = grupoRepository.create(nome = nome, observacao = fields.observacao.value)
         return ConfirmResult.GrupoCriado(id)
+    }
+
+    private fun confirmConsultas(fields: ExtractionFields.ConsultasDraft): ConfirmResult.ConsultaAplicada {
+        return ConfirmResult.ConsultaAplicada(
+            modo = fields.modo.value,
+            busca = fields.busca.value,
+            periodo = fields.periodo.value,
+            visao = fields.visao.value,
+            somenteZerados = fields.somenteZerados.value == true,
+            openProdutoId = if (fields.openDetailIfResolved) fields.produtoResolvido?.id else null,
+            openClienteId = fields.clienteResolvido?.id.takeIf {
+                fields.modo.value == br.com.banavita.app.domain.model.ConsultaModo.RECEBER
+            },
+            openFornecedorId = fields.fornecedorResolvido?.id.takeIf {
+                fields.modo.value == br.com.banavita.app.domain.model.ConsultaModo.PAGAR
+            },
+            navigateNovaVenda = fields.navigateNovaVenda,
+            navigateAgenda = fields.navigateAgenda,
+        )
+    }
+
+    private suspend fun confirmBaixa(fields: ExtractionFields.BaixaDraft): ConfirmResult {
+        val parceiroId = fields.parceiro?.id
+            ?: throw ExtractionConfirmException("Parceiro não resolvido. Revise antes de confirmar.")
+        val valor = fields.valorCentavos.value
+            ?: throw ExtractionConfirmException("Valor ausente.")
+        return when (fields.tipo) {
+            BaixaTipo.RECEBER -> ConfirmResult.RecebimentoCriado(
+                financeiroRepository.registrarRecebimentoCliente(parceiroId, valor),
+            )
+            BaixaTipo.PAGAR -> ConfirmResult.PagamentoCriado(
+                financeiroRepository.registrarPagamentoFornecedor(parceiroId, valor),
+            )
+        }
+    }
+
+    private suspend fun confirmEvento(fields: ExtractionFields.EventoDraft): ConfirmResult {
+        val recorte = fields.recorteLista.value
+        if (recorte != null && fields.titulo.value.isNullOrBlank()) {
+            return ConfirmResult.AgendaFiltroAplicado(recorte)
+        }
+        val titulo = fields.titulo.value?.trim()
+            ?: throw ExtractionConfirmException("Título do evento ausente.")
+        val dataHora = fields.dataHoraMillis.value
+            ?: throw ExtractionConfirmException("Data e hora ausentes.")
+        val id = eventoRepository.create(
+            titulo = titulo,
+            dataHora = dataHora,
+            observacao = fields.observacao.value,
+            clienteId = fields.cliente?.id,
+            fornecedorId = fields.fornecedor?.id,
+            notificar = fields.notificar.value != false,
+            antecipacaoMinutos = fields.antecipacaoMinutos.value,
+            notifTitulo = fields.notifTitulo.value,
+            notifCorpo = fields.notifCorpo.value,
+        )
+        return ConfirmResult.EventoCriado(id)
     }
 }

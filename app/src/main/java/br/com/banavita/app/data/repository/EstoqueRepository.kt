@@ -2,6 +2,8 @@ package br.com.banavita.app.data.repository
 
 import br.com.banavita.app.data.local.dao.EstoqueDao
 import br.com.banavita.app.data.mapper.toDomain
+import br.com.banavita.app.domain.model.EstoqueMovimento
+import br.com.banavita.app.domain.model.EstoqueMovimentoTipo
 import br.com.banavita.app.domain.model.ProdutoEstoque
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,4 +20,24 @@ class EstoqueRepository @Inject constructor(
 
     suspend fun getSaldo(produtoId: UUID): Double =
         estoqueDao.getByProdutoId(produtoId)?.saldo ?: 0.0
+
+    suspend fun movimentosDoProduto(produtoId: UUID): List<EstoqueMovimento> {
+        val entradas = estoqueDao.entradasDoProduto(produtoId).map { row ->
+            EstoqueMovimento(
+                data = row.data,
+                tipo = EstoqueMovimentoTipo.ENTRADA,
+                quantidade = row.quantidade,
+                documentoId = row.documentoId,
+            )
+        }
+        val saidas = estoqueDao.saidasDoProduto(produtoId).map { row ->
+            EstoqueMovimento(
+                data = row.data,
+                tipo = EstoqueMovimentoTipo.SAIDA,
+                quantidade = row.quantidade,
+                documentoId = row.documentoId,
+            )
+        }
+        return (entradas + saidas).sortedByDescending { it.data }
+    }
 }

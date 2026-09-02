@@ -1,8 +1,13 @@
 package br.com.banavita.app.ui.compras
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,7 +22,6 @@ import br.com.banavita.app.ui.common.DocumentLineItemCard
 import br.com.banavita.app.ui.common.DocumentTotalRow
 import br.com.banavita.app.ui.common.FormLoadingState
 import br.com.banavita.app.ui.common.FormScaffold
-import androidx.compose.foundation.layout.PaddingValues
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import br.com.banavita.app.ui.voice.VoiceEnabledFormHost
 import br.com.banavita.app.ui.voice.VoiceFormContentPadding
@@ -48,7 +52,7 @@ fun CompraFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.COMPRA,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = onDone,
+        onVoiceSuccess = { onDone() },
         modifier = modifier,
     ) { formModifier ->
         CompraFormScreen(
@@ -57,6 +61,7 @@ fun CompraFormRoute(
             voiceEnabled = !uiState.isEditMode,
             onDataChange = viewModel::onDataChange,
             onFornecedorSelected = viewModel::onFornecedorSelected,
+            onAPrazoChange = viewModel::onAPrazoChange,
             onProdutoSelected = viewModel::onProdutoSelected,
             onQuantidadeChange = viewModel::onQuantidadeChange,
             onPrecoChange = viewModel::onPrecoChange,
@@ -73,6 +78,7 @@ fun CompraFormScreen(
     uiState: CompraFormUiState,
     onDataChange: (String) -> Unit,
     onFornecedorSelected: (java.util.UUID?) -> Unit,
+    onAPrazoChange: (Boolean) -> Unit,
     onProdutoSelected: (Int, java.util.UUID?) -> Unit,
     onQuantidadeChange: (Int, String) -> Unit,
     onPrecoChange: (Int, String) -> Unit,
@@ -106,6 +112,25 @@ fun CompraFormScreen(
             onSelected = onFornecedorSelected,
             enabled = !uiState.isSaving,
         )
+
+        if (!uiState.isEditMode) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = !uiState.aPrazo,
+                    onClick = { onAPrazoChange(false) },
+                    label = { Text(stringResource(R.string.form_pago_agora)) },
+                )
+                FilterChip(
+                    selected = uiState.aPrazo,
+                    onClick = { onAPrazoChange(true) },
+                    label = { Text(stringResource(R.string.form_a_prazo)) },
+                )
+            }
+        } else {
+            Text(
+                text = if (uiState.aPrazo) stringResource(R.string.form_a_prazo) else stringResource(R.string.form_pago_agora),
+            )
+        }
 
         uiState.itens.forEachIndexed { index, item ->
             DocumentLineItemCard(

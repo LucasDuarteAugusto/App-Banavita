@@ -13,6 +13,7 @@ data class CompraFormUiState(
     val fornecedores: List<Fornecedor> = emptyList(),
     val produtos: List<Produto> = emptyList(),
     val itens: List<DocumentLineItemFormState> = listOf(DocumentLineItemFormState()),
+    val aPrazo: Boolean = false,
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,

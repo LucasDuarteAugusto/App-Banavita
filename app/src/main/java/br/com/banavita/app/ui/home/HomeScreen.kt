@@ -7,52 +7,167 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Inventory
+import androidx.compose.material.icons.filled.Payments
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Store
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
+import br.com.banavita.app.domain.model.ConsultaModo
+import br.com.banavita.app.domain.model.extraction.ConfirmResult
+import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import br.com.banavita.app.ui.common.formatCurrency
+import br.com.banavita.app.ui.common.formatDateTime
+import br.com.banavita.app.ui.voice.VoiceEnabledScreen
+import br.com.banavita.app.ui.voice.VoiceListContentPadding
+
+@Composable
+fun HomeRoute(
+    onNavEvent: (HomeNavEvent) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.navEvents.collect(onNavEvent)
+    }
+    HomeScreen(
+        uiState = uiState,
+        onNovaVendaClick = { onNavEvent(HomeNavEvent.NovaVenda) },
+        onConsultasClick = { modo -> onNavEvent(HomeNavEvent.Consultas(modo)) },
+        onAgendaClick = {
+            val evento = uiState.proximoEvento
+            if (evento != null) {
+                onNavEvent(HomeNavEvent.Evento(evento.id))
+            } else {
+                onNavEvent(HomeNavEvent.Agenda)
+            }
+        },
+        onVoiceResult = viewModel::applyVoice,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun HomeScreen(
+    uiState: HomeUiState,
     onNovaVendaClick: () -> Unit,
+    onConsultasClick: (ConsultaModo) -> Unit,
+    onAgendaClick: () -> Unit,
+    onVoiceResult: (ConfirmResult) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.home_welcome),
-            style = MaterialTheme.typography.headlineSmall,
-        )
-        Text(
-            text = stringResource(R.string.home_subtitle),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Text(
-            text = stringResource(R.string.home_shortcuts_title),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(top = 8.dp),
-        )
-        ShortcutCard(
-            title = stringResource(R.string.home_shortcut_venda_title),
-            description = stringResource(R.string.home_shortcut_venda_desc),
-            icon = Icons.Default.ShoppingCart,
-            onClick = onNovaVendaClick,
-        )
+    VoiceEnabledScreen(
+        modifier = modifier,
+        voiceContext = VoiceScreenContext.INICIO,
+        addContentDescription = "",
+        showAddFab = false,
+        onAddClick = {},
+        onVoiceSuccess = onVoiceResult,
+    ) { contentModifier ->
+        Column(
+            modifier = contentModifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(VoiceListContentPadding)
+                .padding(horizontal = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                text = stringResource(R.string.home_welcome),
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Text(
+                text = stringResource(R.string.home_subtitle),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_shortcut_venda_title),
+                description = stringResource(R.string.home_shortcut_venda_desc),
+                icon = Icons.Default.ShoppingCart,
+                onClick = onNovaVendaClick,
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_estoque_title),
+                description = if (uiState.zerados == 0) {
+                    stringResource(R.string.home_card_estoque_ok)
+                } else {
+                    stringResource(R.string.home_card_estoque_zerados, uiState.zerados)
+                },
+                icon = Icons.Default.Inventory,
+                onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_vendas_title),
+                description = if (uiState.vendasHojeCentavos == 0L) {
+                    stringResource(R.string.home_card_vendas_empty)
+                } else {
+                    formatCurrency(uiState.vendasHojeCentavos)
+                },
+                icon = Icons.Default.Store,
+                onClick = { onConsultasClick(ConsultaModo.VENDAS) },
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_compras_title),
+                description = if (uiState.comprasHojeCentavos == 0L) {
+                    stringResource(R.string.home_card_compras_empty)
+                } else {
+                    formatCurrency(uiState.comprasHojeCentavos)
+                },
+                icon = Icons.Default.Inventory,
+                onClick = { onConsultasClick(ConsultaModo.COMPRAS) },
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_receber_title),
+                description = if (uiState.receberCentavos == 0L) {
+                    stringResource(R.string.consultas_receber_empty)
+                } else {
+                    formatCurrency(uiState.receberCentavos)
+                },
+                icon = Icons.Default.Payments,
+                onClick = { onConsultasClick(ConsultaModo.RECEBER) },
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_pagar_title),
+                description = if (uiState.pagarCentavos == 0L) {
+                    stringResource(R.string.consultas_pagar_empty)
+                } else {
+                    formatCurrency(uiState.pagarCentavos)
+                },
+                icon = Icons.Default.Payments,
+                onClick = { onConsultasClick(ConsultaModo.PAGAR) },
+            )
+            val evento = uiState.proximoEvento
+            ShortcutCard(
+                title = stringResource(R.string.home_card_agenda_title),
+                description = if (evento == null) {
+                    stringResource(R.string.home_card_agenda_empty)
+                } else {
+                    "${evento.titulo} • ${formatDateTime(evento.dataHora)}"
+                },
+                icon = Icons.Default.Event,
+                onClick = onAgendaClick,
+            )
+        }
     }
 }
 
@@ -68,9 +183,7 @@ private fun ShortcutCard(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Row(
@@ -84,10 +197,7 @@ private fun ShortcutCard(
                 tint = MaterialTheme.colorScheme.primary,
             )
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium,
-                )
+                Text(text = title, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,

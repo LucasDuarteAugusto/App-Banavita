@@ -13,3 +13,5 @@ class InsufficientStockException(
 )
 
 class InvalidDocumentException(message: String) : BanavitaDomainException(message)
+
+class OverpaymentException(message: String) : BanavitaDomainException(message)

@@ -27,9 +27,11 @@ flowchart LR
 
 1. `extract(transcript, context)` → parsers + `EntityResolver`
 2. `ExtractionDraft` em `ExtractionSessionCache` (RAM)
-3. UI futura mostra modal; usuário confirma ou edita
-4. `confirmDraft(id)` grava via repositórios existentes e limpa o cache
+3. UI mostra modal **editável**; usuário confirma, edita ou descarta
+4. `confirmDraft(id)` grava via repositórios **ou** devolve `ConsultaAplicada` / `AgendaFiltroAplicado` sem gravar, e limpa o cache
 5. `discardDraft(id)` só limpa a sessão
+
+Consultas e filtros de agenda **não escrevem no Room**. Baixa, venda/compra, cadastro e evento só persistem depois do Confirmar.
 
 **Transcript nunca vai para SQLite.**
 
@@ -37,12 +39,16 @@ flowchart LR
 
 | Contexto | Slots principais | Resolução DB |
 |----------|------------------|--------------|
-| VENDA | produto, qtde, unidade, preço?, cliente? | produtoId, clienteId |
-| COMPRA | produto, qtde, unidade, preço, fornecedor? | produtoId, fornecedorId |
+| VENDA | produto, qtde, unidade, preço?, cliente?, à vista/a prazo | produtoId, clienteId |
+| COMPRA | produto, qtde, unidade, preço, fornecedor?, à vista/a prazo | produtoId, fornecedorId |
 | CLIENTE | nome, telefone? | — |
 | FORNECEDOR | nome, telefone? | — |
 | PRODUTO | descrição, preço, unidade, grupo? | grupoId |
 | GRUPO | nome, observação? | — |
+| CONSULTAS | modo, busca, período, visão, zerados | produto/cliente/fornecedor opcional |
+| INICIO | atalho para venda, consulta ou agenda | conforme a intenção |
+| RECEBER / PAGAR | consulta ou baixa (parceiro + valor) | clienteId / fornecedorId |
+| AGENDA | título, data/hora, lembrete, recorte da lista | cliente/fornecedor opcional |
 
 ## API
 
@@ -50,6 +56,7 @@ flowchart LR
 suspend fun extract(transcript: String, context: VoiceScreenContext): ExtractionDraft
 suspend fun extractFromTranscription(transcription: TranscriptionResult, context: VoiceScreenContext): ExtractionDraft
 fun getCurrentDraft(): ExtractionDraft?
+fun updateDraft(draft: ExtractionDraft)
 suspend fun confirmDraft(draftId: UUID): ConfirmResult
 fun discardDraft(draftId: UUID)
 ```

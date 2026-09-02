@@ -47,6 +47,7 @@ docs/speech/           # ASR whisper.cpp PT-BR
 docs/extraction/       # Extração heurística do transcript
 docs/ui/               # Mockups das telas Compose
 docs/android/          # Emulador, APK e instalação (Android Studio)
+docs/Modifications/    # Log de alterações de código (revisão na IDE)
 tools/license-generator/  # Gerador de licenças (PC)
 tools/speech-model/       # Download do modelo GGML (PC)
 ```
@@ -89,6 +90,10 @@ Ver [docs/extraction/README.md](docs/extraction/README.md). Heurísticas PT-BR +
 - [x] Tela de acompanhamento de vendas
 - [x] Tela de acompanhamento de compras
 - [x] Cadastro por voz (microfone nas listas e formulários novos)
+- [x] Consultas (Estoque, Vendas, Compras, A receber, A pagar) aninhadas no Início
+- [x] Financeiro real (à vista / a prazo + baixas)
+- [x] Agenda local com lembrete (AlarmManager)
+- [x] Voz nas superfícies da v2 (consulta, início, baixa, evento)
 
 ## Testes
 

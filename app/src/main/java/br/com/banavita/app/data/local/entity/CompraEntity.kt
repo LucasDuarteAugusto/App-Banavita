@@ -37,4 +37,6 @@ data class CompraEntity(
     val fornecedorId: UUID?,
     @ColumnInfo(name = "COM_VLRTOT")
     val valorTotalCentavos: Long,
+    @ColumnInfo(name = "COM_PRAZO")
+    val aPrazo: Boolean = false,
 )

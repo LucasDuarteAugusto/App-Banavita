@@ -5,10 +5,10 @@ Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o 
 | Arquivo | Tela |
 |---------|------|
 | [activation.png](mockups/activation.png) | Liberação do aplicativo |
-| [home.png](mockups/home.png) | Início (atalho Nova venda) |
+| [home.png](mockups/home.png) | Início (painel: venda, consultas, financeiro, agenda + mic) |
 | [vendas-list.png](mockups/vendas-list.png) | Lista de vendas |
 | [compras-list.png](mockups/compras-list.png) | Lista de compras |
-| [cadastros-hub.png](mockups/cadastros-hub.png) | Hub de cadastros |
+| [cadastros-hub.png](mockups/cadastros-hub.png) | Hub de cadastros (sem estoque) |
 | [clientes-list.png](mockups/clientes-list.png) | Lista de clientes |
 | [cliente-form-novo.png](mockups/cliente-form-novo.png) | Novo cliente |
 | [cliente-form-editar.png](mockups/cliente-form-editar.png) | Editar cliente |
@@ -21,9 +21,14 @@ Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o 
 | [grupos-list.png](mockups/grupos-list.png) | Lista de grupos |
 | [grupo-form-novo.png](mockups/grupo-form-novo.png) | Novo grupo |
 | [grupo-form-editar.png](mockups/grupo-form-editar.png) | Editar grupo |
-| [estoque-list.png](mockups/estoque-list.png) | Consulta de estoque |
-| [venda-form-novo.png](mockups/venda-form-novo.png) | Nova venda |
+| [consultas-estoque.png](mockups/consultas-estoque.png) | Consultas · Estoque (saiu de Cadastros) |
+| [consultas-vendas.png](mockups/consultas-vendas.png) | Consultas · Vendas do período |
+| [consultas-receber.png](mockups/consultas-receber.png) | Consultas · A receber |
+| [estoque-detalhe.png](mockups/estoque-detalhe.png) | Detalhe de estoque + movimentações |
+| [agenda-list.png](mockups/agenda-list.png) | Agenda (lista + recortes + mic) |
+| [agenda-form.png](mockups/agenda-form.png) | Novo evento + lembrete |
+| [venda-form-novo.png](mockups/venda-form-novo.png) | Nova venda (Pago agora / A prazo) |
 | [venda-form-editar.png](mockups/venda-form-editar.png) | Editar venda |
-| [compra-form-novo.png](mockups/compra-form-novo.png) | Nova compra |
+| [compra-form-novo.png](mockups/compra-form-novo.png) | Nova compra (Pago agora / A prazo) |
 | [compra-form-editar.png](mockups/compra-form-editar.png) | Editar compra |
-| [voice-review-sheet.png](mockups/voice-review-sheet.png) | Confirmar cadastro por voz |
+| [voice-review-sheet.png](mockups/voice-review-sheet.png) | Revisão de voz editável |

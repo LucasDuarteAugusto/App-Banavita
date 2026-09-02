@@ -1,5 +1,9 @@
 package br.com.banavita.app.domain.model.extraction
 
+import br.com.banavita.app.domain.model.AgendaRecorte
+import br.com.banavita.app.domain.model.ConsultaModo
+import br.com.banavita.app.domain.model.ConsultaVisao
+import br.com.banavita.app.domain.model.PeriodoPreset
 import java.util.UUID
 
 enum class VoiceScreenContext {
@@ -9,12 +13,22 @@ enum class VoiceScreenContext {
     FORNECEDOR,
     PRODUTO,
     GRUPO,
+    CONSULTAS,
+    INICIO,
+    RECEBER,
+    PAGAR,
+    AGENDA,
 }
 
 enum class FieldSource {
     HEURISTIC,
     DICTIONARY,
     DATABASE_MATCH,
+}
+
+enum class BaixaTipo {
+    RECEBER,
+    PAGAR,
 }
 
 data class ExtractionField<T>(
@@ -54,12 +68,14 @@ sealed class ExtractionFields {
         val itens: List<DraftLineItem>,
         val cliente: ResolvedEntity?,
         val clienteRaw: ExtractionField<String>,
+        val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
     ) : ExtractionFields()
 
     data class CompraDraft(
         val itens: List<DraftLineItem>,
         val fornecedor: ResolvedEntity?,
         val fornecedorRaw: ExtractionField<String>,
+        val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
     ) : ExtractionFields()
 
     data class ClienteDraft(
@@ -84,6 +100,42 @@ sealed class ExtractionFields {
         val nome: ExtractionField<String>,
         val observacao: ExtractionField<String>,
     ) : ExtractionFields()
+
+    data class ConsultasDraft(
+        val modo: ExtractionField<ConsultaModo>,
+        val busca: ExtractionField<String>,
+        val periodo: ExtractionField<PeriodoPreset>,
+        val visao: ExtractionField<ConsultaVisao>,
+        val somenteZerados: ExtractionField<Boolean>,
+        val navigateNovaVenda: Boolean = false,
+        val navigateAgenda: Boolean = false,
+        val openDetailIfResolved: Boolean = false,
+        val produtoResolvido: ResolvedEntity? = null,
+        val clienteResolvido: ResolvedEntity? = null,
+        val fornecedorResolvido: ResolvedEntity? = null,
+    ) : ExtractionFields()
+
+    data class BaixaDraft(
+        val tipo: BaixaTipo,
+        val parceiro: ResolvedEntity?,
+        val parceiroRaw: ExtractionField<String>,
+        val valorCentavos: ExtractionField<Long>,
+    ) : ExtractionFields()
+
+    data class EventoDraft(
+        val titulo: ExtractionField<String>,
+        val dataHoraMillis: ExtractionField<Long>,
+        val observacao: ExtractionField<String>,
+        val cliente: ResolvedEntity?,
+        val clienteRaw: ExtractionField<String>,
+        val fornecedor: ResolvedEntity?,
+        val fornecedorRaw: ExtractionField<String>,
+        val notificar: ExtractionField<Boolean>,
+        val antecipacaoMinutos: ExtractionField<Int>,
+        val notifTitulo: ExtractionField<String>,
+        val notifCorpo: ExtractionField<String>,
+        val recorteLista: ExtractionField<AgendaRecorte>,
+    ) : ExtractionFields()
 }
 
 data class ExtractionDraft(
@@ -104,4 +156,21 @@ sealed class ConfirmResult {
     data class FornecedorCriado(val fornecedorId: UUID) : ConfirmResult()
     data class ProdutoCriado(val produtoId: UUID) : ConfirmResult()
     data class GrupoCriado(val grupoId: UUID) : ConfirmResult()
+    data class ConsultaAplicada(
+        val modo: ConsultaModo? = null,
+        val busca: String? = null,
+        val periodo: PeriodoPreset? = null,
+        val visao: ConsultaVisao? = null,
+        val somenteZerados: Boolean = false,
+        val openProdutoId: UUID? = null,
+        val openClienteId: UUID? = null,
+        val openFornecedorId: UUID? = null,
+        val navigateNovaVenda: Boolean = false,
+        val navigateAgenda: Boolean = false,
+        val agendaRecorte: AgendaRecorte? = null,
+    ) : ConfirmResult()
+    data class RecebimentoCriado(val recebimentoIds: List<UUID>) : ConfirmResult()
+    data class PagamentoCriado(val pagamentoIds: List<UUID>) : ConfirmResult()
+    data class EventoCriado(val eventoId: UUID) : ConfirmResult()
+    data class AgendaFiltroAplicado(val recorte: AgendaRecorte) : ConfirmResult()
 }

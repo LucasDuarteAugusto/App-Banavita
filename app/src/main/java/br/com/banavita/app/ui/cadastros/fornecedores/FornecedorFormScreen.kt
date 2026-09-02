@@ -46,7 +46,7 @@ fun FornecedorFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.FORNECEDOR,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = onDone,
+        onVoiceSuccess = { onDone() },
         modifier = modifier,
     ) { formModifier ->
         FornecedorFormScreen(

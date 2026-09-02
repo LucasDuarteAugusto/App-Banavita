@@ -44,7 +44,7 @@ fun GrupoFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.GRUPO,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = onDone,
+        onVoiceSuccess = { onDone() },
         modifier = modifier,
     ) { formModifier ->
         GrupoFormScreen(

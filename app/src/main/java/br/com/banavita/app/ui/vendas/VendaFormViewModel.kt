@@ -85,6 +85,7 @@ class VendaFormViewModel @Inject constructor(
                         it.copy(
                             dataInput = DateInputParser.formatForInput(venda.data),
                             clienteId = venda.clienteId,
+                            aPrazo = venda.aPrazo,
                             itens = itens.ifEmpty { listOf(DocumentLineItemFormState()) },
                             isLoading = false,
                         )
@@ -107,6 +108,10 @@ class VendaFormViewModel @Inject constructor(
 
     fun onClienteSelected(clienteId: UUID?) {
         _uiState.update { it.copy(clienteId = clienteId, errorMessage = null) }
+    }
+
+    fun onAPrazoChange(value: Boolean) {
+        _uiState.update { it.copy(aPrazo = value, errorMessage = null) }
     }
 
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
@@ -175,7 +180,7 @@ class VendaFormViewModel @Inject constructor(
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
             runCatching {
                 if (vendaId == null) {
-                    vendaRepository.create(data, state.clienteId, inputsResult.inputs)
+                    vendaRepository.create(data, state.clienteId, inputsResult.inputs, state.aPrazo)
                 } else {
                     vendaRepository.update(vendaId, data, state.clienteId, inputsResult.inputs)
                 }

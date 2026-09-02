@@ -3,12 +3,17 @@ package br.com.banavita.app.di
 import android.content.Context
 import androidx.room.Room
 import br.com.banavita.app.data.local.BanavitaDatabase
+import br.com.banavita.app.data.local.MIGRATION_1_2
+import br.com.banavita.app.data.local.MIGRATION_2_3
 import br.com.banavita.app.data.local.dao.ClienteDao
 import br.com.banavita.app.data.local.dao.CompraDao
 import br.com.banavita.app.data.local.dao.EstoqueDao
+import br.com.banavita.app.data.local.dao.EventoDao
 import br.com.banavita.app.data.local.dao.FornecedorDao
 import br.com.banavita.app.data.local.dao.GrupoDao
+import br.com.banavita.app.data.local.dao.PagamentoDao
 import br.com.banavita.app.data.local.dao.ProdutoDao
+import br.com.banavita.app.data.local.dao.RecebimentoDao
 import br.com.banavita.app.data.local.dao.VendaDao
 import dagger.Module
 import dagger.Provides
@@ -31,7 +36,7 @@ object DatabaseModule {
             BanavitaDatabase::class.java,
             BanavitaDatabase.DATABASE_NAME,
         )
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
 
     @Provides
@@ -54,4 +59,13 @@ object DatabaseModule {
 
     @Provides
     fun provideEstoqueDao(database: BanavitaDatabase): EstoqueDao = database.estoqueDao()
+
+    @Provides
+    fun provideRecebimentoDao(database: BanavitaDatabase): RecebimentoDao = database.recebimentoDao()
+
+    @Provides
+    fun providePagamentoDao(database: BanavitaDatabase): PagamentoDao = database.pagamentoDao()
+
+    @Provides
+    fun provideEventoDao(database: BanavitaDatabase): EventoDao = database.eventoDao()
 }

@@ -46,7 +46,7 @@ fun ClienteFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.CLIENTE,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = onDone,
+        onVoiceSuccess = { onDone() },
         modifier = modifier,
     ) { formModifier ->
         ClienteFormScreen(

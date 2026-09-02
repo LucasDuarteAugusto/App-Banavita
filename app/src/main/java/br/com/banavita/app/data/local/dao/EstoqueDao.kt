@@ -32,4 +32,26 @@ interface EstoqueDao {
         """,
     )
     suspend fun totalVendido(produtoId: UUID, excludeVendaId: UUID? = null): Double
+
+    @Query(
+        """
+        SELECT compra.COM_DATA AS data, compra_item.COI_QTDE AS quantidade, compra.COM_ID AS documentoId
+        FROM compra_item
+        INNER JOIN compra ON compra.COM_ID = compra_item.COI_COMPRA
+        WHERE compra_item.COI_PRODUTO = :produtoId
+        ORDER BY compra.COM_DATA DESC
+        """,
+    )
+    suspend fun entradasDoProduto(produtoId: UUID): List<EstoqueMovimentoRow>
+
+    @Query(
+        """
+        SELECT venda.VEN_DATA AS data, venda_item.VEI_QTDE AS quantidade, venda.VEN_ID AS documentoId
+        FROM venda_item
+        INNER JOIN venda ON venda.VEN_ID = venda_item.VEI_VENDA
+        WHERE venda_item.VEI_PRODUTO = :produtoId
+        ORDER BY venda.VEN_DATA DESC
+        """,
+    )
+    suspend fun saidasDoProduto(produtoId: UUID): List<EstoqueMovimentoRow>
 }

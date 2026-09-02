@@ -1,0 +1,132 @@
+package br.com.banavita.app.data.repository
+
+import android.content.Context
+import androidx.room.Room
+import androidx.test.core.app.ApplicationProvider
+import br.com.banavita.app.data.local.BanavitaDatabase
+import br.com.banavita.app.domain.exception.OverpaymentException
+import br.com.banavita.app.domain.model.DocumentoItemInput
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [28])
+class FinanceiroRepositoryTest {
+
+    private lateinit var database: BanavitaDatabase
+    private lateinit var vendaRepository: VendaRepository
+    private lateinit var compraRepository: CompraRepository
+    private lateinit var financeiroRepository: FinanceiroRepository
+    private lateinit var produtoRepository: ProdutoRepository
+    private lateinit var clienteRepository: ClienteRepository
+
+    @Before
+    fun setUp() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        database = Room.inMemoryDatabaseBuilder(context, BanavitaDatabase::class.java)
+            .allowMainThreadQueries()
+            .build()
+        val factory = DocumentoItemFactory(database.produtoDao())
+        val validator = EstoqueValidator(database.estoqueDao())
+        produtoRepository = ProdutoRepository(database.produtoDao(), database.grupoDao())
+        clienteRepository = ClienteRepository(database.clienteDao())
+        vendaRepository = VendaRepository(
+            database,
+            database.vendaDao(),
+            database.clienteDao(),
+            factory,
+            validator,
+            database.recebimentoDao(),
+        )
+        compraRepository = CompraRepository(
+            database,
+            database.compraDao(),
+            database.fornecedorDao(),
+            factory,
+            database.pagamentoDao(),
+        )
+        financeiroRepository = FinanceiroRepository(
+            database.vendaDao(),
+            database.compraDao(),
+            database.recebimentoDao(),
+            database.pagamentoDao(),
+            database.clienteDao(),
+            database.fornecedorDao(),
+        )
+    }
+
+    @After
+    fun tearDown() {
+        database.close()
+    }
+
+    @Test
+    fun `a vista nao entra em a receber`() = runBlocking {
+        val produtoId = produtoRepository.create("Banana", 350, null, "KG")
+        compraRepository.create(
+            data = 1_700_000_000_000L,
+            fornecedorId = null,
+            itens = listOf(DocumentoItemInput(produtoId, 5.0, 200)),
+        )
+        val clienteId = clienteRepository.create("Joao", null)
+        vendaRepository.create(
+            data = 1_700_000_000_000L,
+            clienteId = clienteId,
+            itens = listOf(DocumentoItemInput(produtoId, 1.0)),
+            aPrazo = false,
+        )
+        val abertos = financeiroRepository.observeSaldosAReceber().first()
+        assertTrue(abertos.none { it.parceiroId == clienteId })
+    }
+
+    @Test
+    fun `a prazo com baixa parcial reduz saldo`() = runBlocking {
+        val produtoId = produtoRepository.create("Banana", 1000, null, "KG")
+        compraRepository.create(
+            data = 1_700_000_000_000L,
+            fornecedorId = null,
+            itens = listOf(DocumentoItemInput(produtoId, 5.0, 200)),
+        )
+        val clienteId = clienteRepository.create("Joao", null)
+        val vendaId = vendaRepository.create(
+            data = 1_700_000_000_000L,
+            clienteId = clienteId,
+            itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
+            aPrazo = true,
+        )
+        val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
+        financeiroRepository.registrarRecebimento(vendaId, total / 2)
+        val saldo = financeiroRepository.saldoAbertoVenda(vendaId)
+        assertEquals(total - total / 2, saldo)
+        val abertos = financeiroRepository.observeSaldosAReceber().first()
+        assertEquals(1, abertos.size)
+        assertEquals(saldo, abertos.first().saldoCentavos)
+    }
+
+    @Test(expected = OverpaymentException::class)
+    fun `baixa maior que saldo falha`() = runBlocking {
+        val produtoId = produtoRepository.create("Banana", 1000, null, "KG")
+        compraRepository.create(
+            data = 1_700_000_000_000L,
+            fornecedorId = null,
+            itens = listOf(DocumentoItemInput(produtoId, 5.0, 200)),
+        )
+        val clienteId = clienteRepository.create("Joao", null)
+        val vendaId = vendaRepository.create(
+            data = 1_700_000_000_000L,
+            clienteId = clienteId,
+            itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
+            aPrazo = true,
+        )
+        val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
+        financeiroRepository.registrarRecebimento(vendaId, total + 1)
+    }
+}

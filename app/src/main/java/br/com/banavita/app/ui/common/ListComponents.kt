@@ -60,6 +60,7 @@ fun ListItemCard(
     subtitle: String? = null,
     trailing: String? = null,
     onClick: (() -> Unit)? = null,
+    highlighted: Boolean = false,
 ) {
     val content: @Composable () -> Unit = {
         Row(
@@ -101,18 +102,26 @@ fun ListItemCard(
         }
     }
 
+    val colors = CardDefaults.cardColors(
+        containerColor = if (highlighted) {
+            MaterialTheme.colorScheme.errorContainer
+        } else {
+            MaterialTheme.colorScheme.surface
+        },
+    )
+
     if (onClick != null) {
         Card(
             modifier = modifier.fillMaxWidth(),
             onClick = onClick,
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            colors = colors,
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
             content = { content() },
         )
     } else {
         Card(
             modifier = modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            colors = colors,
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
             content = { content() },
         )

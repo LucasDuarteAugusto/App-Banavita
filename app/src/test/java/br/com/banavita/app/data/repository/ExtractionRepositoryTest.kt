@@ -47,15 +47,33 @@ class ExtractionRepositoryTest {
         val fornecedorRepository = FornecedorRepository(database.fornecedorDao())
         val grupoRepository = GrupoRepository(database.grupoDao())
         val vendaRepository = VendaRepository(
+            database,
             database.vendaDao(),
             database.clienteDao(),
             documentoFactory,
             estoqueValidator,
+            database.recebimentoDao(),
         )
         val compraRepository = CompraRepository(
+            database,
             database.compraDao(),
             database.fornecedorDao(),
             documentoFactory,
+            database.pagamentoDao(),
+        )
+        val financeiroRepository = FinanceiroRepository(
+            database.vendaDao(),
+            database.compraDao(),
+            database.recebimentoDao(),
+            database.pagamentoDao(),
+            database.clienteDao(),
+            database.fornecedorDao(),
+        )
+        val eventoRepository = EventoRepository(
+            database.eventoDao(),
+            database.clienteDao(),
+            database.fornecedorDao(),
+            br.com.banavita.app.domain.reminder.FakeReminderScheduler(),
         )
 
         val entityResolver = EntityResolver(
@@ -76,6 +94,8 @@ class ExtractionRepositoryTest {
             fornecedorRepository = fornecedorRepository,
             produtoRepository = produtoRepository,
             grupoRepository = grupoRepository,
+            financeiroRepository = financeiroRepository,
+            eventoRepository = eventoRepository,
         )
     }
 
@@ -91,9 +111,11 @@ class ExtractionRepositoryTest {
 
         // estoque: compra antes da venda
         val compraRepo = CompraRepository(
+            database,
             database.compraDao(),
             database.fornecedorDao(),
             DocumentoItemFactory(database.produtoDao()),
+            database.pagamentoDao(),
         )
         compraRepo.create(
             data = System.currentTimeMillis(),
@@ -140,6 +162,37 @@ class ExtractionRepositoryTest {
             context = VoiceScreenContext.GRUPO,
         )
         repository.discardDraft(draft.id)
+        assertEquals(null, sessionCache.get())
+    }
+
+    @Test
+    fun `consulta por voz aplica modo sem gravar venda`() = runBlocking {
+        val draft = repository.extract(
+            transcript = "vendas desta semana",
+            context = VoiceScreenContext.CONSULTAS,
+        )
+        val result = repository.confirmDraft(draft.id) as ConfirmResult.ConsultaAplicada
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.VENDAS, result.modo)
+        assertEquals(br.com.banavita.app.domain.model.PeriodoPreset.SEMANA, result.periodo)
+        assertEquals(null, sessionCache.get())
+    }
+
+    @Test
+    fun `editar draft no sheet altera busca da consulta`() = runBlocking {
+        val draft = repository.extract(
+            transcript = "estoque",
+            context = VoiceScreenContext.CONSULTAS,
+        )
+        val fields = draft.fields as ExtractionFields.ConsultasDraft
+        val edited = draft.copy(
+            fields = fields.copy(
+                busca = fields.busca.copy(value = "banana", confidence = 1f),
+            ),
+        )
+        repository.updateDraft(edited)
+        val result = repository.confirmDraft(draft.id) as ConfirmResult.ConsultaAplicada
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.ESTOQUE, result.modo)
+        assertEquals("banana", result.busca)
         assertEquals(null, sessionCache.get())
     }
 }

@@ -55,7 +55,7 @@ fun ProdutoFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.PRODUTO,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = onDone,
+        onVoiceSuccess = { onDone() },
         modifier = modifier,
     ) { formModifier ->
         ProdutoFormScreen(

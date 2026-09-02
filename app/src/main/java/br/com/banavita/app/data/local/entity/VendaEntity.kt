@@ -37,4 +37,6 @@ data class VendaEntity(
     val clienteId: UUID?,
     @ColumnInfo(name = "VEN_VLRTOT")
     val valorTotalCentavos: Long,
+    @ColumnInfo(name = "VEN_PRAZO")
+    val aPrazo: Boolean = false,
 )
