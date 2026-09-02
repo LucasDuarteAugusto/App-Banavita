@@ -3,10 +3,10 @@ package br.com.banavita.app.ui.cadastros.produtos
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenu // ERROR - Unresolved reference 'ExposedDropdownMenu'
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -124,7 +124,10 @@ fun ProdutoFormScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(), // WARNING - 'fun Modifier.menuAnchor(): Modifier' is deprecated. Use overload that takes MenuAnchorType and enabled parameters.
+                    .menuAnchor(
+                        type = MenuAnchorType.PrimaryNotEditable,
+                        enabled = !uiState.isSaving,
+                    ),
                 value = uiState.unidade,
                 onValueChange = {},
                 readOnly = true,
@@ -155,7 +158,10 @@ fun ProdutoFormScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(), // WARNING - 'fun Modifier.menuAnchor(): Modifier' is deprecated. Use overload that takes MenuAnchorType and enabled parameters.
+                    .menuAnchor(
+                        type = MenuAnchorType.PrimaryNotEditable,
+                        enabled = !uiState.isSaving,
+                    ),
                 value = uiState.grupoNomeSelecionado ?: stringResource(R.string.form_grupo_none),
                 onValueChange = {},
                 readOnly = true,

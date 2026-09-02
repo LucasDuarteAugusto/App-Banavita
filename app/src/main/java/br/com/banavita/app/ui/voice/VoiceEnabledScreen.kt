@@ -75,14 +75,17 @@ fun VoiceEnabledScreen(
             VoiceProcessingOverlay(message = message)
         }
 
-        if (uiState.phase == VoiceCapturePhase.REVIEW && uiState.draft != null) {
-            ExtractionReviewSheet(
-                draft = uiState.draft, // ERROR - Smart cast to 'ExtractionDraft' is impossible, because 'draft' is a delegated property.
-                isConfirming = uiState.statusMessage != null,
-                errorMessage = uiState.errorMessage,
-                onConfirm = { viewModel.confirmDraft(onVoiceSuccess) },
-                onDiscard = viewModel::discardDraft,
-            )
+        if (uiState.phase == VoiceCapturePhase.REVIEW) {
+            val draft = uiState.draft
+            if (draft != null) {
+                ExtractionReviewSheet(
+                    draft = draft,
+                    isConfirming = uiState.statusMessage != null,
+                    errorMessage = uiState.errorMessage,
+                    onConfirm = { viewModel.confirmDraft(onVoiceSuccess) },
+                    onDiscard = viewModel::discardDraft,
+                )
+            }
         }
     }
 }

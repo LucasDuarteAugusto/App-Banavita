@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Mic // ERROR - Unresolved reference 'Mic'
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -49,24 +49,40 @@ fun VoiceFabLayout(
         horizontalArrangement = if (showAddFab) Arrangement.SpaceBetween else Arrangement.Start,
         verticalAlignment = Alignment.Bottom,
     ) {
+        val voiceFabEnabled = voiceEnabled && !isVoiceBusy
         SmallFloatingActionButton(
-            onClick = onVoiceClick,
-            enabled = voiceEnabled && !isVoiceBusy, // ERROR - No parameter with name 'enabled' found.
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            onClick = { if (voiceFabEnabled) onVoiceClick() },
+            containerColor = if (voiceFabEnabled) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.surfaceVariant
+            },
+            contentColor = if (voiceFabEnabled) {
+                MaterialTheme.colorScheme.onPrimary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
         ) {
             Icon(
-                imageVector = Icons.Default.Mic, // ERROR -  Unresolved reference 'Mic'
+                imageVector = Icons.Default.Mic,
                 contentDescription = stringResource(R.string.voice_mic_button),
             )
         }
 
         if (showAddFab) {
+            val addFabEnabled = !isVoiceBusy
             SmallFloatingActionButton(
-                onClick = onAddClick,
-                enabled = !isVoiceBusy, // ERROR -  No parameter with name 'enabled' found.
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                onClick = { if (addFabEnabled) onAddClick() },
+                containerColor = if (addFabEnabled) {
+                    MaterialTheme.colorScheme.primaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                contentColor = if (addFabEnabled) {
+                    MaterialTheme.colorScheme.onPrimaryContainer
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -121,7 +137,7 @@ private fun RecordingPulse() {
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
         ) {}
         Icon(
-            imageVector = Icons.Default.Mic, // ERROR -  Unresolved reference 'Mic'
+            imageVector = Icons.Default.Mic,
             contentDescription = null,
             modifier = Modifier.size(40.dp),
             tint = MaterialTheme.colorScheme.primary,

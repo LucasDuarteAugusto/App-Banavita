@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.androidx.room)
 }
 
 android {
@@ -36,11 +37,6 @@ android {
                     "-DBUILD_SHARED_LIBS=OFF",
                 )
             }
-        }
-
-        ksp { // ERROR - Suspicious receiver type; this does not apply to the current receiver of type ApplicationDefaultConfig. This will apply to a receiver of type Project, found in one of the enclosing lambdas. Make sure it's declared in the right place in the file.
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
         }
     }
 
@@ -84,6 +80,10 @@ android {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -94,7 +94,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended) // ERROR - Unresolved reference 'material'
+    implementation(libs.androidxMaterialIconsExtended)
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
@@ -103,7 +103,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.androidx.navigation.compose) // ERROR - Unresolved reference 'navigation'
+    implementation(libs.androidxNavigationCompose)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.security.crypto)

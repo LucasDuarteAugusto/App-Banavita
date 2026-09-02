@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
+import br.com.banavita.app.R
 
 @Composable
 fun FormLoadingState(
@@ -43,7 +44,7 @@ fun FormScaffold(
     errorMessage: String? = null,
     isSaving: Boolean = false,
     showDelete: Boolean = false,
-    contentPadding: PaddingValues = PaddingValues(0.dp), // ERROR - Unresoveld reference 'dp' (importei a biblioteca androidx.compose.ui.unit.dp mas não sei se está certa)
+    contentPadding: PaddingValues = PaddingValues(0.dp),
     onSave: () -> Unit,
     onDelete: () -> Unit = {},
     content: @Composable () -> Unit,
@@ -83,7 +84,7 @@ fun FormScaffold(
                     strokeWidth = 2.dp,
                 )
             } else {
-                Text(stringResource(R.string.form_save)) // ERROR - Unersolved reference 'R'
+                Text(stringResource(R.string.form_save))
             }
         }
 
@@ -94,7 +95,7 @@ fun FormScaffold(
                 onClick = onDelete,
             ) {
                 Text(
-                    text = stringResource(R.string.form_delete), // ERROR - Unersolved reference 'R'
+                    text = stringResource(R.string.form_delete),
                     color = MaterialTheme.colorScheme.error,
                 )
             }
@@ -119,7 +120,7 @@ fun DeleteConfirmDialog(
                 enabled = !isDeleting,
                 onClick = onConfirm,
             ) {
-                Text(stringResource(R.string.form_delete_confirm)) // ERROR - Unersolved reference 'R'
+                Text(stringResource(R.string.form_delete_confirm))
             }
         },
         dismissButton = {
@@ -127,7 +128,7 @@ fun DeleteConfirmDialog(
                 enabled = !isDeleting,
                 onClick = onDismiss,
             ) {
-                Text(stringResource(R.string.form_cancel)) // ERROR - Unersolved reference 'R'
+                Text(stringResource(R.string.form_cancel))
             }
         },
     )

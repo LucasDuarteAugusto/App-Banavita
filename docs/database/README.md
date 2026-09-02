@@ -163,4 +163,4 @@ Não há coluna de estoque em `produto`. A view é a fonte da verdade para saldo
 
 ## Schema exportado
 
-O Room exporta o schema JSON em `app/schemas/` quando o projeto compila (KSP `room.schemaLocation`).
+O Room exporta o schema JSON em `app/schemas/` quando o projeto compila (`room { schemaDirectory }` no Gradle).
