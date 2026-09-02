@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.Mic // ERROR - Unresolved reference 'Mic'
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -51,12 +51,12 @@ fun VoiceFabLayout(
     ) {
         SmallFloatingActionButton(
             onClick = onVoiceClick,
-            enabled = voiceEnabled && !isVoiceBusy,
+            enabled = voiceEnabled && !isVoiceBusy, // ERROR - No parameter with name 'enabled' found.
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
         ) {
             Icon(
-                imageVector = Icons.Default.Mic,
+                imageVector = Icons.Default.Mic, // ERROR -  Unresolved reference 'Mic'
                 contentDescription = stringResource(R.string.voice_mic_button),
             )
         }
@@ -64,7 +64,7 @@ fun VoiceFabLayout(
         if (showAddFab) {
             SmallFloatingActionButton(
                 onClick = onAddClick,
-                enabled = !isVoiceBusy,
+                enabled = !isVoiceBusy, // ERROR -  No parameter with name 'enabled' found.
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             ) {
@@ -121,7 +121,7 @@ private fun RecordingPulse() {
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
         ) {}
         Icon(
-            imageVector = Icons.Default.Mic,
+            imageVector = Icons.Default.Mic, // ERROR -  Unresolved reference 'Mic'
             contentDescription = null,
             modifier = Modifier.size(40.dp),
             tint = MaterialTheme.colorScheme.primary,

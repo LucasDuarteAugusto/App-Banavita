@@ -77,7 +77,7 @@ fun VoiceEnabledScreen(
 
         if (uiState.phase == VoiceCapturePhase.REVIEW && uiState.draft != null) {
             ExtractionReviewSheet(
-                draft = uiState.draft,
+                draft = uiState.draft, // ERROR - Smart cast to 'ExtractionDraft' is impossible, because 'draft' is a delegated property.
                 isConfirming = uiState.statusMessage != null,
                 errorMessage = uiState.errorMessage,
                 onConfirm = { viewModel.confirmDraft(onVoiceSuccess) },

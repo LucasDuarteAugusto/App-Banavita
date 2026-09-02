@@ -3,7 +3,7 @@ package br.com.banavita.app.ui.cadastros.produtos
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenu
+import androidx.compose.material3.ExposedDropdownMenu // ERROR - Unresolved reference 'ExposedDropdownMenu'
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -124,7 +124,7 @@ fun ProdutoFormScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(),
+                    .menuAnchor(), // WARNING - 'fun Modifier.menuAnchor(): Modifier' is deprecated. Use overload that takes MenuAnchorType and enabled parameters.
                 value = uiState.unidade,
                 onValueChange = {},
                 readOnly = true,
@@ -155,7 +155,7 @@ fun ProdutoFormScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(),
+                    .menuAnchor(), // WARNING - 'fun Modifier.menuAnchor(): Modifier' is deprecated. Use overload that takes MenuAnchorType and enabled parameters.
                 value = uiState.grupoNomeSelecionado ?: stringResource(R.string.form_grupo_none),
                 onValueChange = {},
                 readOnly = true,

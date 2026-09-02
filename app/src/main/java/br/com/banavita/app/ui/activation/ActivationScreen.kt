@@ -16,9 +16,9 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.ContentCopy    // ERROR - Unresolved reference 'ContentCopy'
+import androidx.compose.material.icons.filled.Visibility     // ERROR - Unresolved reference 'Visibility'
+import androidx.compose.material.icons.filled.VisibilityOff  // ERROR - Unresolved reference 'VisibilityOff'
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -135,9 +135,9 @@ fun ActivationScreen(
                     IconButton(onClick = onToggleLicenseVisibility) {
                         Icon(
                             imageVector = if (uiState.isLicenseVisible) {
-                                Icons.Default.VisibilityOff
+                                Icons.Default.VisibilityOff // ERROR - Unresolved reference 'VisibilityOff'
                             } else {
-                                Icons.Default.Visibility
+                                Icons.Default.Visibility // ERROR - Unresolved reference 'Visibility'
                             },
                             contentDescription = stringResource(
                                 if (uiState.isLicenseVisible) {
@@ -223,7 +223,7 @@ private fun RequestCodeCard(
 
                 IconButton(onClick = onCopy) {
                     Icon(
-                        imageVector = Icons.Default.ContentCopy,
+                        imageVector = Icons.Default.ContentCopy, // ERROR - Unresolved reference 'ContenCCopy'
                         contentDescription = stringResource(R.string.activation_copy_code),
                     )
                 }
