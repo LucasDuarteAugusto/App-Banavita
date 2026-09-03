@@ -10,11 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Event // ERROR - Unresolved reference 'Event'.
-import androidx.compose.material.icons.filled.Inventory // ERROR - Unresolved reference 'Inventory'.
-import androidx.compose.material.icons.filled.Payments // ERROR - Unresolved reference 'Payments'.
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Store // ERROR - Unresolved reference 'Store'.
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -34,6 +30,7 @@ import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import br.com.banavita.app.ui.common.BanavitaIcons
 import br.com.banavita.app.ui.common.formatCurrency
 import br.com.banavita.app.ui.common.formatDateTime
 import br.com.banavita.app.ui.voice.VoiceEnabledScreen
@@ -113,7 +110,7 @@ fun HomeScreen(
                 } else {
                     stringResource(R.string.home_card_estoque_zerados, uiState.zerados)
                 },
-                icon = Icons.Default.Inventory, // ERROR - Unresolved reference 'Inventory'.
+                icon = BanavitaIcons.Inventory,
                 onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
             )
             ShortcutCard(
@@ -123,7 +120,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.vendasHojeCentavos)
                 },
-                icon = Icons.Default.Store, // ERROR - Unresolved reference 'Store'.
+                icon = BanavitaIcons.Store,
                 onClick = { onConsultasClick(ConsultaModo.VENDAS) },
             )
             ShortcutCard(
@@ -133,7 +130,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.comprasHojeCentavos)
                 },
-                icon = Icons.Default.Inventory, // ERROR - Unresolved reference 'Inventory'.
+                icon = BanavitaIcons.Inventory,
                 onClick = { onConsultasClick(ConsultaModo.COMPRAS) },
             )
             ShortcutCard(
@@ -143,7 +140,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.receberCentavos)
                 },
-                icon = Icons.Default.Payments, // ERROR - Unresolved reference 'Payments'.
+                icon = BanavitaIcons.Payments,
                 onClick = { onConsultasClick(ConsultaModo.RECEBER) },
             )
             ShortcutCard(
@@ -153,7 +150,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.pagarCentavos)
                 },
-                icon = Icons.Default.Payments, // ERROR - Unresolved reference 'Payments'.
+                icon = BanavitaIcons.Payments,
                 onClick = { onConsultasClick(ConsultaModo.PAGAR) },
             )
             val evento = uiState.proximoEvento
@@ -164,7 +161,7 @@ fun HomeScreen(
                 } else {
                     "${evento.titulo} • ${formatDateTime(evento.dataHora)}"
                 },
-                icon = Icons.Default.Event, // ERROR - Unresolved reference 'Event'.
+                icon = BanavitaIcons.Event,
                 onClick = onAgendaClick,
             )
         }

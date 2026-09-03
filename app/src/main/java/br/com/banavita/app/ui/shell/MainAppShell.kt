@@ -3,9 +3,7 @@ package br.com.banavita.app.ui.shell
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Apps // ERROR - Unresolved reference 'Apps'.
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Inventory // ERROR - Unresolved reference 'Inventory'.
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,6 +24,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import br.com.banavita.app.R
+import br.com.banavita.app.ui.common.BanavitaIcons
 import br.com.banavita.app.ui.navigation.BanavitaRoutes
 import br.com.banavita.app.ui.navigation.MainNavHost
 
@@ -48,8 +47,8 @@ fun MainAppShell(
     val topLevelTabs = listOf(
         TopLevelTab(BanavitaRoutes.HOME, R.string.nav_home, Icons.Default.Home),
         TopLevelTab(BanavitaRoutes.VENDAS, R.string.nav_vendas, Icons.Default.ShoppingCart),
-        TopLevelTab(BanavitaRoutes.COMPRAS, R.string.nav_compras, Icons.Default.Inventory), // ERROR - Unresolved reference 'Inventory'.
-        TopLevelTab(BanavitaRoutes.CADASTROS, R.string.nav_cadastros, Icons.Default.Apps), // ERROR - Unresolved reference 'Apps'.
+        TopLevelTab(BanavitaRoutes.COMPRAS, R.string.nav_compras, BanavitaIcons.Inventory),
+        TopLevelTab(BanavitaRoutes.CADASTROS, R.string.nav_cadastros, BanavitaIcons.Apps),
     )
 
     val selectedTabRoute = BanavitaRoutes.topLevelRouteFor(currentRoute) ?: BanavitaRoutes.HOME

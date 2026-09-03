@@ -14,7 +14,7 @@ data class EpochRange(
     val endExclusive: Long,
 ) {
     operator fun contains(epochMillis: Long): Boolean =
-        epochMillis >= startInclusive && epochMillis < endExclusive // WARNING - Two comparisons should be converted to a range check
+        epochMillis in startInclusive until endExclusive
 }
 
 object PeriodRanges {

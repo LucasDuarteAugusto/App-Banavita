@@ -15,10 +15,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -44,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.banavita.app.R
+import br.com.banavita.app.ui.common.BanavitaIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -135,9 +132,9 @@ fun ActivationScreen(
                     IconButton(onClick = onToggleLicenseVisibility) {
                         Icon(
                             imageVector = if (uiState.isLicenseVisible) {
-                                Icons.Default.VisibilityOff
+                                BanavitaIcons.VisibilityOff
                             } else {
-                                Icons.Default.Visibility
+                                BanavitaIcons.Visibility
                             },
                             contentDescription = stringResource(
                                 if (uiState.isLicenseVisible) {
@@ -223,7 +220,7 @@ private fun RequestCodeCard(
 
                 IconButton(onClick = onCopy) {
                     Icon(
-                        imageVector = Icons.Default.ContentCopy,
+                        imageVector = BanavitaIcons.ContentCopy,
                         contentDescription = stringResource(R.string.activation_copy_code),
                     )
                 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.banavita.app.R
+import br.com.banavita.app.ui.common.BanavitaIcons
 
 @Composable
 fun VoiceFabLayout(
@@ -64,7 +64,7 @@ fun VoiceFabLayout(
             },
         ) {
             Icon(
-                imageVector = Icons.Default.Mic,
+                imageVector = BanavitaIcons.Mic,
                 contentDescription = stringResource(R.string.voice_mic_button),
             )
         }
@@ -137,7 +137,7 @@ private fun RecordingPulse() {
             color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
         ) {}
         Icon(
-            imageVector = Icons.Default.Mic,
+            imageVector = BanavitaIcons.Mic,
             contentDescription = null,
             modifier = Modifier.size(40.dp),
             tint = MaterialTheme.colorScheme.primary,

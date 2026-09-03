@@ -29,8 +29,8 @@ fun VoiceEnabledScreen(
     voiceContext: VoiceScreenContext,
     addContentDescription: String,
     onAddClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onVoiceSuccess: (ConfirmResult) -> Unit = {},
-    modifier: Modifier = Modifier, // WARNING - Modifier parameter should be the first optional parameter
     showAddFab: Boolean = true,
     viewModel: VoiceCaptureViewModel = hiltViewModel(),
     content: @Composable (Modifier) -> Unit,

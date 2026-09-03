@@ -10,11 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Category // ERROR - Unresolved reference 'Category'.
-import androidx.compose.material.icons.filled.LocalShipping // ERROR - Unresolved reference 'LocalShipping'.
-import androidx.compose.material.icons.filled.People // ERROR - Unresolved reference 'People'.
-import androidx.compose.material.icons.filled.ShoppingBag // ERROR - Unresolved reference 'ShoppingBag'.
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -26,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import br.com.banavita.app.R
+import br.com.banavita.app.ui.common.BanavitaIcons
 import br.com.banavita.app.ui.navigation.BanavitaRoutes
 
 private data class CadastroEntry(
@@ -45,25 +41,25 @@ fun CadastrosHubScreen(
             route = BanavitaRoutes.CADASTROS_CLIENTES,
             titleRes = R.string.cadastros_clientes,
             descriptionRes = R.string.cadastros_clientes_desc,
-            icon = Icons.Default.People, // ERROR - Unresolved reference 'People'.
+            icon = BanavitaIcons.People,
         ),
         CadastroEntry(
             route = BanavitaRoutes.CADASTROS_FORNECEDORES,
             titleRes = R.string.cadastros_fornecedores,
             descriptionRes = R.string.cadastros_fornecedores_desc,
-            icon = Icons.Default.LocalShipping, // ERROR - Unresolved reference 'LocalShipping'.
+            icon = BanavitaIcons.LocalShipping,
         ),
         CadastroEntry(
             route = BanavitaRoutes.CADASTROS_PRODUTOS,
             titleRes = R.string.cadastros_produtos,
             descriptionRes = R.string.cadastros_produtos_desc,
-            icon = Icons.Default.ShoppingBag, // ERROR - Unresolved reference 'ShoppingBag'.
+            icon = BanavitaIcons.ShoppingBag,
         ),
         CadastroEntry(
             route = BanavitaRoutes.CADASTROS_GRUPOS,
             titleRes = R.string.cadastros_grupos,
             descriptionRes = R.string.cadastros_grupos_desc,
-            icon = Icons.Default.Category, // ERROR - Unresolved reference 'Category'.
+            icon = BanavitaIcons.Category,
         ),
     )
 

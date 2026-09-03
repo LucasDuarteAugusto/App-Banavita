@@ -41,10 +41,8 @@ fun EventoFormRoute(
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
-    ) { granted ->
-        if (!granted) { // WARNING - 'if' has empty body
-            // still save; reminder may not show until user allows
-        }
+    ) {
+        // Save even if notifications are denied; the reminder stays silent until allowed.
         viewModel.save(onDone)
     }
 
