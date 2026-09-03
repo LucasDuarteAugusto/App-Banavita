@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Event
-import androidx.compose.material.icons.filled.Inventory
-import androidx.compose.material.icons.filled.Payments
+import androidx.compose.material.icons.filled.Event // ERROR - Unresolved reference 'Event'.
+import androidx.compose.material.icons.filled.Inventory // ERROR - Unresolved reference 'Inventory'.
+import androidx.compose.material.icons.filled.Payments // ERROR - Unresolved reference 'Payments'.
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material.icons.filled.Store
+import androidx.compose.material.icons.filled.Store // ERROR - Unresolved reference 'Store'.
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -113,7 +113,7 @@ fun HomeScreen(
                 } else {
                     stringResource(R.string.home_card_estoque_zerados, uiState.zerados)
                 },
-                icon = Icons.Default.Inventory,
+                icon = Icons.Default.Inventory, // ERROR - Unresolved reference 'Inventory'.
                 onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
             )
             ShortcutCard(
@@ -123,7 +123,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.vendasHojeCentavos)
                 },
-                icon = Icons.Default.Store,
+                icon = Icons.Default.Store, // ERROR - Unresolved reference 'Store'.
                 onClick = { onConsultasClick(ConsultaModo.VENDAS) },
             )
             ShortcutCard(
@@ -133,7 +133,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.comprasHojeCentavos)
                 },
-                icon = Icons.Default.Inventory,
+                icon = Icons.Default.Inventory, // ERROR - Unresolved reference 'Inventory'.
                 onClick = { onConsultasClick(ConsultaModo.COMPRAS) },
             )
             ShortcutCard(
@@ -143,7 +143,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.receberCentavos)
                 },
-                icon = Icons.Default.Payments,
+                icon = Icons.Default.Payments, // ERROR - Unresolved reference 'Payments'.
                 onClick = { onConsultasClick(ConsultaModo.RECEBER) },
             )
             ShortcutCard(
@@ -153,7 +153,7 @@ fun HomeScreen(
                 } else {
                     formatCurrency(uiState.pagarCentavos)
                 },
-                icon = Icons.Default.Payments,
+                icon = Icons.Default.Payments, // ERROR - Unresolved reference 'Payments'.
                 onClick = { onConsultasClick(ConsultaModo.PAGAR) },
             )
             val evento = uiState.proximoEvento
@@ -164,7 +164,7 @@ fun HomeScreen(
                 } else {
                     "${evento.titulo} • ${formatDateTime(evento.dataHora)}"
                 },
-                icon = Icons.Default.Event,
+                icon = Icons.Default.Event, // ERROR - Unresolved reference 'Event'.
                 onClick = onAgendaClick,
             )
         }

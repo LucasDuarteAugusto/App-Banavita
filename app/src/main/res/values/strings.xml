@@ -80,7 +80,7 @@
     <string name="form_nome">Nome</string>
     <string name="form_observacao">Observação</string>
     <string name="form_telefone">Telefone</string>
-    <string name="form_telefone_hint">(19) 99999-9999</string>
+    <string name="form_telefone_hint">(19) 99999-9999</string>  <!-- WARNING - Replace "-" with an "en dash" character (–, &#8211;) ? -->
     <string name="form_descricao">Descrição</string>
     <string name="form_preco">Preço</string>
     <string name="form_preco_hint">0,00</string>

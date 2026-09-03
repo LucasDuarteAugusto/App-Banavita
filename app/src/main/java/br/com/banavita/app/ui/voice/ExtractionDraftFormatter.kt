@@ -90,8 +90,7 @@ object ExtractionDraftFormatter {
     }
 
     private fun formatValue(field: ExtractionField<*>): String {
-        val value = field.value
-        if (value == null) return field.rawSpan ?: "—"
+        val value = field.value ?: return field.rawSpan ?: "—"
         return when (value) {
             is Long -> {
                 if (value > 1_000_000_000_000L) value.toString() else formatCurrency(value)

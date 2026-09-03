@@ -39,7 +39,7 @@ class FinanceiroRepository @Inject constructor(
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
             val clienteMap = clientes.associateBy { it.id }
             vendas
-                .filter { it.venda.aPrazo }
+                .filter { it.venda.aPrazo } // WARNING - Call chain on a collection could be converted into 'Sequence' to improve performance
                 .map { relation ->
                     val saldo = relation.venda.valorTotalCentavos - (pagoPorVenda[relation.venda.id] ?: 0L)
                     Triple(relation.venda, saldo, clienteMap[relation.venda.clienteId])
@@ -69,7 +69,7 @@ class FinanceiroRepository @Inject constructor(
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
             val fornecedorMap = fornecedores.associateBy { it.id }
             compras
-                .filter { it.compra.aPrazo }
+                .filter { it.compra.aPrazo } // WARNING - Call chain on a collection could be converted into 'Sequence' to improve performance
                 .map { relation ->
                     val saldo = relation.compra.valorTotalCentavos - (pagoPorCompra[relation.compra.id] ?: 0L)
                     Triple(relation.compra, saldo, fornecedorMap[relation.compra.fornecedorId])

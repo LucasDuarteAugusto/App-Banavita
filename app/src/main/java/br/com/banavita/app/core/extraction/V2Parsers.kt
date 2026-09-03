@@ -150,7 +150,7 @@ object EventoExtractionParser {
     private val quinzeMin = Regex("""(?i)\b(15|quinze)\s*(min|minutos?)?\b""")
     private val umaHora = Regex("""(?i)\b(1|uma)\s*(h|hora)s?\b""")
     private val umDia = Regex("""(?i)\b(1|um)\s*dia\b""")
-    private val horaCue = Regex("""(?i)\b(?:as|às|as)\s+(\d{1,2})(?:\s*(?:e|:)\s*(\d{2}))?\b""")
+    private val horaCue = Regex("""(?i)\b(?:as|às)\s+(\d{1,2})(?:\s*(?:e|:)\s*(\d{2}))?\b""")
     private val horaAlt = Regex("""\b(\d{1,2})h(\d{2})?\b""")
     private val stop = Regex(
         """(?i)\b(lembrar|lembrete|agenda|evento|compromisso|visita|me avisa|avisar|notifica|""" +
