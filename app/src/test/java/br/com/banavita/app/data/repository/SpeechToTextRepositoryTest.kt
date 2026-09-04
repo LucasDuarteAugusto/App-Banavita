@@ -2,7 +2,6 @@ package br.com.banavita.app.data.repository
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import br.com.banavita.app.core.speech.AudioCapture
 import br.com.banavita.app.core.speech.SpeechConstants
 import br.com.banavita.app.core.speech.SpeechModelManager
 import br.com.banavita.app.core.speech.WhisperEngine
@@ -39,7 +38,6 @@ class SpeechToTextRepositoryTest {
         repository = SpeechToTextRepository(
             speechModelManager = modelManager,
             whisperEngine = fakeEngine,
-            audioCapture = AudioCapture(context),
         )
     }
 

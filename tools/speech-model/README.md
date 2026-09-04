@@ -48,13 +48,15 @@ Para build **sem** modelo (UI sem voz):
 
 ## No aparelho
 
-Na **primeira execução** com uso de voz, o app extrai o modelo para:
+Na **primeira tela com microfone**, o app extrai o modelo para o armazenamento **privado**:
 
 ```
 /data/data/br.com.banavita.app/files/models/ggml-base-q5_1.bin
 ```
 
-Não é necessário `adb push` em instalações normais.
+O explorador MTP (cabo USB) não mostra esse diretório; pasta `data` vazia no PC é esperado. Como conferir (Device File Explorer, Logcat, `adb` no Git Bash se o comando não for reconhecido): [docs/speech/README.md](../../docs/speech/README.md).
+
+Logcat: `BanavitaSpeech`. Não é necessário `adb push` em instalações normais.
 
 ### Sidecar manual (legado / debug)
 

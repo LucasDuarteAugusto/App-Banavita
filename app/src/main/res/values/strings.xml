@@ -133,7 +133,12 @@
     <string name="produto_delete_title">Excluir produto</string>
     <string name="produto_delete_message">Deseja excluir este produto?</string>
 
-    <string name="voice_mic_button">Cadastrar por voz</string>
+    <string name="voice_mic_button">Segure para gravar</string>
+    <string name="voice_hold_to_talk">Segure o botão para falar</string>
+    <string name="voice_transcribing">Transcrevendo…</string>
+    <string name="voice_saving">Salvando…</string>
+    <string name="voice_applying">Aplicando…</string>
+    <string name="voice_recording">Gravando</string>
     <string name="voice_review_title">Confirmar cadastro por voz</string>
     <string name="voice_review_transcript">Você disse: \"%1$s\"</string>
     <string name="voice_review_needs_review">Revise os campos antes de confirmar.</string>

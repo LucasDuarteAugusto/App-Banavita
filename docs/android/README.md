@@ -173,7 +173,7 @@ Fluxo resumido:
 
 Passo a passo: [docs/activation/README.md](../activation/README.md).
 
-Na primeira vez que usar o microfone, o Android pede **Gravar áudio**. Aceite.
+Na primeira vez que usar o microfone, o Android pede **Gravar áudio**. Aceite. Depois **segure** o botão verde do mic enquanto fala (timer + barras de intensidade) e **solte** para transcrever.
 
 Celular: **arm64**, **8 GB de RAM** no perfil mínimo atual. Aparelhos de 4 GB não são suportados para ASR.
 
@@ -189,6 +189,9 @@ Celular: **arm64**, **8 GB de RAM** no perfil mínimo atual. Aparelhos de 4 GB n
 | Celular não aparece no Run | Depuração USB, cabo de dados, autorizar o PC |
 | APK não instala pelo arquivo | Use **Generate APKs** (debug), não o artefato do botão Run |
 | “App não instalado” ao atualizar | Assinatura diferente (debug vs release, ou outro keystore). Desinstale o Banavita e instale de novo |
-| Voz não transcreve | RAM, permissão de microfone, modelo extraído na 1ª execução |
+| Voz não transcreve | RAM, permissão de microfone, modelo no APK (`npm run download` antes do Generate APKs) |
+| Pasta `data` vazia no USB | Normal. Passo a passo (Device File Explorer e `adb` no Git Bash): [docs/speech/README.md](../speech/README.md) |
+| `adb: command not found` no Git Bash | O SDK não está no PATH. Use o Terminal do Android Studio ou o `adb.exe` em `...\Android\Sdk\platform-tools\`. Detalhe no README de voz. |
+| Mic “congelado” / sem barra | Segure o botão (não é toque único). Solte para ver **Transcrevendo…** |
 
 Documentação de voz: [docs/speech/README.md](../speech/README.md).

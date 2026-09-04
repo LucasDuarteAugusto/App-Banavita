@@ -1,6 +1,7 @@
 package br.com.banavita.app.core.speech
 
 import android.content.Context
+import android.util.Log
 import br.com.banavita.app.domain.model.ModelStatus
 import br.com.banavita.app.domain.model.SpeechModelSpec
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -60,7 +61,11 @@ open class SpeechModelManager @Inject constructor(
                 }
                 temp.delete()
             }
-            validateModelFile(spec) == ModelStatus.READY
+            val ready = validateModelFile(spec) == ModelStatus.READY
+            if (ready) {
+                Log.i(TAG, "Modelo ASR extraído em ${target.absolutePath}")
+            }
+            ready
         } catch (_: IOException) {
             temp.delete()
             target.delete()
@@ -108,5 +113,6 @@ open class SpeechModelManager @Inject constructor(
 
     companion object {
         private const val MIN_BYTES = 1_000_000L
+        private const val TAG = "BanavitaSpeech"
     }
 }

@@ -66,7 +66,7 @@ Ver [docs/activation/README.md](docs/activation/README.md) e [tools/license-gene
 
 ## Transcrição de voz (ASR)
 
-Ver [docs/speech/README.md](docs/speech/README.md). Backend whisper.cpp, idioma forçado `pt`, modelo **embutido no APK** (extraído para `files/models/` na primeira execução).
+Ver [docs/speech/README.md](docs/speech/README.md). Backend whisper.cpp, idioma forçado `pt`, modelo **embutido no APK** (extraído para o armazenamento privado `files/models/` na primeira tela com mic — o cabo USB não mostra essa pasta).
 
 ## Extração / classificação
 

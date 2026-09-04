@@ -14,4 +14,6 @@ data class VoiceCaptureUiState(
     val draft: ExtractionDraft? = null,
     val errorMessage: String? = null,
     val statusMessage: String? = null,
+    val elapsedMs: Long = 0L,
+    val amplitudeBars: List<Float> = emptyList(),
 )

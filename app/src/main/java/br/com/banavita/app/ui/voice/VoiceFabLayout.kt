@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,43 +36,66 @@ import br.com.banavita.app.ui.common.BanavitaIcons
 
 @Composable
 fun VoiceFabLayout(
-    onVoiceClick: () -> Unit,
+    onMicPressed: () -> Unit,
+    onMicReleased: () -> Unit,
     onAddClick: () -> Unit,
     addContentDescription: String,
     modifier: Modifier = Modifier,
-    voiceEnabled: Boolean = true,
+    isRecording: Boolean = false,
+    isProcessing: Boolean = false,
     showAddFab: Boolean = true,
-    isVoiceBusy: Boolean = false,
 ) {
+    val allowHold = !isProcessing
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 20.dp),
-        horizontalArrangement = if (showAddFab) Arrangement.SpaceBetween else Arrangement.Start,
+        horizontalArrangement = if (showAddFab && !isRecording) {
+            Arrangement.SpaceBetween
+        } else {
+            Arrangement.Start
+        },
         verticalAlignment = Alignment.Bottom,
     ) {
-        val voiceFabEnabled = voiceEnabled && !isVoiceBusy
-        SmallFloatingActionButton(
-            onClick = { if (voiceFabEnabled) onVoiceClick() },
-            containerColor = if (voiceFabEnabled) {
+        Surface(
+            modifier = Modifier
+                .size(40.dp)
+                .pointerInput(allowHold) {
+                    if (!allowHold) return@pointerInput
+                    detectTapGestures(
+                        onPress = {
+                            onMicPressed()
+                            tryAwaitRelease()
+                            onMicReleased()
+                        },
+                    )
+                },
+            shape = CircleShape,
+            color = if (allowHold) {
                 MaterialTheme.colorScheme.primary
             } else {
                 MaterialTheme.colorScheme.surfaceVariant
             },
-            contentColor = if (voiceFabEnabled) {
+            contentColor = if (allowHold) {
                 MaterialTheme.colorScheme.onPrimary
             } else {
                 MaterialTheme.colorScheme.onSurfaceVariant
             },
+            shadowElevation = 6.dp,
         ) {
-            Icon(
-                imageVector = BanavitaIcons.Mic,
-                contentDescription = stringResource(R.string.voice_mic_button),
-            )
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = BanavitaIcons.Mic,
+                    contentDescription = stringResource(R.string.voice_mic_button),
+                )
+            }
         }
 
-        if (showAddFab) {
-            val addFabEnabled = !isVoiceBusy
+        if (showAddFab && !isRecording) {
+            val addFabEnabled = !isProcessing
             SmallFloatingActionButton(
                 onClick = { if (addFabEnabled) onAddClick() },
                 containerColor = if (addFabEnabled) {
@@ -113,11 +138,7 @@ fun VoiceProcessingOverlay(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                if (message.contains("Gravando", ignoreCase = true)) {
-                    RecordingPulse()
-                } else {
-                    CircularProgressIndicator()
-                }
+                CircularProgressIndicator()
                 Text(
                     text = message,
                     style = MaterialTheme.typography.titleMedium,
@@ -125,23 +146,6 @@ fun VoiceProcessingOverlay(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun RecordingPulse() {
-    Box(contentAlignment = Alignment.Center) {
-        Surface(
-            modifier = Modifier.size(88.dp),
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-        ) {}
-        Icon(
-            imageVector = BanavitaIcons.Mic,
-            contentDescription = null,
-            modifier = Modifier.size(40.dp),
-            tint = MaterialTheme.colorScheme.primary,
-        )
     }
 }
 
@@ -170,7 +174,7 @@ fun VoiceErrorBanner(
 
 @Composable
 fun rememberAudioPermissionState(
-    onPermissionGranted: () -> Unit,
+    onPermissionGranted: () -> Unit = {},
 ): () -> Unit {
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),

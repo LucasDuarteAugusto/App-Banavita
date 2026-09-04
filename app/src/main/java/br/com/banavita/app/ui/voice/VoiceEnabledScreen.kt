@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,14 +39,16 @@ fun VoiceEnabledScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val requestPermission = rememberAudioPermissionState {
-        viewModel.startCapture(voiceContext)
+    val requestPermission = rememberAudioPermissionState()
+
+    LaunchedEffect(Unit) {
+        viewModel.prepareEngineInBackground()
     }
 
-    val onVoiceClick = {
+    val onMicPressed = {
         if (uiState.phase == VoiceCapturePhase.IDLE) {
             if (hasAudioPermission(context)) {
-                viewModel.startCapture(voiceContext)
+                viewModel.onMicPressed(voiceContext)
             } else {
                 requestPermission()
             }
@@ -62,18 +66,31 @@ fun VoiceEnabledScreen(
             content(Modifier.weight(1f))
         }
 
-        VoiceFabLayout(
+        Column(
             modifier = Modifier.align(Alignment.BottomCenter),
-            onVoiceClick = onVoiceClick,
-            onAddClick = onAddClick,
-            addContentDescription = addContentDescription,
-            showAddFab = showAddFab,
-            isVoiceBusy = uiState.phase == VoiceCapturePhase.RECORDING ||
-                uiState.phase == VoiceCapturePhase.PROCESSING,
-        )
+        ) {
+            if (uiState.phase == VoiceCapturePhase.RECORDING) {
+                VoiceRecordingBar(
+                    elapsedMs = uiState.elapsedMs,
+                    bars = uiState.amplitudeBars,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
+            }
+            VoiceFabLayout(
+                onMicPressed = onMicPressed,
+                onMicReleased = viewModel::onMicReleased,
+                onAddClick = onAddClick,
+                addContentDescription = addContentDescription,
+                showAddFab = showAddFab,
+                isRecording = uiState.phase == VoiceCapturePhase.RECORDING,
+                isProcessing = uiState.phase == VoiceCapturePhase.PROCESSING,
+            )
+        }
 
-        uiState.statusMessage?.let { message ->
-            VoiceProcessingOverlay(message = message)
+        if (uiState.phase == VoiceCapturePhase.PROCESSING) {
+            uiState.statusMessage?.let { message ->
+                VoiceProcessingOverlay(message = message)
+            }
         }
 
         if (uiState.phase == VoiceCapturePhase.REVIEW) {

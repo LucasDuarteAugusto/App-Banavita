@@ -31,4 +31,6 @@ Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o 
 | [venda-form-editar.png](mockups/venda-form-editar.png) | Editar venda |
 | [compra-form-novo.png](mockups/compra-form-novo.png) | Nova compra (Pago agora / A prazo) |
 | [compra-form-editar.png](mockups/compra-form-editar.png) | Editar compra |
-| [voice-review-sheet.png](mockups/voice-review-sheet.png) | Revisão de voz editável |
+| [voice-recording.png](mockups/voice-recording.png) | Voz 1 — segurando o mic (timer + intensidade) |
+| [voice-transcribing.png](mockups/voice-transcribing.png) | Voz 2 — soltou: spinner Transcrevendo… |
+| [voice-review-sheet.png](mockups/voice-review-sheet.png) | Voz 3 — revisão editável |
