@@ -91,7 +91,7 @@
     <string name="form_nome">Nome</string>
     <string name="form_observacao">Observação</string>
     <string name="form_telefone">Telefone</string>
-    <string name="form_telefone_hint">(19) 99999-9999</string>  <!-- WARNING - Replace "-" with an "en dash" character (–, &#8211;) ? -->
+    <string name="form_telefone_hint">(19) 99999–9999</string>
     <string name="form_descricao">Descrição</string>
     <string name="form_preco">Preço</string>
     <string name="form_preco_hint">0,00</string>
@@ -205,6 +205,15 @@
 
     <string name="form_pago_agora">Pago agora</string>
     <string name="form_a_prazo">A prazo / fiado</string>
+    <string name="form_pago_checkbox">Pago (gerar recebimento)</string>
+    <string name="form_pago_compra_checkbox">Pago (gerar pagamento)</string>
+    <string name="form_pago_simples">Pago</string>
+    <string name="form_cliente_obrigatorio">Selecione um cliente cadastrado.</string>
+    <string name="form_fornecedor_obrigatorio">Selecione um fornecedor cadastrado.</string>
+    <string name="form_cliente_select">Pesquisar ou selecionar cliente</string>
+    <string name="form_fornecedor_select">Pesquisar ou selecionar fornecedor</string>
+    <string name="form_search_hint">Pesquisar…</string>
+    <string name="form_nenhum_encontrado">Nenhum resultado encontrado</string>
 
     <string name="agenda_title">Agenda</string>
     <string name="agenda_add">Novo evento</string>
@@ -228,4 +237,36 @@
     <string name="agenda_delete_title">Excluir evento</string>
     <string name="agenda_delete_message">Deseja excluir este evento? O lembrete será cancelado.</string>
     <string name="agenda_notification_body">Lembrete do Banavita</string>
+
+    <string name="error_generic">Erro inesperado</string>
+    <string name="error_save">Erro ao salvar</string>
+    <string name="error_delete">Erro ao excluir</string>
+    <string name="error_load">Erro ao carregar</string>
+    <string name="error_not_found">Registro não encontrado</string>
+
+    <string name="activation_error_request_code">Erro ao gerar código de solicitação.</string>
+    <string name="activation_error_license_empty">Informe a licença enviada pelo administrador.</string>
+    <string name="activation_error_failed">Não foi possível ativar o aplicativo.</string>
+    <string name="activation_error_invalid">Licença inválida.</string>
+    <string name="activation_error_device_mismatch">Esta licença não pertence a este dispositivo.</string>
+    <string name="activation_error_expired">Licença expirada. Solicite uma nova ao administrador.</string>
+    <string name="activation_error_generic">Erro ao ativar o aplicativo.</string>
+
+    <string name="produto_error_not_found">Produto não encontrado.</string>
+    <string name="produto_error_load">Erro ao carregar produto.</string>
+    <string name="produto_error_descricao_empty">Informe a descrição do produto.</string>
+    <string name="produto_error_preco_invalid">Informe um preço válido.</string>
+    <string name="produto_error_unidade_empty">Informe a unidade do produto.</string>
+    <string name="produto_error_save">Erro ao salvar produto.</string>
+    <string name="produto_error_delete">Erro ao excluir produto.</string>
+
+    <string name="voice_review_cliente_suggestions">Sugestões de clientes:</string>
+    <string name="voice_review_fornecedor_suggestions">Sugestões de fornecedores:</string>
+    <string name="form_preco_unit_short">Preço unit.</string>
+    <string name="form_parceiro">Parceiro</string>
+    <string name="form_valor">Valor</string>
+    <string name="consultas_modo_label">Modo</string>
+    <string name="consultas_busca_label">Busca</string>
+    <string name="consultas_periodo_label">Período</string>
+    <string name="consultas_visao_label">Visão</string>
 </resources>

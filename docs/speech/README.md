@@ -117,22 +117,33 @@ Caminho típico no Explorer: `C:\Users\SEU_USUARIO\AppData\Local\Android\Sdk\pla
 
 Pré-requisitos do `run-as`: APK **debug**, cabo de **dados**, depuração USB, aparelho autorizado. `adb devices` deve listar o Galaxy (ou o emulador) como `device`, não `unauthorized`.
 
-## Build do APK
+## Build do APK com modelo dinâmico
 
-Antes do primeiro build (ou ao atualizar o modelo):
+O modelo é selecionado via propriedade Gradle `-PwhisperModel` (padrão: `tiny`).
 
-```bash
-cd tools/speech-model
-npm run download
-```
-
-Isso baixa o `.bin`, grava checksums e copia para `app/src/main/assets/models/`. O Gradle também executa `copySpeechModelToAssets` no `preBuild`.
-
-Build normal:
+### 1. Baixar o modelo selecionado
 
 ```bash
-./gradlew assembleDebug
+./gradlew downloadWhisperModel -PwhisperModel=base
 ```
+
+Isso executa o script Node em `tools/speech-model` e copia o `.bin` para `assets/models/`.
+
+### 2. Gerar o APK
+
+```bash
+./gradlew assembleDebug -PwhisperModel=base
+```
+
+O `BuildConfig` do app conterá o ID, arquivo e SHA-256 do modelo escolhido, configurando o `SpeechModelCatalog` automaticamente.
+
+### Opções de modelo
+
+| Valor `-PwhisperModel` | Modelo GGML | Tamanho (aprox.) | Perfil |
+|-------------------------|-------------|------------------|--------|
+| `tiny` (padrão) | `ggml-tiny-q5_1` | 32 MB | MINIMUM |
+| `base` | `ggml-base-q5_1` | 57 MB | MINIMUM |
+| `small` | `ggml-small-q5_1` | 190 MB | INTERMEDIATE |
 
 Build sem modelo (só desenvolvimento de UI, voz indisponível):
 

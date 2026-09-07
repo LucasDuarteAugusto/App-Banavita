@@ -114,6 +114,10 @@ class VendaFormViewModel @Inject constructor(
         _uiState.update { it.copy(aPrazo = value, errorMessage = null) }
     }
 
+    fun onPagoChange(isPago: Boolean) {
+        _uiState.update { it.copy(aPrazo = !isPago, errorMessage = null) }
+    }
+
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
         viewModelScope.launch {
             val produto = _uiState.value.produtos.find { it.id == produtoId }
@@ -228,6 +232,12 @@ class VendaFormViewModel @Inject constructor(
     private fun buildInputs(state: VendaFormUiState): InputsResult {
         if (state.produtos.isEmpty()) {
             return InputsResult(error = "Cadastre ao menos um produto antes de registrar a venda.")
+        }
+        if (state.clientes.isEmpty()) {
+            return InputsResult(error = "Cadastre ao menos um cliente antes de registrar a venda.")
+        }
+        if (state.clienteId == null) {
+            return InputsResult(error = "Selecione um cliente cadastrado.")
         }
         val filled = state.itens.filter {
             it.produtoId != null || it.quantidadeInput.isNotBlank() || it.precoInput.isNotBlank()

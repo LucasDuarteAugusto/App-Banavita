@@ -24,6 +24,9 @@ data class CompraFormUiState(
     val valorTotalCentavos: Long
         get() = computeDocumentTotalCentavos(itens, produtos, precoObrigatorio = true)
 
+    val pago: Boolean
+        get() = !aPrazo
+
     val fornecedorOptions: List<Pair<UUID, String>>
         get() = fornecedores.map { it.id to it.nome }
 }

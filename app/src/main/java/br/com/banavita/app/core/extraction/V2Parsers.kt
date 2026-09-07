@@ -12,14 +12,21 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object PrazoParser {
-    private val prazo = Regex("""(?i)\b(fiado|a\s*prazo|prazo)\b""")
-    private val vista = Regex("""(?i)\b(a\s*vista|avista|pago\s+agora|pago)\b""")
+    // Expressões que indicam que NÃO foi pago (a prazo / fiado / pendente)
+    private val naoPago = Regex(
+        """(?i)\b(nao\s+(?:foi\s+)?pago|nao\s+pagou|sem\s+pagar|a\s*prazo|prazo|fiado|pendente|ficou\s+devendo|pra\s+acertar|para\s+acertar|deve|devendo|anota\s+ai|anotar)\b""",
+    )
+
+    // Expressões que indicam que FOI pago (à vista / quitado / dinheiro / pix)
+    private val pago = Regex(
+        """(?i)\b(ja\s+pago|ja\s+pagou|pago\s+agora|pagou\s+agora|pagou|pago|a\s*vista|avista|no\s+pix|em\s+dinheiro|no\s+dinheiro|no\s+cartao|no\s+debito|quitado)\b""",
+    )
 
     fun parse(transcript: String): ExtractionField<Boolean> {
         val text = TextNormalizer.normalize(transcript)
         return when {
-            prazo.containsMatchIn(text) -> ExtractionField(true, "a prazo", 0.85f)
-            vista.containsMatchIn(text) -> ExtractionField(false, "à vista", 0.85f)
+            naoPago.containsMatchIn(text) -> ExtractionField(true, "a prazo", 0.9f)
+            pago.containsMatchIn(text) -> ExtractionField(false, "à vista", 0.9f)
             else -> ExtractionField(false, "à vista", 0.4f)
         }
     }

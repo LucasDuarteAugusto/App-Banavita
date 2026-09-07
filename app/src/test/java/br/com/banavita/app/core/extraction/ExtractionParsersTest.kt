@@ -77,6 +77,30 @@ class ExtractionParsersTest {
     }
 
     @Test
+    fun `prazo parser reconhece pago e nao pago com precisao`() {
+        assertEquals(true, PrazoParser.parse("vende banana nao pagou").value)
+        assertEquals(true, PrazoParser.parse("vende banana ficou devendo").value)
+        assertEquals(true, PrazoParser.parse("vende banana a prazo").value)
+        assertEquals(false, PrazoParser.parse("vende banana pago").value)
+        assertEquals(false, PrazoParser.parse("vende banana pagou no pix").value)
+        assertEquals(false, PrazoParser.parse("vende banana a vista").value)
+    }
+
+    @Test
+    fun `venda parser limpa termos de pagamento do clienteRaw`() {
+        val parsed = VendaExtractionParser.parse("vende 5 quilos de banana nanica pro Joao a vista")
+        assertEquals("joao", parsed.clienteRaw.value)
+        assertEquals(false, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `compra parser limpa termos de pagamento do fornecedorRaw`() {
+        val parsed = CompraExtractionParser.parse("comprei 10 caixas de banana do Sitio Verde a prazo a 10 reais")
+        assertEquals("sitio verde", parsed.fornecedorRaw.value)
+        assertEquals(true, parsed.aPrazo.value)
+    }
+
+    @Test
     fun `evento parser recorte hoje nao exige titulo`() {
         assertTrue(EventoExtractionParser.looksLikeFilterOnly("hoje"))
         val parsed = EventoExtractionParser.parse("hoje")

@@ -124,8 +124,9 @@ object VendaExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val clienteCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.clienteCue)
-        val clienteRaw: ExtractionField<String> = if (!clienteCue.isNullOrBlank()) {
-            ExtractionField(clienteCue, clienteCue, 0.8f, FieldSource.HEURISTIC)
+        val cleaned = clienteCue?.let { RoleKeywords.cleanPartnerCandidate(it) }?.takeIf { it.isNotBlank() }
+        val clienteRaw: ExtractionField<String> = if (!cleaned.isNullOrBlank()) {
+            ExtractionField(cleaned, cleaned, 0.8f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }
@@ -142,8 +143,9 @@ object CompraExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val fornecedorCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.fornecedorCue)
-        val fornecedorRaw: ExtractionField<String> = if (!fornecedorCue.isNullOrBlank()) {
-            ExtractionField(fornecedorCue, fornecedorCue, 0.75f, FieldSource.HEURISTIC)
+        val cleaned = fornecedorCue?.let { RoleKeywords.cleanPartnerCandidate(it) }?.takeIf { it.isNotBlank() }
+        val fornecedorRaw: ExtractionField<String> = if (!cleaned.isNullOrBlank()) {
+            ExtractionField(cleaned, cleaned, 0.75f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }

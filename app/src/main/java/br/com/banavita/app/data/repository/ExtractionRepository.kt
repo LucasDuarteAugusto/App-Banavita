@@ -88,9 +88,11 @@ class ExtractionRepository @Inject constructor(
         if (quantidade <= 0) {
             throw ExtractionConfirmException("Quantidade inválida.")
         }
+        val clienteId = fields.cliente?.id
+            ?: throw ExtractionConfirmException("Cliente não selecionado. Escolha um cliente cadastrado.")
         val vendaId = vendaRepository.create(
             data = nowEpochMillis(),
-            clienteId = fields.cliente?.id,
+            clienteId = clienteId,
             itens = listOf(
                 DocumentoItemInput(
                     produtoId = produtoId,
@@ -112,9 +114,11 @@ class ExtractionRepository @Inject constructor(
             ?: throw ExtractionConfirmException("Quantidade ausente.")
         val valor = item.valorUnitarioCentavos.value
             ?: throw ExtractionConfirmException("Valor unitário obrigatório na compra.")
+        val fornecedorId = fields.fornecedor?.id
+            ?: throw ExtractionConfirmException("Fornecedor não selecionado. Escolha um fornecedor cadastrado.")
         val compraId = compraRepository.create(
             data = nowEpochMillis(),
-            fornecedorId = fields.fornecedor?.id,
+            fornecedorId = fornecedorId,
             itens = listOf(
                 DocumentoItemInput(
                     produtoId = produtoId,

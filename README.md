@@ -16,7 +16,7 @@ Aplicativo para controle offline do negócio Banavita.
 - Android SDK (API 35)
 - Android NDK (para whisper.cpp / arm64-v8a)
 - Android Studio Ladybug ou superior (recomendado; este projeto é usado no **Quail**)
-- Modelo ASR: `cd tools/speech-model && npm run download` (obrigatório antes do primeiro build com voz)
+- Modelo ASR: `./gradlew downloadWhisperModel` (baixa o `tiny` por padrão em `tools/speech-model/models/` e copia para assets)
 
 ## Requisitos de dispositivo (IA local)
 

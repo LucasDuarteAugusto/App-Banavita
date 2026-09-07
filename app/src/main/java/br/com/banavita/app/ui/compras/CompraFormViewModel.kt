@@ -110,6 +110,10 @@ class CompraFormViewModel @Inject constructor(
         _uiState.update { it.copy(aPrazo = value, errorMessage = null) }
     }
 
+    fun onPagoChange(isPago: Boolean) {
+        _uiState.update { it.copy(aPrazo = !isPago, errorMessage = null) }
+    }
+
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
         val produto = _uiState.value.produtos.find { it.id == produtoId }
         updateItem(index) { item ->
@@ -227,6 +231,12 @@ class CompraFormViewModel @Inject constructor(
     private fun buildInputs(state: CompraFormUiState): InputsResult {
         if (state.produtos.isEmpty()) {
             return InputsResult(error = "Cadastre ao menos um produto antes de registrar a compra.")
+        }
+        if (state.fornecedores.isEmpty()) {
+            return InputsResult(error = "Cadastre ao menos um fornecedor antes de registrar a compra.")
+        }
+        if (state.fornecedorId == null) {
+            return InputsResult(error = "Selecione um fornecedor cadastrado.")
         }
         val filled = state.itens.filter {
             it.produtoId != null || it.quantidadeInput.isNotBlank() || it.precoInput.isNotBlank()

@@ -85,8 +85,8 @@ fun ProdutoFormScreen(
     modifier: Modifier = Modifier,
     voiceEnabled: Boolean = false,
 ) {
-    var unidadeExpanded by remember { mutableStateOf(false) }
-    var grupoExpanded by remember { mutableStateOf(false) }
+    var unidadeExpanded by remember { mutableStateOf(value = false) }
+    var grupoExpanded by remember { mutableStateOf(value = false) }
 
     FormScaffold(
         modifier = modifier,

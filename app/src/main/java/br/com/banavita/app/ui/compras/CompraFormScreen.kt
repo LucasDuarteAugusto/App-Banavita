@@ -1,12 +1,18 @@
 package br.com.banavita.app.ui.compras
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.FilterChip
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,11 +23,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
 import br.com.banavita.app.ui.common.DeleteConfirmDialog
 import br.com.banavita.app.ui.common.DocumentDateField
-import br.com.banavita.app.ui.common.DocumentEntityDropdown
 import br.com.banavita.app.ui.common.DocumentLineItemCard
 import br.com.banavita.app.ui.common.DocumentTotalRow
 import br.com.banavita.app.ui.common.FormLoadingState
 import br.com.banavita.app.ui.common.FormScaffold
+import br.com.banavita.app.ui.common.SearchableEntityDropdown
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import br.com.banavita.app.ui.voice.VoiceEnabledFormHost
 import br.com.banavita.app.ui.voice.VoiceFormContentPadding
@@ -104,31 +110,33 @@ fun CompraFormScreen(
             enabled = !uiState.isSaving,
         )
 
-        DocumentEntityDropdown(
+        SearchableEntityDropdown(
             label = stringResource(R.string.form_fornecedor),
-            noneLabel = stringResource(R.string.compra_sem_fornecedor),
             options = uiState.fornecedorOptions,
             selectedId = uiState.fornecedorId,
             onSelected = onFornecedorSelected,
             enabled = !uiState.isSaving,
+            placeholder = stringResource(R.string.form_fornecedor_select),
         )
 
-        if (!uiState.isEditMode) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = !uiState.aPrazo,
-                    onClick = { onAPrazoChange(false) },
-                    label = { Text(stringResource(R.string.form_pago_agora)) },
-                )
-                FilterChip(
-                    selected = uiState.aPrazo,
-                    onClick = { onAPrazoChange(true) },
-                    label = { Text(stringResource(R.string.form_a_prazo)) },
-                )
-            }
-        } else {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(enabled = !uiState.isSaving && !uiState.isEditMode) {
+                    onAPrazoChange(!uiState.aPrazo)
+                }
+                .padding(vertical = 4.dp),
+        ) {
+            Checkbox(
+                checked = !uiState.aPrazo,
+                onCheckedChange = { isPago -> onAPrazoChange(!isPago) },
+                enabled = !uiState.isSaving && !uiState.isEditMode,
+            )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = if (uiState.aPrazo) stringResource(R.string.form_a_prazo) else stringResource(R.string.form_pago_agora),
+                text = stringResource(R.string.form_pago_compra_checkbox),
+                style = MaterialTheme.typography.bodyLarge,
             )
         }
 

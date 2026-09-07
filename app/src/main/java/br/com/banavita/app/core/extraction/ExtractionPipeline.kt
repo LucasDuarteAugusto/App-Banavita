@@ -58,6 +58,7 @@ class ExtractionPipeline @Inject constructor(
         val parsed = VendaExtractionParser.parse(transcript)
         val produtoResolvido = entityResolver.resolveProduto(parsed.item.produtoRaw.value)
         val clienteResolvido = entityResolver.resolveCliente(parsed.clienteRaw.value)
+            ?: entityResolver.resolveClienteFromTranscript(transcript)
         return ExtractionFields.VendaDraft(
             itens = listOf(
                 DraftLineItem(
@@ -78,6 +79,7 @@ class ExtractionPipeline @Inject constructor(
         val parsed = CompraExtractionParser.parse(transcript)
         val produtoResolvido = entityResolver.resolveProduto(parsed.item.produtoRaw.value)
         val fornecedorResolvido = entityResolver.resolveFornecedor(parsed.fornecedorRaw.value)
+            ?: entityResolver.resolveFornecedorFromTranscript(transcript)
         return ExtractionFields.CompraDraft(
             itens = listOf(
                 DraftLineItem(
@@ -255,14 +257,18 @@ class ExtractionPipeline @Inject constructor(
                 val item = fields.itens.firstOrNull()
                 item == null ||
                     !item.quantidade.isPresent ||
-                    item.produtoResolvido?.id == null
+                    item.produtoResolvido?.id == null ||
+                    fields.cliente?.id == null ||
+                    (fields.cliente?.confidence ?: 0f) < 0.72f
             }
             is ExtractionFields.CompraDraft -> {
                 val item = fields.itens.firstOrNull()
                 item == null ||
                     !item.quantidade.isPresent ||
                     !item.valorUnitarioCentavos.isPresent ||
-                    item.produtoResolvido?.id == null
+                    item.produtoResolvido?.id == null ||
+                    fields.fornecedor?.id == null ||
+                    (fields.fornecedor?.confidence ?: 0f) < 0.72f
             }
             is ExtractionFields.ClienteDraft -> !fields.nome.isStrong
             is ExtractionFields.FornecedorDraft -> !fields.nome.isStrong

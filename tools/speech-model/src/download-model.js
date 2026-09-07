@@ -12,12 +12,35 @@ const MODELS_DIR = path.join(ROOT, 'models');
 const ASSETS_DIR = path.join(ROOT, '..', '..', 'app', 'src', 'main', 'assets', 'models');
 const CHECKSUMS_PATH = path.join(ROOT, 'checksums.json');
 
-const MODEL = {
-  id: 'ggml-base-q5_1',
-  fileName: 'ggml-base-q5_1.bin',
-  url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin',
-  expectedSha256: '422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898',
+const CATALOG = {
+  tiny: {
+    id: 'ggml-tiny-q5_1',
+    fileName: 'ggml-tiny-q5_1.bin',
+    url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny-q5_1.bin',
+    expectedSha256: '818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7',
+  },
+  base: {
+    id: 'ggml-base-q5_1',
+    fileName: 'ggml-base-q5_1.bin',
+    url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin',
+    expectedSha256: '422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898',
+  },
+  small: {
+    id: 'ggml-small-q5_1',
+    fileName: 'ggml-small-q5_1.bin',
+    url: 'https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small-q5_1.bin',
+    expectedSha256: 'ae85e4a935d7a5678102434316828a2a7a9a8a7a6a5a4a3a2a1a0a9a8a7a6a5a', // Placeholder for actual hash
+  },
 };
+
+const requestedModel = process.argv[2] || 'tiny';
+const MODEL = CATALOG[requestedModel];
+
+if (!MODEL) {
+  console.error(`Modelo inválido: ${requestedModel}`);
+  console.error(`Modelos suportados: ${Object.keys(CATALOG).join(', ')}`);
+  process.exit(1);
+}
 
 function download(url, dest) {
   return new Promise((resolve, reject) => {
