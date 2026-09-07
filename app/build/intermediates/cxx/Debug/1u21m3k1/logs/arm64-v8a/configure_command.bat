@@ -1,0 +1,26 @@
+@echo off
+"C:\\Users\\lucas\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe" ^
+  "-HC:\\projetos-Lucas\\App-Banavita\\app\\src\\main\\cpp" ^
+  "-DCMAKE_SYSTEM_NAME=Android" ^
+  "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
+  "-DCMAKE_SYSTEM_VERSION=26" ^
+  "-DANDROID_PLATFORM=android-26" ^
+  "-DANDROID_ABI=arm64-v8a" ^
+  "-DCMAKE_ANDROID_ARCH_ABI=arm64-v8a" ^
+  "-DANDROID_NDK=C:\\Users\\lucas\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973" ^
+  "-DCMAKE_ANDROID_NDK=C:\\Users\\lucas\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973" ^
+  "-DCMAKE_TOOLCHAIN_FILE=C:\\Users\\lucas\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973\\build\\cmake\\android.toolchain.cmake" ^
+  "-DCMAKE_MAKE_PROGRAM=C:\\Users\\lucas\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+  "-DCMAKE_CXX_FLAGS=-std=c++17" ^
+  "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\\projetos-Lucas\\App-Banavita\\app\\build\\intermediates\\cxx\\Debug\\1u21m3k1\\obj\\arm64-v8a" ^
+  "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\\projetos-Lucas\\App-Banavita\\app\\build\\intermediates\\cxx\\Debug\\1u21m3k1\\obj\\arm64-v8a" ^
+  "-DCMAKE_BUILD_TYPE=Debug" ^
+  "-BC:\\projetos-Lucas\\App-Banavita\\app\\.cxx\\Debug\\1u21m3k1\\arm64-v8a" ^
+  -GNinja ^
+  "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON" ^
+  "-DGGML_OPENMP=OFF" ^
+  "-DGGML_LLAMAFILE=OFF" ^
+  "-DGGML_NATIVE=OFF" ^
+  "-DWHISPER_BUILD_EXAMPLES=OFF" ^
+  "-DWHISPER_BUILD_TESTS=OFF" ^
+  "-DBUILD_SHARED_LIBS=OFF"

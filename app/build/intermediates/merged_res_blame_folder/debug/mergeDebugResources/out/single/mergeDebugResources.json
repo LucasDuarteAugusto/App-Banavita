@@ -1,0 +1,58 @@
+[
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_launcher.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_payments.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_payments.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_store.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_store.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_local_shipping.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_local_shipping.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_event.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_event.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_content_copy.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_content_copy.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_people.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_people.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_shopping_bag.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_shopping_bag.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_visibility_off.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_visibility_off.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_inventory.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_inventory.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_category.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_category.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_mic.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_mic.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_visibility.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_visibility.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_apps.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_apps.xml"
+    }
+]

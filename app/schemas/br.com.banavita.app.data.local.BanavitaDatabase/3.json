@@ -1,0 +1,911 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "7529cecac09bd81483b7f7ac5348445b",
+    "entities": [
+      {
+        "tableName": "grupo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`GRU_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `GRU_NOME` TEXT NOT NULL, `GRU_OBS` TEXT, PRIMARY KEY(`GRU_ID`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "GRU_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "GRU_NOME",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observacao",
+            "columnName": "GRU_OBS",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "GRU_ID"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "produto",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PRO_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PRO_DESCRICAO` TEXT NOT NULL, `PRO_PRECO` INTEGER NOT NULL, `PRO_GRUPO` TEXT, `PRO_UNIDADE` TEXT NOT NULL DEFAULT 'UN', PRIMARY KEY(`PRO_ID`), FOREIGN KEY(`PRO_GRUPO`) REFERENCES `grupo`(`GRU_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "PRO_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descricao",
+            "columnName": "PRO_DESCRICAO",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precoCentavos",
+            "columnName": "PRO_PRECO",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grupoId",
+            "columnName": "PRO_GRUPO",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unidade",
+            "columnName": "PRO_UNIDADE",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'UN'"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "PRO_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_produto_PRO_GRUPO",
+            "unique": false,
+            "columnNames": [
+              "PRO_GRUPO"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_produto_PRO_GRUPO` ON `${TABLE_NAME}` (`PRO_GRUPO`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "grupo",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "PRO_GRUPO"
+            ],
+            "referencedColumns": [
+              "GRU_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "cliente",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CLI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `CLI_NOME` TEXT NOT NULL, `CLI_TELEFONE` TEXT, PRIMARY KEY(`CLI_ID`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "CLI_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "CLI_NOME",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telefone",
+            "columnName": "CLI_TELEFONE",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "CLI_ID"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "fornecedor",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`FOR_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `FOR_NOME` TEXT NOT NULL, `FOR_TELEFONE` TEXT, PRIMARY KEY(`FOR_ID`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "FOR_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "FOR_NOME",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telefone",
+            "columnName": "FOR_TELEFONE",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "FOR_ID"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "venda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`VEN_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `VEN_DATA` INTEGER NOT NULL, `VEN_CLIENTE` TEXT, `VEN_VLRTOT` INTEGER NOT NULL, `VEN_PRAZO` INTEGER NOT NULL, PRIMARY KEY(`VEN_ID`), FOREIGN KEY(`VEN_CLIENTE`) REFERENCES `cliente`(`CLI_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "VEN_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "VEN_DATA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clienteId",
+            "columnName": "VEN_CLIENTE",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valorTotalCentavos",
+            "columnName": "VEN_VLRTOT",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aPrazo",
+            "columnName": "VEN_PRAZO",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "VEN_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_venda_VEN_DATA",
+            "unique": false,
+            "columnNames": [
+              "VEN_DATA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_venda_VEN_DATA` ON `${TABLE_NAME}` (`VEN_DATA`)"
+          },
+          {
+            "name": "index_venda_VEN_CLIENTE",
+            "unique": false,
+            "columnNames": [
+              "VEN_CLIENTE"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_venda_VEN_CLIENTE` ON `${TABLE_NAME}` (`VEN_CLIENTE`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "cliente",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "VEN_CLIENTE"
+            ],
+            "referencedColumns": [
+              "CLI_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "venda_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`VEI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `VEI_VENDA` TEXT NOT NULL, `VEI_PRODUTO` TEXT NOT NULL, `VEI_VLRUN` INTEGER NOT NULL, `VEI_QTDE` REAL NOT NULL, `VEI_VLRTOT` INTEGER NOT NULL, PRIMARY KEY(`VEI_ID`), FOREIGN KEY(`VEI_VENDA`) REFERENCES `venda`(`VEN_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`VEI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "VEI_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vendaId",
+            "columnName": "VEI_VENDA",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "produtoId",
+            "columnName": "VEI_PRODUTO",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorUnitarioCentavos",
+            "columnName": "VEI_VLRUN",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantidade",
+            "columnName": "VEI_QTDE",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorTotalCentavos",
+            "columnName": "VEI_VLRTOT",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "VEI_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_venda_item_VEI_VENDA",
+            "unique": false,
+            "columnNames": [
+              "VEI_VENDA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_venda_item_VEI_VENDA` ON `${TABLE_NAME}` (`VEI_VENDA`)"
+          },
+          {
+            "name": "index_venda_item_VEI_PRODUTO",
+            "unique": false,
+            "columnNames": [
+              "VEI_PRODUTO"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_venda_item_VEI_PRODUTO` ON `${TABLE_NAME}` (`VEI_PRODUTO`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "venda",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "VEI_VENDA"
+            ],
+            "referencedColumns": [
+              "VEN_ID"
+            ]
+          },
+          {
+            "table": "produto",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "VEI_PRODUTO"
+            ],
+            "referencedColumns": [
+              "PRO_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "compra",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`COM_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `COM_DATA` INTEGER NOT NULL, `COM_FORNECEDOR` TEXT, `COM_VLRTOT` INTEGER NOT NULL, `COM_PRAZO` INTEGER NOT NULL, PRIMARY KEY(`COM_ID`), FOREIGN KEY(`COM_FORNECEDOR`) REFERENCES `fornecedor`(`FOR_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "COM_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "COM_DATA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fornecedorId",
+            "columnName": "COM_FORNECEDOR",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "valorTotalCentavos",
+            "columnName": "COM_VLRTOT",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "aPrazo",
+            "columnName": "COM_PRAZO",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "COM_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_compra_COM_DATA",
+            "unique": false,
+            "columnNames": [
+              "COM_DATA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_compra_COM_DATA` ON `${TABLE_NAME}` (`COM_DATA`)"
+          },
+          {
+            "name": "index_compra_COM_FORNECEDOR",
+            "unique": false,
+            "columnNames": [
+              "COM_FORNECEDOR"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_compra_COM_FORNECEDOR` ON `${TABLE_NAME}` (`COM_FORNECEDOR`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "fornecedor",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "COM_FORNECEDOR"
+            ],
+            "referencedColumns": [
+              "FOR_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "compra_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`COI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `COI_COMPRA` TEXT NOT NULL, `COI_PRODUTO` TEXT NOT NULL, `COI_VLRUN` INTEGER NOT NULL, `COI_QTDE` REAL NOT NULL, `COI_VLRTOT` INTEGER NOT NULL, PRIMARY KEY(`COI_ID`), FOREIGN KEY(`COI_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`COI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "COI_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "compraId",
+            "columnName": "COI_COMPRA",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "produtoId",
+            "columnName": "COI_PRODUTO",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorUnitarioCentavos",
+            "columnName": "COI_VLRUN",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantidade",
+            "columnName": "COI_QTDE",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorTotalCentavos",
+            "columnName": "COI_VLRTOT",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "COI_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_compra_item_COI_COMPRA",
+            "unique": false,
+            "columnNames": [
+              "COI_COMPRA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_compra_item_COI_COMPRA` ON `${TABLE_NAME}` (`COI_COMPRA`)"
+          },
+          {
+            "name": "index_compra_item_COI_PRODUTO",
+            "unique": false,
+            "columnNames": [
+              "COI_PRODUTO"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_compra_item_COI_PRODUTO` ON `${TABLE_NAME}` (`COI_PRODUTO`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "compra",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "COI_COMPRA"
+            ],
+            "referencedColumns": [
+              "COM_ID"
+            ]
+          },
+          {
+            "table": "produto",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "COI_PRODUTO"
+            ],
+            "referencedColumns": [
+              "PRO_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "recebimento",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`REC_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `REC_VENDA` TEXT NOT NULL, `REC_DATA` INTEGER NOT NULL, `REC_VALOR` INTEGER NOT NULL, PRIMARY KEY(`REC_ID`), FOREIGN KEY(`REC_VENDA`) REFERENCES `venda`(`VEN_ID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "REC_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vendaId",
+            "columnName": "REC_VENDA",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "REC_DATA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorCentavos",
+            "columnName": "REC_VALOR",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "REC_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_recebimento_REC_VENDA",
+            "unique": false,
+            "columnNames": [
+              "REC_VENDA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recebimento_REC_VENDA` ON `${TABLE_NAME}` (`REC_VENDA`)"
+          },
+          {
+            "name": "index_recebimento_REC_DATA",
+            "unique": false,
+            "columnNames": [
+              "REC_DATA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_recebimento_REC_DATA` ON `${TABLE_NAME}` (`REC_DATA`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "venda",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "REC_VENDA"
+            ],
+            "referencedColumns": [
+              "VEN_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "pagamento",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`PAG_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PAG_COMPRA` TEXT NOT NULL, `PAG_DATA` INTEGER NOT NULL, `PAG_VALOR` INTEGER NOT NULL, PRIMARY KEY(`PAG_ID`), FOREIGN KEY(`PAG_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "PAG_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "compraId",
+            "columnName": "PAG_COMPRA",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "data",
+            "columnName": "PAG_DATA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valorCentavos",
+            "columnName": "PAG_VALOR",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "PAG_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_pagamento_PAG_COMPRA",
+            "unique": false,
+            "columnNames": [
+              "PAG_COMPRA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pagamento_PAG_COMPRA` ON `${TABLE_NAME}` (`PAG_COMPRA`)"
+          },
+          {
+            "name": "index_pagamento_PAG_DATA",
+            "unique": false,
+            "columnNames": [
+              "PAG_DATA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pagamento_PAG_DATA` ON `${TABLE_NAME}` (`PAG_DATA`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "compra",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "PAG_COMPRA"
+            ],
+            "referencedColumns": [
+              "COM_ID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "evento",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`EVE_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `EVE_TITULO` TEXT NOT NULL, `EVE_DATAHORA` INTEGER NOT NULL, `EVE_OBS` TEXT, `EVE_CLIENTE` TEXT, `EVE_FORNECEDOR` TEXT, `EVE_NOTIFICAR` INTEGER NOT NULL, `EVE_ANTECIPACAO_MIN` INTEGER, `EVE_NOTIF_TITULO` TEXT, `EVE_NOTIF_CORPO` TEXT, PRIMARY KEY(`EVE_ID`), FOREIGN KEY(`EVE_CLIENTE`) REFERENCES `cliente`(`CLI_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`EVE_FORNECEDOR`) REFERENCES `fornecedor`(`FOR_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "EVE_ID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "titulo",
+            "columnName": "EVE_TITULO",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dataHora",
+            "columnName": "EVE_DATAHORA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observacao",
+            "columnName": "EVE_OBS",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "clienteId",
+            "columnName": "EVE_CLIENTE",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fornecedorId",
+            "columnName": "EVE_FORNECEDOR",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notificar",
+            "columnName": "EVE_NOTIFICAR",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "antecipacaoMinutos",
+            "columnName": "EVE_ANTECIPACAO_MIN",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notifTitulo",
+            "columnName": "EVE_NOTIF_TITULO",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "notifCorpo",
+            "columnName": "EVE_NOTIF_CORPO",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "EVE_ID"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_evento_EVE_DATAHORA",
+            "unique": false,
+            "columnNames": [
+              "EVE_DATAHORA"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_evento_EVE_DATAHORA` ON `${TABLE_NAME}` (`EVE_DATAHORA`)"
+          },
+          {
+            "name": "index_evento_EVE_CLIENTE",
+            "unique": false,
+            "columnNames": [
+              "EVE_CLIENTE"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_evento_EVE_CLIENTE` ON `${TABLE_NAME}` (`EVE_CLIENTE`)"
+          },
+          {
+            "name": "index_evento_EVE_FORNECEDOR",
+            "unique": false,
+            "columnNames": [
+              "EVE_FORNECEDOR"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_evento_EVE_FORNECEDOR` ON `${TABLE_NAME}` (`EVE_FORNECEDOR`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "cliente",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "EVE_CLIENTE"
+            ],
+            "referencedColumns": [
+              "CLI_ID"
+            ]
+          },
+          {
+            "table": "fornecedor",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "EVE_FORNECEDOR"
+            ],
+            "referencedColumns": [
+              "FOR_ID"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "viewName": "vw_produto_estoque",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT\n            p.PRO_ID AS produto_id,\n            p.PRO_UNIDADE AS unidade,\n            COALESCE(c.qtde, 0) - COALESCE(v.qtde, 0) AS saldo\n        FROM produto p\n        LEFT JOIN (\n            SELECT COI_PRODUTO AS id, SUM(COI_QTDE) AS qtde\n            FROM compra_item\n            GROUP BY COI_PRODUTO\n        ) c ON c.id = p.PRO_ID\n        LEFT JOIN (\n            SELECT VEI_PRODUTO AS id, SUM(VEI_QTDE) AS qtde\n            FROM venda_item\n            GROUP BY VEI_PRODUTO\n        ) v ON v.id = p.PRO_ID"
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7529cecac09bd81483b7f7ac5348445b')"
+    ]
+  }
+}

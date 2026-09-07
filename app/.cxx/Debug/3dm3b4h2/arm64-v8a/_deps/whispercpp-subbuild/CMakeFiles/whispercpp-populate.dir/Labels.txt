@@ -1,0 +1,14 @@
+# Target labels
+ whispercpp-populate
+# Source files and their labels
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate-complete.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-build.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-configure.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-download.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-install.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-mkdir.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-patch.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-test.rule
+C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-update.rule

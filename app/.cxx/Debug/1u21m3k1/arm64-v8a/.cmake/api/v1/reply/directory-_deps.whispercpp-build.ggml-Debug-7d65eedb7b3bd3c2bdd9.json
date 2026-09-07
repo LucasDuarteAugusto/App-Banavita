@@ -1,0 +1,104 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 280,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 281,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 362,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"_deps/whispercpp-build/ggml/src/libggml.a"
+			],
+			"targetId" : "ggml::@8dc812d35f23b3704781",
+			"targetIndex" : 1,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include",
+			"paths" : 
+			[
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-cpu.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-alloc.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-backend.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-blas.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-cann.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-cpp.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-cuda.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-kompute.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-opt.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-metal.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-rpc.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-sycl.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/ggml-vulkan.h",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml/include/gguf.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"_deps/whispercpp-build/ggml/src/libggml-base.a"
+			],
+			"targetId" : "ggml-base::@8dc812d35f23b3704781",
+			"targetIndex" : 2,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/ggml",
+			"paths" : 
+			[
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-build/ggml/ggml-config.cmake",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-build/ggml/ggml-version.cmake"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "_deps/whispercpp-build/ggml",
+		"source" : "C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-src/ggml"
+	}
+}
