@@ -23,6 +23,7 @@ import hilt_aggregated_deps._br_com_banavita_app_core_reminder_AgendaAlarmReceiv
 import hilt_aggregated_deps._br_com_banavita_app_core_reminder_BootCompletedReceiver_GeneratedInjector;
 import hilt_aggregated_deps._br_com_banavita_app_di_DatabaseModule;
 import hilt_aggregated_deps._br_com_banavita_app_di_ExtractionModule;
+import hilt_aggregated_deps._br_com_banavita_app_di_NetworkModule;
 import hilt_aggregated_deps._br_com_banavita_app_di_ReminderModule;
 import hilt_aggregated_deps._br_com_banavita_app_di_SecurityModule;
 import hilt_aggregated_deps._br_com_banavita_app_di_SpeechModule;
@@ -62,6 +63,8 @@ import hilt_aggregated_deps._br_com_banavita_app_ui_consultas_financeiro_Finance
 import hilt_aggregated_deps._br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._br_com_banavita_app_ui_home_HomeViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._br_com_banavita_app_ui_home_HomeViewModel_HiltModules_KeyModule;
+import hilt_aggregated_deps._br_com_banavita_app_ui_settings_SettingsViewModel_HiltModules_BindsModule;
+import hilt_aggregated_deps._br_com_banavita_app_ui_settings_SettingsViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._br_com_banavita_app_ui_vendas_VendaFormViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._br_com_banavita_app_ui_vendas_VendaFormViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._br_com_banavita_app_ui_vendas_VendaListViewModel_HiltModules_BindsModule;
@@ -114,6 +117,7 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _br_com_banavita_app_core_reminder_BootCompletedReceiver_GeneratedInjector.class,
         _br_com_banavita_app_di_DatabaseModule.class,
         _br_com_banavita_app_di_ExtractionModule.class,
+        _br_com_banavita_app_di_NetworkModule.class,
         _br_com_banavita_app_di_ReminderModule.class,
         _br_com_banavita_app_di_SecurityModule.class,
         _br_com_banavita_app_di_SpeechModule.class,
@@ -153,6 +157,8 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel_HiltModules_KeyModule.class,
         _br_com_banavita_app_ui_home_HomeViewModel_HiltModules_BindsModule.class,
         _br_com_banavita_app_ui_home_HomeViewModel_HiltModules_KeyModule.class,
+        _br_com_banavita_app_ui_settings_SettingsViewModel_HiltModules_BindsModule.class,
+        _br_com_banavita_app_ui_settings_SettingsViewModel_HiltModules_KeyModule.class,
         _br_com_banavita_app_ui_vendas_VendaFormViewModel_HiltModules_BindsModule.class,
         _br_com_banavita_app_ui_vendas_VendaFormViewModel_HiltModules_KeyModule.class,
         _br_com_banavita_app_ui_vendas_VendaListViewModel_HiltModules_BindsModule.class,

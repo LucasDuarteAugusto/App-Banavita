@@ -22,11 +22,11 @@ Isso cria `keys/private.pem` (só no seu PC) e **atualiza** a chave pública em 
 
 ### 2. Instalar o APK no celular
 
-Instale o build debug ou release (Android Studio → Run, ou `assembleDebug`).
+Instale o build debug ou release (Android Studio -> Run, ou `assembleDebug`).
 
 ### 3. Copiar o código do aparelho
 
-1. Abra o app → tela **Liberação do aplicativo**
+1. Abra o app -> tela **Liberação do aplicativo**
 2. Toque no ícone de **copiar** ao lado do código `BAN1-REQ-...`
 3. Envie para o PC (WhatsApp, e-mail, etc.)
 
@@ -58,7 +58,7 @@ A saída é um token `BAN1-LIC-...` (pode ser longo — copie inteiro).
 | Assinatura inválida | Chave pública do APK ≠ par da `private.pem` | Rode `generate-keys`, rebuild do APK, gere licença de novo |
 | Dispositivo não corresponde | Licença de outro celular | Gere com o `BAN1-REQ-...` **deste** aparelho |
 | Licença expirada | Tipo `monthly` após 30 dias | Gere nova licença ou use `permanent` em testes |
-| Factory reset | `ANDROID_ID` mudou | Novo `BAN1-REQ-...` → nova licença |
+| Factory reset | `ANDROID_ID` mudou | Novo `BAN1-REQ-...` -> nova licença |
 
 ## Fluxo operacional
 
@@ -104,8 +104,8 @@ O aparelho é identificado por **dois** hashes hexadecimais SHA-256:
 
 | Evento | Efeito |
 |--------|--------|
-| Reinstalar o mesmo APK (mesma assinatura) | Em geral **mantém** `ANDROID_ID` e a chave do Keystore → mesma licença continua válida |
-| Factory reset | `ANDROID_ID` muda → **nova licença** necessária |
+| Reinstalar o mesmo APK (mesma assinatura) | Em geral **mantém** `ANDROID_ID` e a chave do Keystore -> mesma licença continua válida |
+| Factory reset | `ANDROID_ID` muda -> **nova licença** necessária |
 | Licença de outro celular | Falha com `DeviceMismatchException` |
 | Keystore indisponível / falha | Em aparelhos reais o Keystore deve funcionar; testes usam fakes |
 
@@ -132,7 +132,7 @@ Se o usuário reativar com a **mesma** licença mensal já salva, o `activatedAt
 BAN1-REQ-<base64url(JSON)>
 ```
 
-JSON interno (UTF-8 → Base64 URL-safe, sem padding):
+JSON interno (UTF-8 -> Base64 URL-safe, sem padding):
 
 ```json
 {
@@ -177,7 +177,7 @@ BAN1-LIC-<base64url(canonical)>.<base64url(assinatura_RSA_SHA256)>
 2. Verificação da assinatura RSA com a chave pública
 3. Comparação de `bfp` e `kfp` com o fingerprint **atual** do aparelho
 4. Cálculo de `expiresAt` (se `MONTHLY`)
-5. Se `now > expiresAt` → `LicenseExpiredException`
+5. Se `now > expiresAt` -> `LicenseExpiredException`
 
 ## Persistência local
 
@@ -226,13 +226,13 @@ data class ActivationStatus(
 
 ### Comportamento de `getActivationStatus`
 
-- Sem dados salvos → `isActivated = false`
-- Licença inválida, expirada ou de outro device → trata como **inativo** (não propaga a exceção nessa leitura)
+- Sem dados salvos -> `isActivated = false`
+- Licença inválida, expirada ou de outro device -> trata como **inativo** (não propaga a exceção nessa leitura)
 - `activate(...)` **propaga** as exceções para a UI poder mostrar erro
 
 ## Exceções
 
-Hierarquia: `BanavitaDomainException` → `ActivationException` → variantes abaixo.
+Hierarquia: `BanavitaDomainException` -> `ActivationException` -> variantes abaixo.
 
 | Exceção | Quando |
 |---------|--------|
@@ -289,7 +289,7 @@ Aliases de tipo aceitos: `permanent`/`permanente`, `monthly`/`mensal`/`1month`.
 
 - **Privada:** nunca no APK, nunca no git.
 - **Pública:** só a pública vai no app.
-- Regenerar chaves antes da primeira release pública invalida licenças antigas → exige novo APK.
+- Regenerar chaves antes da primeira release pública invalida licenças antigas -> exige novo APK.
 
 ## Limitações honestas
 
@@ -305,7 +305,7 @@ Implementada em `ui/activation/`:
 
 - Exibe e copia o código `BAN1-REQ-...`
 - Campo para colar `BAN1-LIC-...` e botão **Liberar aplicativo**
-- Gate em `BanavitaApp`: se `!isActivated()` → só tela de ativação
+- Gate em `BanavitaApp`: se `!isActivated()` -> só tela de ativação
 - Erros mapeados para mensagens na tela (assinatura, dispositivo, expiração)
 
 Mockup: `docs/ui/mockups/activation.png`

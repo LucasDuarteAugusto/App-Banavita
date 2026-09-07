@@ -19,6 +19,9 @@
 # captures/
 # output.json
 # *.hprof
+.env
+.jdk/
+app/src/main/java/br/com/banavita/app/GroqBuildFields.kt
 # tools/speech-model/models/*.bin
 # app/src/main/assets/models/*.bin
 # app/src/main/cpp/.whisper-cache/

@@ -30,6 +30,7 @@ import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheRoute
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheRoute
 import br.com.banavita.app.ui.home.HomeNavEvent
 import br.com.banavita.app.ui.home.HomeRoute
+import br.com.banavita.app.ui.settings.SettingsRoute
 import br.com.banavita.app.ui.vendas.VendaFormRoute
 import br.com.banavita.app.ui.vendas.VendaListRoute
 
@@ -44,11 +45,18 @@ fun MainNavHost(
         modifier = modifier,
     ) {
         addTopLevelScreens(navController)
+        addSettingsScreen()
         addCadastrosNestedScreens(navController)
         addCadastroFormScreens(navController)
         addDocumentoFormScreens(navController)
         addConsultasScreens(navController)
         addAgendaScreens(navController)
+    }
+}
+
+private fun NavGraphBuilder.addSettingsScreen() {
+    composable(BanavitaRoutes.SETTINGS) {
+        SettingsRoute()
     }
 }
 

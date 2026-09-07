@@ -7,6 +7,22 @@ plugins {
     alias(libs.plugins.androidx.room)
 }
 
+fun loadDotEnv(file: java.io.File): Map<String, String> {
+    if (!file.exists()) return emptyMap()
+    return file.readLines()
+        .map { it.trim() }
+        .filter { it.isNotEmpty() && !it.startsWith("#") && it.contains("=") }
+        .associate { line ->
+            val idx = line.indexOf('=')
+            line.substring(0, idx).trim() to line.substring(idx + 1).trim()
+        }
+}
+
+val rootEnv = loadDotEnv(rootProject.file(".env"))
+val groqApiKey = rootEnv["GROQ_API_KEY"]
+    ?: rootEnv["GROK_API_KEY"]
+    ?: ""
+
 android {
     namespace = "br.com.banavita.app"
     compileSdk = 35
@@ -84,6 +100,43 @@ room {
     schemaDirectory("$projectDir/schemas")
 }
 
+val groqBuildFieldsFile = layout.projectDirectory.file(
+    "src/main/java/br/com/banavita/app/GroqBuildFields.kt",
+)
+
+tasks.register("generateGroqBuildFields") {
+    group = "banavita"
+    description = "Gera GroqBuildFields.kt a partir do .env (não versionar o arquivo gerado)"
+    inputs.property("groqApiKey", groqApiKey)
+    outputs.file(groqBuildFieldsFile)
+    doLast {
+        val escapedKey = groqApiKey
+            .replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("$", "\\$")
+        val content = """
+            package br.com.banavita.app
+
+            /**
+             * Valores da Groq injetados a partir do `.env` (tarefa Gradle `generateGroqBuildFields`).
+             * Arquivo gerado — não versionar; ver `GroqBuildFields.kt.example`.
+             */
+            object GroqBuildFields {
+                const val API_KEY: String = "$escapedKey"
+                const val WHISPER_MODEL: String = "whisper-large-v3-turbo"
+            }
+
+        """.trimIndent() + "\n"
+        groqBuildFieldsFile.asFile.parentFile.mkdirs()
+        groqBuildFieldsFile.asFile.writeText(content)
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("generateGroqBuildFields")
+    dependsOn("verifySpeechModelForBuild")
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -107,6 +160,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.security.crypto)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.core)
@@ -157,8 +211,4 @@ tasks.register("verifySpeechModelForBuild") {
             )
         }
     }
-}
-
-tasks.named("preBuild") {
-    dependsOn("verifySpeechModelForBuild")
 }

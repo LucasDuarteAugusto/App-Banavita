@@ -7,6 +7,7 @@ import java.util.UUID
 
 object BanavitaRoutes {
     const val HOME = "home"
+    const val SETTINGS = "configuracoes"
     const val VENDAS = "vendas"
     const val COMPRAS = "compras"
     const val CADASTROS = "cadastros"
@@ -60,7 +61,7 @@ object BanavitaRoutes {
     fun topLevelRouteFor(route: String?): String? = when {
         route == null -> null
         route == HOME || route.startsWith("$HOME/") -> HOME
-        route.startsWith("consultas") || route.startsWith("agenda") -> HOME
+        route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") -> HOME
         route == VENDAS || route.startsWith("$VENDAS/") -> VENDAS
         route == COMPRAS || route.startsWith("$COMPRAS/") -> COMPRAS
         route == CADASTROS || route.startsWith("$CADASTROS/") -> CADASTROS

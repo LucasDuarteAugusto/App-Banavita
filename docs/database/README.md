@@ -52,7 +52,7 @@ erDiagram
 | updated_at | INTEGER | NOT NULL |
 | PRO_DESCRICAO | TEXT | NOT NULL |
 | PRO_PRECO | INTEGER | NOT NULL (centavos, preço padrão de venda) |
-| PRO_GRUPO | TEXT | NULL, FK → grupo.GRU_ID (RESTRICT) |
+| PRO_GRUPO | TEXT | NULL, FK -> grupo.GRU_ID (RESTRICT) |
 | PRO_UNIDADE | TEXT | NOT NULL, default `UN` |
 
 Índice: `PRO_GRUPO`
@@ -85,7 +85,7 @@ erDiagram
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
 | VEN_DATA | INTEGER | NOT NULL |
-| VEN_CLIENTE | TEXT | NULL, FK → cliente.CLI_ID (RESTRICT) |
+| VEN_CLIENTE | TEXT | NULL, FK -> cliente.CLI_ID (RESTRICT) |
 | VEN_VLRTOT | INTEGER | NOT NULL (snapshot da soma dos itens) |
 | VEN_PRAZO | INTEGER | NOT NULL, default 0 (0 = à vista, 1 = a prazo) |
 
@@ -98,8 +98,8 @@ erDiagram
 | VEI_ID | TEXT | PK |
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
-| VEI_VENDA | TEXT | NOT NULL, FK → venda.VEN_ID (CASCADE) |
-| VEI_PRODUTO | TEXT | NOT NULL, FK → produto.PRO_ID (RESTRICT) |
+| VEI_VENDA | TEXT | NOT NULL, FK -> venda.VEN_ID (CASCADE) |
+| VEI_PRODUTO | TEXT | NOT NULL, FK -> produto.PRO_ID (RESTRICT) |
 | VEI_VLRUN | INTEGER | NOT NULL (snapshot) |
 | VEI_QTDE | REAL | NOT NULL, > 0 |
 | VEI_VLRTOT | INTEGER | NOT NULL |
@@ -114,7 +114,7 @@ erDiagram
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
 | COM_DATA | INTEGER | NOT NULL |
-| COM_FORNECEDOR | TEXT | NULL, FK → fornecedor.FOR_ID (RESTRICT) |
+| COM_FORNECEDOR | TEXT | NULL, FK -> fornecedor.FOR_ID (RESTRICT) |
 | COM_VLRTOT | INTEGER | NOT NULL |
 | COM_PRAZO | INTEGER | NOT NULL, default 0 (0 = à vista, 1 = a prazo) |
 
@@ -127,8 +127,8 @@ erDiagram
 | COI_ID | TEXT | PK |
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
-| COI_COMPRA | TEXT | NOT NULL, FK → compra.COM_ID (CASCADE) |
-| COI_PRODUTO | TEXT | NOT NULL, FK → produto.PRO_ID (RESTRICT) |
+| COI_COMPRA | TEXT | NOT NULL, FK -> compra.COM_ID (CASCADE) |
+| COI_PRODUTO | TEXT | NOT NULL, FK -> produto.PRO_ID (RESTRICT) |
 | COI_VLRUN | INTEGER | NOT NULL |
 | COI_QTDE | REAL | NOT NULL, > 0 |
 | COI_VLRTOT | INTEGER | NOT NULL |
@@ -142,7 +142,7 @@ erDiagram
 | REC_ID | TEXT | PK |
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
-| REC_VENDA | TEXT | NOT NULL, FK → venda.VEN_ID (CASCADE) |
+| REC_VENDA | TEXT | NOT NULL, FK -> venda.VEN_ID (CASCADE) |
 | REC_DATA | INTEGER | NOT NULL |
 | REC_VALOR | INTEGER | NOT NULL, > 0 |
 
@@ -155,7 +155,7 @@ erDiagram
 | PAG_ID | TEXT | PK |
 | created_at | INTEGER | NOT NULL |
 | updated_at | INTEGER | NOT NULL |
-| PAG_COMPRA | TEXT | NOT NULL, FK → compra.COM_ID (CASCADE) |
+| PAG_COMPRA | TEXT | NOT NULL, FK -> compra.COM_ID (CASCADE) |
 | PAG_DATA | INTEGER | NOT NULL |
 | PAG_VALOR | INTEGER | NOT NULL, > 0 |
 
@@ -169,8 +169,8 @@ erDiagram
 | EVE_TITULO | TEXT | NOT NULL |
 | EVE_DATAHORA | INTEGER | NOT NULL |
 | EVE_OBS | TEXT | NULL |
-| EVE_CLIENTE | TEXT | NULL, FK → cliente (RESTRICT) |
-| EVE_FORNECEDOR | TEXT | NULL, FK → fornecedor (RESTRICT) |
+| EVE_CLIENTE | TEXT | NULL, FK -> cliente (RESTRICT) |
+| EVE_FORNECEDOR | TEXT | NULL, FK -> fornecedor (RESTRICT) |
 | EVE_NOTIFICAR | INTEGER | NOT NULL, default 1 |
 | EVE_ANTECIPACAO_MIN | INTEGER | NULL (15, 60 ou 1440) |
 | EVE_NOTIF_TITULO | TEXT | NULL |

@@ -7,3 +7,5 @@ class SpeechModelException(message: String) : SpeechException(message)
 class SpeechEngineException(message: String) : SpeechException(message)
 
 class SpeechAudioException(message: String) : SpeechException(message)
+
+class SpeechRemoteException(message: String) : SpeechException(message)

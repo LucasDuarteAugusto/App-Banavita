@@ -26,6 +26,17 @@
     <string name="home_shortcut_venda_title">Nova venda</string>
     <string name="home_shortcut_venda_desc">Registrar uma venda agora</string>
 
+    <string name="settings_title">Configurações</string>
+    <string name="settings_subtitle">Escolha como o Banavita transcreve a voz em texto.</string>
+    <string name="settings_transcription_section">Modelo de transcrição</string>
+    <string name="settings_provider_groq_title">Groq — Whisper Large V3 Turbo</string>
+    <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
+    <string name="settings_provider_groq_ready">Chave de API configurada neste build.</string>
+    <string name="settings_provider_groq_missing_key">Chave GROQ_API_KEY ausente no .env. Gere o APK novamente após configurar.</string>
+    <string name="settings_provider_local_title">Modelo local (Whisper.cpp)</string>
+    <string name="settings_provider_local_desc">Funciona offline no aparelho, sem enviar áudio.</string>
+    <string name="settings_provider_local_note">Em celulares mais simples pode demorar bastante.</string>
+
     <string name="vendas_title">Vendas</string>
     <string name="vendas_empty_message">Nenhuma venda registrada.</string>
     <string name="vendas_new_button">Nova venda</string>

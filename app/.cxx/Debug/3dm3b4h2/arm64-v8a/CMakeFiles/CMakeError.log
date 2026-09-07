@@ -1,9 +1,9 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command(s):C:\Users\lucas\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe cmTC_44cfe && [1/2] Building C object CMakeFiles/cmTC_44cfe.dir/src.c.o
-FAILED: CMakeFiles/cmTC_44cfe.dir/src.c.o 
-C:\Users\lucas\AppData\Local\Android\Sdk\ndk\27.0.12077973\toolchains\llvm\prebuilt\windows-x86_64\bin\clang.exe --target=aarch64-none-linux-android26 --sysroot=C:/Users/lucas/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -std=gnu11 -MD -MT CMakeFiles/cmTC_44cfe.dir/src.c.o -MF CMakeFiles\cmTC_44cfe.dir\src.c.o.d -o CMakeFiles/cmTC_44cfe.dir/src.c.o -c C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):C:\Users\lucas\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe cmTC_f38fa && [1/2] Building C object CMakeFiles/cmTC_f38fa.dir/src.c.o
+FAILED: CMakeFiles/cmTC_f38fa.dir/src.c.o 
+C:\Users\lucas\AppData\Local\Android\Sdk\ndk\27.0.12077973\toolchains\llvm\prebuilt\windows-x86_64\bin\clang.exe --target=aarch64-none-linux-android26 --sysroot=C:/Users/lucas/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -std=gnu11 -MD -MT CMakeFiles/cmTC_f38fa.dir/src.c.o -MF CMakeFiles\cmTC_f38fa.dir\src.c.o.d -o CMakeFiles/cmTC_f38fa.dir/src.c.o -c C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp/src.c
 C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp/src.c:13:3: error: call to undeclared function 'pthread_cancel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
    13 |   pthread_cancel(thread);
       |   ^
@@ -39,9 +39,9 @@ int main(void)
 Performing C++ SOURCE FILE Test GGML_COMPILER_SUPPORTS_FP16_FORMAT_I3E failed with the following output:
 Change Dir: C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command(s):C:\Users\lucas\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe cmTC_36e37 && [1/2] Building CXX object CMakeFiles/cmTC_36e37.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_36e37.dir/src.cxx.o 
-C:\Users\lucas\AppData\Local\Android\Sdk\ndk\27.0.12077973\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=aarch64-none-linux-android26 --sysroot=C:/Users/lucas/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DGGML_COMPILER_SUPPORTS_FP16_FORMAT_I3E  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++17  -fPIE   -mfp16-format=ieee -std=c++17 -MD -MT CMakeFiles/cmTC_36e37.dir/src.cxx.o -MF CMakeFiles\cmTC_36e37.dir\src.cxx.o.d -o CMakeFiles/cmTC_36e37.dir/src.cxx.o -c C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):C:\Users\lucas\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe cmTC_30fa8 && [1/2] Building CXX object CMakeFiles/cmTC_30fa8.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_30fa8.dir/src.cxx.o 
+C:\Users\lucas\AppData\Local\Android\Sdk\ndk\27.0.12077973\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=aarch64-none-linux-android26 --sysroot=C:/Users/lucas/AppData/Local/Android/Sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DGGML_COMPILER_SUPPORTS_FP16_FORMAT_I3E  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D__BIONIC_NO_PAGE_SIZE_MACRO -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -std=c++17  -fPIE   -mfp16-format=ieee -std=c++17 -MD -MT CMakeFiles/cmTC_30fa8.dir/src.cxx.o -MF CMakeFiles\cmTC_30fa8.dir\src.cxx.o.d -o CMakeFiles/cmTC_30fa8.dir/src.cxx.o -c C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/CMakeTmp/src.cxx
 clang++: error: unknown argument: '-mfp16-format=ieee'
 ninja: build stopped: subcommand failed.
 

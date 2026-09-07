@@ -92,6 +92,7 @@ drawable ic_local_shipping
 drawable ic_mic
 drawable ic_payments
 drawable ic_people
+drawable ic_settings
 drawable ic_shopping_bag
 drawable ic_store
 drawable ic_visibility
@@ -464,6 +465,16 @@ string produtos_empty
 string range_end
 string range_start
 string selected
+string settings_provider_groq_desc
+string settings_provider_groq_missing_key
+string settings_provider_groq_ready
+string settings_provider_groq_title
+string settings_provider_local_desc
+string settings_provider_local_note
+string settings_provider_local_title
+string settings_subtitle
+string settings_title
+string settings_transcription_section
 string state_empty
 string state_off
 string state_on

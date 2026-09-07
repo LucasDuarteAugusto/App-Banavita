@@ -1,5 +1,9 @@
 [
     {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_settings.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_settings.xml"
+    },
+    {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_launcher.xml.flat",
         "source": "br.com.banavita.app-main-64:/drawable/ic_launcher.xml"
     },
@@ -40,12 +44,12 @@
         "source": "br.com.banavita.app-main-64:/drawable/ic_inventory.xml"
     },
     {
-        "merged": "br.com.banavita.app-debug-62:/drawable_ic_category.xml.flat",
-        "source": "br.com.banavita.app-main-64:/drawable/ic_category.xml"
-    },
-    {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_mic.xml.flat",
         "source": "br.com.banavita.app-main-64:/drawable/ic_mic.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_category.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_category.xml"
     },
     {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_visibility.xml.flat",

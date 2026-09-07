@@ -25,7 +25,7 @@ flowchart LR
     Discard[discardDraft] --> Cache
 ```
 
-1. `extract(transcript, context)` → parsers + `EntityResolver`
+1. `extract(transcript, context)` -> parsers + `EntityResolver`
 2. `ExtractionDraft` em `ExtractionSessionCache` (RAM)
 3. UI mostra modal **editável**; usuário confirma, edita ou descarta
 4. `confirmDraft(id)` grava via repositórios **ou** devolve `ConsultaAplicada` / `AgendaFiltroAplicado` sem gravar, e limpa o cache
@@ -76,7 +76,7 @@ Venda:
 
 > “vende três quilos de banana nanica pra Maria a doze reais”
 
-→ qtde `3`, unidade `KG`, produto `banana nanica`, cliente `Maria`, preço `1200` centavos.
+-> qtde `3`, unidade `KG`, produto `banana nanica`, cliente `Maria`, preço `1200` centavos.
 
 ## Evolução
 

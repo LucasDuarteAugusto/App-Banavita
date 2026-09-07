@@ -4,6 +4,7 @@ import br.com.banavita.app.core.reminder.AgendaAlarmReceiver_GeneratedInjector;
 import br.com.banavita.app.core.reminder.BootCompletedReceiver_GeneratedInjector;
 import br.com.banavita.app.di.DatabaseModule;
 import br.com.banavita.app.di.ExtractionModule;
+import br.com.banavita.app.di.NetworkModule;
 import br.com.banavita.app.di.ReminderModule;
 import br.com.banavita.app.di.SecurityModule;
 import br.com.banavita.app.di.SpeechModule;
@@ -25,6 +26,7 @@ import br.com.banavita.app.ui.consultas.ConsultasViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel_HiltModules;
 import br.com.banavita.app.ui.home.HomeViewModel_HiltModules;
+import br.com.banavita.app.ui.settings.SettingsViewModel_HiltModules;
 import br.com.banavita.app.ui.vendas.VendaFormViewModel_HiltModules;
 import br.com.banavita.app.ui.vendas.VendaListViewModel_HiltModules;
 import br.com.banavita.app.ui.voice.VoiceCaptureViewModel_HiltModules;
@@ -158,6 +160,7 @@ public final class BanavitaApplication_HiltComponents {
           DatabaseModule.class,
           ExtractionModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
+          NetworkModule.class,
           ReminderModule.class,
           SecurityModule.class,
           SpeechModule.class
@@ -207,6 +210,7 @@ public final class BanavitaApplication_HiltComponents {
           HomeViewModel_HiltModules.KeyModule.class,
           ProdutoFormViewModel_HiltModules.KeyModule.class,
           ProdutoListViewModel_HiltModules.KeyModule.class,
+          SettingsViewModel_HiltModules.KeyModule.class,
           VendaFormViewModel_HiltModules.KeyModule.class,
           VendaListViewModel_HiltModules.KeyModule.class,
           VoiceCaptureViewModel_HiltModules.KeyModule.class
@@ -264,6 +268,7 @@ public final class BanavitaApplication_HiltComponents {
           HomeViewModel_HiltModules.BindsModule.class,
           ProdutoFormViewModel_HiltModules.BindsModule.class,
           ProdutoListViewModel_HiltModules.BindsModule.class,
+          SettingsViewModel_HiltModules.BindsModule.class,
           VendaFormViewModel_HiltModules.BindsModule.class,
           VendaListViewModel_HiltModules.BindsModule.class,
           VoiceCaptureViewModel_HiltModules.BindsModule.class
