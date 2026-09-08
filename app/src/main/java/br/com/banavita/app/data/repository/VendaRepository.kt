@@ -15,22 +15,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class VendaRepository @Inject constructor(
-    private val database: BanavitaDatabase,
-    private val vendaDao: VendaDao,
-    private val clienteDao: ClienteDao,
+    private val database: Provider<BanavitaDatabase>,
+    private val vendaDao: Provider<VendaDao>,
+    private val clienteDao: Provider<ClienteDao>,
     private val documentoItemFactory: DocumentoItemFactory,
     private val estoqueValidator: EstoqueValidator,
-    private val recebimentoDao: RecebimentoDao,
+    private val recebimentoDao: Provider<RecebimentoDao>,
 ) {
     fun observeAll(): Flow<List<Venda>> =
-        vendaDao.observeAllWithItems().map { vendas -> vendas.map { it.toDomain() } }
+        vendaDao.get().observeAllWithItems().map { vendas -> vendas.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Venda? =
-        vendaDao.getWithItems(id)?.toDomain()
+        vendaDao.get().getWithItems(id)?.toDomain()
 
     suspend fun create(
         data: Long,
@@ -39,7 +40,7 @@ class VendaRepository @Inject constructor(
         aPrazo: Boolean = false,
     ): UUID {
         clienteId?.let {
-            if (clienteDao.getById(it) == null) {
+            if (clienteDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Cliente $it não encontrado.")
             }
         }
@@ -57,10 +58,10 @@ class VendaRepository @Inject constructor(
             valorTotalCentavos = total,
             aPrazo = aPrazo,
         )
-        database.withTransaction {
-            vendaDao.insertVendaComItens(venda, itemEntities)
+        database.get().withTransaction {
+            vendaDao.get().insertVendaComItens(venda, itemEntities)
             if (!aPrazo) {
-                recebimentoDao.insert(
+                recebimentoDao.get().insert(
                     RecebimentoEntity(
                         id = UUID.randomUUID(),
                         createdAt = timestamp,
@@ -81,10 +82,10 @@ class VendaRepository @Inject constructor(
         clienteId: UUID?,
         itens: List<DocumentoItemInput>,
     ) {
-        val existing = vendaDao.getWithItems(id)
+        val existing = vendaDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Venda $id não encontrada.")
         clienteId?.let {
-            if (clienteDao.getById(it) == null) {
+            if (clienteDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Cliente $it não encontrado.")
             }
         }
@@ -97,10 +98,10 @@ class VendaRepository @Inject constructor(
             valorTotalCentavos = totalVendaCentavos(itemEntities),
             updatedAt = timestamp,
         )
-        vendaDao.updateVendaComItens(venda, itemEntities)
+        vendaDao.get().updateVendaComItens(venda, itemEntities)
     }
 
     suspend fun delete(id: UUID) {
-        vendaDao.deleteVendaComItens(id)
+        vendaDao.get().deleteVendaComItens(id)
     }
 }

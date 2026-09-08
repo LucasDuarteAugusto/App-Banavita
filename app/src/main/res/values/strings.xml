@@ -27,7 +27,7 @@
     <string name="home_shortcut_venda_desc">Registrar uma venda agora</string>
 
     <string name="settings_title">Configurações</string>
-    <string name="settings_subtitle">Escolha como o Banavita transcreve a voz em texto.</string>
+    <string name="settings_subtitle">Ajuste a transcrição de voz e a cópia de segurança dos dados do negócio.</string>
     <string name="settings_transcription_section">Modelo de transcrição</string>
     <string name="settings_provider_groq_title">Groq — Whisper Large V3 Turbo</string>
     <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
@@ -36,6 +36,17 @@
     <string name="settings_provider_local_title">Modelo local (Whisper.cpp)</string>
     <string name="settings_provider_local_desc">Funciona offline no aparelho, sem enviar áudio.</string>
     <string name="settings_provider_local_note">Em celulares mais simples pode demorar bastante.</string>
+
+    <string name="settings_database_section">Banco de dados</string>
+    <string name="settings_database_section_desc">Os dados do negócio ficam neste aparelho. Use exportar/restaurar para trocar de celular ou após desinstalar.</string>
+    <string name="settings_export_button">Exportar dados</string>
+    <string name="settings_export_desc">Salva uma cópia dos cadastros, vendas, compras, estoque, financeiro e agenda num arquivo que você escolhe (pasta, Drive, etc.).</string>
+    <string name="settings_restore_button">Restaurar dados</string>
+    <string name="settings_restore_desc">Substitui os dados atuais do aplicativo pelos do arquivo escolhido.</string>
+    <string name="settings_restore_confirm_title">Restaurar dados?</string>
+    <string name="settings_restore_confirm_message">Isso apaga e substitui todos os cadastros, vendas, compras, estoque, financeiro e agenda que estão neste aparelho agora. A operação não mescla com o que já existe. Licença e chave de voz não vêm no arquivo.</string>
+    <string name="settings_export_success">Cópia salva com sucesso.</string>
+    <string name="settings_restore_success">Dados restaurados. Os lembretes da agenda foram reagendados.</string>
 
     <string name="vendas_title">Vendas</string>
     <string name="vendas_empty_message">Nenhuma venda registrada.</string>

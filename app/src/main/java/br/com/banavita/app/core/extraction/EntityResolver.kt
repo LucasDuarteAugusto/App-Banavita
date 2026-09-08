@@ -8,48 +8,49 @@ import br.com.banavita.app.domain.model.extraction.EntityCandidate
 import br.com.banavita.app.domain.model.extraction.ResolvedEntity
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.math.max
 import kotlin.math.min
 
 @Singleton
 class EntityResolver @Inject constructor(
-    private val produtoDao: ProdutoDao,
-    private val clienteDao: ClienteDao,
-    private val fornecedorDao: FornecedorDao,
-    private val grupoDao: GrupoDao,
+    private val produtoDao: Provider<ProdutoDao>,
+    private val clienteDao: Provider<ClienteDao>,
+    private val fornecedorDao: Provider<FornecedorDao>,
+    private val grupoDao: Provider<GrupoDao>,
 ) {
     suspend fun resolveProduto(raw: String?): ResolvedEntity? {
         if (raw.isNullOrBlank()) return null
-        val produtos = produtoDao.getAll().map { it.id to it.descricao }
+        val produtos = produtoDao.get().getAll().map { it.id to it.descricao }
         return resolveAgainst(raw, produtos)
     }
 
     suspend fun resolveCliente(raw: String?): ResolvedEntity? {
         if (raw.isNullOrBlank()) return null
-        val clientes = clienteDao.getAll().map { it.id to it.nome }
+        val clientes = clienteDao.get().getAll().map { it.id to it.nome }
         return resolveAgainst(raw, clientes)
     }
 
     suspend fun resolveClienteFromTranscript(transcript: String): ResolvedEntity? {
-        val clientes = clienteDao.getAll().map { it.id to it.nome }
+        val clientes = clienteDao.get().getAll().map { it.id to it.nome }
         return findInTranscript(transcript, clientes)
     }
 
     suspend fun resolveFornecedor(raw: String?): ResolvedEntity? {
         if (raw.isNullOrBlank()) return null
-        val fornecedores = fornecedorDao.getAll().map { it.id to it.nome }
+        val fornecedores = fornecedorDao.get().getAll().map { it.id to it.nome }
         return resolveAgainst(raw, fornecedores)
     }
 
     suspend fun resolveFornecedorFromTranscript(transcript: String): ResolvedEntity? {
-        val fornecedores = fornecedorDao.getAll().map { it.id to it.nome }
+        val fornecedores = fornecedorDao.get().getAll().map { it.id to it.nome }
         return findInTranscript(transcript, fornecedores)
     }
 
     suspend fun resolveGrupo(raw: String?): ResolvedEntity? {
         if (raw.isNullOrBlank()) return null
-        val grupos = grupoDao.getAll().map { it.id to it.nome }
+        val grupos = grupoDao.get().getAll().map { it.id to it.nome }
         return resolveAgainst(raw, grupos)
     }
 

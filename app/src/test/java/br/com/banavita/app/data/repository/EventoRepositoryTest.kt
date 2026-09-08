@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import javax.inject.Provider
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
@@ -33,9 +34,9 @@ class EventoRepositoryTest {
             .build()
         scheduler = FakeReminderScheduler()
         repository = EventoRepository(
-            database.eventoDao(),
-            database.clienteDao(),
-            database.fornecedorDao(),
+            Provider { database.eventoDao() },
+            Provider { database.clienteDao() },
+            Provider { database.fornecedorDao() },
             scheduler,
         )
     }

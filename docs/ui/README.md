@@ -34,4 +34,4 @@ Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o 
 | [voice-recording.png](mockups/voice-recording.png) | Voz 1 — segurando o mic (timer + intensidade) |
 | [voice-transcribing.png](mockups/voice-transcribing.png) | Voz 2 — soltou: spinner Transcrevendo… |
 | [voice-review-sheet.png](mockups/voice-review-sheet.png) | Voz 3 — revisão editável |
-| [settings.png](mockups/settings.png) | Configurações — provedor de transcrição (Groq / local) |
+| [settings.png](mockups/settings.png) | Configurações — transcrição (Groq/local) + exportar/restaurar banco |

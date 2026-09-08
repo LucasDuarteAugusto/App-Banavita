@@ -1,10 +1,7 @@
 package br.com.banavita.app.di
 
-import android.content.Context
-import androidx.room.Room
 import br.com.banavita.app.data.local.BanavitaDatabase
-import br.com.banavita.app.data.local.MIGRATION_1_2
-import br.com.banavita.app.data.local.MIGRATION_2_3
+import br.com.banavita.app.data.local.BanavitaDatabaseHolder
 import br.com.banavita.app.data.local.dao.ClienteDao
 import br.com.banavita.app.data.local.dao.CompraDao
 import br.com.banavita.app.data.local.dao.EstoqueDao
@@ -18,26 +15,21 @@ import br.com.banavita.app.data.local.dao.VendaDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    /**
+     * Resolve sempre a instância atual do [BanavitaDatabaseHolder].
+     * Repositórios Singleton devem injetar `Provider<BanavitaDatabase>` (ou DAOs via Provider)
+     * para não ficarem com referência após um restore.
+     */
     @Provides
-    @Singleton
     fun provideBanavitaDatabase(
-        @ApplicationContext context: Context,
-    ): BanavitaDatabase =
-        Room.databaseBuilder(
-            context,
-            BanavitaDatabase::class.java,
-            BanavitaDatabase.DATABASE_NAME,
-        )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-            .build()
+        holder: BanavitaDatabaseHolder,
+    ): BanavitaDatabase = holder.get()
 
     @Provides
     fun provideGrupoDao(database: BanavitaDatabase): GrupoDao = database.grupoDao()

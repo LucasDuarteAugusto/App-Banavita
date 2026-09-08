@@ -110,6 +110,7 @@ fun DeleteConfirmDialog(
     isDeleting: Boolean,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
+    confirmLabel: String = stringResource(R.string.form_delete_confirm),
 ) {
     AlertDialog(
         onDismissRequest = { if (!isDeleting) onDismiss() },
@@ -120,7 +121,7 @@ fun DeleteConfirmDialog(
                 enabled = !isDeleting,
                 onClick = onConfirm,
             ) {
-                Text(stringResource(R.string.form_delete_confirm))
+                Text(confirmLabel)
             }
         },
         dismissButton = {

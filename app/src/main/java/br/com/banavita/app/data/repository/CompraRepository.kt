@@ -15,21 +15,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class CompraRepository @Inject constructor(
-    private val database: BanavitaDatabase,
-    private val compraDao: CompraDao,
-    private val fornecedorDao: FornecedorDao,
+    private val database: Provider<BanavitaDatabase>,
+    private val compraDao: Provider<CompraDao>,
+    private val fornecedorDao: Provider<FornecedorDao>,
     private val documentoItemFactory: DocumentoItemFactory,
-    private val pagamentoDao: PagamentoDao,
+    private val pagamentoDao: Provider<PagamentoDao>,
 ) {
     fun observeAll(): Flow<List<Compra>> =
-        compraDao.observeAllWithItems().map { compras -> compras.map { it.toDomain() } }
+        compraDao.get().observeAllWithItems().map { compras -> compras.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Compra? =
-        compraDao.getWithItems(id)?.toDomain()
+        compraDao.get().getWithItems(id)?.toDomain()
 
     suspend fun create(
         data: Long,
@@ -38,7 +39,7 @@ class CompraRepository @Inject constructor(
         aPrazo: Boolean = false,
     ): UUID {
         fornecedorId?.let {
-            if (fornecedorDao.getById(it) == null) {
+            if (fornecedorDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Fornecedor $it não encontrado.")
             }
         }
@@ -55,10 +56,10 @@ class CompraRepository @Inject constructor(
             valorTotalCentavos = total,
             aPrazo = aPrazo,
         )
-        database.withTransaction {
-            compraDao.insertCompraComItens(compra, itemEntities)
+        database.get().withTransaction {
+            compraDao.get().insertCompraComItens(compra, itemEntities)
             if (!aPrazo) {
-                pagamentoDao.insert(
+                pagamentoDao.get().insert(
                     PagamentoEntity(
                         id = UUID.randomUUID(),
                         createdAt = timestamp,
@@ -79,10 +80,10 @@ class CompraRepository @Inject constructor(
         fornecedorId: UUID?,
         itens: List<DocumentoItemInput>,
     ) {
-        val existing = compraDao.getWithItems(id)
+        val existing = compraDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Compra $id não encontrada.")
         fornecedorId?.let {
-            if (fornecedorDao.getById(it) == null) {
+            if (fornecedorDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Fornecedor $it não encontrado.")
             }
         }
@@ -94,10 +95,10 @@ class CompraRepository @Inject constructor(
             valorTotalCentavos = totalCompraCentavos(itemEntities),
             updatedAt = timestamp,
         )
-        compraDao.updateCompraComItens(compra, itemEntities)
+        compraDao.get().updateCompraComItens(compra, itemEntities)
     }
 
     suspend fun delete(id: UUID) {
-        compraDao.deleteCompraComItens(id)
+        compraDao.get().deleteCompraComItens(id)
     }
 }

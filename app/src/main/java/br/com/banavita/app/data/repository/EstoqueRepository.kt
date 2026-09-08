@@ -9,20 +9,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class EstoqueRepository @Inject constructor(
-    private val estoqueDao: EstoqueDao,
+    private val estoqueDao: Provider<EstoqueDao>,
 ) {
     fun observeAll(): Flow<List<ProdutoEstoque>> =
-        estoqueDao.observeAll().map { estoques -> estoques.map { it.toDomain() } }
+        estoqueDao.get().observeAll().map { estoques -> estoques.map { it.toDomain() } }
 
     suspend fun getSaldo(produtoId: UUID): Double =
-        estoqueDao.getByProdutoId(produtoId)?.saldo ?: 0.0
+        estoqueDao.get().getByProdutoId(produtoId)?.saldo ?: 0.0
 
     suspend fun movimentosDoProduto(produtoId: UUID): List<EstoqueMovimento> {
-        val entradas = estoqueDao.entradasDoProduto(produtoId).map { row ->
+        val entradas = estoqueDao.get().entradasDoProduto(produtoId).map { row ->
             EstoqueMovimento(
                 data = row.data,
                 tipo = EstoqueMovimentoTipo.ENTRADA,
@@ -30,7 +31,7 @@ class EstoqueRepository @Inject constructor(
                 documentoId = row.documentoId,
             )
         }
-        val saidas = estoqueDao.saidasDoProduto(produtoId).map { row ->
+        val saidas = estoqueDao.get().saidasDoProduto(produtoId).map { row ->
             EstoqueMovimento(
                 data = row.data,
                 tipo = EstoqueMovimentoTipo.SAIDA,

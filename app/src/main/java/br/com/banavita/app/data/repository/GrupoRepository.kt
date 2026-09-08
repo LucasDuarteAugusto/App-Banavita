@@ -10,22 +10,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class GrupoRepository @Inject constructor(
-    private val grupoDao: GrupoDao,
+    private val grupoDao: Provider<GrupoDao>,
 ) {
     fun observeAll(): Flow<List<Grupo>> =
-        grupoDao.observeAll().map { grupos -> grupos.map { it.toDomain() } }
+        grupoDao.get().observeAll().map { grupos -> grupos.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Grupo? =
-        grupoDao.getById(id)?.toDomain()
+        grupoDao.get().getById(id)?.toDomain()
 
     suspend fun create(nome: String, observacao: String?): UUID {
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        grupoDao.insert(
+        grupoDao.get().insert(
             GrupoEntity(
                 id = id,
                 createdAt = timestamp,
@@ -38,9 +39,9 @@ class GrupoRepository @Inject constructor(
     }
 
     suspend fun update(id: UUID, nome: String, observacao: String?) {
-        val existing = grupoDao.getById(id)
+        val existing = grupoDao.get().getById(id)
             ?: throw ReferencedEntityException("Grupo $id não encontrado.")
-        grupoDao.update(
+        grupoDao.get().update(
             existing.copy(
                 nome = nome,
                 observacao = observacao,
@@ -50,12 +51,12 @@ class GrupoRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
-        val produtos = grupoDao.countProdutosByGrupo(id)
+        val produtos = grupoDao.get().countProdutosByGrupo(id)
         if (produtos > 0) {
             throw ReferencedEntityException("Grupo possui $produtos produto(s) vinculado(s).")
         }
-        val existing = grupoDao.getById(id)
+        val existing = grupoDao.get().getById(id)
             ?: return
-        grupoDao.delete(existing)
+        grupoDao.get().delete(existing)
     }
 }

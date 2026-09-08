@@ -21,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import javax.inject.Provider
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
@@ -39,48 +40,51 @@ class ExtractionRepositoryTest {
             .allowMainThreadQueries()
             .build()
 
-        val documentoFactory = DocumentoItemFactory(database.produtoDao())
-        val estoqueValidator = EstoqueValidator(database.estoqueDao())
+        val documentoFactory = DocumentoItemFactory(Provider { database.produtoDao() })
+        val estoqueValidator = EstoqueValidator(Provider { database.estoqueDao() })
 
-        produtoRepository = ProdutoRepository(database.produtoDao(), database.grupoDao())
-        clienteRepository = ClienteRepository(database.clienteDao())
-        val fornecedorRepository = FornecedorRepository(database.fornecedorDao())
-        val grupoRepository = GrupoRepository(database.grupoDao())
+        produtoRepository = ProdutoRepository(
+            Provider { database.produtoDao() },
+            Provider { database.grupoDao() },
+        )
+        clienteRepository = ClienteRepository(Provider { database.clienteDao() })
+        val fornecedorRepository = FornecedorRepository(Provider { database.fornecedorDao() })
+        val grupoRepository = GrupoRepository(Provider { database.grupoDao() })
         val vendaRepository = VendaRepository(
-            database,
-            database.vendaDao(),
-            database.clienteDao(),
+            Provider { database },
+            Provider { database.vendaDao() },
+            Provider { database.clienteDao() },
             documentoFactory,
             estoqueValidator,
-            database.recebimentoDao(),
+            Provider { database.recebimentoDao() },
         )
         val compraRepository = CompraRepository(
-            database,
-            database.compraDao(),
-            database.fornecedorDao(),
+            Provider { database },
+            Provider { database.compraDao() },
+            Provider { database.fornecedorDao() },
             documentoFactory,
-            database.pagamentoDao(),
+            Provider { database.pagamentoDao() },
         )
         val financeiroRepository = FinanceiroRepository(
-            database.vendaDao(),
-            database.compraDao(),
-            database.recebimentoDao(),
-            database.pagamentoDao(),
-            database.clienteDao(),
-            database.fornecedorDao(),
+            Provider { database.vendaDao() },
+            Provider { database.compraDao() },
+            Provider { database.recebimentoDao() },
+            Provider { database.pagamentoDao() },
+            Provider { database.clienteDao() },
+            Provider { database.fornecedorDao() },
         )
         val eventoRepository = EventoRepository(
-            database.eventoDao(),
-            database.clienteDao(),
-            database.fornecedorDao(),
+            Provider { database.eventoDao() },
+            Provider { database.clienteDao() },
+            Provider { database.fornecedorDao() },
             br.com.banavita.app.domain.reminder.FakeReminderScheduler(),
         )
 
         val entityResolver = EntityResolver(
-            database.produtoDao(),
-            database.clienteDao(),
-            database.fornecedorDao(),
-            database.grupoDao(),
+            Provider { database.produtoDao() },
+            Provider { database.clienteDao() },
+            Provider { database.fornecedorDao() },
+            Provider { database.grupoDao() },
         )
         val pipeline = ExtractionPipeline(entityResolver)
         sessionCache = ExtractionSessionCache()
@@ -111,11 +115,11 @@ class ExtractionRepositoryTest {
 
         // estoque: compra antes da venda
         val compraRepo = CompraRepository(
-            database,
-            database.compraDao(),
-            database.fornecedorDao(),
-            DocumentoItemFactory(database.produtoDao()),
-            database.pagamentoDao(),
+            Provider { database },
+            Provider { database.compraDao() },
+            Provider { database.fornecedorDao() },
+            DocumentoItemFactory(Provider { database.produtoDao() }),
+            Provider { database.pagamentoDao() },
         )
         compraRepo.create(
             data = System.currentTimeMillis(),

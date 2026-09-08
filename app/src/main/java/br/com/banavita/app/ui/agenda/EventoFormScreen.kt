@@ -202,6 +202,8 @@ fun EventoFormScreen(
                     onClick = { onAntecipacao(60) },
                     label = { Text(stringResource(R.string.agenda_antecipacao_1h)) },
                 )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilterChip(
                     selected = uiState.antecipacaoMinutos == 1440,
                     onClick = { onAntecipacao(1440) },
