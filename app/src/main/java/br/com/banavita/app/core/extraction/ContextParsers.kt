@@ -158,47 +158,13 @@ object CompraExtractionParser {
 }
 
 object ClienteExtractionParser {
-    fun parse(transcript: String): ParsedNomeTelefone {
-        val phone = PhoneParser.find(transcript)
-        var nomeText = transcript
-        phone?.rawSpan?.let { nomeText = nomeText.replace(it, " ") }
-        nomeText = TextNormalizer.normalize(nomeText)
-            .replace(Regex("(?i)\\b(cliente|cadastrar|cadastro|novo|telefone|fone|whatsapp)\\b"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
-        val nome = nomeText.takeIf { it.isNotBlank() }?.replaceFirstChar { it.uppercase() }
-        return ParsedNomeTelefone(
-            nome = ExtractionField(
-                value = nome,
-                rawSpan = nome,
-                confidence = if (nome != null) 0.8f else 0f,
-                source = FieldSource.HEURISTIC,
-            ),
-            telefone = PhoneParser.toField(phone),
-        )
-    }
+    fun parse(transcript: String): ParsedNomeTelefone =
+        NomeTelefoneParser.parse(transcript, entityKeywords = setOf("cliente"))
 }
 
 object FornecedorExtractionParser {
-    fun parse(transcript: String): ParsedNomeTelefone {
-        val phone = PhoneParser.find(transcript)
-        var nomeText = transcript
-        phone?.rawSpan?.let { nomeText = nomeText.replace(it, " ") }
-        nomeText = TextNormalizer.normalize(nomeText)
-            .replace(Regex("(?i)\\b(fornecedor|cadastrar|cadastro|novo|telefone|fone)\\b"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
-        val nome = nomeText.takeIf { it.isNotBlank() }?.replaceFirstChar { it.uppercase() }
-        return ParsedNomeTelefone(
-            nome = ExtractionField(
-                value = nome,
-                rawSpan = nome,
-                confidence = if (nome != null) 0.8f else 0f,
-                source = FieldSource.HEURISTIC,
-            ),
-            telefone = PhoneParser.toField(phone),
-        )
-    }
+    fun parse(transcript: String): ParsedNomeTelefone =
+        NomeTelefoneParser.parse(transcript, entityKeywords = setOf("fornecedor"))
 }
 
 object ProdutoExtractionParser {
