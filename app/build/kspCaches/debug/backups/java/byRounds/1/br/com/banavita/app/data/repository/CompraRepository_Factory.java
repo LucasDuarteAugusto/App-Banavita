@@ -50,7 +50,7 @@ public final class CompraRepository_Factory implements Factory<CompraRepository>
 
   @Override
   public CompraRepository get() {
-    return newInstance(databaseProvider.get(), compraDaoProvider.get(), fornecedorDaoProvider.get(), documentoItemFactoryProvider.get(), pagamentoDaoProvider.get());
+    return newInstance(databaseProvider, compraDaoProvider, fornecedorDaoProvider, documentoItemFactoryProvider.get(), pagamentoDaoProvider);
   }
 
   public static CompraRepository_Factory create(Provider<BanavitaDatabase> databaseProvider,
@@ -60,9 +60,9 @@ public final class CompraRepository_Factory implements Factory<CompraRepository>
     return new CompraRepository_Factory(databaseProvider, compraDaoProvider, fornecedorDaoProvider, documentoItemFactoryProvider, pagamentoDaoProvider);
   }
 
-  public static CompraRepository newInstance(BanavitaDatabase database, CompraDao compraDao,
-      FornecedorDao fornecedorDao, DocumentoItemFactory documentoItemFactory,
-      PagamentoDao pagamentoDao) {
+  public static CompraRepository newInstance(Provider<BanavitaDatabase> database,
+      Provider<CompraDao> compraDao, Provider<FornecedorDao> fornecedorDao,
+      DocumentoItemFactory documentoItemFactory, Provider<PagamentoDao> pagamentoDao) {
     return new CompraRepository(database, compraDao, fornecedorDao, documentoItemFactory, pagamentoDao);
   }
 }

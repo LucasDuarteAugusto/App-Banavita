@@ -54,7 +54,7 @@ public final class VendaRepository_Factory implements Factory<VendaRepository> {
 
   @Override
   public VendaRepository get() {
-    return newInstance(databaseProvider.get(), vendaDaoProvider.get(), clienteDaoProvider.get(), documentoItemFactoryProvider.get(), estoqueValidatorProvider.get(), recebimentoDaoProvider.get());
+    return newInstance(databaseProvider, vendaDaoProvider, clienteDaoProvider, documentoItemFactoryProvider.get(), estoqueValidatorProvider.get(), recebimentoDaoProvider);
   }
 
   public static VendaRepository_Factory create(Provider<BanavitaDatabase> databaseProvider,
@@ -65,9 +65,10 @@ public final class VendaRepository_Factory implements Factory<VendaRepository> {
     return new VendaRepository_Factory(databaseProvider, vendaDaoProvider, clienteDaoProvider, documentoItemFactoryProvider, estoqueValidatorProvider, recebimentoDaoProvider);
   }
 
-  public static VendaRepository newInstance(BanavitaDatabase database, VendaDao vendaDao,
-      ClienteDao clienteDao, DocumentoItemFactory documentoItemFactory,
-      EstoqueValidator estoqueValidator, RecebimentoDao recebimentoDao) {
+  public static VendaRepository newInstance(Provider<BanavitaDatabase> database,
+      Provider<VendaDao> vendaDao, Provider<ClienteDao> clienteDao,
+      DocumentoItemFactory documentoItemFactory, EstoqueValidator estoqueValidator,
+      Provider<RecebimentoDao> recebimentoDao) {
     return new VendaRepository(database, vendaDao, clienteDao, documentoItemFactory, estoqueValidator, recebimentoDao);
   }
 }

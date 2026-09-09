@@ -46,7 +46,7 @@ public final class EntityResolver_Factory implements Factory<EntityResolver> {
 
   @Override
   public EntityResolver get() {
-    return newInstance(produtoDaoProvider.get(), clienteDaoProvider.get(), fornecedorDaoProvider.get(), grupoDaoProvider.get());
+    return newInstance(produtoDaoProvider, clienteDaoProvider, fornecedorDaoProvider, grupoDaoProvider);
   }
 
   public static EntityResolver_Factory create(Provider<ProdutoDao> produtoDaoProvider,
@@ -55,8 +55,9 @@ public final class EntityResolver_Factory implements Factory<EntityResolver> {
     return new EntityResolver_Factory(produtoDaoProvider, clienteDaoProvider, fornecedorDaoProvider, grupoDaoProvider);
   }
 
-  public static EntityResolver newInstance(ProdutoDao produtoDao, ClienteDao clienteDao,
-      FornecedorDao fornecedorDao, GrupoDao grupoDao) {
+  public static EntityResolver newInstance(Provider<ProdutoDao> produtoDao,
+      Provider<ClienteDao> clienteDao, Provider<FornecedorDao> fornecedorDao,
+      Provider<GrupoDao> grupoDao) {
     return new EntityResolver(produtoDao, clienteDao, fornecedorDao, grupoDao);
   }
 }

@@ -500,6 +500,11 @@ string produtos_empty
 string range_end
 string range_start
 string selected
+string settings_database_section
+string settings_database_section_desc
+string settings_export_button
+string settings_export_desc
+string settings_export_success
 string settings_provider_groq_desc
 string settings_provider_groq_missing_key
 string settings_provider_groq_ready
@@ -507,6 +512,11 @@ string settings_provider_groq_title
 string settings_provider_local_desc
 string settings_provider_local_note
 string settings_provider_local_title
+string settings_restore_button
+string settings_restore_confirm_message
+string settings_restore_confirm_title
+string settings_restore_desc
+string settings_restore_success
 string settings_subtitle
 string settings_title
 string settings_transcription_section

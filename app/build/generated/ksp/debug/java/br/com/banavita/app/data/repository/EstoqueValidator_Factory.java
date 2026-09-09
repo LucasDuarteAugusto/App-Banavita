@@ -32,14 +32,14 @@ public final class EstoqueValidator_Factory implements Factory<EstoqueValidator>
 
   @Override
   public EstoqueValidator get() {
-    return newInstance(estoqueDaoProvider.get());
+    return newInstance(estoqueDaoProvider);
   }
 
   public static EstoqueValidator_Factory create(Provider<EstoqueDao> estoqueDaoProvider) {
     return new EstoqueValidator_Factory(estoqueDaoProvider);
   }
 
-  public static EstoqueValidator newInstance(EstoqueDao estoqueDao) {
+  public static EstoqueValidator newInstance(Provider<EstoqueDao> estoqueDao) {
     return new EstoqueValidator(estoqueDao);
   }
 }

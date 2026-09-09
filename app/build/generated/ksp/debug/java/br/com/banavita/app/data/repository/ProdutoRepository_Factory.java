@@ -37,7 +37,7 @@ public final class ProdutoRepository_Factory implements Factory<ProdutoRepositor
 
   @Override
   public ProdutoRepository get() {
-    return newInstance(produtoDaoProvider.get(), grupoDaoProvider.get());
+    return newInstance(produtoDaoProvider, grupoDaoProvider);
   }
 
   public static ProdutoRepository_Factory create(Provider<ProdutoDao> produtoDaoProvider,
@@ -45,7 +45,8 @@ public final class ProdutoRepository_Factory implements Factory<ProdutoRepositor
     return new ProdutoRepository_Factory(produtoDaoProvider, grupoDaoProvider);
   }
 
-  public static ProdutoRepository newInstance(ProdutoDao produtoDao, GrupoDao grupoDao) {
+  public static ProdutoRepository newInstance(Provider<ProdutoDao> produtoDao,
+      Provider<GrupoDao> grupoDao) {
     return new ProdutoRepository(produtoDao, grupoDao);
   }
 }

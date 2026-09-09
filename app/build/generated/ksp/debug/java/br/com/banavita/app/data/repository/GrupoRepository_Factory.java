@@ -32,14 +32,14 @@ public final class GrupoRepository_Factory implements Factory<GrupoRepository> {
 
   @Override
   public GrupoRepository get() {
-    return newInstance(grupoDaoProvider.get());
+    return newInstance(grupoDaoProvider);
   }
 
   public static GrupoRepository_Factory create(Provider<GrupoDao> grupoDaoProvider) {
     return new GrupoRepository_Factory(grupoDaoProvider);
   }
 
-  public static GrupoRepository newInstance(GrupoDao grupoDao) {
+  public static GrupoRepository newInstance(Provider<GrupoDao> grupoDao) {
     return new GrupoRepository(grupoDao);
   }
 }

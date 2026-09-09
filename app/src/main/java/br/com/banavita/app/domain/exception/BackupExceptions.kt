@@ -1,6 +1,6 @@
 package br.com.banavita.app.domain.exception
 
-class BackupException(message: String) : BanavitaDomainException(message)
+open class BackupException(message: String) : BanavitaDomainException(message)
 
 class BackupSchemaTooNewException(
     val backupSchemaVersion: Int,

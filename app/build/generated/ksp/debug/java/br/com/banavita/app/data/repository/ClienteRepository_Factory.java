@@ -32,14 +32,14 @@ public final class ClienteRepository_Factory implements Factory<ClienteRepositor
 
   @Override
   public ClienteRepository get() {
-    return newInstance(clienteDaoProvider.get());
+    return newInstance(clienteDaoProvider);
   }
 
   public static ClienteRepository_Factory create(Provider<ClienteDao> clienteDaoProvider) {
     return new ClienteRepository_Factory(clienteDaoProvider);
   }
 
-  public static ClienteRepository newInstance(ClienteDao clienteDao) {
+  public static ClienteRepository newInstance(Provider<ClienteDao> clienteDao) {
     return new ClienteRepository(clienteDao);
   }
 }

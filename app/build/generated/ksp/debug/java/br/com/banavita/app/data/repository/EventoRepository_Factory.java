@@ -46,7 +46,7 @@ public final class EventoRepository_Factory implements Factory<EventoRepository>
 
   @Override
   public EventoRepository get() {
-    return newInstance(eventoDaoProvider.get(), clienteDaoProvider.get(), fornecedorDaoProvider.get(), reminderSchedulerProvider.get());
+    return newInstance(eventoDaoProvider, clienteDaoProvider, fornecedorDaoProvider, reminderSchedulerProvider.get());
   }
 
   public static EventoRepository_Factory create(Provider<EventoDao> eventoDaoProvider,
@@ -55,8 +55,9 @@ public final class EventoRepository_Factory implements Factory<EventoRepository>
     return new EventoRepository_Factory(eventoDaoProvider, clienteDaoProvider, fornecedorDaoProvider, reminderSchedulerProvider);
   }
 
-  public static EventoRepository newInstance(EventoDao eventoDao, ClienteDao clienteDao,
-      FornecedorDao fornecedorDao, ReminderScheduler reminderScheduler) {
+  public static EventoRepository newInstance(Provider<EventoDao> eventoDao,
+      Provider<ClienteDao> clienteDao, Provider<FornecedorDao> fornecedorDao,
+      ReminderScheduler reminderScheduler) {
     return new EventoRepository(eventoDao, clienteDao, fornecedorDao, reminderScheduler);
   }
 }

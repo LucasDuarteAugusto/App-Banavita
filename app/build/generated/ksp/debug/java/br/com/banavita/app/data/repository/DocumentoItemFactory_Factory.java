@@ -32,14 +32,14 @@ public final class DocumentoItemFactory_Factory implements Factory<DocumentoItem
 
   @Override
   public DocumentoItemFactory get() {
-    return newInstance(produtoDaoProvider.get());
+    return newInstance(produtoDaoProvider);
   }
 
   public static DocumentoItemFactory_Factory create(Provider<ProdutoDao> produtoDaoProvider) {
     return new DocumentoItemFactory_Factory(produtoDaoProvider);
   }
 
-  public static DocumentoItemFactory newInstance(ProdutoDao produtoDao) {
+  public static DocumentoItemFactory newInstance(Provider<ProdutoDao> produtoDao) {
     return new DocumentoItemFactory(produtoDao);
   }
 }

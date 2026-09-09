@@ -23,6 +23,7 @@ import br.com.banavita.app.core.speech.SpeechModelManager;
 import br.com.banavita.app.core.speech.WhisperCppEngine;
 import br.com.banavita.app.data.cache.ExtractionSessionCache;
 import br.com.banavita.app.data.local.BanavitaDatabase;
+import br.com.banavita.app.data.local.BanavitaDatabaseHolder;
 import br.com.banavita.app.data.local.activation.ActivationLocalDataSource;
 import br.com.banavita.app.data.local.dao.ClienteDao;
 import br.com.banavita.app.data.local.dao.CompraDao;
@@ -41,6 +42,7 @@ import br.com.banavita.app.data.repository.ActivationRepository;
 import br.com.banavita.app.data.repository.AppSettingsRepository;
 import br.com.banavita.app.data.repository.ClienteRepository;
 import br.com.banavita.app.data.repository.CompraRepository;
+import br.com.banavita.app.data.repository.DatabaseBackupRepository;
 import br.com.banavita.app.data.repository.DocumentoItemFactory;
 import br.com.banavita.app.data.repository.EstoqueRepository;
 import br.com.banavita.app.data.repository.EstoqueValidator;
@@ -490,115 +492,115 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
-
-      static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
-
-      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
-
       static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
-
-      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
-
-      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
-
-      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
-
-      static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
-
-      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
-
-      static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
-
-      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
 
       static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
 
+      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
+
+      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
+
       static String br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel = "br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel";
 
-      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
+      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
 
       static String br_com_banavita_app_ui_vendas_VendaFormViewModel = "br.com.banavita.app.ui.vendas.VendaFormViewModel";
 
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
+
+      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
+
+      static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
+
+      static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
+
+      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+
+      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
+
+      static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorFormViewModel";
+
+      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
+
       static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
 
-      @KeepFieldType
-      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
-
-      @KeepFieldType
-      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
+      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
 
       @KeepFieldType
       GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
 
       @KeepFieldType
-      ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
-
-      @KeepFieldType
-      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
-
-      @KeepFieldType
-      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
-
-      @KeepFieldType
-      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
-
-      @KeepFieldType
-      FornecedorFormViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel2;
-
-      @KeepFieldType
-      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
-
-      @KeepFieldType
-      ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
-
-      @KeepFieldType
-      ActivationViewModel br_com_banavita_app_ui_activation_ActivationViewModel2;
-
-      @KeepFieldType
-      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
-
-      @KeepFieldType
-      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
-
-      @KeepFieldType
-      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
-
-      @KeepFieldType
-      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
-
-      @KeepFieldType
-      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
-
-      @KeepFieldType
       VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
-
-      @KeepFieldType
-      EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
 
       @KeepFieldType
       CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
 
       @KeepFieldType
+      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
+
+      @KeepFieldType
+      ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
+
+      @KeepFieldType
+      EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
+
+      @KeepFieldType
       VendaFormViewModel br_com_banavita_app_ui_vendas_VendaFormViewModel2;
 
       @KeepFieldType
+      ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
+
+      @KeepFieldType
+      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
+
+      @KeepFieldType
+      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
+
+      @KeepFieldType
+      ActivationViewModel br_com_banavita_app_ui_activation_ActivationViewModel2;
+
+      @KeepFieldType
+      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
+
+      @KeepFieldType
+      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
+
+      @KeepFieldType
+      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
+
+      @KeepFieldType
+      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+
+      @KeepFieldType
+      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
+
+      @KeepFieldType
+      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
+
+      @KeepFieldType
+      FornecedorFormViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel2;
+
+      @KeepFieldType
+      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
+
+      @KeepFieldType
       FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
+
+      @KeepFieldType
+      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
     }
   }
 
@@ -704,100 +706,85 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
-
-      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
-
-      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
-
       static String br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel = "br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
-
-      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
-
-      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
-
-      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
-
-      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
-
-      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
-
-      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
-
-      static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
 
       static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
 
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
+
+      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
+
+      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
+
+      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
+
+      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
+
       static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
+
+      static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
+
+      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
 
       static String br_com_banavita_app_ui_vendas_VendaFormViewModel = "br.com.banavita.app.ui.vendas.VendaFormViewModel";
 
       static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
 
+      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+
+      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
+
+      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
+
       static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorFormViewModel";
 
       static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
-
-      @KeepFieldType
-      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
-
-      @KeepFieldType
-      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
-
-      @KeepFieldType
-      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
+      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
 
       @KeepFieldType
       EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
 
       @KeepFieldType
+      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
+
+      @KeepFieldType
       ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
-
-      @KeepFieldType
-      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
-
-      @KeepFieldType
-      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
 
       @KeepFieldType
       CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
 
       @KeepFieldType
-      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
+      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
 
       @KeepFieldType
       AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
 
       @KeepFieldType
-      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
-
-      @KeepFieldType
-      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
-
-      @KeepFieldType
       VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
 
       @KeepFieldType
-      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
+      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
 
       @KeepFieldType
       ActivationViewModel br_com_banavita_app_ui_activation_ActivationViewModel2;
 
       @KeepFieldType
-      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
+      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
 
       @KeepFieldType
-      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
+      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
 
       @KeepFieldType
       VendaFormViewModel br_com_banavita_app_ui_vendas_VendaFormViewModel2;
@@ -806,13 +793,28 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
       FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
 
       @KeepFieldType
+      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
+
+      @KeepFieldType
+      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+
+      @KeepFieldType
+      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
+
+      @KeepFieldType
+      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
+
+      @KeepFieldType
+      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
+
+      @KeepFieldType
       FornecedorFormViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel2;
 
       @KeepFieldType
       ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
 
       @KeepFieldType
-      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
+      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -891,7 +893,7 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
           return (T) new ProdutoListViewModel(singletonCImpl.produtoRepositoryProvider.get(), singletonCImpl.grupoRepositoryProvider.get());
 
           case 18: // br.com.banavita.app.ui.settings.SettingsViewModel 
-          return (T) new SettingsViewModel(singletonCImpl.appSettingsRepositoryProvider.get());
+          return (T) new SettingsViewModel(singletonCImpl.appSettingsRepositoryProvider.get(), singletonCImpl.databaseBackupRepositoryProvider.get());
 
           case 19: // br.com.banavita.app.ui.vendas.VendaFormViewModel 
           return (T) new VendaFormViewModel(viewModelCImpl.savedStateHandle, singletonCImpl.vendaRepositoryProvider.get(), singletonCImpl.clienteRepositoryProvider.get(), singletonCImpl.produtoRepositoryProvider.get(), singletonCImpl.estoqueRepositoryProvider.get());
@@ -982,7 +984,15 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     private final SingletonCImpl singletonCImpl = this;
 
+    private Provider<BanavitaDatabaseHolder> banavitaDatabaseHolderProvider;
+
     private Provider<BanavitaDatabase> provideBanavitaDatabaseProvider;
+
+    private Provider<EventoDao> provideEventoDaoProvider;
+
+    private Provider<ClienteDao> provideClienteDaoProvider;
+
+    private Provider<FornecedorDao> provideFornecedorDaoProvider;
 
     private Provider<AndroidReminderScheduler> androidReminderSchedulerProvider;
 
@@ -1004,17 +1014,31 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     private Provider<ClienteRepository> clienteRepositoryProvider;
 
+    private Provider<CompraDao> provideCompraDaoProvider;
+
+    private Provider<ProdutoDao> provideProdutoDaoProvider;
+
     private Provider<DocumentoItemFactory> documentoItemFactoryProvider;
+
+    private Provider<PagamentoDao> providePagamentoDaoProvider;
 
     private Provider<CompraRepository> compraRepositoryProvider;
 
     private Provider<FornecedorRepository> fornecedorRepositoryProvider;
 
+    private Provider<GrupoDao> provideGrupoDaoProvider;
+
     private Provider<ProdutoRepository> produtoRepositoryProvider;
+
+    private Provider<EstoqueDao> provideEstoqueDaoProvider;
 
     private Provider<EstoqueRepository> estoqueRepositoryProvider;
 
+    private Provider<VendaDao> provideVendaDaoProvider;
+
     private Provider<EstoqueValidator> estoqueValidatorProvider;
+
+    private Provider<RecebimentoDao> provideRecebimentoDaoProvider;
 
     private Provider<VendaRepository> vendaRepositoryProvider;
 
@@ -1027,6 +1051,8 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
     private Provider<EnvGroqConfig> envGroqConfigProvider;
 
     private Provider<AppSettingsRepository> appSettingsRepositoryProvider;
+
+    private Provider<DatabaseBackupRepository> databaseBackupRepositoryProvider;
 
     private Provider<SpeechModelManager> speechModelManagerProvider;
 
@@ -1055,85 +1081,57 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     }
 
-    private EventoDao eventoDao() {
-      return DatabaseModule_ProvideEventoDaoFactory.provideEventoDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private ClienteDao clienteDao() {
-      return DatabaseModule_ProvideClienteDaoFactory.provideClienteDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private FornecedorDao fornecedorDao() {
-      return DatabaseModule_ProvideFornecedorDaoFactory.provideFornecedorDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private CompraDao compraDao() {
-      return DatabaseModule_ProvideCompraDaoFactory.provideCompraDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private ProdutoDao produtoDao() {
-      return DatabaseModule_ProvideProdutoDaoFactory.provideProdutoDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private PagamentoDao pagamentoDao() {
-      return DatabaseModule_ProvidePagamentoDaoFactory.providePagamentoDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private GrupoDao grupoDao() {
-      return DatabaseModule_ProvideGrupoDaoFactory.provideGrupoDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private EstoqueDao estoqueDao() {
-      return DatabaseModule_ProvideEstoqueDaoFactory.provideEstoqueDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private VendaDao vendaDao() {
-      return DatabaseModule_ProvideVendaDaoFactory.provideVendaDao(provideBanavitaDatabaseProvider.get());
-    }
-
-    private RecebimentoDao recebimentoDao() {
-      return DatabaseModule_ProvideRecebimentoDaoFactory.provideRecebimentoDao(provideBanavitaDatabaseProvider.get());
-    }
-
     @SuppressWarnings("unchecked")
     private void initialize(final ApplicationContextModule applicationContextModuleParam) {
-      this.provideBanavitaDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<BanavitaDatabase>(singletonCImpl, 1));
-      this.androidReminderSchedulerProvider = DoubleCheck.provider(new SwitchingProvider<AndroidReminderScheduler>(singletonCImpl, 2));
+      this.banavitaDatabaseHolderProvider = DoubleCheck.provider(new SwitchingProvider<BanavitaDatabaseHolder>(singletonCImpl, 3));
+      this.provideBanavitaDatabaseProvider = new SwitchingProvider<>(singletonCImpl, 2);
+      this.provideEventoDaoProvider = new SwitchingProvider<>(singletonCImpl, 1);
+      this.provideClienteDaoProvider = new SwitchingProvider<>(singletonCImpl, 4);
+      this.provideFornecedorDaoProvider = new SwitchingProvider<>(singletonCImpl, 5);
+      this.androidReminderSchedulerProvider = DoubleCheck.provider(new SwitchingProvider<AndroidReminderScheduler>(singletonCImpl, 6));
       this.eventoRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<EventoRepository>(singletonCImpl, 0));
-      this.androidDeviceKeystoreManagerProvider = DoubleCheck.provider(new SwitchingProvider<AndroidDeviceKeystoreManager>(singletonCImpl, 5));
-      this.androidDeviceFingerprintProvider = DoubleCheck.provider(new SwitchingProvider<AndroidDeviceFingerprintProvider>(singletonCImpl, 4));
-      this.licenseCodecProvider = DoubleCheck.provider(new SwitchingProvider<LicenseCodec>(singletonCImpl, 6));
-      this.defaultLicensePublicKeyProvider = DoubleCheck.provider(new SwitchingProvider<DefaultLicensePublicKeyProvider>(singletonCImpl, 8));
-      this.licenseValidatorProvider = DoubleCheck.provider(new SwitchingProvider<LicenseValidator>(singletonCImpl, 7));
-      this.activationLocalDataSourceProvider = DoubleCheck.provider(new SwitchingProvider<ActivationLocalDataSource>(singletonCImpl, 9));
-      this.activationRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ActivationRepository>(singletonCImpl, 3));
-      this.clienteRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ClienteRepository>(singletonCImpl, 10));
-      this.documentoItemFactoryProvider = DoubleCheck.provider(new SwitchingProvider<DocumentoItemFactory>(singletonCImpl, 12));
-      this.compraRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<CompraRepository>(singletonCImpl, 11));
-      this.fornecedorRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FornecedorRepository>(singletonCImpl, 13));
-      this.produtoRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ProdutoRepository>(singletonCImpl, 14));
-      this.estoqueRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<EstoqueRepository>(singletonCImpl, 15));
-      this.estoqueValidatorProvider = DoubleCheck.provider(new SwitchingProvider<EstoqueValidator>(singletonCImpl, 17));
-      this.vendaRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<VendaRepository>(singletonCImpl, 16));
-      this.financeiroRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FinanceiroRepository>(singletonCImpl, 18));
-      this.grupoRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<GrupoRepository>(singletonCImpl, 19));
-      this.appSettingsLocalDataSourceProvider = DoubleCheck.provider(new SwitchingProvider<AppSettingsLocalDataSource>(singletonCImpl, 21));
-      this.envGroqConfigProvider = DoubleCheck.provider(new SwitchingProvider<EnvGroqConfig>(singletonCImpl, 22));
-      this.appSettingsRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<AppSettingsRepository>(singletonCImpl, 20));
-      this.speechModelManagerProvider = DoubleCheck.provider(new SwitchingProvider<SpeechModelManager>(singletonCImpl, 24));
-      this.whisperCppEngineProvider = DoubleCheck.provider(new SwitchingProvider<WhisperCppEngine>(singletonCImpl, 25));
+      this.androidDeviceKeystoreManagerProvider = DoubleCheck.provider(new SwitchingProvider<AndroidDeviceKeystoreManager>(singletonCImpl, 9));
+      this.androidDeviceFingerprintProvider = DoubleCheck.provider(new SwitchingProvider<AndroidDeviceFingerprintProvider>(singletonCImpl, 8));
+      this.licenseCodecProvider = DoubleCheck.provider(new SwitchingProvider<LicenseCodec>(singletonCImpl, 10));
+      this.defaultLicensePublicKeyProvider = DoubleCheck.provider(new SwitchingProvider<DefaultLicensePublicKeyProvider>(singletonCImpl, 12));
+      this.licenseValidatorProvider = DoubleCheck.provider(new SwitchingProvider<LicenseValidator>(singletonCImpl, 11));
+      this.activationLocalDataSourceProvider = DoubleCheck.provider(new SwitchingProvider<ActivationLocalDataSource>(singletonCImpl, 13));
+      this.activationRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ActivationRepository>(singletonCImpl, 7));
+      this.clienteRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ClienteRepository>(singletonCImpl, 14));
+      this.provideCompraDaoProvider = new SwitchingProvider<>(singletonCImpl, 16);
+      this.provideProdutoDaoProvider = new SwitchingProvider<>(singletonCImpl, 18);
+      this.documentoItemFactoryProvider = DoubleCheck.provider(new SwitchingProvider<DocumentoItemFactory>(singletonCImpl, 17));
+      this.providePagamentoDaoProvider = new SwitchingProvider<>(singletonCImpl, 19);
+      this.compraRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<CompraRepository>(singletonCImpl, 15));
+      this.fornecedorRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FornecedorRepository>(singletonCImpl, 20));
+      this.provideGrupoDaoProvider = new SwitchingProvider<>(singletonCImpl, 22);
+      this.produtoRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ProdutoRepository>(singletonCImpl, 21));
+      this.provideEstoqueDaoProvider = new SwitchingProvider<>(singletonCImpl, 24);
+      this.estoqueRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<EstoqueRepository>(singletonCImpl, 23));
     }
 
     @SuppressWarnings("unchecked")
     private void initialize2(final ApplicationContextModule applicationContextModuleParam) {
-      this.provideOkHttpClientProvider = DoubleCheck.provider(new SwitchingProvider<OkHttpClient>(singletonCImpl, 27));
-      this.groqWhisperClientProvider = DoubleCheck.provider(new SwitchingProvider<GroqWhisperClient>(singletonCImpl, 26));
-      this.speechToTextRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<SpeechToTextRepository>(singletonCImpl, 23));
-      this.entityResolverProvider = DoubleCheck.provider(new SwitchingProvider<EntityResolver>(singletonCImpl, 30));
-      this.extractionPipelineProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionPipeline>(singletonCImpl, 29));
-      this.extractionSessionCacheProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionSessionCache>(singletonCImpl, 31));
-      this.extractionRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionRepository>(singletonCImpl, 28));
-      this.audioCaptureProvider = DoubleCheck.provider(new SwitchingProvider<AudioCapture>(singletonCImpl, 32));
+      this.provideVendaDaoProvider = new SwitchingProvider<>(singletonCImpl, 26);
+      this.estoqueValidatorProvider = DoubleCheck.provider(new SwitchingProvider<EstoqueValidator>(singletonCImpl, 27));
+      this.provideRecebimentoDaoProvider = new SwitchingProvider<>(singletonCImpl, 28);
+      this.vendaRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<VendaRepository>(singletonCImpl, 25));
+      this.financeiroRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<FinanceiroRepository>(singletonCImpl, 29));
+      this.grupoRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<GrupoRepository>(singletonCImpl, 30));
+      this.appSettingsLocalDataSourceProvider = DoubleCheck.provider(new SwitchingProvider<AppSettingsLocalDataSource>(singletonCImpl, 32));
+      this.envGroqConfigProvider = DoubleCheck.provider(new SwitchingProvider<EnvGroqConfig>(singletonCImpl, 33));
+      this.appSettingsRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<AppSettingsRepository>(singletonCImpl, 31));
+      this.databaseBackupRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<DatabaseBackupRepository>(singletonCImpl, 34));
+      this.speechModelManagerProvider = DoubleCheck.provider(new SwitchingProvider<SpeechModelManager>(singletonCImpl, 36));
+      this.whisperCppEngineProvider = DoubleCheck.provider(new SwitchingProvider<WhisperCppEngine>(singletonCImpl, 37));
+      this.provideOkHttpClientProvider = DoubleCheck.provider(new SwitchingProvider<OkHttpClient>(singletonCImpl, 39));
+      this.groqWhisperClientProvider = DoubleCheck.provider(new SwitchingProvider<GroqWhisperClient>(singletonCImpl, 38));
+      this.speechToTextRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<SpeechToTextRepository>(singletonCImpl, 35));
+      this.entityResolverProvider = DoubleCheck.provider(new SwitchingProvider<EntityResolver>(singletonCImpl, 42));
+      this.extractionPipelineProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionPipeline>(singletonCImpl, 41));
+      this.extractionSessionCacheProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionSessionCache>(singletonCImpl, 43));
+      this.extractionRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ExtractionRepository>(singletonCImpl, 40));
+      this.audioCaptureProvider = DoubleCheck.provider(new SwitchingProvider<AudioCapture>(singletonCImpl, 44));
     }
 
     @Override
@@ -1191,102 +1189,138 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
       public T get() {
         switch (id) {
           case 0: // br.com.banavita.app.data.repository.EventoRepository 
-          return (T) new EventoRepository(singletonCImpl.eventoDao(), singletonCImpl.clienteDao(), singletonCImpl.fornecedorDao(), singletonCImpl.androidReminderSchedulerProvider.get());
+          return (T) new EventoRepository(singletonCImpl.provideEventoDaoProvider, singletonCImpl.provideClienteDaoProvider, singletonCImpl.provideFornecedorDaoProvider, singletonCImpl.androidReminderSchedulerProvider.get());
 
-          case 1: // br.com.banavita.app.data.local.BanavitaDatabase 
-          return (T) DatabaseModule_ProvideBanavitaDatabaseFactory.provideBanavitaDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+          case 1: // br.com.banavita.app.data.local.dao.EventoDao 
+          return (T) DatabaseModule_ProvideEventoDaoFactory.provideEventoDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
 
-          case 2: // br.com.banavita.app.core.reminder.AndroidReminderScheduler 
+          case 2: // br.com.banavita.app.data.local.BanavitaDatabase 
+          return (T) DatabaseModule_ProvideBanavitaDatabaseFactory.provideBanavitaDatabase(singletonCImpl.banavitaDatabaseHolderProvider.get());
+
+          case 3: // br.com.banavita.app.data.local.BanavitaDatabaseHolder 
+          return (T) new BanavitaDatabaseHolder(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 4: // br.com.banavita.app.data.local.dao.ClienteDao 
+          return (T) DatabaseModule_ProvideClienteDaoFactory.provideClienteDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
+
+          case 5: // br.com.banavita.app.data.local.dao.FornecedorDao 
+          return (T) DatabaseModule_ProvideFornecedorDaoFactory.provideFornecedorDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
+
+          case 6: // br.com.banavita.app.core.reminder.AndroidReminderScheduler 
           return (T) new AndroidReminderScheduler(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 3: // br.com.banavita.app.data.repository.ActivationRepository 
+          case 7: // br.com.banavita.app.data.repository.ActivationRepository 
           return (T) new ActivationRepository(singletonCImpl.androidDeviceFingerprintProvider.get(), singletonCImpl.licenseCodecProvider.get(), singletonCImpl.licenseValidatorProvider.get(), singletonCImpl.activationLocalDataSourceProvider.get());
 
-          case 4: // br.com.banavita.app.core.security.AndroidDeviceFingerprintProvider 
+          case 8: // br.com.banavita.app.core.security.AndroidDeviceFingerprintProvider 
           return (T) new AndroidDeviceFingerprintProvider(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.androidDeviceKeystoreManagerProvider.get());
 
-          case 5: // br.com.banavita.app.core.security.AndroidDeviceKeystoreManager 
+          case 9: // br.com.banavita.app.core.security.AndroidDeviceKeystoreManager 
           return (T) new AndroidDeviceKeystoreManager();
 
-          case 6: // br.com.banavita.app.core.security.LicenseCodec 
+          case 10: // br.com.banavita.app.core.security.LicenseCodec 
           return (T) new LicenseCodec();
 
-          case 7: // br.com.banavita.app.core.security.LicenseValidator 
+          case 11: // br.com.banavita.app.core.security.LicenseValidator 
           return (T) new LicenseValidator(singletonCImpl.licenseCodecProvider.get(), singletonCImpl.androidDeviceFingerprintProvider.get(), singletonCImpl.defaultLicensePublicKeyProvider.get());
 
-          case 8: // br.com.banavita.app.core.security.DefaultLicensePublicKeyProvider 
+          case 12: // br.com.banavita.app.core.security.DefaultLicensePublicKeyProvider 
           return (T) new DefaultLicensePublicKeyProvider();
 
-          case 9: // br.com.banavita.app.data.local.activation.ActivationLocalDataSource 
+          case 13: // br.com.banavita.app.data.local.activation.ActivationLocalDataSource 
           return (T) new ActivationLocalDataSource(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 10: // br.com.banavita.app.data.repository.ClienteRepository 
-          return (T) new ClienteRepository(singletonCImpl.clienteDao());
+          case 14: // br.com.banavita.app.data.repository.ClienteRepository 
+          return (T) new ClienteRepository(singletonCImpl.provideClienteDaoProvider);
 
-          case 11: // br.com.banavita.app.data.repository.CompraRepository 
-          return (T) new CompraRepository(singletonCImpl.provideBanavitaDatabaseProvider.get(), singletonCImpl.compraDao(), singletonCImpl.fornecedorDao(), singletonCImpl.documentoItemFactoryProvider.get(), singletonCImpl.pagamentoDao());
+          case 15: // br.com.banavita.app.data.repository.CompraRepository 
+          return (T) new CompraRepository(singletonCImpl.provideBanavitaDatabaseProvider, singletonCImpl.provideCompraDaoProvider, singletonCImpl.provideFornecedorDaoProvider, singletonCImpl.documentoItemFactoryProvider.get(), singletonCImpl.providePagamentoDaoProvider);
 
-          case 12: // br.com.banavita.app.data.repository.DocumentoItemFactory 
-          return (T) new DocumentoItemFactory(singletonCImpl.produtoDao());
+          case 16: // br.com.banavita.app.data.local.dao.CompraDao 
+          return (T) DatabaseModule_ProvideCompraDaoFactory.provideCompraDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
 
-          case 13: // br.com.banavita.app.data.repository.FornecedorRepository 
-          return (T) new FornecedorRepository(singletonCImpl.fornecedorDao());
+          case 17: // br.com.banavita.app.data.repository.DocumentoItemFactory 
+          return (T) new DocumentoItemFactory(singletonCImpl.provideProdutoDaoProvider);
 
-          case 14: // br.com.banavita.app.data.repository.ProdutoRepository 
-          return (T) new ProdutoRepository(singletonCImpl.produtoDao(), singletonCImpl.grupoDao());
+          case 18: // br.com.banavita.app.data.local.dao.ProdutoDao 
+          return (T) DatabaseModule_ProvideProdutoDaoFactory.provideProdutoDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
 
-          case 15: // br.com.banavita.app.data.repository.EstoqueRepository 
-          return (T) new EstoqueRepository(singletonCImpl.estoqueDao());
+          case 19: // br.com.banavita.app.data.local.dao.PagamentoDao 
+          return (T) DatabaseModule_ProvidePagamentoDaoFactory.providePagamentoDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
 
-          case 16: // br.com.banavita.app.data.repository.VendaRepository 
-          return (T) new VendaRepository(singletonCImpl.provideBanavitaDatabaseProvider.get(), singletonCImpl.vendaDao(), singletonCImpl.clienteDao(), singletonCImpl.documentoItemFactoryProvider.get(), singletonCImpl.estoqueValidatorProvider.get(), singletonCImpl.recebimentoDao());
+          case 20: // br.com.banavita.app.data.repository.FornecedorRepository 
+          return (T) new FornecedorRepository(singletonCImpl.provideFornecedorDaoProvider);
 
-          case 17: // br.com.banavita.app.data.repository.EstoqueValidator 
-          return (T) new EstoqueValidator(singletonCImpl.estoqueDao());
+          case 21: // br.com.banavita.app.data.repository.ProdutoRepository 
+          return (T) new ProdutoRepository(singletonCImpl.provideProdutoDaoProvider, singletonCImpl.provideGrupoDaoProvider);
 
-          case 18: // br.com.banavita.app.data.repository.FinanceiroRepository 
-          return (T) new FinanceiroRepository(singletonCImpl.vendaDao(), singletonCImpl.compraDao(), singletonCImpl.recebimentoDao(), singletonCImpl.pagamentoDao(), singletonCImpl.clienteDao(), singletonCImpl.fornecedorDao());
+          case 22: // br.com.banavita.app.data.local.dao.GrupoDao 
+          return (T) DatabaseModule_ProvideGrupoDaoFactory.provideGrupoDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
 
-          case 19: // br.com.banavita.app.data.repository.GrupoRepository 
-          return (T) new GrupoRepository(singletonCImpl.grupoDao());
+          case 23: // br.com.banavita.app.data.repository.EstoqueRepository 
+          return (T) new EstoqueRepository(singletonCImpl.provideEstoqueDaoProvider);
 
-          case 20: // br.com.banavita.app.data.repository.AppSettingsRepository 
+          case 24: // br.com.banavita.app.data.local.dao.EstoqueDao 
+          return (T) DatabaseModule_ProvideEstoqueDaoFactory.provideEstoqueDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
+
+          case 25: // br.com.banavita.app.data.repository.VendaRepository 
+          return (T) new VendaRepository(singletonCImpl.provideBanavitaDatabaseProvider, singletonCImpl.provideVendaDaoProvider, singletonCImpl.provideClienteDaoProvider, singletonCImpl.documentoItemFactoryProvider.get(), singletonCImpl.estoqueValidatorProvider.get(), singletonCImpl.provideRecebimentoDaoProvider);
+
+          case 26: // br.com.banavita.app.data.local.dao.VendaDao 
+          return (T) DatabaseModule_ProvideVendaDaoFactory.provideVendaDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
+
+          case 27: // br.com.banavita.app.data.repository.EstoqueValidator 
+          return (T) new EstoqueValidator(singletonCImpl.provideEstoqueDaoProvider);
+
+          case 28: // br.com.banavita.app.data.local.dao.RecebimentoDao 
+          return (T) DatabaseModule_ProvideRecebimentoDaoFactory.provideRecebimentoDao(singletonCImpl.provideBanavitaDatabaseProvider.get());
+
+          case 29: // br.com.banavita.app.data.repository.FinanceiroRepository 
+          return (T) new FinanceiroRepository(singletonCImpl.provideVendaDaoProvider, singletonCImpl.provideCompraDaoProvider, singletonCImpl.provideRecebimentoDaoProvider, singletonCImpl.providePagamentoDaoProvider, singletonCImpl.provideClienteDaoProvider, singletonCImpl.provideFornecedorDaoProvider);
+
+          case 30: // br.com.banavita.app.data.repository.GrupoRepository 
+          return (T) new GrupoRepository(singletonCImpl.provideGrupoDaoProvider);
+
+          case 31: // br.com.banavita.app.data.repository.AppSettingsRepository 
           return (T) new AppSettingsRepository(singletonCImpl.appSettingsLocalDataSourceProvider.get(), singletonCImpl.envGroqConfigProvider.get());
 
-          case 21: // br.com.banavita.app.data.local.settings.AppSettingsLocalDataSource 
+          case 32: // br.com.banavita.app.data.local.settings.AppSettingsLocalDataSource 
           return (T) new AppSettingsLocalDataSource(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 22: // br.com.banavita.app.data.remote.groq.EnvGroqConfig 
+          case 33: // br.com.banavita.app.data.remote.groq.EnvGroqConfig 
           return (T) new EnvGroqConfig();
 
-          case 23: // br.com.banavita.app.data.repository.SpeechToTextRepository 
+          case 34: // br.com.banavita.app.data.repository.DatabaseBackupRepository 
+          return (T) new DatabaseBackupRepository(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule), singletonCImpl.banavitaDatabaseHolderProvider.get(), singletonCImpl.eventoRepositoryProvider.get(), singletonCImpl.androidReminderSchedulerProvider.get());
+
+          case 35: // br.com.banavita.app.data.repository.SpeechToTextRepository 
           return (T) new SpeechToTextRepository(singletonCImpl.speechModelManagerProvider.get(), singletonCImpl.whisperCppEngineProvider.get(), singletonCImpl.groqWhisperClientProvider.get(), singletonCImpl.appSettingsRepositoryProvider.get());
 
-          case 24: // br.com.banavita.app.core.speech.SpeechModelManager 
+          case 36: // br.com.banavita.app.core.speech.SpeechModelManager 
           return (T) new SpeechModelManager(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
-          case 25: // br.com.banavita.app.core.speech.WhisperCppEngine 
+          case 37: // br.com.banavita.app.core.speech.WhisperCppEngine 
           return (T) new WhisperCppEngine();
 
-          case 26: // br.com.banavita.app.data.remote.groq.GroqWhisperClient 
+          case 38: // br.com.banavita.app.data.remote.groq.GroqWhisperClient 
           return (T) new GroqWhisperClient(singletonCImpl.provideOkHttpClientProvider.get(), singletonCImpl.envGroqConfigProvider.get());
 
-          case 27: // okhttp3.OkHttpClient 
+          case 39: // okhttp3.OkHttpClient 
           return (T) NetworkModule_ProvideOkHttpClientFactory.provideOkHttpClient();
 
-          case 28: // br.com.banavita.app.data.repository.ExtractionRepository 
+          case 40: // br.com.banavita.app.data.repository.ExtractionRepository 
           return (T) new ExtractionRepository(singletonCImpl.extractionPipelineProvider.get(), singletonCImpl.extractionSessionCacheProvider.get(), singletonCImpl.vendaRepositoryProvider.get(), singletonCImpl.compraRepositoryProvider.get(), singletonCImpl.clienteRepositoryProvider.get(), singletonCImpl.fornecedorRepositoryProvider.get(), singletonCImpl.produtoRepositoryProvider.get(), singletonCImpl.grupoRepositoryProvider.get(), singletonCImpl.financeiroRepositoryProvider.get(), singletonCImpl.eventoRepositoryProvider.get());
 
-          case 29: // br.com.banavita.app.core.extraction.ExtractionPipeline 
+          case 41: // br.com.banavita.app.core.extraction.ExtractionPipeline 
           return (T) new ExtractionPipeline(singletonCImpl.entityResolverProvider.get());
 
-          case 30: // br.com.banavita.app.core.extraction.EntityResolver 
-          return (T) new EntityResolver(singletonCImpl.produtoDao(), singletonCImpl.clienteDao(), singletonCImpl.fornecedorDao(), singletonCImpl.grupoDao());
+          case 42: // br.com.banavita.app.core.extraction.EntityResolver 
+          return (T) new EntityResolver(singletonCImpl.provideProdutoDaoProvider, singletonCImpl.provideClienteDaoProvider, singletonCImpl.provideFornecedorDaoProvider, singletonCImpl.provideGrupoDaoProvider);
 
-          case 31: // br.com.banavita.app.data.cache.ExtractionSessionCache 
+          case 43: // br.com.banavita.app.data.cache.ExtractionSessionCache 
           return (T) new ExtractionSessionCache();
 
-          case 32: // br.com.banavita.app.core.speech.AudioCapture 
+          case 44: // br.com.banavita.app.core.speech.AudioCapture 
           return (T) new AudioCapture(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
 
           default: throw new AssertionError(id);

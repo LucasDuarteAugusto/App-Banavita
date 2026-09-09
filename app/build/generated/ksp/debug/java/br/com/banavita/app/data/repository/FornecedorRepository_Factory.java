@@ -32,14 +32,14 @@ public final class FornecedorRepository_Factory implements Factory<FornecedorRep
 
   @Override
   public FornecedorRepository get() {
-    return newInstance(fornecedorDaoProvider.get());
+    return newInstance(fornecedorDaoProvider);
   }
 
   public static FornecedorRepository_Factory create(Provider<FornecedorDao> fornecedorDaoProvider) {
     return new FornecedorRepository_Factory(fornecedorDaoProvider);
   }
 
-  public static FornecedorRepository newInstance(FornecedorDao fornecedorDao) {
+  public static FornecedorRepository newInstance(Provider<FornecedorDao> fornecedorDao) {
     return new FornecedorRepository(fornecedorDao);
   }
 }

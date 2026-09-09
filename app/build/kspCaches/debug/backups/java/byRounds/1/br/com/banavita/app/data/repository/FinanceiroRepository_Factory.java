@@ -55,7 +55,7 @@ public final class FinanceiroRepository_Factory implements Factory<FinanceiroRep
 
   @Override
   public FinanceiroRepository get() {
-    return newInstance(vendaDaoProvider.get(), compraDaoProvider.get(), recebimentoDaoProvider.get(), pagamentoDaoProvider.get(), clienteDaoProvider.get(), fornecedorDaoProvider.get());
+    return newInstance(vendaDaoProvider, compraDaoProvider, recebimentoDaoProvider, pagamentoDaoProvider, clienteDaoProvider, fornecedorDaoProvider);
   }
 
   public static FinanceiroRepository_Factory create(Provider<VendaDao> vendaDaoProvider,
@@ -65,9 +65,10 @@ public final class FinanceiroRepository_Factory implements Factory<FinanceiroRep
     return new FinanceiroRepository_Factory(vendaDaoProvider, compraDaoProvider, recebimentoDaoProvider, pagamentoDaoProvider, clienteDaoProvider, fornecedorDaoProvider);
   }
 
-  public static FinanceiroRepository newInstance(VendaDao vendaDao, CompraDao compraDao,
-      RecebimentoDao recebimentoDao, PagamentoDao pagamentoDao, ClienteDao clienteDao,
-      FornecedorDao fornecedorDao) {
+  public static FinanceiroRepository newInstance(Provider<VendaDao> vendaDao,
+      Provider<CompraDao> compraDao, Provider<RecebimentoDao> recebimentoDao,
+      Provider<PagamentoDao> pagamentoDao, Provider<ClienteDao> clienteDao,
+      Provider<FornecedorDao> fornecedorDao) {
     return new FinanceiroRepository(vendaDao, compraDao, recebimentoDao, pagamentoDao, clienteDao, fornecedorDao);
   }
 }

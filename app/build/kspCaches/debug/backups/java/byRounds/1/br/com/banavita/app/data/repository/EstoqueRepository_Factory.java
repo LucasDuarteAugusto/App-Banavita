@@ -32,14 +32,14 @@ public final class EstoqueRepository_Factory implements Factory<EstoqueRepositor
 
   @Override
   public EstoqueRepository get() {
-    return newInstance(estoqueDaoProvider.get());
+    return newInstance(estoqueDaoProvider);
   }
 
   public static EstoqueRepository_Factory create(Provider<EstoqueDao> estoqueDaoProvider) {
     return new EstoqueRepository_Factory(estoqueDaoProvider);
   }
 
-  public static EstoqueRepository newInstance(EstoqueDao estoqueDao) {
+  public static EstoqueRepository newInstance(Provider<EstoqueDao> estoqueDao) {
     return new EstoqueRepository(estoqueDao);
   }
 }
