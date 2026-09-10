@@ -12,6 +12,8 @@ private val dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     .withZone(ZoneId.systemDefault())
 private val dateTimeFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
     .withZone(ZoneId.systemDefault())
+private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
+    .withZone(ZoneId.systemDefault())
 
 fun formatCurrency(centavos: Long): String =
     currencyFormat.format(Money.fromCents(centavos))
@@ -21,6 +23,9 @@ fun formatDate(epochMillis: Long): String =
 
 fun formatDateTime(epochMillis: Long): String =
     dateTimeFormat.format(Instant.ofEpochMilli(epochMillis))
+
+fun formatTime(epochMillis: Long): String =
+    timeFormat.format(Instant.ofEpochMilli(epochMillis))
 
 fun formatQuantity(value: Double, unidade: String): String {
     val quantity = if (value % 1.0 == 0.0) {

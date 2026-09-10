@@ -2,7 +2,11 @@ package br.com.banavita.app.data.repository
 
 import br.com.banavita.app.data.local.settings.AppSettingsLocalDataSource
 import br.com.banavita.app.data.remote.groq.GroqConfig
+import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.domain.model.TranscriptionProvider
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -11,6 +15,9 @@ class AppSettingsRepository @Inject constructor(
     private val localDataSource: AppSettingsLocalDataSource,
     private val groqConfig: GroqConfig,
 ) {
+    private val _themeMode = MutableStateFlow(localDataSource.getThemeMode())
+    val themeMode: StateFlow<ThemeMode> = _themeMode.asStateFlow()
+
     fun getTranscriptionProvider(): TranscriptionProvider {
         localDataSource.getTranscriptionProviderOrNull()?.let { return it }
         return if (groqConfig.isConfigured()) {
@@ -22,6 +29,13 @@ class AppSettingsRepository @Inject constructor(
 
     fun setTranscriptionProvider(provider: TranscriptionProvider) {
         localDataSource.setTranscriptionProvider(provider)
+    }
+
+    fun getThemeMode(): ThemeMode = _themeMode.value
+
+    fun setThemeMode(mode: ThemeMode) {
+        localDataSource.setThemeMode(mode)
+        _themeMode.value = mode
     }
 
     fun isGroqApiKeyConfigured(): Boolean = groqConfig.isConfigured()

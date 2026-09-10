@@ -31,6 +31,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
+import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.domain.model.TranscriptionProvider
 import br.com.banavita.app.ui.common.DeleteConfirmDialog
 
@@ -67,6 +68,7 @@ fun SettingsRoute(
     SettingsScreen(
         uiState = uiState,
         onProviderSelected = viewModel::onProviderSelected,
+        onThemeSelected = viewModel::onThemeSelected,
         onExportClick = { createDocument.launch(viewModel.suggestedBackupFileName()) },
         onRestoreClick = {
             openDocument.launch(
@@ -86,6 +88,7 @@ fun SettingsRoute(
 fun SettingsScreen(
     uiState: SettingsUiState,
     onProviderSelected: (TranscriptionProvider) -> Unit,
+    onThemeSelected: (ThemeMode) -> Unit,
     onExportClick: () -> Unit,
     onRestoreClick: () -> Unit,
     onDismissMessage: () -> Unit,
@@ -105,6 +108,31 @@ fun SettingsScreen(
         )
 
         Text(
+            text = stringResource(R.string.settings_appearance_section),
+            style = MaterialTheme.typography.titleMedium,
+        )
+
+        Column(
+            modifier = Modifier.selectableGroup(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            SettingsOptionCard(
+                title = stringResource(R.string.settings_theme_light_title),
+                description = stringResource(R.string.settings_theme_light_desc),
+                selected = uiState.selectedTheme == ThemeMode.LIGHT,
+                enabled = !uiState.isBackupBusy,
+                onClick = { onThemeSelected(ThemeMode.LIGHT) },
+            )
+            SettingsOptionCard(
+                title = stringResource(R.string.settings_theme_dark_title),
+                description = stringResource(R.string.settings_theme_dark_desc),
+                selected = uiState.selectedTheme == ThemeMode.DARK,
+                enabled = !uiState.isBackupBusy,
+                onClick = { onThemeSelected(ThemeMode.DARK) },
+            )
+        }
+
+        Text(
             text = stringResource(R.string.settings_transcription_section),
             style = MaterialTheme.typography.titleMedium,
         )
@@ -113,7 +141,7 @@ fun SettingsScreen(
             modifier = Modifier.selectableGroup(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            ProviderOptionCard(
+            SettingsOptionCard(
                 title = stringResource(R.string.settings_provider_groq_title),
                 description = stringResource(R.string.settings_provider_groq_desc),
                 selected = uiState.selectedProvider == TranscriptionProvider.GROQ,
@@ -125,7 +153,7 @@ fun SettingsScreen(
                 },
                 onClick = { onProviderSelected(TranscriptionProvider.GROQ) },
             )
-            ProviderOptionCard(
+            SettingsOptionCard(
                 title = stringResource(R.string.settings_provider_local_title),
                 description = stringResource(R.string.settings_provider_local_desc),
                 selected = uiState.selectedProvider == TranscriptionProvider.LOCAL,
@@ -219,13 +247,13 @@ fun SettingsScreen(
 }
 
 @Composable
-private fun ProviderOptionCard(
+private fun SettingsOptionCard(
     title: String,
     description: String,
     selected: Boolean,
     enabled: Boolean,
-    footnote: String,
     onClick: () -> Unit,
+    footnote: String? = null,
 ) {
     Card(
         modifier = Modifier
@@ -275,11 +303,13 @@ private fun ProviderOptionCard(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                Text(
-                    text = footnote,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                if (footnote != null) {
+                    Text(
+                        text = footnote,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
     }

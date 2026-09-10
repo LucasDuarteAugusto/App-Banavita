@@ -29,6 +29,7 @@ enum class ConsultaVisao {
 
 enum class AgendaRecorte {
     HOJE,
+    AMANHA,
     PROXIMOS_7_DIAS,
     TODOS,
 }

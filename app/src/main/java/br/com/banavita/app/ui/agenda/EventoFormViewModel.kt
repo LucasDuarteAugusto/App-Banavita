@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
@@ -66,6 +67,13 @@ class EventoFormViewModel @Inject constructor(
                         notifCorpo = evento.notifCorpo.orEmpty(),
                         isLoading = false,
                     )
+                }
+            }
+        } else {
+            val epochDay = savedStateHandle.get<String>(BanavitaRoutes.ARG_AGENDA_DATE)?.toLongOrNull()
+            if (epochDay != null) {
+                _uiState.update {
+                    it.copy(dataInput = DateTimeInputParser.formatDate(LocalDate.ofEpochDay(epochDay)))
                 }
             }
         }

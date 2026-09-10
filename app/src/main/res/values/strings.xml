@@ -27,7 +27,12 @@
     <string name="home_shortcut_venda_desc">Registrar uma venda agora</string>
 
     <string name="settings_title">Configurações</string>
-    <string name="settings_subtitle">Ajuste a transcrição de voz e a cópia de segurança dos dados do negócio.</string>
+    <string name="settings_subtitle">Ajuste aparência, transcrição de voz e a cópia de segurança dos dados do negócio.</string>
+    <string name="settings_appearance_section">Aparência</string>
+    <string name="settings_theme_light_title">Claro</string>
+    <string name="settings_theme_light_desc">Fundo claro, melhor à luz do dia.</string>
+    <string name="settings_theme_dark_title">Escuro</string>
+    <string name="settings_theme_dark_desc">Fundo escuro, melhor à noite.</string>
     <string name="settings_transcription_section">Modelo de transcrição</string>
     <string name="settings_provider_groq_title">Groq — Whisper Large V3 Turbo</string>
     <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
@@ -229,6 +234,19 @@
     <string name="agenda_title">Agenda</string>
     <string name="agenda_add">Novo evento</string>
     <string name="agenda_empty">Nenhum evento. Crie um lembrete.</string>
+    <string name="agenda_empty_day">Nenhum compromisso neste dia.</string>
+    <string name="agenda_prev_month">Mês anterior</string>
+    <string name="agenda_next_month">Mês seguinte</string>
+    <string name="agenda_prev_year">Ano anterior</string>
+    <string name="agenda_next_year">Ano seguinte</string>
+    <string name="agenda_pick_month_title">Escolher mês</string>
+    <string name="agenda_pick_month_cd">Escolher mês, %1$s</string>
+    <string name="agenda_cd_date">Dia %1$d</string>
+    <string name="agenda_cd_today">hoje</string>
+    <string name="agenda_cd_selected">selecionado</string>
+    <string name="agenda_cd_one_event">1 compromisso</string>
+    <string name="agenda_cd_events">%d compromissos</string>
+    <string name="agenda_month_overview_hint">A agenda é por mês. Os pontos marcam os dias com compromisso.</string>
     <string name="agenda_recorte_hoje">Hoje</string>
     <string name="agenda_recorte_7">Próximos 7 dias</string>
     <string name="agenda_recorte_todos">Todos</string>
@@ -248,6 +266,15 @@
     <string name="agenda_delete_title">Excluir evento</string>
     <string name="agenda_delete_message">Deseja excluir este evento? O lembrete será cancelado.</string>
     <string name="agenda_notification_body">Lembrete do Banavita</string>
+    <string-array name="agenda_weekdays">
+        <item>D</item>
+        <item>S</item>
+        <item>T</item>
+        <item>Q</item>
+        <item>Q</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
 
     <string name="error_generic">Erro inesperado</string>
     <string name="error_save">Erro ao salvar</string>

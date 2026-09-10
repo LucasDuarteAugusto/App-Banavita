@@ -7,12 +7,15 @@ import br.com.banavita.app.domain.exception.ExtractionConfirmException
 import br.com.banavita.app.domain.exception.ExtractionDraftNotFoundException
 import br.com.banavita.app.domain.exception.ExtractionParseException
 import br.com.banavita.app.domain.model.DocumentoItemInput
+import br.com.banavita.app.domain.model.AgendaRecorte
 import br.com.banavita.app.domain.model.TranscriptionResult
 import br.com.banavita.app.domain.model.extraction.BaixaTipo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.ExtractionDraft
 import br.com.banavita.app.domain.model.extraction.ExtractionFields
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -204,7 +207,16 @@ class ExtractionRepository @Inject constructor(
     private suspend fun confirmEvento(fields: ExtractionFields.EventoDraft): ConfirmResult {
         val recorte = fields.recorteLista.value
         if (recorte != null && fields.titulo.value.isNullOrBlank()) {
-            return ConfirmResult.AgendaFiltroAplicado(recorte)
+            val zone = ZoneId.systemDefault()
+            val today = LocalDate.now(zone)
+            val (date, hint) = when (recorte) {
+                AgendaRecorte.HOJE -> today to false
+                AgendaRecorte.AMANHA -> today.plusDays(1) to false
+                AgendaRecorte.PROXIMOS_7_DIAS,
+                AgendaRecorte.TODOS,
+                -> today to true
+            }
+            return ConfirmResult.AgendaFiltroAplicado(date.toEpochDay(), monthOverviewHint = hint)
         }
         val titulo = fields.titulo.value?.trim()
             ?: throw ExtractionConfirmException("Título do evento ausente.")
@@ -221,6 +233,6 @@ class ExtractionRepository @Inject constructor(
             notifTitulo = fields.notifTitulo.value,
             notifCorpo = fields.notifCorpo.value,
         )
-        return ConfirmResult.EventoCriado(id)
+        return ConfirmResult.EventoCriado(id, dataHora)
     }
 }

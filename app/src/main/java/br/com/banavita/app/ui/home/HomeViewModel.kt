@@ -60,12 +60,20 @@ class HomeViewModel @Inject constructor(
     fun applyVoice(result: ConfirmResult) {
         when (result) {
             is ConfirmResult.VendaCriada -> Unit
-            is ConfirmResult.EventoCriado -> _navEvents.tryEmit(HomeNavEvent.Agenda)
-            is ConfirmResult.AgendaFiltroAplicado -> _navEvents.tryEmit(HomeNavEvent.Agenda)
+            is ConfirmResult.EventoCriado -> {
+                val epochDay = java.time.Instant.ofEpochMilli(result.dataHoraMillis)
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate()
+                    .toEpochDay()
+                _navEvents.tryEmit(HomeNavEvent.Agenda(epochDay))
+            }
+            is ConfirmResult.AgendaFiltroAplicado -> _navEvents.tryEmit(
+                HomeNavEvent.Agenda(result.epochDay, result.monthOverviewHint),
+            )
             is ConfirmResult.ConsultaAplicada -> {
                 when {
                     result.navigateNovaVenda -> _navEvents.tryEmit(HomeNavEvent.NovaVenda)
-                    result.navigateAgenda -> _navEvents.tryEmit(HomeNavEvent.Agenda)
+                    result.navigateAgenda -> _navEvents.tryEmit(HomeNavEvent.Agenda())
                     result.openProdutoId != null ->
                         _navEvents.tryEmit(HomeNavEvent.EstoqueDetalhe(result.openProdutoId))
                     result.openClienteId != null ->

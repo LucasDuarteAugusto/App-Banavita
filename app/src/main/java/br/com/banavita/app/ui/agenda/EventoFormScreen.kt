@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
+import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import br.com.banavita.app.ui.common.DeleteConfirmDialog
 import br.com.banavita.app.ui.common.DocumentEntityDropdown
@@ -35,6 +36,7 @@ import java.util.UUID
 fun EventoFormRoute(
     onDone: () -> Unit,
     modifier: Modifier = Modifier,
+    onVoiceSuccess: (ConfirmResult) -> Unit = { onDone() },
     viewModel: EventoFormViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -76,7 +78,7 @@ fun EventoFormRoute(
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.AGENDA,
         enabled = !uiState.isEditMode,
-        onVoiceSuccess = { onDone() },
+        onVoiceSuccess = onVoiceSuccess,
         modifier = modifier,
     ) { formModifier ->
         EventoFormScreen(

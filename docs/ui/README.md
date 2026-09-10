@@ -25,7 +25,7 @@ Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o 
 | [consultas-vendas.png](mockups/consultas-vendas.png) | Consultas · Vendas do período |
 | [consultas-receber.png](mockups/consultas-receber.png) | Consultas · A receber |
 | [estoque-detalhe.png](mockups/estoque-detalhe.png) | Detalhe de estoque + movimentações |
-| [agenda-list.png](mockups/agenda-list.png) | Agenda (lista + recortes + mic) |
+| [agenda-list.png](mockups/agenda-list.png) | Agenda (calendário do mês + lista do dia + mic) |
 | [agenda-form.png](mockups/agenda-form.png) | Novo evento + lembrete |
 | [venda-form-novo.png](mockups/venda-form-novo.png) | Nova venda (Pago agora / A prazo) |
 | [venda-form-editar.png](mockups/venda-form-editar.png) | Editar venda |

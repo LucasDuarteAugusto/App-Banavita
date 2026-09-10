@@ -186,6 +186,23 @@ class ExtractionParsersTest {
         assertTrue(EventoExtractionParser.looksLikeFilterOnly("hoje"))
         val parsed = EventoExtractionParser.parse("hoje")
         assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.HOJE, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
+    }
+
+    @Test
+    fun `evento parser recorte amanha seleciona o dia seguinte`() {
+        assertTrue(EventoExtractionParser.looksLikeFilterOnly("amanhã"))
+        val parsed = EventoExtractionParser.parse("amanha")
+        assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.AMANHA, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
+    }
+
+    @Test
+    fun `evento parser proximos 7 dias permanece visao de mes`() {
+        assertTrue(EventoExtractionParser.looksLikeFilterOnly("próximos 7 dias"))
+        val parsed = EventoExtractionParser.parse("esta semana")
+        assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.PROXIMOS_7_DIAS, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
     }
 
     @Test

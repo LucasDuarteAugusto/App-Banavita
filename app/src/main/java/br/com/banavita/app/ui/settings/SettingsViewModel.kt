@@ -8,6 +8,7 @@ import br.com.banavita.app.data.repository.AppSettingsRepository
 import br.com.banavita.app.data.repository.DatabaseBackupRepository
 import br.com.banavita.app.domain.exception.BackupException
 import br.com.banavita.app.domain.exception.BanavitaDomainException
+import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.domain.model.TranscriptionProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +27,7 @@ class SettingsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(
         SettingsUiState(
             selectedProvider = appSettingsRepository.getTranscriptionProvider(),
+            selectedTheme = appSettingsRepository.getThemeMode(),
             groqApiKeyConfigured = appSettingsRepository.isGroqApiKeyConfigured(),
         ),
     )
@@ -38,6 +40,14 @@ class SettingsViewModel @Inject constructor(
         appSettingsRepository.setTranscriptionProvider(provider)
         _uiState.update {
             it.copy(selectedProvider = provider, errorMessage = null, statusMessage = null)
+        }
+    }
+
+    fun onThemeSelected(mode: ThemeMode) {
+        if (_uiState.value.isBackupBusy) return
+        appSettingsRepository.setThemeMode(mode)
+        _uiState.update {
+            it.copy(selectedTheme = mode, errorMessage = null, statusMessage = null)
         }
     }
 

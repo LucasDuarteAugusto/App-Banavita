@@ -22,7 +22,10 @@ sealed class HomeNavEvent {
         val busca: String? = null,
         val periodo: PeriodoPreset? = null,
     ) : HomeNavEvent()
-    data object Agenda : HomeNavEvent()
+    data class Agenda(
+        val epochDay: Long? = null,
+        val monthOverviewHint: Boolean = false,
+    ) : HomeNavEvent()
     data class Evento(val eventoId: UUID) : HomeNavEvent()
     data class EstoqueDetalhe(val produtoId: UUID) : HomeNavEvent()
     data class ReceberDetalhe(val clienteId: UUID) : HomeNavEvent()
