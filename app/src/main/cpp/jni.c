@@ -46,7 +46,9 @@ Java_br_com_banavita_app_core_speech_WhisperLib_fullTranscribe(
         jint num_threads,
         jfloatArray audio_data,
         jstring language_str,
-        jstring initial_prompt_str) {
+        jstring initial_prompt_str,
+        jboolean single_segment,
+        jint audio_ctx) {
     (void) thiz;
     if (context_ptr == 0) {
         return -1;
@@ -72,12 +74,15 @@ Java_br_com_banavita_app_core_speech_WhisperLib_fullTranscribe(
     params.n_threads = num_threads;
     params.offset_ms = 0;
     params.no_context = true;
-    params.single_segment = false;
+    params.single_segment = single_segment == JNI_TRUE;
+    params.audio_ctx = audio_ctx;
     if (initial_prompt != NULL && strlen(initial_prompt) > 0) {
         params.initial_prompt = initial_prompt;
     }
 
-    LOGI("whisper_full samples=%d threads=%d lang=%s", (int) audio_length, (int) num_threads, language);
+    LOGI("whisper_full samples=%d threads=%d lang=%s audio_ctx=%d single_segment=%d",
+         (int) audio_length, (int) num_threads, language, (int) audio_ctx,
+         single_segment == JNI_TRUE ? 1 : 0);
     int result = whisper_full(context, params, audio, audio_length);
 
     (*env)->ReleaseFloatArrayElements(env, audio_data, audio, JNI_ABORT);

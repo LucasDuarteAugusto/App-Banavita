@@ -38,13 +38,16 @@ class WhisperCppEngine @Inject constructor() : WhisperEngine {
         initialPrompt: String?,
     ): String = withContext(inferenceDispatcher) {
         check(contextPtr != 0L) { "WhisperContext não carregado" }
-        val threads = (Runtime.getRuntime().availableProcessors() - 1).coerceAtLeast(1)
+        val threads = WhisperDecodeParams.threadCount()
+        val audioCtx = WhisperDecodeParams.audioCtx(samples.size)
         val code = WhisperLib.fullTranscribe(
             contextPtr = contextPtr,
             numThreads = threads,
             audioData = samples,
             language = language,
             initialPrompt = initialPrompt,
+            singleSegment = true,
+            audioCtx = audioCtx,
         )
         if (code != 0) {
             throw SpeechEngineException("whisper_full falhou com código $code")

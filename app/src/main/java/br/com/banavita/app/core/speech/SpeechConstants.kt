@@ -8,6 +8,10 @@ object SpeechConstants {
     const val MAX_DURATION_SECONDS = 15
     const val MAX_SAMPLES = SAMPLE_RATE_HZ * MAX_DURATION_SECONDS
 
+    /** Default inference threads (budget SoCs: extra little-cores hurt). */
+    const val WHISPER_THREADS = 2
+    const val WHISPER_THREADS_MAX = 4
+
     const val MODELS_DIR_NAME = "models"
     const val ACTIVE_MODEL_ID: String = BuildConfig.WHISPER_MODEL_ID
     const val ACTIVE_MODEL_FILE: String = BuildConfig.WHISPER_MODEL_FILE

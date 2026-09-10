@@ -4,6 +4,11 @@ project(banavita_whisper)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# AGP Debug otherwise compiles whisper.cpp unoptimized (several times slower on device).
+add_compile_options(-O3)
+string(APPEND CMAKE_C_FLAGS_DEBUG " -O3")
+string(APPEND CMAKE_CXX_FLAGS_DEBUG " -O3")
+
 include(FetchContent)
 
 set(WHISPER_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -40,7 +45,3 @@ target_link_libraries(
     ${LOG_LIB}
     ${ANDROID_LIB}
 )
-
-if (NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    target_compile_options(banavita_whisper PRIVATE -O3)
-endif ()

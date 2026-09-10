@@ -87,6 +87,8 @@ android {
                     "-DWHISPER_BUILD_EXAMPLES=OFF",
                     "-DWHISPER_BUILD_TESTS=OFF",
                     "-DBUILD_SHARED_LIBS=OFF",
+                    "-DCMAKE_C_FLAGS_DEBUG=-O3",
+                    "-DCMAKE_CXX_FLAGS_DEBUG=-O3",
                 )
             }
         }

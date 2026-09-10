@@ -74,6 +74,15 @@ class SpeechToTextRepositoryTest {
     }
 
     @Test
+    fun `transcribe local corta silencio antes da inferencia`() = runBlocking {
+        val rate = SpeechConstants.SAMPLE_RATE_HZ
+        val samples = FloatArray(rate) { 0f } + FloatArray(rate) { 0.3f } + FloatArray(rate) { 0f }
+        repository.transcribe(samples)
+        assertTrue(fakeEngine.lastSampleCount < samples.size)
+        assertTrue(fakeEngine.lastSampleCount >= rate)
+    }
+
+    @Test
     fun `transcribe groq usa cliente remoto`() = runBlocking {
         settingsRepository.setTranscriptionProvider(TranscriptionProvider.GROQ)
         coEvery {
@@ -93,6 +102,7 @@ class SpeechToTextRepositoryTest {
         var loadCalled = false
         var transcribeCalled = false
         var lastLanguage: String? = null
+        var lastSampleCount: Int = 0
         private var loaded = false
 
         override val isLoaded: Boolean
@@ -110,6 +120,7 @@ class SpeechToTextRepositoryTest {
         ): String {
             transcribeCalled = true
             lastLanguage = language
+            lastSampleCount = samples.size
             return transcript
         }
 

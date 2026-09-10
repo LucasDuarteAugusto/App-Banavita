@@ -3,9 +3,13 @@ package br.com.banavita.app.data.repository
 import br.com.banavita.app.core.speech.GroqSpeechConstants
 import br.com.banavita.app.core.speech.PcmConverter
 import br.com.banavita.app.core.speech.PtBrPromptHints
+import br.com.banavita.app.core.speech.SilenceTrimmer
 import br.com.banavita.app.core.speech.SpeechConstants
 import br.com.banavita.app.core.speech.SpeechModelManager
+import br.com.banavita.app.core.speech.SttDiagnostics
+import br.com.banavita.app.core.speech.TrimResult
 import br.com.banavita.app.core.speech.WavReader
+import br.com.banavita.app.core.speech.WhisperDecodeParams
 import br.com.banavita.app.core.speech.WhisperEngine
 import br.com.banavita.app.data.remote.groq.GroqWhisperClient
 import br.com.banavita.app.domain.exception.SpeechAudioException
@@ -58,6 +62,7 @@ class SpeechToTextRepository @Inject constructor(
                 }
             }
             TranscriptionProvider.LOCAL -> withContext(Dispatchers.IO) {
+                if (whisperEngine.isLoaded) return@withContext
                 val status = speechModelManager.ensureModelReady()
                 if (status != ModelStatus.READY) {
                     throw SpeechModelException(
@@ -66,41 +71,69 @@ class SpeechToTextRepository @Inject constructor(
                             "(${speechModelManager.activeSpec().fileName}).",
                     )
                 }
-                if (!whisperEngine.isLoaded) {
-                    val path = speechModelManager.modelPathOrNull()
-                        ?: throw SpeechModelException("Caminho do modelo não encontrado")
-                    whisperEngine.load(path)
-                }
+                val path = speechModelManager.modelPathOrNull()
+                    ?: throw SpeechModelException("Caminho do modelo não encontrado")
+                whisperEngine.load(path)
             }
         }
     }
 
     suspend fun transcribe(pcm16kMono: FloatArray): TranscriptionResult {
-        prepareEngine()
         if (pcm16kMono.isEmpty()) {
             throw SpeechAudioException("Áudio vazio")
         }
-        val samples = PcmConverter.clampToMaxDuration(pcm16kMono)
         val provider = currentProvider()
-        lateinit var text: String
-        val elapsed = measureTimeMillis {
-            text = when (provider) {
+        val loadMs = measureTimeMillis { prepareEngine() }
+
+        lateinit var trimmed: TrimResult
+        val preprocessMs = measureTimeMillis {
+            trimmed = SilenceTrimmer.trim(PcmConverter.clampToMaxDuration(pcm16kMono))
+        }
+        if (trimmed.samples.isEmpty()) {
+            throw SpeechAudioException("Áudio vazio")
+        }
+
+        lateinit var rawText: String
+        val inferenceMs = measureTimeMillis {
+            rawText = when (provider) {
                 TranscriptionProvider.LOCAL -> whisperEngine.transcribe(
-                    samples = samples,
+                    samples = trimmed.samples,
                     language = SpeechConstants.LANGUAGE_PT,
                     initialPrompt = PtBrPromptHints.initialPrompt,
                 )
                 TranscriptionProvider.GROQ -> groqWhisperClient.transcribe(
-                    samples = samples,
+                    samples = trimmed.samples,
                     language = SpeechConstants.LANGUAGE_PT,
                     initialPrompt = PtBrPromptHints.initialPrompt,
                 )
             }
         }
+        lateinit var text: String
+        val postprocessMs = measureTimeMillis {
+            text = PtBrPromptHints.normalizeTranscript(rawText)
+        }
+        val totalMs = loadMs + preprocessMs + inferenceMs + postprocessMs
+        val threads = if (provider == TranscriptionProvider.LOCAL) {
+            WhisperDecodeParams.threadCount()
+        } else {
+            0
+        }
+        SttDiagnostics.logTiming(
+            modelId = modelIdFor(provider),
+            threads = threads,
+            audioSeconds = trimmed.originalSeconds,
+            speechSeconds = trimmed.speechSeconds,
+            loadMs = loadMs,
+            preprocessMs = preprocessMs,
+            inferenceMs = inferenceMs,
+            postprocessMs = postprocessMs,
+            totalMs = totalMs,
+            maskedResult = SttDiagnostics.maskSensitive(text),
+        )
         return TranscriptionResult(
-            text = PtBrPromptHints.normalizeTranscript(text),
+            text = text,
             language = SpeechConstants.LANGUAGE_PT,
-            durationMillis = elapsed,
+            durationMillis = totalMs,
             modelId = modelIdFor(provider),
         )
     }
