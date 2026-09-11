@@ -2,7 +2,7 @@
 
 Imagens geradas a partir das telas Compose atuais. Sempre que uma tela mudar, o mockup correspondente deve ser regenerado.
 
-Top bar verde `#2E7D32`. Quatro abas só nas rotas de topo (Início, Vendas, Compras, Cadastros). Consultas Estoque tem mic (voz de filtro) e **não** tem `+`.
+Top bar verde `#2E7D32`. Ícone de configurações no canto superior direito em todas as telas, exceto Liberação e a própria tela de Configurações. Quatro abas só nas rotas de topo (Início, Vendas, Compras, Cadastros). Consultas Estoque tem mic (voz de filtro) e **não** tem `+`.
 
 | Arquivo | Tela |
 |---------|------|

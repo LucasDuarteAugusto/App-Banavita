@@ -69,8 +69,14 @@ fun MainAppShell(
                     }
                 },
                 actions = {
-                    if (currentRoute == BanavitaRoutes.HOME) {
-                        IconButton(onClick = { navController.navigate(BanavitaRoutes.SETTINGS) }) {
+                    if (currentRoute != BanavitaRoutes.SETTINGS) {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(BanavitaRoutes.SETTINGS) {
+                                    launchSingleTop = true
+                                }
+                            },
+                        ) {
                             Icon(
                                 imageVector = BanavitaIcons.Settings,
                                 contentDescription = stringResource(R.string.settings_title),
