@@ -32,7 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import br.com.banavita.app.R
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.Produto
+import java.util.UUID
 import java.util.UUID
 import androidx.compose.ui.unit.dp
 
@@ -42,12 +44,13 @@ fun DocumentDateField(
     onValueChange: (String) -> Unit,
     enabled: Boolean,
     modifier: Modifier = Modifier,
+    label: String? = null,
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
         value = value,
         onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.form_data)) },
+        label = { Text(label ?: stringResource(R.string.form_data)) },
         placeholder = { Text(stringResource(R.string.form_data_hint)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -231,6 +234,7 @@ fun DocumentLineItemCard(
     onPrecoChange: (String) -> Unit,
     onRemove: () -> Unit,
     modifier: Modifier = Modifier,
+    onEstadoSelected: (MaturacaoEstado?) -> Unit = {},
 ) {
     var produtoExpanded by remember { mutableStateOf(false) }
     val produtoSelecionado = produtos.find { it.id == item.produtoId }
@@ -287,11 +291,28 @@ fun DocumentLineItemCard(
                 }
             }
 
+            if (produtoSelecionado?.perecivel == true) {
+                Text(
+                    text = stringResource(R.string.form_estado),
+                    style = MaterialTheme.typography.labelLarge,
+                )
+                EstadoChips(
+                    selected = item.estado,
+                    onSelected = { onEstadoSelected(it) },
+                    enabled = enabled,
+                    includePodre = false,
+                )
+            }
+
             if (showEstoque && item.produtoId != null && item.estoqueDisponivel != null) {
                 val unidade = produtoSelecionado?.unidade ?: "UN"
                 Text(
                     text = stringResource(
-                        R.string.form_estoque_disponivel,
+                        if (produtoSelecionado?.perecivel == true) {
+                            R.string.form_estoque_estado
+                        } else {
+                            R.string.form_estoque_disponivel
+                        },
                         formatQuantity(item.estoqueDisponivel, unidade),
                     ),
                     style = MaterialTheme.typography.bodySmall,

@@ -13,14 +13,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -69,6 +72,9 @@ fun SettingsRoute(
         uiState = uiState,
         onProviderSelected = viewModel::onProviderSelected,
         onThemeSelected = viewModel::onThemeSelected,
+        onEtilenoCapacidadeChange = viewModel::onEtilenoCapacidadeChange,
+        onEtilenoSoltarDiaChange = viewModel::onEtilenoSoltarDiaChange,
+        onAvisoMatinalChange = viewModel::onAvisoMatinalChange,
         onExportClick = { createDocument.launch(viewModel.suggestedBackupFileName()) },
         onRestoreClick = {
             openDocument.launch(
@@ -89,6 +95,9 @@ fun SettingsScreen(
     uiState: SettingsUiState,
     onProviderSelected: (TranscriptionProvider) -> Unit,
     onThemeSelected: (ThemeMode) -> Unit,
+    onEtilenoCapacidadeChange: (String) -> Unit,
+    onEtilenoSoltarDiaChange: (String) -> Unit,
+    onAvisoMatinalChange: (String) -> Unit,
     onExportClick: () -> Unit,
     onRestoreClick: () -> Unit,
     onDismissMessage: () -> Unit,
@@ -161,7 +170,42 @@ fun SettingsScreen(
                 footnote = stringResource(R.string.settings_provider_local_note),
                 onClick = { onProviderSelected(TranscriptionProvider.LOCAL) },
             )
+            )
         }
+
+        Text(
+            text = stringResource(R.string.settings_pereciveis_section),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiState.etilenoCapacidadeInput,
+            onValueChange = onEtilenoCapacidadeChange,
+            label = { Text(stringResource(R.string.settings_etileno_capacidade)) },
+            supportingText = { Text(stringResource(R.string.settings_etileno_capacidade_hint)) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            enabled = !uiState.isBackupBusy,
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiState.etilenoSoltarDiaInput,
+            onValueChange = onEtilenoSoltarDiaChange,
+            label = { Text(stringResource(R.string.settings_etileno_dia)) },
+            supportingText = { Text(stringResource(R.string.settings_etileno_dia_hint)) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+            enabled = !uiState.isBackupBusy,
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiState.avisoMatinalInput,
+            onValueChange = onAvisoMatinalChange,
+            label = { Text(stringResource(R.string.settings_aviso_matinal)) },
+            supportingText = { Text(stringResource(R.string.settings_aviso_matinal_hint)) },
+            singleLine = true,
+            enabled = !uiState.isBackupBusy,
+        )
 
         Text(
             text = stringResource(R.string.settings_database_section),

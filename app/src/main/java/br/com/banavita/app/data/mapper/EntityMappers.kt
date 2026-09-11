@@ -4,18 +4,27 @@ import br.com.banavita.app.data.local.entity.ClienteEntity
 import br.com.banavita.app.data.local.entity.CompraItemEntity
 import br.com.banavita.app.data.local.entity.FornecedorEntity
 import br.com.banavita.app.data.local.entity.GrupoEntity
+import br.com.banavita.app.data.local.entity.LoteEntity
+import br.com.banavita.app.data.local.entity.PerdaEntity
 import br.com.banavita.app.data.local.entity.ProdutoEntity
 import br.com.banavita.app.data.local.entity.VendaItemEntity
 import br.com.banavita.app.data.local.relation.CompraWithItems
 import br.com.banavita.app.data.local.relation.VendaWithItems
+import br.com.banavita.app.data.local.view.EstoqueLinhaView
 import br.com.banavita.app.data.local.view.ProdutoEstoqueView
+import br.com.banavita.app.domain.model.Camara
 import br.com.banavita.app.domain.model.Cliente
 import br.com.banavita.app.domain.model.Compra
 import br.com.banavita.app.domain.model.CompraItem
+import br.com.banavita.app.domain.model.EstoqueLinha
 import br.com.banavita.app.domain.model.Evento
 import br.com.banavita.app.domain.model.Fornecedor
 import br.com.banavita.app.domain.model.Grupo
+import br.com.banavita.app.domain.model.Lote
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.Pagamento
+import br.com.banavita.app.domain.model.Perda
+import br.com.banavita.app.domain.model.PerdaMotivo
 import br.com.banavita.app.domain.model.Produto
 import br.com.banavita.app.domain.model.ProdutoEstoque
 import br.com.banavita.app.domain.model.Recebimento
@@ -43,6 +52,20 @@ fun ProdutoEntity.toDomain(): Produto =
         precoCentavos = precoCentavos,
         grupoId = grupoId,
         unidade = unidade,
+        perecivel = perecivel,
+        curva = br.com.banavita.app.domain.model.RipeningCurve(
+            diasVerde = diasVerde,
+            diasVerdolenga = diasVerdolenga,
+            diasAmarela = diasAmarela,
+            diasPintada = diasPintada,
+        ),
+        precosEstado = br.com.banavita.app.domain.model.PrecosPorEstado(
+            verdeCentavos = precoVerdeCentavos,
+            verdolengaCentavos = precoVerdolengaCentavos,
+            amarelaCentavos = precoAmarelaCentavos,
+            pintadaCentavos = precoPintadaCentavos,
+            podreCentavos = precoPodreCentavos,
+        ),
     )
 
 fun ClienteEntity.toDomain(): Cliente =
@@ -52,6 +75,7 @@ fun ClienteEntity.toDomain(): Cliente =
         updatedAt = updatedAt,
         nome = nome,
         telefone = telefone,
+        pontoPreferido = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(pontoPreferido),
     )
 
 fun FornecedorEntity.toDomain(): Fornecedor =
@@ -73,6 +97,7 @@ fun VendaItemEntity.toDomain(): VendaItem =
         valorUnitarioCentavos = valorUnitarioCentavos,
         quantidade = quantidade,
         valorTotalCentavos = valorTotalCentavos,
+        estado = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(estado),
     )
 
 fun VendaWithItems.toDomain(): Venda =
@@ -135,6 +160,50 @@ fun PagamentoEntity.toDomain(): Pagamento =
         updatedAt = updatedAt,
         compraId = compraId,
         data = data,
+        valorCentavos = valorCentavos,
+    )
+
+fun LoteEntity.toDomain(): Lote =
+    Lote(
+        id = id,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        produtoId = produtoId,
+        compraId = compraId,
+        compraItemId = compraItemId,
+        origemId = origemId,
+        dataEntrada = dataEntrada,
+        quantidadeInicial = quantidadeInicial,
+        quantidadeRestante = quantidadeRestante,
+        camara = Camara.valueOf(camara),
+        estado = MaturacaoEstado.valueOf(estado),
+        etapaInicioEpochDay = etapaInicioEpochDay,
+        custoUnitarioCentavos = custoUnitarioCentavos,
+        rotulo = rotulo,
+    )
+
+fun EstoqueLinhaView.toDomain(): EstoqueLinha =
+    EstoqueLinha(
+        produtoId = produtoId,
+        descricao = descricao,
+        unidade = unidade,
+        estado = MaturacaoEstado.fromStored(estado),
+        camara = camara?.let { runCatching { Camara.valueOf(it) }.getOrNull() },
+        quantidade = quantidade,
+        perecivel = perecivel == 1,
+    )
+
+fun PerdaEntity.toDomain(): Perda =
+    Perda(
+        id = id,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        data = data,
+        produtoId = produtoId,
+        loteId = loteId,
+        estado = MaturacaoEstado.valueOf(estado),
+        quantidade = quantidade,
+        motivo = PerdaMotivo.valueOf(motivo),
         valorCentavos = valorCentavos,
     )
 

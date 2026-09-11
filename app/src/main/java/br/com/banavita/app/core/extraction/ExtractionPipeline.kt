@@ -4,6 +4,7 @@ import br.com.banavita.app.core.time.nowEpochMillis
 import br.com.banavita.app.domain.model.extraction.BaixaTipo
 import br.com.banavita.app.domain.model.extraction.DraftLineItem
 import br.com.banavita.app.domain.model.extraction.ExtractionDraft
+import br.com.banavita.app.domain.model.extraction.ExtractionField
 import br.com.banavita.app.domain.model.extraction.ExtractionFields
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import java.util.UUID
@@ -59,6 +60,14 @@ class ExtractionPipeline @Inject constructor(
         val produtoResolvido = entityResolver.resolveProduto(parsed.item.produtoRaw.value)
         val clienteResolvido = entityResolver.resolveCliente(parsed.clienteRaw.value)
             ?: entityResolver.resolveClienteFromTranscript(transcript)
+        val estadoFalado = parsed.item.estado
+        val estadoSugerido = if (estadoFalado.isPresent) {
+            estadoFalado
+        } else {
+            clienteResolvido?.id?.let { entityResolver.pontoPreferido(it) }
+                ?.let { ExtractionField(it, it.name.lowercase(), 0.7f) }
+                ?: estadoFalado
+        }
         return ExtractionFields.VendaDraft(
             itens = listOf(
                 DraftLineItem(
@@ -67,6 +76,7 @@ class ExtractionPipeline @Inject constructor(
                     quantidade = parsed.item.quantidade,
                     unidade = parsed.item.unidade,
                     valorUnitarioCentavos = parsed.item.valorUnitarioCentavos,
+                    estado = estadoSugerido,
                 ),
             ),
             cliente = clienteResolvido,
@@ -141,6 +151,7 @@ class ExtractionPipeline @Inject constructor(
             periodo = parsed.periodo,
             visao = parsed.visao,
             somenteZerados = parsed.somenteZerados,
+            somenteCriticos = parsed.somenteCriticos,
             navigateNovaVenda = parsed.navigateNovaVenda,
             navigateAgenda = parsed.navigateAgenda,
             openDetailIfResolved = openEstoque,

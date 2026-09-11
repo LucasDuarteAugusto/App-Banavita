@@ -3,6 +3,7 @@ package br.com.banavita.app.domain.model.extraction
 import br.com.banavita.app.domain.model.AgendaRecorte
 import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.ConsultaVisao
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.PeriodoPreset
 import java.util.UUID
 
@@ -61,6 +62,7 @@ data class DraftLineItem(
     val quantidade: ExtractionField<Double>,
     val unidade: ExtractionField<String>,
     val valorUnitarioCentavos: ExtractionField<Long>,
+    val estado: ExtractionField<MaturacaoEstado> = ExtractionField(null),
 )
 
 sealed class ExtractionFields {
@@ -107,6 +109,7 @@ sealed class ExtractionFields {
         val periodo: ExtractionField<PeriodoPreset>,
         val visao: ExtractionField<ConsultaVisao>,
         val somenteZerados: ExtractionField<Boolean>,
+        val somenteCriticos: ExtractionField<Boolean> = ExtractionField(false),
         val navigateNovaVenda: Boolean = false,
         val navigateAgenda: Boolean = false,
         val openDetailIfResolved: Boolean = false,
@@ -162,6 +165,7 @@ sealed class ConfirmResult {
         val periodo: PeriodoPreset? = null,
         val visao: ConsultaVisao? = null,
         val somenteZerados: Boolean = false,
+        val somenteCriticos: Boolean = false,
         val openProdutoId: UUID? = null,
         val openClienteId: UUID? = null,
         val openFornecedorId: UUID? = null,

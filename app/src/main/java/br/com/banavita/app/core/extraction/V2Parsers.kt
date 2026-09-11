@@ -38,6 +38,7 @@ data class ParsedConsultasSlots(
     val periodo: ExtractionField<PeriodoPreset>,
     val visao: ExtractionField<ConsultaVisao>,
     val somenteZerados: ExtractionField<Boolean>,
+    val somenteCriticos: ExtractionField<Boolean> = ExtractionField(false),
     val navigateNovaVenda: Boolean,
     val navigateAgenda: Boolean,
 )
@@ -48,7 +49,11 @@ object ConsultasExtractionParser {
     private val modoCompras = Regex("""(?i)\b(compras?|comprei|comprou)\b""")
     private val modoReceber = Regex("""(?i)\b(receber|a receber|me deve|devendo|divida|dívida)\b""")
     private val modoPagar = Regex("""(?i)\b(pagar|a pagar|devemos|conta a pagar)\b""")
+    private val modoPrevisao = Regex("""(?i)\b(previsao|previsão|quinta|oferta)\b""")
+    private val modoPerdas = Regex("""(?i)\b(perdas?|apodreceu|podre)\b""")
+    private val modoEncomendas = Regex("""(?i)\b(encomendas?|pedido)\b""")
     private val zerado = Regex("""(?i)\b(zerado|zerados|acabando|acabou|sem saldo)\b""")
+    private val criticos = Regex("""(?i)\b(pintada|critico|crítico|pereciveis|perecíveis)\b""")
     private val visaoParceiro = Regex("""(?i)\b(por cliente|por fornecedor|quem)\b""")
     private val visaoProduto = Regex("""(?i)\b(por produto|o que mais|que mais)\b""")
     private val hoje = Regex("""(?i)\bhoje\b""")
@@ -68,6 +73,9 @@ object ConsultasExtractionParser {
         val modo = when {
             modoReceber.containsMatchIn(normalized) -> ConsultaModo.RECEBER
             modoPagar.containsMatchIn(normalized) -> ConsultaModo.PAGAR
+            modoPrevisao.containsMatchIn(normalized) -> ConsultaModo.PREVISAO
+            modoEncomendas.containsMatchIn(normalized) -> ConsultaModo.ENCOMENDAS
+            modoPerdas.containsMatchIn(normalized) -> ConsultaModo.PERDAS
             modoEstoque.containsMatchIn(normalized) -> ConsultaModo.ESTOQUE
             modoVendas.containsMatchIn(normalized) -> ConsultaModo.VENDAS
             modoCompras.containsMatchIn(normalized) -> ConsultaModo.COMPRAS
@@ -100,6 +108,11 @@ object ConsultasExtractionParser {
                 if (zerado.containsMatchIn(normalized)) "zerado" else null,
                 if (zerado.containsMatchIn(normalized)) 0.85f else 0.3f,
             ),
+            somenteCriticos = ExtractionField(
+                criticos.containsMatchIn(normalized),
+                if (criticos.containsMatchIn(normalized)) "criticos" else null,
+                if (criticos.containsMatchIn(normalized)) 0.85f else 0.3f,
+            ),
             navigateNovaVenda = preferInicio && novaVenda.containsMatchIn(normalized),
             navigateAgenda = preferInicio && agenda.containsMatchIn(normalized),
         )
@@ -118,23 +131,32 @@ object BaixaExtractionParser {
         """(?i)\b(?:do|da|de|ao|a|pro|pra|para|cliente|fornecedor)\s+([a-zà-ú][\wà-ú]*(?:\s+[a-zà-ú][\wà-ú]*){0,2})""",
     )
 
-    fun isReceber(transcript: String): Boolean =
-        receberCue.containsMatchIn(TextNormalizer.normalize(transcript)) &&
-            MoneyParser.first(TextNormalizer.normalize(transcript)) != null
+    fun looksLikeBaixa(transcript: String): Boolean {
+        val n = TextNormalizer.normalize(transcript)
+        if (MoneyParser.first(n) != null) return true
+        val hasVerb = receberCue.containsMatchIn(n) || pagarCue.containsMatchIn(n)
+        return hasVerb && Regex("""\d+""").containsMatchIn(n)
+    }
 
-    fun isPagar(transcript: String): Boolean =
-        pagarCue.containsMatchIn(TextNormalizer.normalize(transcript)) &&
-            MoneyParser.first(TextNormalizer.normalize(transcript)) != null
+    fun isReceber(transcript: String): Boolean = looksLikeBaixa(transcript)
+
+    fun isPagar(transcript: String): Boolean = looksLikeBaixa(transcript)
 
     fun parse(transcript: String): ParsedBaixaSlots {
         val normalized = TextNormalizer.normalize(transcript)
-        val money = MoneyParser.first(normalized)
+        val money = MoneyParser.first(normalized) ?: firstBareAmount(normalized)
         val parceiro = RoleKeywords.extractAfterCue(normalized, parceiroCue)
             ?: RoleKeywords.extractAfterCue(normalized, RoleKeywords.clienteCue)
         return ParsedBaixaSlots(
             valorCentavos = MoneyParser.toField(money),
             parceiroRaw = ExtractionField(parceiro, parceiro, if (parceiro != null) 0.8f else 0f),
         )
+    }
+
+    private fun firstBareAmount(normalized: String): MoneyHit? {
+        val hit = QuantityParser.findAll(normalized).firstOrNull() ?: return null
+        val cents = br.com.banavita.app.core.money.Money.toCents(java.math.BigDecimal.valueOf(hit.quantity))
+        return MoneyHit(cents, hit.rawSpan, hit.start, hit.end)
     }
 }
 
@@ -186,8 +208,9 @@ object EventoExtractionParser {
         val millis = PeriodRanges.atTime(date, time, zone)
         val cliente = RoleKeywords.extractAfterCue(normalized, RoleKeywords.clienteCue)
         val titulo = normalized
-            .replace(stop, " ")
             .replace(horaCue, " ")
+            .replace(horaAlt, " ")
+            .replace(stop, " ")
             .replace(Regex("\\s+"), " ")
             .trim()
             .takeIf { it.isNotBlank() }
@@ -235,10 +258,30 @@ object EventoExtractionParser {
 }
 
 object InicioIntentParser {
+    private val vendaVerb = Regex("""(?i)\b(vende|vender|vendi|vendeu)\b""")
+    private val novaVendaOnly = Regex("""(?i)\b(nova venda|registrar venda)\b""")
+    private val consultaCue = Regex("""(?i)\b(estoque|saldo|consulta|zerado)\b""")
+    private val praCue = Regex("""(?i)\b(pra|para|pro)\b""")
+
     fun looksLikeVenda(transcript: String): Boolean {
         val n = TextNormalizer.normalize(transcript)
-        return Regex("""(?i)\b(vende|vender|vendi|nova venda)\b""").containsMatchIn(n) &&
-            (QuantityParser.findAll(n).isNotEmpty() || n.contains("de "))
+        val qtyHits = QuantityParser.findAll(n)
+        val qtyWithUnit = qtyHits.any { it.unit != null }
+        if (novaVendaOnly.containsMatchIn(n) && !qtyWithUnit) {
+            return false
+        }
+        if (consultaCue.containsMatchIn(n) && !praCue.containsMatchIn(n) && !vendaVerb.containsMatchIn(n)) {
+            return false
+        }
+        if (qtyWithUnit && praCue.containsMatchIn(n)) {
+            return true
+        }
+        if (qtyWithUnit) {
+            val product = VendaExtractionParser.parse(transcript).item.produtoRaw.value
+            if (!product.isNullOrBlank()) return true
+        }
+        return vendaVerb.containsMatchIn(n) &&
+            (qtyHits.isNotEmpty() || n.contains("de "))
     }
 
     fun looksLikeEvento(transcript: String): Boolean {

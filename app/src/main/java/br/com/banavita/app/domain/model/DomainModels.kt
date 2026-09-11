@@ -18,7 +18,13 @@ data class Produto(
     val precoCentavos: Long,
     val grupoId: UUID?,
     val unidade: String,
-)
+    val perecivel: Boolean = false,
+    val curva: RipeningCurve = RipeningCurve.DEFAULT,
+    val precosEstado: PrecosPorEstado = PrecosPorEstado.fromTabela(0),
+) {
+    fun precoSugerido(estado: MaturacaoEstado): Long =
+        if (perecivel) precosEstado.of(estado) else precoCentavos
+}
 
 data class Cliente(
     val id: UUID,
@@ -26,6 +32,7 @@ data class Cliente(
     val updatedAt: Long,
     val nome: String,
     val telefone: String?,
+    val pontoPreferido: MaturacaoEstado? = null,
 )
 
 data class Fornecedor(
@@ -40,6 +47,7 @@ data class DocumentoItemInput(
     val produtoId: UUID,
     val quantidade: Double,
     val valorUnitarioCentavos: Long? = null,
+    val estado: MaturacaoEstado? = null,
 )
 
 data class VendaItem(
@@ -51,6 +59,7 @@ data class VendaItem(
     val valorUnitarioCentavos: Long,
     val quantidade: Double,
     val valorTotalCentavos: Long,
+    val estado: MaturacaoEstado? = null,
 )
 
 data class Venda(

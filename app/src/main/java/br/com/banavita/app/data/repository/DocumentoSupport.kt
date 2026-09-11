@@ -9,6 +9,7 @@ import br.com.banavita.app.data.local.entity.VendaItemEntity
 import br.com.banavita.app.domain.exception.InsufficientStockException
 import br.com.banavita.app.domain.exception.InvalidDocumentException
 import br.com.banavita.app.domain.model.DocumentoItemInput
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class DocumentoItemFactory @Inject constructor(
     private val produtoDao: Provider<ProdutoDao>,
+    private val loteRepository: LoteRepository,
 ) {
     suspend fun buildVendaItens(
         vendaId: UUID,
@@ -27,7 +29,15 @@ class DocumentoItemFactory @Inject constructor(
         return inputs.map { input ->
             val produto = produtoDao.get().getById(input.produtoId)
                 ?: throw InvalidDocumentException("Produto ${input.produtoId} não encontrado.")
-            val unitCents = input.valorUnitarioCentavos ?: produto.precoCentavos
+            if (produto.perecivel) {
+                val estado = input.estado
+                    ?: throw InvalidDocumentException("Informe o estado da banana para vender.")
+                if (estado == MaturacaoEstado.PODRE) {
+                    throw InvalidDocumentException("Podre não se vende. Lance como perda.")
+                }
+            }
+            val unitCents = input.valorUnitarioCentavos
+                ?: loteRepository.precoVenda(input.produtoId, input.estado)
             VendaItemEntity(
                 id = UUID.randomUUID(),
                 createdAt = timestamp,
@@ -37,6 +47,7 @@ class DocumentoItemFactory @Inject constructor(
                 valorUnitarioCentavos = unitCents,
                 quantidade = input.quantidade,
                 valorTotalCentavos = Money.lineTotal(unitCents, input.quantidade),
+                estado = input.estado?.name,
             )
         }
     }
@@ -80,24 +91,44 @@ class DocumentoItemFactory @Inject constructor(
 @Singleton
 class EstoqueValidator @Inject constructor(
     private val estoqueDao: Provider<EstoqueDao>,
+    private val produtoDao: Provider<ProdutoDao>,
+    private val loteDao: Provider<br.com.banavita.app.data.local.dao.LoteDao>,
 ) {
     suspend fun validateVenda(
         itens: List<VendaItemEntity>,
         excludeVendaId: UUID? = null,
     ) {
-        val demandaPorProduto = itens.groupBy { it.produtoId }
-            .mapValues { (_, linhas) -> linhas.sumOf { linha -> linha.quantidade } }
-
-        demandaPorProduto.forEach { (produtoId, quantidadeSolicitada) ->
-            val comprado = estoqueDao.get().totalComprado(produtoId)
-            val vendido = estoqueDao.get().totalVendido(produtoId, excludeVendaId)
-            val disponivel = comprado - vendido
-            if (disponivel + 1e-9 < quantidadeSolicitada) {
-                throw InsufficientStockException(
-                    produtoId = produtoId.toString(),
-                    disponivel = disponivel,
-                    solicitado = quantidadeSolicitada,
-                )
+        val grupos = itens.groupBy { it.produtoId to it.estado }
+        grupos.forEach { (chave, linhas) ->
+            val (produtoId, estadoRaw) = chave
+            val quantidadeSolicitada = linhas.sumOf { it.quantidade }
+            val produto = produtoDao.get().getById(produtoId)
+                ?: throw InvalidDocumentException("Produto $produtoId não encontrado.")
+            if (produto.perecivel) {
+                val estado = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(estadoRaw)
+                    ?: throw InvalidDocumentException("Informe o estado da banana para vender.")
+                if (estado == br.com.banavita.app.domain.model.MaturacaoEstado.PODRE) {
+                    throw InvalidDocumentException("Podre não se vende. Lance como perda.")
+                }
+                val disponivel = loteDao.get().saldoPorEstado(produtoId, estado.name)
+                if (disponivel + 1e-9 < quantidadeSolicitada) {
+                    throw InsufficientStockException(
+                        produtoId = produtoId.toString(),
+                        disponivel = disponivel,
+                        solicitado = quantidadeSolicitada,
+                    )
+                }
+            } else {
+                val comprado = estoqueDao.get().totalComprado(produtoId)
+                val vendido = estoqueDao.get().totalVendido(produtoId, excludeVendaId)
+                val disponivel = comprado - vendido
+                if (disponivel + 1e-9 < quantidadeSolicitada) {
+                    throw InsufficientStockException(
+                        produtoId = produtoId.toString(),
+                        disponivel = disponivel,
+                        solicitado = quantidadeSolicitada,
+                    )
+                }
             }
         }
     }

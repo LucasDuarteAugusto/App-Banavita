@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.banavita.app.data.repository.ClienteRepository
 import br.com.banavita.app.data.repository.EstoqueRepository
+import br.com.banavita.app.data.repository.LoteRepository
 import br.com.banavita.app.data.repository.ProdutoRepository
 import br.com.banavita.app.data.repository.VendaRepository
 import br.com.banavita.app.domain.exception.BanavitaDomainException
 import br.com.banavita.app.domain.exception.InsufficientStockException
 import br.com.banavita.app.domain.model.DocumentoItemInput
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.ui.common.DateInputParser
 import br.com.banavita.app.ui.common.DocumentLineItemFormState
 import br.com.banavita.app.ui.common.MoneyInputParser
@@ -31,6 +33,7 @@ class VendaFormViewModel @Inject constructor(
     private val clienteRepository: ClienteRepository,
     private val produtoRepository: ProdutoRepository,
     private val estoqueRepository: EstoqueRepository,
+    private val loteRepository: LoteRepository,
 ) : ViewModel() {
 
     private val vendaId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_VENDA_ID)
@@ -78,7 +81,10 @@ class VendaFormViewModel @Inject constructor(
                             produtoId = item.produtoId,
                             quantidadeInput = formatQuantityInput(item.quantidade),
                             precoInput = MoneyInputParser.formatForInput(item.valorUnitarioCentavos),
-                            estoqueDisponivel = estoqueRepository.getSaldo(item.produtoId),
+                            estoqueDisponivel = item.estado?.let { estado ->
+                                loteRepository.saldoPorEstado(item.produtoId, estado)
+                            } ?: estoqueRepository.getSaldo(item.produtoId),
+                            estado = item.estado,
                         )
                     }
                     _uiState.update {
@@ -107,7 +113,23 @@ class VendaFormViewModel @Inject constructor(
     }
 
     fun onClienteSelected(clienteId: UUID?) {
-        _uiState.update { it.copy(clienteId = clienteId, errorMessage = null) }
+        val ponto = _uiState.value.clientes.find { it.id == clienteId }?.pontoPreferido
+        _uiState.update { state ->
+            val itens = state.itens.map { item ->
+                val produto = state.produtos.find { it.id == item.produtoId }
+                if (produto?.perecivel == true && item.estado == null && ponto != null) {
+                    item.copy(estado = ponto)
+                } else {
+                    item
+                }
+            }
+            state.copy(clienteId = clienteId, itens = itens, errorMessage = null)
+        }
+        _uiState.value.itens.forEachIndexed { index, item ->
+            if (item.estado != null && item.produtoId != null) {
+                refreshItemPricing(index, item.produtoId, item.estado)
+            }
+        }
     }
 
     fun onAPrazoChange(value: Boolean) {
@@ -120,13 +142,49 @@ class VendaFormViewModel @Inject constructor(
 
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
         viewModelScope.launch {
-            val produto = _uiState.value.produtos.find { it.id == produtoId }
-            val saldo = produtoId?.let { estoqueRepository.getSaldo(it) }
+            val state = _uiState.value
+            val produto = state.produtos.find { it.id == produtoId }
+            val ponto = state.clientes.find { it.id == state.clienteId }?.pontoPreferido
+            val estado = if (produto?.perecivel == true) ponto else null
+            val saldo = when {
+                produtoId == null -> null
+                produto?.perecivel == true && estado != null -> loteRepository.saldoPorEstado(produtoId, estado)
+                produtoId != null -> estoqueRepository.getSaldo(produtoId)
+                else -> null
+            }
+            val preco = when {
+                produto == null -> ""
+                produto.perecivel && estado != null ->
+                    MoneyInputParser.formatForInput(loteRepository.precoVenda(produto.id, estado))
+                else -> MoneyInputParser.formatForInput(produto.precoCentavos)
+            }
             updateItem(index) { item ->
                 item.copy(
                     produtoId = produtoId,
-                    precoInput = produto?.let { MoneyInputParser.formatForInput(it.precoCentavos) } ?: "",
+                    precoInput = preco,
                     estoqueDisponivel = saldo,
+                    estado = estado,
+                )
+            }
+        }
+    }
+
+    fun onEstadoSelected(index: Int, estado: MaturacaoEstado?) {
+        val produtoId = _uiState.value.itens.getOrNull(index)?.produtoId
+        updateItem(index) { it.copy(estado = estado) }
+        if (produtoId != null && estado != null) {
+            refreshItemPricing(index, produtoId, estado)
+        }
+    }
+
+    private fun refreshItemPricing(index: Int, produtoId: UUID, estado: MaturacaoEstado) {
+        viewModelScope.launch {
+            val saldo = loteRepository.saldoPorEstado(produtoId, estado)
+            val preco = loteRepository.precoVenda(produtoId, estado)
+            updateItem(index) { item ->
+                item.copy(
+                    estoqueDisponivel = saldo,
+                    precoInput = MoneyInputParser.formatForInput(preco),
                 )
             }
         }
@@ -257,10 +315,18 @@ class VendaFormViewModel @Inject constructor(
             if (item.precoInput.trim().isNotEmpty() && precoCentavos == null) {
                 return InputsResult(error = "Informe um preço válido no item ${index + 1}.")
             }
+            val produto = state.produtos.find { it.id == produtoId }
+            if (produto?.perecivel == true && item.estado == null) {
+                return InputsResult(error = "Informe o estado da banana no item ${index + 1}.")
+            }
+            if (produto?.perecivel == true && item.estado == MaturacaoEstado.PODRE) {
+                return InputsResult(error = "Podre não se vende. Lance como perda.")
+            }
             inputs += DocumentoItemInput(
                 produtoId = produtoId,
                 quantidade = quantidade,
                 valorUnitarioCentavos = precoCentavos,
+                estado = item.estado,
             )
         }
         return InputsResult(inputs = inputs)

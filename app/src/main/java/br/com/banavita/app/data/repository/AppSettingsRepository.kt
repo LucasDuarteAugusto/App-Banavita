@@ -39,4 +39,22 @@ class AppSettingsRepository @Inject constructor(
     }
 
     fun isGroqApiKeyConfigured(): Boolean = groqConfig.isConfigured()
+
+    fun getEtilenoCapacidadeKg(): Double = localDataSource.getEtilenoCapacidadeKg().toDouble()
+
+    fun setEtilenoCapacidadeKg(value: Double) {
+        localDataSource.setEtilenoCapacidadeKg(value.toFloat())
+    }
+
+    fun getEtilenoSoltarPorDiaKg(): Double = localDataSource.getEtilenoSoltarPorDiaKg().toDouble()
+
+    fun setEtilenoSoltarPorDiaKg(value: Double) {
+        localDataSource.setEtilenoSoltarPorDiaKg(value.toFloat())
+    }
+
+    fun getAvisoMatinalMinutos(): Int = localDataSource.getAvisoMatinalMinutos()
+
+    fun setAvisoMatinalMinutos(value: Int) {
+        localDataSource.setAvisoMatinalMinutos(value)
+    }
 }

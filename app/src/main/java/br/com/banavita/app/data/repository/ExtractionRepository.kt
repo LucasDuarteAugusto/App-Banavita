@@ -101,6 +101,7 @@ class ExtractionRepository @Inject constructor(
                     produtoId = produtoId,
                     quantidade = quantidade,
                     valorUnitarioCentavos = item.valorUnitarioCentavos.value,
+                    estado = item.estado.value,
                 ),
             ),
             aPrazo = fields.aPrazo.value == true,
@@ -177,6 +178,7 @@ class ExtractionRepository @Inject constructor(
             periodo = fields.periodo.value,
             visao = fields.visao.value,
             somenteZerados = fields.somenteZerados.value == true,
+            somenteCriticos = fields.somenteCriticos.value == true,
             openProdutoId = if (fields.openDetailIfResolved) fields.produtoResolvido?.id else null,
             openClienteId = fields.clienteResolvido?.id.takeIf {
                 fields.modo.value == br.com.banavita.app.domain.model.ConsultaModo.RECEBER

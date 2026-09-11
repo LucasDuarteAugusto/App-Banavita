@@ -1,13 +1,17 @@
 package br.com.banavita.app.ui.cadastros.produtos
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,6 +71,15 @@ fun ProdutoFormRoute(
             onPrecoChange = viewModel::onPrecoChange,
             onUnidadeChange = viewModel::onUnidadeChange,
             onGrupoSelected = viewModel::onGrupoSelected,
+            onPerecivelChange = viewModel::onPerecivelChange,
+            onDiasVerdeChange = viewModel::onDiasVerdeChange,
+            onDiasVerdolengaChange = viewModel::onDiasVerdolengaChange,
+            onDiasAmarelaChange = viewModel::onDiasAmarelaChange,
+            onDiasPintadaChange = viewModel::onDiasPintadaChange,
+            onPrecoVerdeChange = viewModel::onPrecoVerdeChange,
+            onPrecoVerdolengaChange = viewModel::onPrecoVerdolengaChange,
+            onPrecoAmarelaChange = viewModel::onPrecoAmarelaChange,
+            onPrecoPintadaChange = viewModel::onPrecoPintadaChange,
             onSave = { viewModel.save(onDone) },
             onDelete = viewModel::onDeleteClick,
         )
@@ -80,6 +94,15 @@ fun ProdutoFormScreen(
     onPrecoChange: (String) -> Unit,
     onUnidadeChange: (String) -> Unit,
     onGrupoSelected: (UUID?) -> Unit,
+    onPerecivelChange: (Boolean) -> Unit,
+    onDiasVerdeChange: (String) -> Unit,
+    onDiasVerdolengaChange: (String) -> Unit,
+    onDiasAmarelaChange: (String) -> Unit,
+    onDiasPintadaChange: (String) -> Unit,
+    onPrecoVerdeChange: (String) -> Unit,
+    onPrecoVerdolengaChange: (String) -> Unit,
+    onPrecoAmarelaChange: (String) -> Unit,
+    onPrecoPintadaChange: (String) -> Unit,
     onSave: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -190,6 +213,114 @@ fun ProdutoFormScreen(
                     )
                 }
             }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(R.string.produto_perecivel),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            Switch(
+                checked = uiState.perecivel,
+                onCheckedChange = onPerecivelChange,
+                enabled = !uiState.isSaving,
+            )
+        }
+
+        if (uiState.perecivel) {
+            Text(
+                text = stringResource(R.string.produto_curva_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.diasVerde,
+                onValueChange = onDiasVerdeChange,
+                label = { Text(stringResource(R.string.produto_dias_verde)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.diasVerdolenga,
+                onValueChange = onDiasVerdolengaChange,
+                label = { Text(stringResource(R.string.produto_dias_verdolenga)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.diasAmarela,
+                onValueChange = onDiasAmarelaChange,
+                label = { Text(stringResource(R.string.produto_dias_amarela)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.diasPintada,
+                onValueChange = onDiasPintadaChange,
+                label = { Text(stringResource(R.string.produto_dias_pintada)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                enabled = !uiState.isSaving,
+            )
+            Text(
+                text = stringResource(R.string.produto_precos_estado_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoVerdeInput,
+                onValueChange = onPrecoVerdeChange,
+                label = { Text(stringResource(R.string.produto_preco_verde)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoVerdolengaInput,
+                onValueChange = onPrecoVerdolengaChange,
+                label = { Text(stringResource(R.string.produto_preco_verdolenga)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoAmarelaInput,
+                onValueChange = onPrecoAmarelaChange,
+                label = { Text(stringResource(R.string.produto_preco_amarela)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoPintadaInput,
+                onValueChange = onPrecoPintadaChange,
+                label = { Text(stringResource(R.string.produto_preco_pintada)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
+            )
+            Text(
+                text = stringResource(R.string.produto_preco_podre_hint),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

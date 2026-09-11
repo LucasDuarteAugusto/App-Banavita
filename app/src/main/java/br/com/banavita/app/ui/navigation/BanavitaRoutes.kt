@@ -16,13 +16,18 @@ object BanavitaRoutes {
     const val CADASTROS_PRODUTOS = "cadastros/produtos"
     const val CADASTROS_GRUPOS = "cadastros/grupos"
 
-    const val CONSULTAS = "consultas?modo={modo}&busca={busca}&periodo={periodo}"
+    const val CONSULTAS = "consultas?modo={modo}&busca={busca}&periodo={periodo}&criticos={criticos}"
     const val ARG_MODO = "modo"
     const val ARG_BUSCA = "busca"
     const val ARG_PERIODO = "periodo"
+    const val ARG_CRITICOS = "criticos"
     const val ESTOQUE_DETALHE = "consultas/estoque/{produtoId}"
     const val RECEBER_DETALHE = "consultas/receber/{clienteId}"
     const val PAGAR_DETALHE = "consultas/pagar/{fornecedorId}"
+    const val ETILENO_FILA = "pereciveis/etileno"
+    const val PERDA_FORM = "pereciveis/perda?loteId={loteId}&produtoId={produtoId}"
+    const val ENCOMENDA_FORM_NEW = "pereciveis/encomenda/novo"
+    const val ENCOMENDA_FORM_EDIT = "pereciveis/encomenda/edit/{encomendaId}"
 
     const val AGENDA = "agenda?date={date}&hint={hint}"
     const val AGENDA_FORM_NEW = "agenda/novo?date={date}"
@@ -51,6 +56,8 @@ object BanavitaRoutes {
     const val ARG_VENDA_ID = "vendaId"
     const val ARG_COMPRA_ID = "compraId"
     const val ARG_EVENTO_ID = "eventoId"
+    const val ARG_LOTE_ID = "loteId"
+    const val ARG_ENCOMENDA_ID = "encomendaId"
 
     val topLevelRoutes = setOf(HOME, VENDAS, COMPRAS, CADASTROS)
 
@@ -63,7 +70,8 @@ object BanavitaRoutes {
     fun topLevelRouteFor(route: String?): String? = when {
         route == null -> null
         route == HOME || route.startsWith("$HOME/") -> HOME
-        route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") -> HOME
+        route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") ||
+            route.startsWith("pereciveis") -> HOME
         route == VENDAS || route.startsWith("$VENDAS/") -> VENDAS
         route == COMPRAS || route.startsWith("$COMPRAS/") -> COMPRAS
         route == CADASTROS || route.startsWith("$CADASTROS/") -> CADASTROS
@@ -74,15 +82,20 @@ object BanavitaRoutes {
         modo: ConsultaModo = ConsultaModo.ESTOQUE,
         busca: String? = null,
         periodo: PeriodoPreset? = null,
+        criticos: Boolean = false,
     ): String {
         val encodedBusca = Uri.encode(busca.orEmpty())
         val periodoName = periodo?.name.orEmpty()
-        return "consultas?modo=${modo.route}&busca=$encodedBusca&periodo=$periodoName"
+        val criticosFlag = if (criticos) "1" else ""
+        return "consultas?modo=${modo.route}&busca=$encodedBusca&periodo=$periodoName&criticos=$criticosFlag"
     }
 
     fun estoqueDetalhe(produtoId: UUID): String = "consultas/estoque/$produtoId"
     fun receberDetalhe(clienteId: UUID): String = "consultas/receber/$clienteId"
     fun pagarDetalhe(fornecedorId: UUID): String = "consultas/pagar/$fornecedorId"
+    fun perdaForm(loteId: UUID? = null, produtoId: UUID? = null): String =
+        "pereciveis/perda?loteId=${loteId?.toString().orEmpty()}&produtoId=${produtoId?.toString().orEmpty()}"
+    fun encomendaEdit(encomendaId: UUID): String = "pereciveis/encomenda/edit/$encomendaId"
 
     fun grupoEdit(grupoId: UUID): String = "cadastros/grupos/edit/$grupoId"
     fun clienteEdit(clienteId: UUID): String = "cadastros/clientes/edit/$clienteId"

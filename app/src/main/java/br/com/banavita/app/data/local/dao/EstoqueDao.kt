@@ -54,4 +54,24 @@ interface EstoqueDao {
         """,
     )
     suspend fun saidasDoProduto(produtoId: UUID): List<EstoqueMovimentoRow>
+
+    @Query(
+        """
+        SELECT perda.PER_DATA AS data, perda.PER_QTDE AS quantidade, perda.PER_ID AS documentoId
+        FROM perda
+        WHERE perda.PER_PRODUTO = :produtoId
+        ORDER BY perda.PER_DATA DESC
+        """,
+    )
+    suspend fun perdasDoProduto(produtoId: UUID): List<EstoqueMovimentoRow>
+
+    @Query(
+        """
+        SELECT lote.created_at AS data, lote.LOT_QTDE_INICIAL AS quantidade, lote.LOT_ID AS documentoId
+        FROM lote
+        WHERE lote.LOT_PRODUTO = :produtoId AND lote.LOT_ORIGEM IS NOT NULL
+        ORDER BY lote.created_at DESC
+        """,
+    )
+    suspend fun transferenciasDoProduto(produtoId: UUID): List<EstoqueMovimentoRow>
 }

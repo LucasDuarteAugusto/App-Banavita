@@ -35,6 +35,8 @@ import br.com.banavita.app.domain.model.extraction.ExtractionDraft
 import br.com.banavita.app.domain.model.extraction.ExtractionField
 import br.com.banavita.app.domain.model.extraction.ExtractionFields
 import br.com.banavita.app.domain.model.extraction.FieldSource
+import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import br.com.banavita.app.ui.common.EstadoChips
 import br.com.banavita.app.ui.common.MoneyInputParser
 import br.com.banavita.app.ui.common.QuantityInputParser
 import br.com.banavita.app.ui.common.formatCurrency
@@ -73,6 +75,12 @@ fun ExtractionReviewSheet(
             Text(
                 text = stringResource(R.string.voice_review_transcript, draft.transcript),
                 style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            Text(
+                text = stringResource(voicePatternRes(draft.context)),
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
@@ -174,6 +182,15 @@ private fun ReviewEditor(
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
+                Text(text = stringResource(R.string.form_estado), style = MaterialTheme.typography.labelLarge)
+                EstadoChips(
+                    selected = item.estado.value,
+                    onSelected = { estado ->
+                        val updated = item.copy(estado = item.estado.edited(estado))
+                        onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
+                    },
+                    includePodre = false,
+                )
                 EditText(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
                     val cents = MoneyInputParser.parseToCentavos(value)
                     val updated = item.copy(valorUnitarioCentavos = item.valorUnitarioCentavos.edited(cents))
@@ -421,3 +438,17 @@ private fun PrazoChips(
 
 private fun <T> ExtractionField<T>.edited(value: T?): ExtractionField<T> =
     copy(value = value, confidence = if (value != null) 1f else 0f, source = FieldSource.HEURISTIC)
+
+private fun voicePatternRes(context: VoiceScreenContext): Int = when (context) {
+    VoiceScreenContext.CLIENTE -> R.string.voice_pattern_cliente
+    VoiceScreenContext.FORNECEDOR -> R.string.voice_pattern_fornecedor
+    VoiceScreenContext.PRODUTO -> R.string.voice_pattern_produto
+    VoiceScreenContext.GRUPO -> R.string.voice_pattern_grupo
+    VoiceScreenContext.VENDA -> R.string.voice_pattern_venda
+    VoiceScreenContext.COMPRA -> R.string.voice_pattern_compra
+    VoiceScreenContext.CONSULTAS -> R.string.voice_pattern_consultas
+    VoiceScreenContext.INICIO -> R.string.voice_pattern_inicio
+    VoiceScreenContext.RECEBER -> R.string.voice_pattern_receber
+    VoiceScreenContext.PAGAR -> R.string.voice_pattern_pagar
+    VoiceScreenContext.AGENDA -> R.string.voice_pattern_agenda
+}

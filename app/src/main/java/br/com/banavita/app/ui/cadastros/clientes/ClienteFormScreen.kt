@@ -2,9 +2,17 @@ package br.com.banavita.app.ui.cadastros.clientes
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.ui.unit.dp
+import br.com.banavita.app.domain.model.MaturacaoEstado
+import br.com.banavita.app.ui.common.labelRes
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -55,6 +63,7 @@ fun ClienteFormRoute(
             voiceEnabled = !uiState.isEditMode,
             onNomeChange = viewModel::onNomeChange,
             onTelefoneChange = viewModel::onTelefoneChange,
+            onPontoPreferidoChange = viewModel::onPontoPreferidoChange,
             onSave = { viewModel.save(onDone) },
             onDelete = viewModel::onDeleteClick,
         )
@@ -66,6 +75,7 @@ fun ClienteFormScreen(
     uiState: ClienteFormUiState,
     onNomeChange: (String) -> Unit,
     onTelefoneChange: (String) -> Unit,
+    onPontoPreferidoChange: (MaturacaoEstado?) -> Unit,
     onSave: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
@@ -98,5 +108,27 @@ fun ClienteFormScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             enabled = !uiState.isSaving,
         )
+        Text(text = stringResource(R.string.form_ponto_preferido))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            FilterChip(
+                selected = uiState.pontoPreferido == null,
+                onClick = { onPontoPreferidoChange(null) },
+                enabled = !uiState.isSaving,
+                label = { Text(stringResource(R.string.form_ponto_preferido_none)) },
+            )
+            MaturacaoEstado.entries.forEach { estado ->
+                FilterChip(
+                    selected = uiState.pontoPreferido == estado,
+                    onClick = { onPontoPreferidoChange(estado) },
+                    enabled = !uiState.isSaving,
+                    label = { Text(stringResource(estado.labelRes())) },
+                )
+            }
+        }
     }
 }

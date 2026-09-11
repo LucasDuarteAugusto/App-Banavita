@@ -18,6 +18,7 @@ import javax.inject.Inject
 data class ClienteFormUiState(
     val nome: String = "",
     val telefone: String = "",
+    val pontoPreferido: br.com.banavita.app.domain.model.MaturacaoEstado? = null,
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,
@@ -55,6 +56,7 @@ class ClienteFormViewModel @Inject constructor(
                             it.copy(
                                 nome = cliente.nome,
                                 telefone = cliente.telefone.orEmpty(),
+                                pontoPreferido = cliente.pontoPreferido,
                                 isLoading = false,
                             )
                         }
@@ -74,6 +76,10 @@ class ClienteFormViewModel @Inject constructor(
 
     fun onTelefoneChange(value: String) {
         _uiState.update { it.copy(telefone = value, errorMessage = null) }
+    }
+
+    fun onPontoPreferidoChange(value: br.com.banavita.app.domain.model.MaturacaoEstado?) {
+        _uiState.update { it.copy(pontoPreferido = value, errorMessage = null) }
     }
 
     fun onDeleteClick() {
@@ -97,9 +103,9 @@ class ClienteFormViewModel @Inject constructor(
             val telefone = state.telefone.trim().ifBlank { null }
             runCatching {
                 if (clienteId == null) {
-                    clienteRepository.create(nome, telefone)
+                    clienteRepository.create(nome, telefone, state.pontoPreferido)
                 } else {
-                    clienteRepository.update(clienteId, nome, telefone)
+                    clienteRepository.update(clienteId, nome, telefone, state.pontoPreferido)
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }

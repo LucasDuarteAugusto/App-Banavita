@@ -26,6 +26,8 @@ class VendaRepository @Inject constructor(
     private val documentoItemFactory: DocumentoItemFactory,
     private val estoqueValidator: EstoqueValidator,
     private val recebimentoDao: Provider<RecebimentoDao>,
+    private val loteRepository: LoteRepository,
+    private val produtoDao: Provider<br.com.banavita.app.data.local.dao.ProdutoDao>,
 ) {
     fun observeAll(): Flow<List<Venda>> =
         vendaDao.get().observeAllWithItems().map { vendas -> vendas.map { it.toDomain() } }
@@ -60,6 +62,7 @@ class VendaRepository @Inject constructor(
         )
         database.get().withTransaction {
             vendaDao.get().insertVendaComItens(venda, itemEntities)
+            baixarPereciveis(vendaId, itemEntities, timestamp)
             if (!aPrazo) {
                 recebimentoDao.get().insert(
                     RecebimentoEntity(
@@ -91,17 +94,40 @@ class VendaRepository @Inject constructor(
         }
         val timestamp = now()
         val itemEntities = documentoItemFactory.buildVendaItens(id, itens, timestamp)
-        estoqueValidator.validateVenda(itemEntities, excludeVendaId = id)
         val venda = existing.venda.copy(
             data = data,
             clienteId = clienteId,
             valorTotalCentavos = totalVendaCentavos(itemEntities),
             updatedAt = timestamp,
         )
-        vendaDao.get().updateVendaComItens(venda, itemEntities)
+        database.get().withTransaction {
+            loteRepository.restaurarVenda(id)
+            estoqueValidator.validateVenda(itemEntities, excludeVendaId = id)
+            vendaDao.get().updateVendaComItens(venda, itemEntities)
+            baixarPereciveis(id, itemEntities, timestamp)
+        }
     }
 
     suspend fun delete(id: UUID) {
-        vendaDao.get().deleteVendaComItens(id)
+        database.get().withTransaction {
+            loteRepository.restaurarVenda(id)
+            vendaDao.get().deleteVendaComItens(id)
+        }
+    }
+
+    private suspend fun baixarPereciveis(
+        vendaId: UUID,
+        itens: List<br.com.banavita.app.data.local.entity.VendaItemEntity>,
+        timestamp: Long,
+    ) {
+        itens.forEach { item ->
+            val produto = produtoDao.get().getById(item.produtoId) ?: return@forEach
+            if (!produto.perecivel) return@forEach
+            val estado = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(item.estado)
+                ?: throw br.com.banavita.app.domain.exception.InvalidDocumentException(
+                    "Informe o estado da banana para vender.",
+                )
+            loteRepository.consumirFifo(item.produtoId, estado, item.quantidade, vendaId, timestamp)
+        }
     }
 }

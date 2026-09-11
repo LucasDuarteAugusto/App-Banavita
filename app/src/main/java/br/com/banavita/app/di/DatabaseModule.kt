@@ -4,11 +4,15 @@ import br.com.banavita.app.data.local.BanavitaDatabase
 import br.com.banavita.app.data.local.BanavitaDatabaseHolder
 import br.com.banavita.app.data.local.dao.ClienteDao
 import br.com.banavita.app.data.local.dao.CompraDao
+import br.com.banavita.app.data.local.dao.EncomendaDao
 import br.com.banavita.app.data.local.dao.EstoqueDao
 import br.com.banavita.app.data.local.dao.EventoDao
 import br.com.banavita.app.data.local.dao.FornecedorDao
 import br.com.banavita.app.data.local.dao.GrupoDao
+import br.com.banavita.app.data.local.dao.LoteDao
 import br.com.banavita.app.data.local.dao.PagamentoDao
+import br.com.banavita.app.data.local.dao.PerdaDao
+import br.com.banavita.app.data.local.dao.PrecoQueimaDao
 import br.com.banavita.app.data.local.dao.ProdutoDao
 import br.com.banavita.app.data.local.dao.RecebimentoDao
 import br.com.banavita.app.data.local.dao.VendaDao
@@ -60,4 +64,16 @@ object DatabaseModule {
 
     @Provides
     fun provideEventoDao(database: BanavitaDatabase): EventoDao = database.eventoDao()
+
+    @Provides
+    fun provideLoteDao(database: BanavitaDatabase): LoteDao = database.loteDao()
+
+    @Provides
+    fun providePerdaDao(database: BanavitaDatabase): PerdaDao = database.perdaDao()
+
+    @Provides
+    fun providePrecoQueimaDao(database: BanavitaDatabase): PrecoQueimaDao = database.precoQueimaDao()
+
+    @Provides
+    fun provideEncomendaDao(database: BanavitaDatabase): EncomendaDao = database.encomendaDao()
 }

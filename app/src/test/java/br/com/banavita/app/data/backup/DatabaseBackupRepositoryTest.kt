@@ -54,7 +54,22 @@ class DatabaseBackupRepositoryTest {
             Provider { holder.get().fornecedorDao() },
             scheduler,
         )
-        repository = DatabaseBackupRepository(context, holder, eventoRepository, scheduler)
+        repository = DatabaseBackupRepository(
+            context,
+            holder,
+            eventoRepository,
+            scheduler,
+            br.com.banavita.app.core.reminder.PereciveisMorningScheduler(
+                context,
+                br.com.banavita.app.data.repository.AppSettingsRepository(
+                    br.com.banavita.app.data.local.settings.AppSettingsLocalDataSource(context),
+                    object : br.com.banavita.app.data.remote.groq.GroqConfig {
+                        override val apiKey: String = ""
+                        override val modelId: String = "test"
+                    },
+                ),
+            ),
+        )
 
         runBlocking {
             holder.get().grupoDao().insert(

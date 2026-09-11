@@ -6,6 +6,9 @@ enum class ConsultaModo(val route: String) {
     COMPRAS("compras"),
     RECEBER("receber"),
     PAGAR("pagar"),
+    PREVISAO("previsao"),
+    PERDAS("perdas"),
+    ENCOMENDAS("encomendas"),
     ;
 
     companion object {
@@ -42,4 +45,6 @@ enum class EstoqueOrdenacao {
 enum class EstoqueMovimentoTipo {
     ENTRADA,
     SAIDA,
+    PERDA,
+    TRANSFERENCIA,
 }

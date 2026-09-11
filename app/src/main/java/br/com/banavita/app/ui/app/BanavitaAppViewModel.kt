@@ -2,8 +2,10 @@ package br.com.banavita.app.ui.app
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.banavita.app.core.reminder.PereciveisMorningScheduler
 import br.com.banavita.app.data.repository.ActivationRepository
 import br.com.banavita.app.data.repository.AppSettingsRepository
+import br.com.banavita.app.data.repository.LoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +18,8 @@ import javax.inject.Inject
 class BanavitaAppViewModel @Inject constructor(
     private val activationRepository: ActivationRepository,
     appSettingsRepository: AppSettingsRepository,
+    private val loteRepository: LoteRepository,
+    private val morningScheduler: PereciveisMorningScheduler,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -44,5 +48,16 @@ class BanavitaAppViewModel @Inject constructor(
 
     fun onActivated() {
         _uiState.update { it.copy(isActivated = true) }
+        onAppForeground()
+    }
+
+    fun onAppForeground() {
+        if (!_uiState.value.isActivated) return
+        viewModelScope.launch {
+            runCatching {
+                loteRepository.avancarMaturacao()
+                morningScheduler.scheduleNext()
+            }
+        }
     }
 }

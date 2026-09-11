@@ -32,6 +32,7 @@ class ExtractionRepositoryTest {
     private lateinit var produtoRepository: ProdutoRepository
     private lateinit var clienteRepository: ClienteRepository
     private lateinit var sessionCache: ExtractionSessionCache
+    private lateinit var graph: br.com.banavita.app.TestRepositories
 
     @Before
     fun setUp() {
@@ -40,8 +41,7 @@ class ExtractionRepositoryTest {
             .allowMainThreadQueries()
             .build()
 
-        val documentoFactory = DocumentoItemFactory(Provider { database.produtoDao() })
-        val estoqueValidator = EstoqueValidator(Provider { database.estoqueDao() })
+        graph = br.com.banavita.app.TestRepositories(context, database)
 
         produtoRepository = ProdutoRepository(
             Provider { database.produtoDao() },
@@ -50,21 +50,8 @@ class ExtractionRepositoryTest {
         clienteRepository = ClienteRepository(Provider { database.clienteDao() })
         val fornecedorRepository = FornecedorRepository(Provider { database.fornecedorDao() })
         val grupoRepository = GrupoRepository(Provider { database.grupoDao() })
-        val vendaRepository = VendaRepository(
-            Provider { database },
-            Provider { database.vendaDao() },
-            Provider { database.clienteDao() },
-            documentoFactory,
-            estoqueValidator,
-            Provider { database.recebimentoDao() },
-        )
-        val compraRepository = CompraRepository(
-            Provider { database },
-            Provider { database.compraDao() },
-            Provider { database.fornecedorDao() },
-            documentoFactory,
-            Provider { database.pagamentoDao() },
-        )
+        val vendaRepository = graph.vendaRepository
+        val compraRepository = graph.compraRepository
         val financeiroRepository = FinanceiroRepository(
             Provider { database.vendaDao() },
             Provider { database.compraDao() },
@@ -114,13 +101,7 @@ class ExtractionRepositoryTest {
         val clienteId = clienteRepository.create("Maria", null)
 
         // estoque: compra antes da venda
-        val compraRepo = CompraRepository(
-            Provider { database },
-            Provider { database.compraDao() },
-            Provider { database.fornecedorDao() },
-            DocumentoItemFactory(Provider { database.produtoDao() }),
-            Provider { database.pagamentoDao() },
-        )
+        val compraRepo = graph.compraRepository
         compraRepo.create(
             data = System.currentTimeMillis(),
             fornecedorId = null,
@@ -198,5 +179,36 @@ class ExtractionRepositoryTest {
         assertEquals(br.com.banavita.app.domain.model.ConsultaModo.ESTOQUE, result.modo)
         assertEquals("banana", result.busca)
         assertEquals(null, sessionCache.get())
+    }
+
+    @Test
+    fun `extract cliente padrao curto nome e telefone`() = runBlocking {
+        val draft = repository.extract(
+            transcript = "Armando 14936586721",
+            context = VoiceScreenContext.CLIENTE,
+        )
+        val fields = draft.fields as ExtractionFields.ClienteDraft
+        assertEquals("Armando", fields.nome.value)
+        assertEquals("14936586721", fields.telefone.value)
+        val result = repository.confirmDraft(draft.id) as ConfirmResult.ClienteCriado
+        val cliente = clienteRepository.getById(result.clienteId)
+        assertEquals("Armando", cliente!!.nome)
+        assertEquals("14936586721", cliente.telefone)
+    }
+
+    @Test
+    fun `inicio padrao curto de venda abre draft de venda`() = runBlocking {
+        produtoRepository.create("Banana Nanica", 1200, null, "KG")
+        clienteRepository.create("Padaria", null)
+        val draft = repository.extract(
+            transcript = "20 quilos nanica pra padaria",
+            context = VoiceScreenContext.INICIO,
+        )
+        assertTrue(draft.fields is ExtractionFields.VendaDraft)
+        val fields = draft.fields as ExtractionFields.VendaDraft
+        assertEquals(20.0, fields.itens.first().quantidade.value!!, 0.001)
+        assertEquals("KG", fields.itens.first().unidade.value)
+        assertTrue(fields.itens.first().produtoRaw.value!!.contains("nanica", ignoreCase = true))
+        assertTrue(fields.clienteRaw.value!!.contains("padaria", ignoreCase = true))
     }
 }

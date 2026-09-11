@@ -30,7 +30,8 @@ object MoneyParser {
         if (hits.isEmpty()) {
             currencyRegex.findAll(normalizedText).forEach { match ->
                 val hasMoneyCue = match.value.contains("r$", ignoreCase = true) ||
-                    match.value.contains("real", ignoreCase = true)
+                    match.value.contains("reais", ignoreCase = true) ||
+                    Regex("""(?i)\breal\b""").containsMatchIn(match.value)
                 if (!hasMoneyCue && match.groupValues[1].toDoubleOrNull()?.let { it < 100 } == true) {
                     // skip bare small numbers — likely quantities
                     return@forEach

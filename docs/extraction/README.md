@@ -11,7 +11,7 @@ Classifica/extrai slots a partir do transcript ASR, com **contexto de tela conhe
 | Text Embedder | Evolução futura para fuzzy match |
 | NER / slot-filling | **Não existe** pronto |
 
-Abordagem atual: **heurísticas PT-BR + dicionário + match no cadastro local**.
+Abordagem atual: **heurísticas PT-BR + dicionário + match no cadastro local**. Parser **posicional por tela**: a ordem da fala é a ordem dos campos; `cadastrar` / `vende` / `comprei` no começo são lixo tolerado, não o desenho.
 
 ## Fluxo
 
@@ -72,11 +72,39 @@ fun discardDraft(draftId: UUID)
 
 ## Exemplos
 
+Padrão curto (referência):
+
 Venda:
+
+> “20 quilos nanica amarela pra padaria 8 reais fiado”
+
+-> qtde `20`, unidade `KG`, produto `nanica`, estado `amarela`, cliente `padaria`, preço `800` centavos, a prazo.
+
+Cliente:
+
+> “Armando 14936586721”
+
+-> nome `Armando`, telefone `14936586721`.
+
+Compra:
+
+> “10 caixas nanica do Sítio Verde 6 reais”
+
+-> qtde `10`, unidade `CX`, produto `nanica`, fornecedor `Sítio Verde`, preço `600` centavos.
+
+Produto:
+
+> “Nanica 8 reais quilo”
+
+-> descrição `nanica`, preço `800` centavos, unidade `KG`.
+
+Ainda aceito (frases longas):
 
 > “vende três quilos de banana nanica pra Maria a doze reais”
 
 -> qtde `3`, unidade `KG`, produto `banana nanica`, cliente `Maria`, preço `1200` centavos.
+
+> “cadastrar cliente Ana Souza 11999887766”
 
 ## Evolução
 

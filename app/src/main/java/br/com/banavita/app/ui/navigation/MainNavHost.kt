@@ -31,6 +31,9 @@ import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheRoute
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheRoute
 import br.com.banavita.app.ui.home.HomeNavEvent
 import br.com.banavita.app.ui.home.HomeRoute
+import br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormRoute
+import br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaRoute
+import br.com.banavita.app.ui.pereciveis.perda.PerdaFormRoute
 import br.com.banavita.app.ui.settings.SettingsRoute
 import br.com.banavita.app.ui.vendas.VendaFormRoute
 import br.com.banavita.app.ui.vendas.VendaListRoute
@@ -68,7 +71,7 @@ private fun NavGraphBuilder.addTopLevelScreens(navController: NavHostController)
                 when (event) {
                     HomeNavEvent.NovaVenda -> navController.navigate(BanavitaRoutes.VENDA_FORM_NEW)
                     is HomeNavEvent.Consultas -> navController.navigate(
-                        BanavitaRoutes.consultas(event.modo, event.busca, event.periodo),
+                        BanavitaRoutes.consultas(event.modo, event.busca, event.periodo, event.criticos),
                     )
                     is HomeNavEvent.Agenda -> navController.navigate(
                         BanavitaRoutes.agenda(event.epochDay, event.monthOverviewHint),
@@ -80,6 +83,10 @@ private fun NavGraphBuilder.addTopLevelScreens(navController: NavHostController)
                         navController.navigate(BanavitaRoutes.receberDetalhe(event.clienteId))
                     is HomeNavEvent.PagarDetalhe ->
                         navController.navigate(BanavitaRoutes.pagarDetalhe(event.fornecedorId))
+                    HomeNavEvent.FilaEtileno -> navController.navigate(BanavitaRoutes.ETILENO_FILA)
+                    HomeNavEvent.NovaPerda -> navController.navigate(BanavitaRoutes.perdaForm())
+                    HomeNavEvent.NovaEncomenda -> navController.navigate(BanavitaRoutes.ENCOMENDA_FORM_NEW)
+                    is HomeNavEvent.Encomenda -> navController.navigate(BanavitaRoutes.encomendaEdit(event.encomendaId))
                 }
             },
         )
@@ -131,6 +138,7 @@ private fun NavGraphBuilder.addCadastrosNestedScreens(navController: NavHostCont
 }
 
 private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController) {
+    val popBack: () -> Unit = { navController.popBackStack() }
     composable(
         route = BanavitaRoutes.CONSULTAS,
         arguments = listOf(
@@ -145,6 +153,15 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
             navArgument(BanavitaRoutes.ARG_PERIODO) {
                 type = NavType.StringType
                 defaultValue = ""
+            },
+            navArgument(BanavitaRoutes.ARG_CRITICOS) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "banavita://consultas?modo={modo}&busca={busca}&periodo={periodo}&criticos={criticos}"
             },
         ),
     ) {
@@ -163,6 +180,14 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
                         navController.navigate(BanavitaRoutes.receberDetalhe(event.clienteId))
                     is ConsultasNavEvent.PagarDetalhe ->
                         navController.navigate(BanavitaRoutes.pagarDetalhe(event.fornecedorId))
+                    is ConsultasNavEvent.Encomenda ->
+                        navController.navigate(BanavitaRoutes.encomendaEdit(event.encomendaId))
+                    ConsultasNavEvent.NovaEncomenda ->
+                        navController.navigate(BanavitaRoutes.ENCOMENDA_FORM_NEW)
+                    ConsultasNavEvent.FilaEtileno ->
+                        navController.navigate(BanavitaRoutes.ETILENO_FILA)
+                    ConsultasNavEvent.NovaPerda ->
+                        navController.navigate(BanavitaRoutes.perdaForm())
                 }
             },
         )
@@ -173,6 +198,9 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
     ) {
         EstoqueDetalheRoute(
             onEditProduto = { id -> navController.navigate(BanavitaRoutes.produtoEdit(id)) },
+            onLancarPerda = { loteId, produtoId ->
+                navController.navigate(BanavitaRoutes.perdaForm(loteId, produtoId))
+            },
         )
     }
     composable(
@@ -186,6 +214,33 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
         arguments = listOf(navArgument(BanavitaRoutes.ARG_FORNECEDOR_ID) { type = NavType.StringType }),
     ) {
         FinanceiroDetalheRoute(receber = false)
+    }
+    composable(BanavitaRoutes.ETILENO_FILA) {
+        EtilenoFilaRoute()
+    }
+    composable(
+        route = BanavitaRoutes.PERDA_FORM,
+        arguments = listOf(
+            navArgument(BanavitaRoutes.ARG_LOTE_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+            navArgument(BanavitaRoutes.ARG_PRODUTO_ID) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) {
+        PerdaFormRoute(onDone = popBack)
+    }
+    composable(BanavitaRoutes.ENCOMENDA_FORM_NEW) {
+        EncomendaFormRoute(onDone = popBack)
+    }
+    composable(
+        route = BanavitaRoutes.ENCOMENDA_FORM_EDIT,
+        arguments = listOf(navArgument(BanavitaRoutes.ARG_ENCOMENDA_ID) { type = NavType.StringType }),
+    ) {
+        EncomendaFormRoute(onDone = popBack)
     }
 }
 

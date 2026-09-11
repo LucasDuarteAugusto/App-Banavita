@@ -23,7 +23,11 @@ class ClienteRepository @Inject constructor(
     suspend fun getById(id: UUID): Cliente? =
         clienteDao.get().getById(id)?.toDomain()
 
-    suspend fun create(nome: String, telefone: String?): UUID {
+    suspend fun create(
+        nome: String,
+        telefone: String?,
+        pontoPreferido: br.com.banavita.app.domain.model.MaturacaoEstado? = null,
+    ): UUID {
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
         clienteDao.get().insert(
@@ -33,18 +37,25 @@ class ClienteRepository @Inject constructor(
                 updatedAt = timestamp,
                 nome = nome,
                 telefone = telefone,
+                pontoPreferido = pontoPreferido?.name,
             ),
         )
         return id
     }
 
-    suspend fun update(id: UUID, nome: String, telefone: String?) {
+    suspend fun update(
+        id: UUID,
+        nome: String,
+        telefone: String?,
+        pontoPreferido: br.com.banavita.app.domain.model.MaturacaoEstado? = null,
+    ) {
         val existing = clienteDao.get().getById(id)
             ?: throw ReferencedEntityException("Cliente $id não encontrado.")
         clienteDao.get().update(
             existing.copy(
                 nome = nome,
                 telefone = telefone,
+                pontoPreferido = pontoPreferido?.name,
                 updatedAt = nowEpochMillis(),
             ),
         )

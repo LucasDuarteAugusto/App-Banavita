@@ -12,6 +12,16 @@ data class HomeUiState(
     val receberCentavos: Long = 0,
     val pagarCentavos: Long = 0,
     val proximoEvento: Evento? = null,
+    val kgPintada: Double = 0.0,
+    val descricaoPintada: String? = null,
+    val produtoIdPintada: UUID? = null,
+    val precoQueimaSugeridoCentavos: Long = 0,
+    val kgPodreOuAmanha: Double = 0.0,
+    val descricaoPodre: String? = null,
+    val encomendasAbertasSemana: Int = 0,
+    val showQueimaDialog: Boolean = false,
+    val queimaPrecoInput: String = "",
+    val queimaError: String? = null,
     val isLoading: Boolean = true,
 )
 
@@ -21,6 +31,7 @@ sealed class HomeNavEvent {
         val modo: ConsultaModo,
         val busca: String? = null,
         val periodo: PeriodoPreset? = null,
+        val criticos: Boolean = false,
     ) : HomeNavEvent()
     data class Agenda(
         val epochDay: Long? = null,
@@ -30,4 +41,8 @@ sealed class HomeNavEvent {
     data class EstoqueDetalhe(val produtoId: UUID) : HomeNavEvent()
     data class ReceberDetalhe(val clienteId: UUID) : HomeNavEvent()
     data class PagarDetalhe(val fornecedorId: UUID) : HomeNavEvent()
+    data object FilaEtileno : HomeNavEvent()
+    data object NovaPerda : HomeNavEvent()
+    data object NovaEncomenda : HomeNavEvent()
+    data class Encomenda(val encomendaId: UUID) : HomeNavEvent()
 }

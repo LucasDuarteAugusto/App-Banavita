@@ -152,6 +152,10 @@ private fun titleForRoute(route: String?): String {
         route?.startsWith("vendas/edit/") == true -> R.string.venda_form_edit_title
         route == BanavitaRoutes.COMPRA_FORM_NEW -> R.string.compra_form_new_title
         route?.startsWith("compras/edit/") == true -> R.string.compra_form_edit_title
+        route == BanavitaRoutes.ETILENO_FILA -> R.string.etileno_title
+        route?.startsWith("pereciveis/perda") == true -> R.string.perda_form_title
+        route == BanavitaRoutes.ENCOMENDA_FORM_NEW -> R.string.encomenda_form_new_title
+        route?.startsWith("pereciveis/encomenda") == true -> R.string.encomenda_form_edit_title
         else -> R.string.home_title
     }
     return stringResource(titleRes)

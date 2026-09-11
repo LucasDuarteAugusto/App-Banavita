@@ -8,6 +8,7 @@ import br.com.banavita.app.data.local.BanavitaDatabase
 import br.com.banavita.app.data.local.BanavitaDatabaseHolder
 import br.com.banavita.app.domain.exception.BackupInvalidException
 import br.com.banavita.app.domain.exception.BackupSchemaTooNewException
+import br.com.banavita.app.core.reminder.PereciveisMorningScheduler
 import br.com.banavita.app.domain.reminder.ReminderScheduler
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +28,7 @@ class DatabaseBackupRepository @Inject constructor(
     private val databaseHolder: BanavitaDatabaseHolder,
     private val eventoRepository: EventoRepository,
     private val reminderScheduler: ReminderScheduler,
+    private val morningScheduler: PereciveisMorningScheduler,
 ) {
     suspend fun exportTo(uri: Uri): BackupManifest = withContext(Dispatchers.IO) {
         val manifest = BackupManifest(
@@ -90,6 +92,7 @@ class DatabaseBackupRepository @Inject constructor(
             // Força abertura e migrações (schema antigo → atual).
             databaseHolder.get().openHelper.writableDatabase
             reminderScheduler.rescheduleAll(eventoRepository.getPendingReminders())
+            morningScheduler.scheduleNext()
         } catch (error: Exception) {
             runCatching {
                 // Se o banco foi fechado e a restauração falhou, tenta reabrir o que restou.

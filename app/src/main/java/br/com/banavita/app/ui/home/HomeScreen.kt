@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -31,6 +32,7 @@ import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
 import br.com.banavita.app.ui.common.BanavitaIcons
+import br.com.banavita.app.ui.common.QueimaPrecoDialog
 import br.com.banavita.app.ui.common.formatCurrency
 import br.com.banavita.app.ui.common.formatDateTime
 import br.com.banavita.app.ui.voice.VoiceEnabledScreen
@@ -63,6 +65,12 @@ fun HomeRoute(
             }
         },
         onVoiceResult = viewModel::applyVoice,
+        onPereciveisClick = viewModel::onPereciveisClick,
+        onEncomendasClick = viewModel::onEncomendasClick,
+        onQueimaClick = viewModel::onQueimaClick,
+        onQueimaPreco = viewModel::onQueimaPreco,
+        onConfirmQueima = viewModel::confirmQueima,
+        onDismissQueima = viewModel::dismissQueima,
         modifier = modifier,
     )
 }
@@ -74,6 +82,12 @@ fun HomeScreen(
     onConsultasClick: (ConsultaModo) -> Unit,
     onAgendaClick: () -> Unit,
     onVoiceResult: (ConfirmResult) -> Unit,
+    onPereciveisClick: () -> Unit,
+    onEncomendasClick: () -> Unit,
+    onQueimaClick: () -> Unit,
+    onQueimaPreco: (String) -> Unit,
+    onConfirmQueima: () -> Unit,
+    onDismissQueima: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     VoiceEnabledScreen(
@@ -84,6 +98,15 @@ fun HomeScreen(
         onAddClick = {},
         onVoiceSuccess = onVoiceResult,
     ) { contentModifier ->
+        if (uiState.showQueimaDialog) {
+            QueimaPrecoDialog(
+                precoInput = uiState.queimaPrecoInput,
+                onPrecoChange = onQueimaPreco,
+                onConfirm = onConfirmQueima,
+                onDismiss = onDismissQueima,
+                errorMessage = uiState.queimaError,
+            )
+        }
         Column(
             modifier = contentModifier
                 .fillMaxSize()
@@ -116,6 +139,21 @@ fun HomeScreen(
                 },
                 icon = BanavitaIcons.Inventory,
                 onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
+            )
+            PereciveisCard(
+                uiState = uiState,
+                onClick = onPereciveisClick,
+                onQueimaClick = onQueimaClick,
+            )
+            ShortcutCard(
+                title = stringResource(R.string.home_card_encomendas_title),
+                description = if (uiState.encomendasAbertasSemana == 0) {
+                    stringResource(R.string.home_card_encomendas_empty)
+                } else {
+                    stringResource(R.string.home_card_encomendas_count, uiState.encomendasAbertasSemana)
+                },
+                icon = BanavitaIcons.Event,
+                onClick = onEncomendasClick,
             )
             ShortcutCard(
                 title = stringResource(R.string.home_card_vendas_title),
@@ -171,6 +209,77 @@ fun HomeScreen(
         }
     }
 }
+
+@Composable
+private fun PereciveisCard(
+    uiState: HomeUiState,
+    onClick: () -> Unit,
+    onQueimaClick: () -> Unit,
+) {
+    val description = when {
+        uiState.kgPintada <= 1e-9 && uiState.kgPodreOuAmanha <= 1e-9 ->
+            stringResource(R.string.home_card_pereciveis_empty)
+        else -> buildString {
+            if (uiState.kgPintada > 1e-9) {
+                append(
+                    stringResource(
+                        R.string.home_card_pereciveis_pintada,
+                        formatKg(uiState.kgPintada),
+                        uiState.descricaoPintada.orEmpty(),
+                    ),
+                )
+            }
+            if (uiState.kgPodreOuAmanha > 1e-9) {
+                if (isNotEmpty()) append(" · ")
+                append(
+                    stringResource(
+                        R.string.home_card_pereciveis_podre,
+                        formatKg(uiState.kgPodreOuAmanha),
+                    ),
+                )
+            }
+        }
+    }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+    ) {
+        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = BanavitaIcons.Inventory,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        text = stringResource(R.string.home_card_pereciveis_title),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            if (uiState.kgPintada > 1e-9 && uiState.produtoIdPintada != null) {
+                TextButton(onClick = onQueimaClick) {
+                    Text(stringResource(R.string.estoque_aplicar_queima))
+                }
+            }
+        }
+    }
+}
+
+private fun formatKg(value: Double): String =
+    if (value % 1.0 == 0.0) value.toLong().toString() else String.format("%.1f", value)
 
 @Composable
 private fun ShortcutCard(

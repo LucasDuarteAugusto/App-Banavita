@@ -25,6 +25,14 @@ class ExtractionParsersTest {
     }
 
     @Test
+    fun `money N reais sem a prefixo`() {
+        val text = TextNormalizer.normalize("nanica 8 reais quilo")
+        val hit = MoneyParser.first(text)
+        assertNotNull(hit)
+        assertEquals(800L, hit!!.cents)
+    }
+
+    @Test
     fun `phone extrai digitos`() {
         val hit = PhoneParser.find("cliente Joao telefone 11987654321")
         assertNotNull(hit)
@@ -209,5 +217,155 @@ class ExtractionParsersTest {
     fun `inicio reconhece nova venda sem item`() {
         assertTrue(ConsultasExtractionParser.parse("nova venda", preferInicio = true).navigateNovaVenda)
         assertTrue(!InicioIntentParser.looksLikeVenda("nova venda"))
+    }
+
+    @Test
+    fun `cliente parser padrao curto nome e telefone`() {
+        val parsed = ClienteExtractionParser.parse("Armando 14936586721")
+        assertEquals("Armando", parsed.nome.value)
+        assertEquals("14936586721", parsed.telefone.value)
+    }
+
+    @Test
+    fun `cliente parser padrao curto nome composto e telefone`() {
+        val parsed = ClienteExtractionParser.parse("João da Silva 11987654321")
+        assertEquals("João da Silva", parsed.nome.value)
+        assertEquals("11987654321", parsed.telefone.value)
+    }
+
+    @Test
+    fun `cliente parser padrao curto so nome`() {
+        val parsed = ClienteExtractionParser.parse("Armando")
+        assertEquals("Armando", parsed.nome.value)
+        assertEquals(null, parsed.telefone.value)
+    }
+
+    @Test
+    fun `fornecedor parser padrao curto nome e telefone`() {
+        val parsed = FornecedorExtractionParser.parse("Sítio Verde 14936586721")
+        assertEquals("Sítio Verde", parsed.nome.value)
+        assertEquals("14936586721", parsed.telefone.value)
+    }
+
+    @Test
+    fun `venda parser padrao curto com estado preco e fiado`() {
+        val parsed = VendaExtractionParser.parse(
+            "20 quilos nanica amarela pra padaria 8 reais fiado",
+        )
+        assertEquals(20.0, parsed.item.quantidade.value!!, 0.001)
+        assertEquals("KG", parsed.item.unidade.value)
+        assertTrue(parsed.item.produtoRaw.value!!.contains("nanica", ignoreCase = true))
+        assertEquals(br.com.banavita.app.domain.model.MaturacaoEstado.AMARELA, parsed.item.estado.value)
+        assertTrue(parsed.clienteRaw.value!!.contains("padaria", ignoreCase = true))
+        assertEquals(800L, parsed.item.valorUnitarioCentavos.value)
+        assertEquals(true, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `venda parser padrao minimo sem preco e sem estado`() {
+        val parsed = VendaExtractionParser.parse("20 quilos nanica pra padaria")
+        assertEquals(20.0, parsed.item.quantidade.value!!, 0.001)
+        assertEquals("KG", parsed.item.unidade.value)
+        assertTrue(parsed.item.produtoRaw.value!!.contains("nanica", ignoreCase = true))
+        assertEquals(null, parsed.item.estado.value)
+        assertTrue(parsed.clienteRaw.value!!.contains("padaria", ignoreCase = true))
+        assertEquals(null, parsed.item.valorUnitarioCentavos.value)
+        assertEquals(false, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `inicio reconhece padrao curto de venda sem a palavra vende`() {
+        assertTrue(InicioIntentParser.looksLikeVenda("20 quilos nanica pra padaria"))
+        assertTrue(InicioIntentParser.looksLikeVenda("20 quilos nanica amarela pra padaria 8 reais fiado"))
+        assertTrue(!InicioIntentParser.looksLikeVenda("estoque nanica"))
+        assertTrue(!InicioIntentParser.looksLikeVenda("vendas semana"))
+    }
+
+    @Test
+    fun `compra parser padrao curto`() {
+        val parsed = CompraExtractionParser.parse("10 caixas nanica do Sitio Verde 6 reais")
+        assertEquals(10.0, parsed.item.quantidade.value!!, 0.001)
+        assertEquals("CX", parsed.item.unidade.value)
+        assertTrue(parsed.item.produtoRaw.value!!.contains("nanica", ignoreCase = true))
+        assertTrue(parsed.fornecedorRaw.value!!.contains("sitio", ignoreCase = true))
+        assertEquals(600L, parsed.item.valorUnitarioCentavos.value)
+        assertEquals(null, parsed.item.estado.value)
+        assertEquals(false, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `produto parser padrao curto nome preco e unidade`() {
+        val parsed = ProdutoExtractionParser.parse("Nanica 8 reais quilo")
+        assertTrue(parsed.descricao.value!!.contains("nanica", ignoreCase = true))
+        assertEquals(800L, parsed.precoCentavos.value)
+        assertEquals("KG", parsed.unidade.value)
+        assertEquals(null, parsed.grupoRaw.value)
+    }
+
+    @Test
+    fun `produto parser padrao curto com grupo`() {
+        val parsed = ProdutoExtractionParser.parse("Nanica 8 reais quilo grupo banana")
+        assertTrue(parsed.descricao.value!!.contains("nanica", ignoreCase = true))
+        assertTrue(!parsed.descricao.value!!.contains("grupo", ignoreCase = true))
+        assertEquals(800L, parsed.precoCentavos.value)
+        assertEquals("KG", parsed.unidade.value)
+        assertTrue(parsed.grupoRaw.value!!.contains("banana", ignoreCase = true))
+    }
+
+    @Test
+    fun `grupo parser padrao curto com obs`() {
+        val soNome = GrupoExtractionParser.parse("Banana")
+        assertEquals("banana", soNome.nome.value)
+        assertEquals(null, soNome.observacao.value)
+
+        val comObs = GrupoExtractionParser.parse("Banana obs frutas")
+        assertEquals("banana", comObs.nome.value)
+        assertEquals("frutas", comObs.observacao.value)
+    }
+
+    @Test
+    fun `consultas parser frases curtas`() {
+        val estoque = ConsultasExtractionParser.parse("estoque nanica")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.ESTOQUE, estoque.modo.value)
+        assertTrue(estoque.busca.value!!.contains("nanica", ignoreCase = true))
+
+        val vendas = ConsultasExtractionParser.parse("vendas semana")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.VENDAS, vendas.modo.value)
+        assertEquals(br.com.banavita.app.domain.model.PeriodoPreset.SEMANA, vendas.periodo.value)
+
+        val previsao = ConsultasExtractionParser.parse("previsão")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.PREVISAO, previsao.modo.value)
+
+        val perdas = ConsultasExtractionParser.parse("perdas")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.PERDAS, perdas.modo.value)
+
+        val encomenda = ConsultasExtractionParser.parse("encomenda")
+        assertEquals(br.com.banavita.app.domain.model.ConsultaModo.ENCOMENDAS, encomenda.modo.value)
+
+        val criticos = ConsultasExtractionParser.parse("pintada")
+        assertEquals(true, criticos.somenteCriticos.value)
+    }
+
+    @Test
+    fun `baixa parser padrao curto sem a palavra receber`() {
+        val parsed = BaixaExtractionParser.parse("50 reais da Maria")
+        assertEquals(5000L, parsed.valorCentavos.value)
+        assertTrue(parsed.parceiroRaw.value!!.contains("maria", ignoreCase = true))
+        assertTrue(BaixaExtractionParser.isReceber("50 reais da Maria"))
+        assertTrue(BaixaExtractionParser.isPagar("200 reais do Sitio Verde"))
+        assertTrue(!BaixaExtractionParser.looksLikeBaixa("hoje"))
+        assertTrue(!BaixaExtractionParser.looksLikeBaixa("Maria"))
+    }
+
+    @Test
+    fun `evento parser padrao curto cria compromisso`() {
+        val parsed = EventoExtractionParser.parse("visita João amanhã às 15")
+        assertTrue(!EventoExtractionParser.looksLikeFilterOnly("visita João amanhã às 15"))
+        assertTrue(parsed.titulo.value!!.contains("joao", ignoreCase = true))
+        val zdt = java.time.Instant.ofEpochMilli(parsed.dataHoraMillis.value!!)
+            .atZone(java.time.ZoneId.systemDefault())
+        assertEquals(15, zdt.hour)
+        assertEquals(0, zdt.minute)
+        assertEquals(java.time.LocalDate.now(java.time.ZoneId.systemDefault()).plusDays(1), zdt.toLocalDate())
     }
 }

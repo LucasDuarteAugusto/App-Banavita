@@ -4,6 +4,7 @@ import br.com.banavita.app.data.local.dao.ClienteDao
 import br.com.banavita.app.data.local.dao.FornecedorDao
 import br.com.banavita.app.data.local.dao.GrupoDao
 import br.com.banavita.app.data.local.dao.ProdutoDao
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.extraction.EntityCandidate
 import br.com.banavita.app.domain.model.extraction.ResolvedEntity
 import java.util.UUID
@@ -20,6 +21,9 @@ class EntityResolver @Inject constructor(
     private val fornecedorDao: Provider<FornecedorDao>,
     private val grupoDao: Provider<GrupoDao>,
 ) {
+    suspend fun pontoPreferido(clienteId: UUID): MaturacaoEstado? =
+        MaturacaoEstado.fromStored(clienteDao.get().getById(clienteId)?.pontoPreferido)
+
     suspend fun resolveProduto(raw: String?): ResolvedEntity? {
         if (raw.isNullOrBlank()) return null
         val produtos = produtoDao.get().getAll().map { it.id to it.descricao }

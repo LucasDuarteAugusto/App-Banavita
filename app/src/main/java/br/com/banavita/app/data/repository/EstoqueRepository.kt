@@ -39,6 +39,22 @@ class EstoqueRepository @Inject constructor(
                 documentoId = row.documentoId,
             )
         }
-        return (entradas + saidas).sortedByDescending { it.data }
+        val perdas = estoqueDao.get().perdasDoProduto(produtoId).map { row ->
+            EstoqueMovimento(
+                data = row.data,
+                tipo = EstoqueMovimentoTipo.PERDA,
+                quantidade = row.quantidade,
+                documentoId = row.documentoId,
+            )
+        }
+        val transferencias = estoqueDao.get().transferenciasDoProduto(produtoId).map { row ->
+            EstoqueMovimento(
+                data = row.data,
+                tipo = EstoqueMovimentoTipo.TRANSFERENCIA,
+                quantidade = row.quantidade,
+                documentoId = row.documentoId,
+            )
+        }
+        return (entradas + saidas + perdas + transferencias).sortedByDescending { it.data }
     }
 }

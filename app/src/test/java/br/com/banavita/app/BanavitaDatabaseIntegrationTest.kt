@@ -21,9 +21,7 @@ import br.com.banavita.app.data.local.entity.VendaEntity
 import br.com.banavita.app.data.local.entity.VendaItemEntity
 import br.com.banavita.app.data.repository.ClienteRepository
 import br.com.banavita.app.data.repository.CompraRepository
-import br.com.banavita.app.data.repository.DocumentoItemFactory
 import br.com.banavita.app.data.repository.EstoqueRepository
-import br.com.banavita.app.data.repository.EstoqueValidator
 import br.com.banavita.app.data.repository.GrupoRepository
 import br.com.banavita.app.data.repository.ProdutoRepository
 import br.com.banavita.app.data.repository.VendaRepository
@@ -80,27 +78,13 @@ class BanavitaDatabaseIntegrationTest {
         compraDao = database.compraDao()
         estoqueDao = database.estoqueDao()
 
-        val documentoItemFactory = DocumentoItemFactory(Provider { produtoDao })
-        val estoqueValidator = EstoqueValidator(Provider { estoqueDao })
+        val graph = TestRepositories(context, database)
 
         grupoRepository = GrupoRepository(Provider { grupoDao })
         produtoRepository = ProdutoRepository(Provider { produtoDao }, Provider { grupoDao })
         clienteRepository = ClienteRepository(Provider { clienteDao })
-        compraRepository = CompraRepository(
-            Provider { database },
-            Provider { compraDao },
-            Provider { fornecedorDao },
-            documentoItemFactory,
-            Provider { database.pagamentoDao() },
-        )
-        vendaRepository = VendaRepository(
-            Provider { database },
-            Provider { vendaDao },
-            Provider { clienteDao },
-            documentoItemFactory,
-            estoqueValidator,
-            Provider { database.recebimentoDao() },
-        )
+        compraRepository = graph.compraRepository
+        vendaRepository = graph.vendaRepository
         estoqueRepository = EstoqueRepository(Provider { estoqueDao })
     }
 

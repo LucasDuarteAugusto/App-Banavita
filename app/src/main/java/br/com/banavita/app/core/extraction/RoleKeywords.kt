@@ -9,11 +9,12 @@ object RoleKeywords {
         "cliente", "fornecedor", "produto", "grupo", "cadastro", "cadastrar",
         "quilo", "quilos", "kg", "unidade", "unidades", "caixa", "caixas", "duzia", "dúzia",
         "reais", "real", "r",
+        "verde", "verdolenga", "amarela", "pintada", "podre",
+        "fiado", "pago", "pagou", "prazo", "vista", "avista",
     )
 
     val clienteCue = Regex("""(?i)\b(?:pra|para|pro|cliente)\s+([a-zà-ú][\wà-ú]*(?:\s+[a-zà-ú][\wà-ú]*){0,2})""")
     val fornecedorCue = Regex("""(?i)\b(?:do|da|fornecedor|com)\s+([a-zà-ú][\wà-ú]*(?:\s+[a-zà-ú][\wà-ú]*){0,2})""")
-    val produtoDeCue = Regex("""(?i)\b(?:de|do|da)\s+([a-zà-ú][\wà-ú]*(?:\s+[a-zà-ú][\wà-ú]*){0,3})""")
 
     fun isStopWord(token: String): Boolean =
         stopWords.contains(TextNormalizer.normalize(token))

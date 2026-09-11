@@ -9,6 +9,9 @@ data class PhoneHit(
 )
 
 object PhoneParser {
+    /** Compact 10–11 digit block (ideal speech: name then DDD+number). */
+    private val blockRegex = Regex("""(?<!\d)(\d{10,11})(?!\d)""")
+
     private val contiguousRegex = Regex("""(?<!\d)(\(?\d{2}\)?\s*\d{4,5}[-\s]?\d{4})(?!\d)""")
 
     /** Runs of isolated digits: "11, 9, 8, 7, 6, 5, 4, 3, 2, 1" or "11 98765 4321". */
@@ -22,6 +25,7 @@ object PhoneParser {
     )
 
     fun find(text: String): PhoneHit? {
+        findBlock(text)?.let { return it }
         findContiguous(text)?.let { return it }
         findIsolated(text)?.let { return it }
         findAfterCue(text)?.let { return it }
@@ -36,6 +40,11 @@ object PhoneParser {
             confidence = 0.9f,
             source = FieldSource.HEURISTIC,
         )
+    }
+
+    private fun findBlock(text: String): PhoneHit? {
+        val match = blockRegex.findAll(text).lastOrNull() ?: return null
+        return PhoneHit(digits = match.groupValues[1], rawSpan = match.value)
     }
 
     private fun findContiguous(text: String): PhoneHit? {

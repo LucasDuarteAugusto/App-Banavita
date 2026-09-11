@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import br.com.banavita.app.data.repository.GrupoRepository
 import br.com.banavita.app.data.repository.ProdutoRepository
 import br.com.banavita.app.domain.exception.BanavitaDomainException
+import br.com.banavita.app.domain.model.PrecosPorEstado
+import br.com.banavita.app.domain.model.RipeningCurve
 import br.com.banavita.app.ui.common.MoneyInputParser
 import br.com.banavita.app.ui.navigation.BanavitaRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -58,6 +60,15 @@ class ProdutoFormViewModel @Inject constructor(
                                 precoInput = MoneyInputParser.formatForInput(produto.precoCentavos),
                                 unidade = produto.unidade,
                                 grupoId = produto.grupoId,
+                                perecivel = produto.perecivel,
+                                diasVerde = produto.curva.diasVerde.toString(),
+                                diasVerdolenga = produto.curva.diasVerdolenga.toString(),
+                                diasAmarela = produto.curva.diasAmarela.toString(),
+                                diasPintada = produto.curva.diasPintada.toString(),
+                                precoVerdeInput = MoneyInputParser.formatForInput(produto.precosEstado.verdeCentavos),
+                                precoVerdolengaInput = MoneyInputParser.formatForInput(produto.precosEstado.verdolengaCentavos),
+                                precoAmarelaInput = MoneyInputParser.formatForInput(produto.precosEstado.amarelaCentavos),
+                                precoPintadaInput = MoneyInputParser.formatForInput(produto.precosEstado.pintadaCentavos),
                                 isLoading = false,
                             )
                         }
@@ -85,6 +96,53 @@ class ProdutoFormViewModel @Inject constructor(
 
     fun onGrupoSelected(grupoId: UUID?) {
         _uiState.update { it.copy(grupoId = grupoId, errorMessage = null) }
+    }
+
+    fun onPerecivelChange(value: Boolean) {
+        _uiState.update { state ->
+            val tabela = MoneyInputParser.parseToCentavos(state.precoInput)
+            val fill = tabela?.let { MoneyInputParser.formatForInput(it) }.orEmpty()
+            state.copy(
+                perecivel = value,
+                errorMessage = null,
+                precoVerdeInput = if (value && state.precoVerdeInput.isBlank()) fill else state.precoVerdeInput,
+                precoVerdolengaInput = if (value && state.precoVerdolengaInput.isBlank()) fill else state.precoVerdolengaInput,
+                precoAmarelaInput = if (value && state.precoAmarelaInput.isBlank()) fill else state.precoAmarelaInput,
+                precoPintadaInput = if (value && state.precoPintadaInput.isBlank()) fill else state.precoPintadaInput,
+            )
+        }
+    }
+
+    fun onDiasVerdeChange(value: String) {
+        _uiState.update { it.copy(diasVerde = value, errorMessage = null) }
+    }
+
+    fun onDiasVerdolengaChange(value: String) {
+        _uiState.update { it.copy(diasVerdolenga = value, errorMessage = null) }
+    }
+
+    fun onDiasAmarelaChange(value: String) {
+        _uiState.update { it.copy(diasAmarela = value, errorMessage = null) }
+    }
+
+    fun onDiasPintadaChange(value: String) {
+        _uiState.update { it.copy(diasPintada = value, errorMessage = null) }
+    }
+
+    fun onPrecoVerdeChange(value: String) {
+        _uiState.update { it.copy(precoVerdeInput = value, errorMessage = null) }
+    }
+
+    fun onPrecoVerdolengaChange(value: String) {
+        _uiState.update { it.copy(precoVerdolengaInput = value, errorMessage = null) }
+    }
+
+    fun onPrecoAmarelaChange(value: String) {
+        _uiState.update { it.copy(precoAmarelaInput = value, errorMessage = null) }
+    }
+
+    fun onPrecoPintadaChange(value: String) {
+        _uiState.update { it.copy(precoPintadaInput = value, errorMessage = null) }
     }
 
     fun onDeleteClick() {
@@ -115,13 +173,65 @@ class ProdutoFormViewModel @Inject constructor(
             return
         }
 
+        var curva = RipeningCurve.DEFAULT
+        var precosEstado: PrecosPorEstado? = null
+        if (state.perecivel) {
+            val dVerde = state.diasVerde.trim().toIntOrNull()
+            val dVerdolenga = state.diasVerdolenga.trim().toIntOrNull()
+            val dAmarela = state.diasAmarela.trim().toIntOrNull()
+            val dPintada = state.diasPintada.trim().toIntOrNull()
+            if (dVerde == null || dVerdolenga == null || dAmarela == null || dPintada == null) {
+                _uiState.update { it.copy(errorMessage = "Informe dias maiores que zero em cada etapa da curva.") }
+                return
+            }
+            curva = RipeningCurve(dVerde, dVerdolenga, dAmarela, dPintada)
+            if (!curva.isValid()) {
+                _uiState.update { it.copy(errorMessage = "Informe dias maiores que zero em cada etapa da curva.") }
+                return
+            }
+            val pVerde = MoneyInputParser.parseToCentavos(state.precoVerdeInput)
+            val pVerdolenga = MoneyInputParser.parseToCentavos(state.precoVerdolengaInput)
+            val pAmarela = MoneyInputParser.parseToCentavos(state.precoAmarelaInput)
+            val pPintada = MoneyInputParser.parseToCentavos(state.precoPintadaInput)
+            if (pVerde == null || pVerdolenga == null || pAmarela == null || pPintada == null ||
+                pVerde < 0 || pVerdolenga < 0 || pAmarela < 0 || pPintada < 0
+            ) {
+                _uiState.update { it.copy(errorMessage = "Informe um preço válido para cada estado.") }
+                return
+            }
+            precosEstado = PrecosPorEstado(
+                verdeCentavos = pVerde,
+                verdolengaCentavos = pVerdolenga,
+                amarelaCentavos = pAmarela,
+                pintadaCentavos = pPintada,
+                podreCentavos = 0L,
+            )
+        }
+
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
             runCatching {
                 if (produtoId == null) {
-                    produtoRepository.create(descricao, precoCentavos, state.grupoId, unidade)
+                    produtoRepository.create(
+                        descricao,
+                        precoCentavos,
+                        state.grupoId,
+                        unidade,
+                        state.perecivel,
+                        curva,
+                        precosEstado,
+                    )
                 } else {
-                    produtoRepository.update(produtoId, descricao, precoCentavos, state.grupoId, unidade)
+                    produtoRepository.update(
+                        produtoId,
+                        descricao,
+                        precoCentavos,
+                        state.grupoId,
+                        unidade,
+                        state.perecivel,
+                        curva,
+                        precosEstado,
+                    )
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }

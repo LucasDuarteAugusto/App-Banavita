@@ -25,6 +25,7 @@ class CompraRepository @Inject constructor(
     private val fornecedorDao: Provider<FornecedorDao>,
     private val documentoItemFactory: DocumentoItemFactory,
     private val pagamentoDao: Provider<PagamentoDao>,
+    private val loteRepository: LoteRepository,
 ) {
     fun observeAll(): Flow<List<Compra>> =
         compraDao.get().observeAllWithItems().map { compras -> compras.map { it.toDomain() } }
@@ -58,6 +59,7 @@ class CompraRepository @Inject constructor(
         )
         database.get().withTransaction {
             compraDao.get().insertCompraComItens(compra, itemEntities)
+            loteRepository.criarLotesDaCompra(compraId, data, itemEntities, timestamp)
             if (!aPrazo) {
                 pagamentoDao.get().insert(
                     PagamentoEntity(
@@ -95,10 +97,17 @@ class CompraRepository @Inject constructor(
             valorTotalCentavos = totalCompraCentavos(itemEntities),
             updatedAt = timestamp,
         )
-        compraDao.get().updateCompraComItens(compra, itemEntities)
+        database.get().withTransaction {
+            loteRepository.removerLotesDaCompraSeIntocados(id)
+            compraDao.get().updateCompraComItens(compra, itemEntities)
+            loteRepository.criarLotesDaCompra(id, data, itemEntities, timestamp)
+        }
     }
 
     suspend fun delete(id: UUID) {
-        compraDao.get().deleteCompraComItens(id)
+        database.get().withTransaction {
+            loteRepository.removerLotesDaCompraSeIntocados(id)
+            compraDao.get().deleteCompraComItens(id)
+        }
     }
 }

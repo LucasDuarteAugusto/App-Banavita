@@ -18,4 +18,6 @@ data class ClienteEntity(
     val nome: String,
     @ColumnInfo(name = "CLI_TELEFONE")
     val telefone: String?,
+    @ColumnInfo(name = "CLI_PONTO_PREF")
+    val pontoPreferido: String? = null,
 )

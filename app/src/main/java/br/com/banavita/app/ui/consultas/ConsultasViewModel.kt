@@ -6,31 +6,41 @@ import androidx.lifecycle.viewModelScope
 import br.com.banavita.app.core.time.PeriodRanges
 import br.com.banavita.app.data.repository.ClienteRepository
 import br.com.banavita.app.data.repository.CompraRepository
+import br.com.banavita.app.data.repository.EncomendaRepository
 import br.com.banavita.app.data.repository.EstoqueRepository
 import br.com.banavita.app.data.repository.FinanceiroRepository
 import br.com.banavita.app.data.repository.FornecedorRepository
+import br.com.banavita.app.data.repository.LoteRepository
 import br.com.banavita.app.data.repository.ProdutoRepository
 import br.com.banavita.app.data.repository.VendaRepository
 import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.ConsultaVisao
+import br.com.banavita.app.domain.model.EncomendaStatus
+import br.com.banavita.app.domain.model.EstoqueLinha
 import br.com.banavita.app.domain.model.EstoqueOrdenacao
+import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.PeriodoPreset
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.ui.common.DateInputParser
 import br.com.banavita.app.ui.common.formatCurrency
+import br.com.banavita.app.ui.common.formatDate
 import br.com.banavita.app.ui.common.formatQuantity
 import br.com.banavita.app.ui.navigation.BanavitaRoutes
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ConsultasViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -41,6 +51,8 @@ class ConsultasViewModel @Inject constructor(
     clienteRepository: ClienteRepository,
     fornecedorRepository: FornecedorRepository,
     financeiroRepository: FinanceiroRepository,
+    loteRepository: LoteRepository,
+    encomendaRepository: EncomendaRepository,
 ) : ViewModel() {
 
     private val initialModo = ConsultaModo.fromRoute(
@@ -51,9 +63,15 @@ class ConsultasViewModel @Inject constructor(
         ?.takeIf { it.isNotBlank() }
         ?.let { runCatching { PeriodoPreset.valueOf(it) }.getOrNull() }
         ?: PeriodoPreset.HOJE
+    private val initialCriticos = savedStateHandle.get<String>(BanavitaRoutes.ARG_CRITICOS) == "1"
 
     private val filters = MutableStateFlow(
-        ConsultasFilters(modo = initialModo, busca = initialBusca, periodo = initialPeriodo),
+        ConsultasFilters(
+            modo = initialModo,
+            busca = initialBusca,
+            periodo = initialPeriodo,
+            somenteCriticos = initialCriticos,
+        ),
     )
 
     private val _navEvents = MutableSharedFlow<ConsultasNavEvent>(extraBufferCapacity = 1)
@@ -77,7 +95,23 @@ class ConsultasViewModel @Inject constructor(
         MoneyCatalog(fornecedores, receber, pagar)
     }
 
-    val uiState: StateFlow<ConsultasUiState> = combine(filters, master, money) { current, masters, moneyData ->
+    private val pereciveis = combine(
+        loteRepository.observeLinhas(),
+        loteRepository.observePerdas(),
+        encomendaRepository.observeAll(),
+        loteRepository.observeLinhas().flatMapLatest {
+            flow { emit(loteRepository.previsao()) }
+        },
+    ) { linhas, perdas, encomendas, previsao ->
+        PereciveisCatalog(linhas, perdas, encomendas, previsao)
+    }
+
+    val uiState: StateFlow<ConsultasUiState> = combine(
+        filters,
+        master,
+        money,
+        pereciveis,
+    ) { current, masters, moneyData, perc ->
         buildState(
             current,
             Catalogs(
@@ -89,6 +123,10 @@ class ConsultasViewModel @Inject constructor(
                 fornecedores = moneyData.fornecedores,
                 receber = moneyData.receber,
                 pagar = moneyData.pagar,
+                linhas = perc.linhas,
+                perdas = perc.perdas,
+                encomendas = perc.encomendas,
+                previsao = perc.previsao,
             ),
         )
     }.stateIn(
@@ -117,6 +155,10 @@ class ConsultasViewModel @Inject constructor(
         filters.update { it.copy(somenteZerados = value) }
     }
 
+    fun onSomenteCriticos(value: Boolean) {
+        filters.update { it.copy(somenteCriticos = value) }
+    }
+
     fun onOrdenacao(ordenacao: EstoqueOrdenacao) {
         filters.update { it.copy(ordenacaoEstoque = ordenacao) }
     }
@@ -139,6 +181,7 @@ class ConsultasViewModel @Inject constructor(
                         periodo = result.periodo ?: current.periodo,
                         visao = result.visao ?: current.visao,
                         somenteZerados = result.somenteZerados || current.somenteZerados,
+                        somenteCriticos = result.somenteCriticos || current.somenteCriticos,
                     )
                 }
                 result.openProdutoId?.let { _navEvents.tryEmit(ConsultasNavEvent.EstoqueDetalhe(it)) }
@@ -149,6 +192,18 @@ class ConsultasViewModel @Inject constructor(
         }
     }
 
+    fun onFilaEtileno() {
+        _navEvents.tryEmit(ConsultasNavEvent.FilaEtileno)
+    }
+
+    fun onNovaPerda() {
+        _navEvents.tryEmit(ConsultasNavEvent.NovaPerda)
+    }
+
+    fun onNovaEncomenda() {
+        _navEvents.tryEmit(ConsultasNavEvent.NovaEncomenda)
+    }
+
     fun onEstoqueClick(produtoId: java.util.UUID) {
         _navEvents.tryEmit(ConsultasNavEvent.EstoqueDetalhe(produtoId))
     }
@@ -157,6 +212,7 @@ class ConsultasViewModel @Inject constructor(
         when (filters.value.modo) {
             ConsultaModo.VENDAS -> _navEvents.tryEmit(ConsultasNavEvent.Venda(id))
             ConsultaModo.COMPRAS -> _navEvents.tryEmit(ConsultasNavEvent.Compra(id))
+            ConsultaModo.ENCOMENDAS -> _navEvents.tryEmit(ConsultasNavEvent.Encomenda(id))
             else -> Unit
         }
     }
@@ -181,19 +237,24 @@ class ConsultasViewModel @Inject constructor(
         val clienteMap = data.clientes.associateBy { it.id }
         val fornecedorMap = data.fornecedores.associateBy { it.id }
 
-        val estoqueItems = data.estoques.mapNotNull { estoque ->
-            val produto = produtoMap[estoque.produtoId] ?: return@mapNotNull null
-            if (busca.isNotBlank() && !produto.descricao.contains(busca, ignoreCase = true)) {
+        val estoqueItems = data.linhas.mapNotNull { linha ->
+            if (busca.isNotBlank() && !linha.descricao.contains(busca, ignoreCase = true)) {
                 return@mapNotNull null
             }
-            if (current.somenteZerados && estoque.saldo > 1e-9) return@mapNotNull null
+            if (current.somenteZerados && linha.quantidade > 1e-9) return@mapNotNull null
+            val critico = linha.estado == MaturacaoEstado.PINTADA || linha.estado == MaturacaoEstado.PODRE
+            if (current.somenteCriticos && !critico) return@mapNotNull null
             EstoqueConsultaItem(
-                produtoId = estoque.produtoId,
-                descricao = produto.descricao,
-                unidade = estoque.unidade,
-                saldo = estoque.saldo,
-                saldoFormatado = formatQuantity(estoque.saldo, estoque.unidade),
-                zerado = estoque.saldo <= 1e-9,
+                key = "${linha.produtoId}-${linha.estado}-${linha.camara}",
+                produtoId = linha.produtoId,
+                descricao = linha.descricao,
+                unidade = linha.unidade,
+                saldo = linha.quantidade,
+                saldoFormatado = formatQuantity(linha.quantidade, linha.unidade),
+                zerado = linha.quantidade <= 1e-9,
+                estado = linha.estado,
+                camara = linha.camara,
+                critico = critico,
             )
         }.let { list ->
             when (current.ordenacaoEstoque) {
@@ -307,6 +368,86 @@ class ConsultasViewModel @Inject constructor(
                 totalValue = formatCurrency(pagar.sumOf { it.saldoCentavos }),
                 financeiroItems = pagar,
             )
+            ConsultaModo.PREVISAO -> {
+                val items = data.previsao.filter { item ->
+                    busca.isBlank() || item.descricao.contains(busca, ignoreCase = true)
+                }.map { item ->
+                    PrevisaoConsultaItem(
+                        key = "${item.produtoId}-${item.estado}",
+                        descricao = item.descricao,
+                        estado = item.estado,
+                        kg3 = formatQuantity(item.kgEm3Dias, item.unidade),
+                        kg7 = formatQuantity(item.kgEm7Dias, item.unidade),
+                    )
+                }
+                ConsultasUiState(
+                    filters = current,
+                    isLoading = false,
+                    totalLabel = "Oferta prevista",
+                    totalValue = items.size.toString(),
+                    hint = "Só entra o que já está na etileno. O que está na fria não amadurece até ser solto.",
+                    previsaoItems = items,
+                )
+            }
+            ConsultaModo.PERDAS -> {
+                val perdasPeriodo = data.perdas.filter { it.data in range }
+                val comprados = data.compras.filter { it.data in range }
+                    .flatMap { it.itens }
+                    .groupBy { it.produtoId }
+                    .mapValues { (_, rows) -> rows.sumOf { it.quantidade } }
+                val vendidos = data.vendas.filter { it.data in range }
+                    .flatMap { it.itens }
+                    .groupBy { it.produtoId }
+                    .mapValues { (_, rows) -> rows.sumOf { it.quantidade } }
+                val porProduto = perdasPeriodo.groupBy { it.produtoId }
+                val items = (porProduto.keys + comprados.keys).distinct().mapNotNull { produtoId ->
+                    val produto = produtoMap[produtoId] ?: return@mapNotNull null
+                    if (busca.isNotBlank() && !produto.descricao.contains(busca, ignoreCase = true)) {
+                        return@mapNotNull null
+                    }
+                    val kgComp = comprados[produtoId] ?: 0.0
+                    val kgVend = vendidos[produtoId] ?: 0.0
+                    val kgPerd = porProduto[produtoId]?.sumOf { it.quantidade } ?: 0.0
+                    val valor = porProduto[produtoId]?.sumOf { it.valorCentavos } ?: 0L
+                    if (kgComp <= 1e-9 && kgPerd <= 1e-9) return@mapNotNull null
+                    val pct = if (kgComp > 1e-9) 100.0 * kgPerd / kgComp else 0.0
+                    PerdaConsultaItem(
+                        produtoId = produtoId,
+                        descricao = produto.descricao,
+                        detalhe = "Comprado ${formatQuantity(kgComp, produto.unidade)} · vendido ${formatQuantity(kgVend, produto.unidade)} · perdido ${formatQuantity(kgPerd, produto.unidade)} (${String.format("%.1f", pct)}%)",
+                        valorFormatado = formatCurrency(valor),
+                    )
+                }.sortedByDescending { it.descricao }
+                ConsultasUiState(
+                    filters = current,
+                    isLoading = false,
+                    totalLabel = "R$ perdido",
+                    totalValue = formatCurrency(perdasPeriodo.sumOf { it.valorCentavos }),
+                    hint = "% perda = kg perdidos ÷ kg comprados no recorte. R$ = custo do lote/compra.",
+                    perdaItems = items,
+                )
+            }
+            ConsultaModo.ENCOMENDAS -> {
+                val items = data.encomendas.filter { enc ->
+                    enc.dataEntrega in range &&
+                        (busca.isBlank() ||
+                            clienteMap[enc.clienteId]?.nome.orEmpty().contains(busca, ignoreCase = true))
+                }.map { enc ->
+                    EncomendaConsultaItem(
+                        id = enc.id,
+                        titulo = clienteMap[enc.clienteId]?.nome ?: "Cliente",
+                        subtitle = formatDate(enc.dataEntrega),
+                        trailing = if (enc.status == EncomendaStatus.ATENDIDO) "Atendido" else "Aberto",
+                    )
+                }
+                ConsultasUiState(
+                    filters = current,
+                    isLoading = false,
+                    totalLabel = "Encomendas",
+                    totalValue = items.size.toString(),
+                    encomendaItems = items,
+                )
+            }
         }
     }
 
@@ -356,5 +497,16 @@ class ConsultasViewModel @Inject constructor(
         val fornecedores: List<br.com.banavita.app.domain.model.Fornecedor>,
         val receber: List<br.com.banavita.app.domain.model.ParceiroSaldo>,
         val pagar: List<br.com.banavita.app.domain.model.ParceiroSaldo>,
+        val linhas: List<EstoqueLinha>,
+        val perdas: List<br.com.banavita.app.domain.model.Perda>,
+        val encomendas: List<br.com.banavita.app.domain.model.Encomenda>,
+        val previsao: List<br.com.banavita.app.domain.model.OfertaPrevista>,
+    )
+
+    private data class PereciveisCatalog(
+        val linhas: List<EstoqueLinha>,
+        val perdas: List<br.com.banavita.app.domain.model.Perda>,
+        val encomendas: List<br.com.banavita.app.domain.model.Encomenda>,
+        val previsao: List<br.com.banavita.app.domain.model.OfertaPrevista>,
     )
 }

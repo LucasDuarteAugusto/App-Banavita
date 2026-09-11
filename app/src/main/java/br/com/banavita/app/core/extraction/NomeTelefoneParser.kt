@@ -23,7 +23,7 @@ object NomeTelefoneParser {
         val phone = PhoneParser.find(transcript)
         var working = transcript
         phone?.rawSpan?.takeIf { it.isNotBlank() }?.let { span ->
-            val index = working.indexOf(span)
+            val index = working.lastIndexOf(span)
             if (index >= 0) {
                 working = working.substring(0, index) + " " + working.substring(index + span.length)
             }

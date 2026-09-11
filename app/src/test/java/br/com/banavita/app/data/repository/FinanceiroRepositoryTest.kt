@@ -35,28 +35,14 @@ class FinanceiroRepositoryTest {
         database = Room.inMemoryDatabaseBuilder(context, BanavitaDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        val factory = DocumentoItemFactory(Provider { database.produtoDao() })
-        val validator = EstoqueValidator(Provider { database.estoqueDao() })
+        val graph = br.com.banavita.app.TestRepositories(context, database)
         produtoRepository = ProdutoRepository(
             Provider { database.produtoDao() },
             Provider { database.grupoDao() },
         )
         clienteRepository = ClienteRepository(Provider { database.clienteDao() })
-        vendaRepository = VendaRepository(
-            Provider { database },
-            Provider { database.vendaDao() },
-            Provider { database.clienteDao() },
-            factory,
-            validator,
-            Provider { database.recebimentoDao() },
-        )
-        compraRepository = CompraRepository(
-            Provider { database },
-            Provider { database.compraDao() },
-            Provider { database.fornecedorDao() },
-            factory,
-            Provider { database.pagamentoDao() },
-        )
+        vendaRepository = graph.vendaRepository
+        compraRepository = graph.compraRepository
         financeiroRepository = FinanceiroRepository(
             Provider { database.vendaDao() },
             Provider { database.compraDao() },
