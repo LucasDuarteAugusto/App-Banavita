@@ -1,0 +1,21 @@
+# ninja log v5
+0	373	8104941721212438	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-mkdir	d33cf2e557299fbb
+0	373	8104941721212438	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-mkdir	d33cf2e557299fbb
+374	10587	8104941823285926	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-download	a76bb8953a1bdeac
+374	10587	8104941823285926	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-download	a76bb8953a1bdeac
+10588	10934	0	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-update	fbda4fb05540a053
+10588	10934	0	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-update	fbda4fb05540a053
+10935	11116	8104941828565883	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-patch	89ca76b06df42f82
+10935	11116	8104941828565883	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-patch	89ca76b06df42f82
+11117	11282	8104941830245899	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-configure	1f692897f75fa326
+11117	11282	8104941830245899	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-configure	1f692897f75fa326
+11283	11443	8104941831855916	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-build	e4ddf926f18ef16c
+11283	11443	8104941831855916	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-build	e4ddf926f18ef16c
+11444	11607	8104941833485907	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-install	582aab6a9d311905
+11444	11607	8104941833485907	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-install	582aab6a9d311905
+11607	11802	8104941835445934	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-test	f993c44fdc91bf84
+11607	11802	8104941835445934	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-test	f993c44fdc91bf84
+11802	11993	8104941837395948	CMakeFiles/whispercpp-populate-complete	789782bb0ee5608b
+11802	11993	8104941837395948	whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-done	789782bb0ee5608b
+11802	11993	8104941837395948	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate-complete	789782bb0ee5608b
+11802	11993	8104941837395948	C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-done	789782bb0ee5608b

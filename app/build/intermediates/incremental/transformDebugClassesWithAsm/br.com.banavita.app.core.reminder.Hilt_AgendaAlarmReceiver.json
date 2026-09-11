@@ -1,0 +1,1 @@
+{"className":"br.com.banavita.app.core.reminder.Hilt_AgendaAlarmReceiver","classAnnotations":["dagger.hilt.android.internal.OnReceiveBytecodeInjectionMarker"],"interfaces":[],"superClasses":["android.content.BroadcastReceiver","java.lang.Object"]}

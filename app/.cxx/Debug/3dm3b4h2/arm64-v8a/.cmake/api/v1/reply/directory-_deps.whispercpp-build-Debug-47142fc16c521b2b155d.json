@@ -1,0 +1,88 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 179,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 195,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 203,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"_deps/whispercpp-build/src/libwhisper.a"
+			],
+			"targetId" : "whisper::@1c8dd6753170a826aa63",
+			"targetIndex" : 4,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include",
+			"paths" : 
+			[
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-src/include/whisper.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/whisper",
+			"paths" : 
+			[
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-build/whisper-config.cmake",
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-build/whisper-version.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "lib/pkgconfig",
+			"paths" : 
+			[
+				"C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-build/whisper.pc"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "_deps/whispercpp-build",
+		"source" : "C:/projetos-Lucas/App-Banavita/app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-src"
+	}
+}
