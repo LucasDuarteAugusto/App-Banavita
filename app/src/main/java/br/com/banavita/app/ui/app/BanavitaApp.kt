@@ -9,9 +9,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.ui.activation.ActivationScreen
 import br.com.banavita.app.ui.activation.ActivationViewModel
 import br.com.banavita.app.ui.shell.MainAppShell
+import br.com.banavita.app.ui.theme.BanavitaTheme
 
 @Composable
 fun BanavitaApp(
@@ -20,25 +22,27 @@ fun BanavitaApp(
 ) {
     val appState by appViewModel.uiState.collectAsState()
 
-    when {
-        appState.isChecking -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                CircularProgressIndicator()
+    BanavitaTheme(darkTheme = appState.themeMode == ThemeMode.DARK) {
+        when {
+            appState.isChecking -> {
+                Box(
+                    modifier = modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
+                }
             }
-        }
 
-        appState.isActivated -> {
-            MainAppShell(modifier = modifier)
-        }
+            appState.isActivated -> {
+                MainAppShell(modifier = modifier)
+            }
 
-        else -> {
-            ActivationRoute(
-                modifier = modifier,
-                onActivated = appViewModel::onActivated,
-            )
+            else -> {
+                ActivationRoute(
+                    modifier = modifier,
+                    onActivated = appViewModel::onActivated,
+                )
+            }
         }
     }
 }

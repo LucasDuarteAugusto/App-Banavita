@@ -14,26 +14,27 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class EventoRepository @Inject constructor(
-    private val eventoDao: EventoDao,
-    private val clienteDao: ClienteDao,
-    private val fornecedorDao: FornecedorDao,
+    private val eventoDao: Provider<EventoDao>,
+    private val clienteDao: Provider<ClienteDao>,
+    private val fornecedorDao: Provider<FornecedorDao>,
     private val reminderScheduler: ReminderScheduler,
 ) {
     fun observeAll(): Flow<List<Evento>> =
-        eventoDao.observeAll().map { rows -> rows.map { it.toDomain() } }
+        eventoDao.get().observeAll().map { rows -> rows.map { it.toDomain() } }
 
     fun observeFrom(fromMillis: Long): Flow<List<Evento>> =
-        eventoDao.observeFrom(fromMillis).map { rows -> rows.map { it.toDomain() } }
+        eventoDao.get().observeFrom(fromMillis).map { rows -> rows.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Evento? =
-        eventoDao.getById(id)?.toDomain()
+        eventoDao.get().getById(id)?.toDomain()
 
     suspend fun getPendingReminders(fromMillis: Long = nowEpochMillis()): List<Evento> =
-        eventoDao.getPendingReminders(fromMillis).map { it.toDomain() }
+        eventoDao.get().getPendingReminders(fromMillis).map { it.toDomain() }
 
     suspend fun create(
         titulo: String,
@@ -49,7 +50,7 @@ class EventoRepository @Inject constructor(
         validate(titulo, clienteId, fornecedorId, antecipacaoMinutos)
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        eventoDao.insert(
+        eventoDao.get().insert(
             EventoEntity(
                 id = id,
                 createdAt = timestamp,
@@ -81,10 +82,10 @@ class EventoRepository @Inject constructor(
         notifTitulo: String?,
         notifCorpo: String?,
     ) {
-        val existing = eventoDao.getById(id)
+        val existing = eventoDao.get().getById(id)
             ?: throw ReferencedEntityException("Evento $id não encontrado.")
         validate(titulo, clienteId, fornecedorId, antecipacaoMinutos)
-        eventoDao.update(
+        eventoDao.get().update(
             existing.copy(
                 updatedAt = nowEpochMillis(),
                 titulo = titulo.trim(),
@@ -102,10 +103,10 @@ class EventoRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
-        val existing = eventoDao.getById(id)
+        val existing = eventoDao.get().getById(id)
             ?: throw ReferencedEntityException("Evento $id não encontrado.")
         reminderScheduler.cancel(id)
-        eventoDao.delete(existing)
+        eventoDao.get().delete(existing)
     }
 
     private suspend fun validate(
@@ -120,10 +121,10 @@ class EventoRepository @Inject constructor(
         if (clienteId != null && fornecedorId != null) {
             throw InvalidDocumentException("Vincule o evento a cliente ou fornecedor, não aos dois.")
         }
-        if (clienteId != null && clienteDao.getById(clienteId) == null) {
+        if (clienteId != null && clienteDao.get().getById(clienteId) == null) {
             throw ReferencedEntityException("Cliente $clienteId não encontrado.")
         }
-        if (fornecedorId != null && fornecedorDao.getById(fornecedorId) == null) {
+        if (fornecedorId != null && fornecedorDao.get().getById(fornecedorId) == null) {
             throw ReferencedEntityException("Fornecedor $fornecedorId não encontrado.")
         }
         if (antecipacaoMinutos != null && antecipacaoMinutos !in setOf(15, 60, 1440)) {

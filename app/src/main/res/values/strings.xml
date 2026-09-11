@@ -26,6 +26,33 @@
     <string name="home_shortcut_venda_title">Nova venda</string>
     <string name="home_shortcut_venda_desc">Registrar uma venda agora</string>
 
+    <string name="settings_title">Configurações</string>
+    <string name="settings_subtitle">Ajuste aparência, transcrição de voz e a cópia de segurança dos dados do negócio.</string>
+    <string name="settings_appearance_section">Aparência</string>
+    <string name="settings_theme_light_title">Claro</string>
+    <string name="settings_theme_light_desc">Fundo claro, melhor à luz do dia.</string>
+    <string name="settings_theme_dark_title">Escuro</string>
+    <string name="settings_theme_dark_desc">Fundo escuro, melhor à noite.</string>
+    <string name="settings_transcription_section">Modelo de transcrição</string>
+    <string name="settings_provider_groq_title">Groq — Whisper Large V3 Turbo</string>
+    <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
+    <string name="settings_provider_groq_ready">Chave de API configurada neste build.</string>
+    <string name="settings_provider_groq_missing_key">Chave GROQ_API_KEY ausente no .env. Gere o APK novamente após configurar.</string>
+    <string name="settings_provider_local_title">Modelo local (Whisper.cpp)</string>
+    <string name="settings_provider_local_desc">Funciona offline no aparelho, sem enviar áudio.</string>
+    <string name="settings_provider_local_note">Em celulares mais simples pode demorar bastante.</string>
+
+    <string name="settings_database_section">Banco de dados</string>
+    <string name="settings_database_section_desc">Os dados do negócio ficam neste aparelho. Use exportar/restaurar para trocar de celular ou após desinstalar.</string>
+    <string name="settings_export_button">Exportar dados</string>
+    <string name="settings_export_desc">Salva uma cópia dos cadastros, vendas, compras, estoque, financeiro e agenda num arquivo que você escolhe (pasta, Drive, etc.).</string>
+    <string name="settings_restore_button">Restaurar dados</string>
+    <string name="settings_restore_desc">Substitui os dados atuais do aplicativo pelos do arquivo escolhido.</string>
+    <string name="settings_restore_confirm_title">Restaurar dados?</string>
+    <string name="settings_restore_confirm_message">Isso apaga e substitui todos os cadastros, vendas, compras, estoque, financeiro e agenda que estão neste aparelho agora. A operação não mescla com o que já existe. Licença e chave de voz não vêm no arquivo.</string>
+    <string name="settings_export_success">Cópia salva com sucesso.</string>
+    <string name="settings_restore_success">Dados restaurados. Os lembretes da agenda foram reagendados.</string>
+
     <string name="vendas_title">Vendas</string>
     <string name="vendas_empty_message">Nenhuma venda registrada.</string>
     <string name="vendas_new_button">Nova venda</string>
@@ -80,7 +107,7 @@
     <string name="form_nome">Nome</string>
     <string name="form_observacao">Observação</string>
     <string name="form_telefone">Telefone</string>
-    <string name="form_telefone_hint">(19) 99999-9999</string>  <!-- WARNING - Replace "-" with an "en dash" character (–, &#8211;) ? -->
+    <string name="form_telefone_hint">(19) 99999–9999</string>
     <string name="form_descricao">Descrição</string>
     <string name="form_preco">Preço</string>
     <string name="form_preco_hint">0,00</string>
@@ -194,10 +221,32 @@
 
     <string name="form_pago_agora">Pago agora</string>
     <string name="form_a_prazo">A prazo / fiado</string>
+    <string name="form_pago_checkbox">Pago (gerar recebimento)</string>
+    <string name="form_pago_compra_checkbox">Pago (gerar pagamento)</string>
+    <string name="form_pago_simples">Pago</string>
+    <string name="form_cliente_obrigatorio">Selecione um cliente cadastrado.</string>
+    <string name="form_fornecedor_obrigatorio">Selecione um fornecedor cadastrado.</string>
+    <string name="form_cliente_select">Pesquisar ou selecionar cliente</string>
+    <string name="form_fornecedor_select">Pesquisar ou selecionar fornecedor</string>
+    <string name="form_search_hint">Pesquisar…</string>
+    <string name="form_nenhum_encontrado">Nenhum resultado encontrado</string>
 
     <string name="agenda_title">Agenda</string>
     <string name="agenda_add">Novo evento</string>
     <string name="agenda_empty">Nenhum evento. Crie um lembrete.</string>
+    <string name="agenda_empty_day">Nenhum compromisso neste dia.</string>
+    <string name="agenda_prev_month">Mês anterior</string>
+    <string name="agenda_next_month">Mês seguinte</string>
+    <string name="agenda_prev_year">Ano anterior</string>
+    <string name="agenda_next_year">Ano seguinte</string>
+    <string name="agenda_pick_month_title">Escolher mês</string>
+    <string name="agenda_pick_month_cd">Escolher mês, %1$s</string>
+    <string name="agenda_cd_date">Dia %1$d</string>
+    <string name="agenda_cd_today">hoje</string>
+    <string name="agenda_cd_selected">selecionado</string>
+    <string name="agenda_cd_one_event">1 compromisso</string>
+    <string name="agenda_cd_events">%d compromissos</string>
+    <string name="agenda_month_overview_hint">A agenda é por mês. Os pontos marcam os dias com compromisso.</string>
     <string name="agenda_recorte_hoje">Hoje</string>
     <string name="agenda_recorte_7">Próximos 7 dias</string>
     <string name="agenda_recorte_todos">Todos</string>
@@ -217,4 +266,45 @@
     <string name="agenda_delete_title">Excluir evento</string>
     <string name="agenda_delete_message">Deseja excluir este evento? O lembrete será cancelado.</string>
     <string name="agenda_notification_body">Lembrete do Banavita</string>
+    <string-array name="agenda_weekdays">
+        <item>D</item>
+        <item>S</item>
+        <item>T</item>
+        <item>Q</item>
+        <item>Q</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
+
+    <string name="error_generic">Erro inesperado</string>
+    <string name="error_save">Erro ao salvar</string>
+    <string name="error_delete">Erro ao excluir</string>
+    <string name="error_load">Erro ao carregar</string>
+    <string name="error_not_found">Registro não encontrado</string>
+
+    <string name="activation_error_request_code">Erro ao gerar código de solicitação.</string>
+    <string name="activation_error_license_empty">Informe a licença enviada pelo administrador.</string>
+    <string name="activation_error_failed">Não foi possível ativar o aplicativo.</string>
+    <string name="activation_error_invalid">Licença inválida.</string>
+    <string name="activation_error_device_mismatch">Esta licença não pertence a este dispositivo.</string>
+    <string name="activation_error_expired">Licença expirada. Solicite uma nova ao administrador.</string>
+    <string name="activation_error_generic">Erro ao ativar o aplicativo.</string>
+
+    <string name="produto_error_not_found">Produto não encontrado.</string>
+    <string name="produto_error_load">Erro ao carregar produto.</string>
+    <string name="produto_error_descricao_empty">Informe a descrição do produto.</string>
+    <string name="produto_error_preco_invalid">Informe um preço válido.</string>
+    <string name="produto_error_unidade_empty">Informe a unidade do produto.</string>
+    <string name="produto_error_save">Erro ao salvar produto.</string>
+    <string name="produto_error_delete">Erro ao excluir produto.</string>
+
+    <string name="voice_review_cliente_suggestions">Sugestões de clientes:</string>
+    <string name="voice_review_fornecedor_suggestions">Sugestões de fornecedores:</string>
+    <string name="form_preco_unit_short">Preço unit.</string>
+    <string name="form_parceiro">Parceiro</string>
+    <string name="form_valor">Valor</string>
+    <string name="consultas_modo_label">Modo</string>
+    <string name="consultas_busca_label">Busca</string>
+    <string name="consultas_periodo_label">Período</string>
+    <string name="consultas_visao_label">Visão</string>
 </resources>

@@ -10,22 +10,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class FornecedorRepository @Inject constructor(
-    private val fornecedorDao: FornecedorDao,
+    private val fornecedorDao: Provider<FornecedorDao>,
 ) {
     fun observeAll(): Flow<List<Fornecedor>> =
-        fornecedorDao.observeAll().map { fornecedores -> fornecedores.map { it.toDomain() } }
+        fornecedorDao.get().observeAll().map { fornecedores -> fornecedores.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Fornecedor? =
-        fornecedorDao.getById(id)?.toDomain()
+        fornecedorDao.get().getById(id)?.toDomain()
 
     suspend fun create(nome: String, telefone: String?): UUID {
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        fornecedorDao.insert(
+        fornecedorDao.get().insert(
             FornecedorEntity(
                 id = id,
                 createdAt = timestamp,
@@ -38,9 +39,9 @@ class FornecedorRepository @Inject constructor(
     }
 
     suspend fun update(id: UUID, nome: String, telefone: String?) {
-        val existing = fornecedorDao.getById(id)
+        val existing = fornecedorDao.get().getById(id)
             ?: throw ReferencedEntityException("Fornecedor $id não encontrado.")
-        fornecedorDao.update(
+        fornecedorDao.get().update(
             existing.copy(
                 nome = nome,
                 telefone = telefone,
@@ -50,11 +51,11 @@ class FornecedorRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
-        val compras = fornecedorDao.countComprasByFornecedor(id)
+        val compras = fornecedorDao.get().countComprasByFornecedor(id)
         if (compras > 0) {
             throw ReferencedEntityException("Fornecedor possui $compras compra(s) vinculada(s).")
         }
-        val existing = fornecedorDao.getById(id) ?: return
-        fornecedorDao.delete(existing)
+        val existing = fornecedorDao.get().getById(id) ?: return
+        fornecedorDao.get().delete(existing)
     }
 }

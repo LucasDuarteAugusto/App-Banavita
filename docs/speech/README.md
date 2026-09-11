@@ -1,6 +1,13 @@
-# ASR offline Banavita (whisper.cpp / PT-BR)
+# ASR Banavita (Groq remoto ou whisper.cpp local)
 
-Transcrição de voz **100% local** com whisper.cpp + modelo GGML quantizado. Idioma forçado: **português (`pt`)**.
+Transcrição de voz com dois provedores selecionáveis em **Configurações**:
+
+| Provedor | Modelo | Quando usar |
+|----------|--------|-------------|
+| **Groq** (padrão com chave) | `whisper-large-v3-turbo` | Celulares lentos; precisa de internet e `GROQ_API_KEY` no `.env` |
+| **Local** | whisper.cpp + `ggml-base-q5_1` | Offline; sem enviar áudio |
+
+Idioma forçado: **português (`pt`)**.
 
 ## Pipeline
 
@@ -9,19 +16,33 @@ flowchart LR
     Capture[AudioCapture] --> Pcm[PcmConverter]
     Pcm --> Repo[SpeechToTextRepository]
     Wav[WavReader] --> Repo
-    ModelMgr[SpeechModelManager] --> Engine[WhisperCppEngine]
-    Repo --> Engine
+    Settings[AppSettings] --> Repo
+    Repo -->|LOCAL| Engine[WhisperCppEngine]
+    Repo -->|GROQ| Groq[GroqWhisperClient]
+    ModelMgr[SpeechModelManager] --> Engine
     Prompt[PtBrPromptHints] --> Engine
+    Prompt --> Groq
     Engine --> Result[TranscriptionResult]
+    Groq --> Result
 ```
 
 1. Áudio PCM 16 kHz mono (segurar o mic até soltar, ou WAV).
 2. Conversão para `FloatArray` em `[-1, 1]`.
 3. Limite de **15 s** por request (a captura para sozinha nesse teto).
-4. Inferência whisper.cpp (`language=pt` + `initial_prompt`).
+4. Inferência conforme o provedor (local ou Groq multipart WAV).
 5. Normalização lexical leve (ex.: `caxinha` → `caixinha`).
 
-## Modelo ativo
+## Chave Groq
+
+No `.env` na raiz do projeto (não versionar):
+
+```
+GROQ_API_KEY=gsk_...
+```
+
+O Gradle injeta a chave gerando `GroqBuildFields.kt` a partir do `.env` (tarefa `generateGroqBuildFields`, no preBuild). Regenerar o build após alterar o `.env`. Não versionar `GroqBuildFields.kt`.
+
+## Modelo local ativo
 
 | Item | Valor |
 |------|--------|
@@ -96,22 +117,33 @@ Caminho típico no Explorer: `C:\Users\SEU_USUARIO\AppData\Local\Android\Sdk\pla
 
 Pré-requisitos do `run-as`: APK **debug**, cabo de **dados**, depuração USB, aparelho autorizado. `adb devices` deve listar o Galaxy (ou o emulador) como `device`, não `unauthorized`.
 
-## Build do APK
+## Build do APK com modelo dinâmico
 
-Antes do primeiro build (ou ao atualizar o modelo):
+O modelo é selecionado via propriedade Gradle `-PwhisperModel` (padrão: `tiny`).
 
-```bash
-cd tools/speech-model
-npm run download
-```
-
-Isso baixa o `.bin`, grava checksums e copia para `app/src/main/assets/models/`. O Gradle também executa `copySpeechModelToAssets` no `preBuild`.
-
-Build normal:
+### 1. Baixar o modelo selecionado
 
 ```bash
-./gradlew assembleDebug
+./gradlew downloadWhisperModel -PwhisperModel=base
 ```
+
+Isso executa o script Node em `tools/speech-model` e copia o `.bin` para `assets/models/`.
+
+### 2. Gerar o APK
+
+```bash
+./gradlew assembleDebug -PwhisperModel=base
+```
+
+O `BuildConfig` do app conterá o ID, arquivo e SHA-256 do modelo escolhido, configurando o `SpeechModelCatalog` automaticamente.
+
+### Opções de modelo
+
+| Valor `-PwhisperModel` | Modelo GGML | Tamanho (aprox.) | Perfil |
+|-------------------------|-------------|------------------|--------|
+| `tiny` (padrão) | `ggml-tiny-q5_1` | 32 MB | MINIMUM |
+| `base` | `ggml-base-q5_1` | 57 MB | MINIMUM |
+| `small` | `ggml-small-q5_1` | 190 MB | INTERMEDIATE |
 
 Build sem modelo (só desenvolvimento de UI, voz indisponível):
 
@@ -141,13 +173,17 @@ release()
 
 Captura ao vivo: `AudioCapture.start()` / `stop()` (IO, RMS para a barra) enquanto o usuário **segura** o mic; ao soltar o ViewModel chama `transcribe(samples)`.
 
-`TranscriptionResult`: `text`, `language`, `durationMillis`, `modelId`.
+`TranscriptionResult` (campos):
+- `text`: String
+- `language`: String
+- `durationMillis`: Long
+- `modelId`: String
 
 ## Nativo
 
 - Biblioteca: `libbanavita_whisper.so` (arm64-v8a)
 - Fonte: whisper.cpp **v1.7.6** via CMake FetchContent
-- JNI: `WhisperLib` → dispatcher single-thread `whisper-inference`
+- JNI: `WhisperLib` -> dispatcher single-thread `whisper-inference`
 - Build: NDK + CMake 3.22+ no [app/build.gradle.kts](../../app/build.gradle.kts)
 
 ## Exceções

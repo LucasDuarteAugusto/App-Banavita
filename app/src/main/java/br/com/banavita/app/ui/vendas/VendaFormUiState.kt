@@ -24,6 +24,9 @@ data class VendaFormUiState(
     val valorTotalCentavos: Long
         get() = computeDocumentTotalCentavos(itens, produtos, precoObrigatorio = false)
 
+    val pago: Boolean
+        get() = !aPrazo
+
     val clienteOptions: List<Pair<UUID, String>>
         get() = clientes.map { it.id to it.nome }
 }

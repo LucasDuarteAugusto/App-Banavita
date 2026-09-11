@@ -11,18 +11,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class ProdutoRepository @Inject constructor(
-    private val produtoDao: ProdutoDao,
-    private val grupoDao: GrupoDao,
+    private val produtoDao: Provider<ProdutoDao>,
+    private val grupoDao: Provider<GrupoDao>,
 ) {
     fun observeAll(): Flow<List<Produto>> =
-        produtoDao.observeAll().map { produtos -> produtos.map { it.toDomain() } }
+        produtoDao.get().observeAll().map { produtos -> produtos.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Produto? =
-        produtoDao.getById(id)?.toDomain()
+        produtoDao.get().getById(id)?.toDomain()
 
     suspend fun create(
         descricao: String,
@@ -31,13 +32,13 @@ class ProdutoRepository @Inject constructor(
         unidade: String = "UN",
     ): UUID {
         grupoId?.let {
-            if (grupoDao.getById(it) == null) {
+            if (grupoDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Grupo $it não encontrado.")
             }
         }
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        produtoDao.insert(
+        produtoDao.get().insert(
             ProdutoEntity(
                 id = id,
                 createdAt = timestamp,
@@ -59,13 +60,13 @@ class ProdutoRepository @Inject constructor(
         unidade: String,
     ) {
         grupoId?.let {
-            if (grupoDao.getById(it) == null) {
+            if (grupoDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Grupo $it não encontrado.")
             }
         }
-        val existing = produtoDao.getById(id)
+        val existing = produtoDao.get().getById(id)
             ?: throw ReferencedEntityException("Produto $id não encontrado.")
-        produtoDao.update(
+        produtoDao.get().update(
             existing.copy(
                 descricao = descricao,
                 precoCentavos = precoCentavos,
@@ -77,14 +78,14 @@ class ProdutoRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
-        val vendas = produtoDao.countVendasByProduto(id)
-        val compras = produtoDao.countComprasByProduto(id)
+        val vendas = produtoDao.get().countVendasByProduto(id)
+        val compras = produtoDao.get().countComprasByProduto(id)
         if (vendas > 0 || compras > 0) {
             throw ReferencedEntityException(
                 "Produto possui movimentações (vendas: $vendas, compras: $compras).",
             )
         }
-        val existing = produtoDao.getById(id) ?: return
-        produtoDao.delete(existing)
+        val existing = produtoDao.get().getById(id) ?: return
+        produtoDao.get().delete(existing)
     }
 }

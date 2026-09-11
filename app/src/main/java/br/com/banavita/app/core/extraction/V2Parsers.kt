@@ -12,14 +12,21 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 object PrazoParser {
-    private val prazo = Regex("""(?i)\b(fiado|a\s*prazo|prazo)\b""")
-    private val vista = Regex("""(?i)\b(a\s*vista|avista|pago\s+agora|pago)\b""")
+    // Expressões que indicam que NÃO foi pago (a prazo / fiado / pendente)
+    private val naoPago = Regex(
+        """(?i)\b(nao\s+(?:foi\s+)?pago|nao\s+pagou|sem\s+pagar|a\s*prazo|prazo|fiado|pendente|ficou\s+devendo|pra\s+acertar|para\s+acertar|deve|devendo|anota\s+ai|anotar)\b""",
+    )
+
+    // Expressões que indicam que FOI pago (à vista / quitado / dinheiro / pix)
+    private val pago = Regex(
+        """(?i)\b(ja\s+pago|ja\s+pagou|pago\s+agora|pagou\s+agora|pagou|pago|a\s*vista|avista|no\s+pix|em\s+dinheiro|no\s+dinheiro|no\s+cartao|no\s+debito|quitado)\b""",
+    )
 
     fun parse(transcript: String): ExtractionField<Boolean> {
         val text = TextNormalizer.normalize(transcript)
         return when {
-            prazo.containsMatchIn(text) -> ExtractionField(true, "a prazo", 0.85f)
-            vista.containsMatchIn(text) -> ExtractionField(false, "à vista", 0.85f)
+            naoPago.containsMatchIn(text) -> ExtractionField(true, "a prazo", 0.9f)
+            pago.containsMatchIn(text) -> ExtractionField(false, "à vista", 0.9f)
             else -> ExtractionField(false, "à vista", 0.4f)
         }
     }
@@ -160,7 +167,11 @@ object EventoExtractionParser {
     fun looksLikeFilterOnly(transcript: String): Boolean {
         val n = TextNormalizer.normalize(transcript)
         val hasCreateCue = Regex("""(?i)\b(lembrar|criar|novo|visita|compromisso)\b""").containsMatchIn(n)
-        return !hasCreateCue && (recorteHoje.containsMatchIn(n) || recorte7.containsMatchIn(n))
+        return !hasCreateCue && (
+            recorteHoje.containsMatchIn(n) ||
+                recorte7.containsMatchIn(n) ||
+                amanha.containsMatchIn(n)
+            )
     }
 
     fun parse(transcript: String, nowMillis: Long = nowEpochMillis(), zone: ZoneId = ZoneId.systemDefault()): ParsedEventoSlots {
@@ -182,9 +193,11 @@ object EventoExtractionParser {
             .takeIf { it.isNotBlank() }
         val recorte = when {
             looksLikeFilterOnly(transcript) && recorte7.containsMatchIn(normalized) -> AgendaRecorte.PROXIMOS_7_DIAS
+            looksLikeFilterOnly(transcript) && amanha.containsMatchIn(normalized) -> AgendaRecorte.AMANHA
             looksLikeFilterOnly(transcript) && recorteHoje.containsMatchIn(normalized) -> AgendaRecorte.HOJE
             else -> null
         }
+        val tituloFiltro = if (recorte != null) null else titulo
         val antecipacao = when {
             quinzeMin.containsMatchIn(normalized) -> 15
             umaHora.containsMatchIn(normalized) -> 60
@@ -193,7 +206,7 @@ object EventoExtractionParser {
         }
         val notificar = meAvisa.containsMatchIn(normalized) || antecipacao != null
         return ParsedEventoSlots(
-            titulo = ExtractionField(titulo, titulo, if (titulo != null) 0.75f else 0f),
+            titulo = ExtractionField(tituloFiltro, tituloFiltro, if (tituloFiltro != null) 0.75f else 0f),
             dataHoraMillis = ExtractionField(millis, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").format(
                 java.time.Instant.ofEpochMilli(millis).atZone(zone),
             ), 0.7f),

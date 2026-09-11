@@ -68,10 +68,21 @@ fun MainAppShell(
                         }
                     }
                 },
+                actions = {
+                    if (currentRoute == BanavitaRoutes.HOME) {
+                        IconButton(onClick = { navController.navigate(BanavitaRoutes.SETTINGS) }) {
+                            Icon(
+                                imageVector = BanavitaIcons.Settings,
+                                contentDescription = stringResource(R.string.settings_title),
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
             )
         },
@@ -114,6 +125,7 @@ fun MainAppShell(
 private fun titleForRoute(route: String?): String {
     val titleRes = when {
         route == BanavitaRoutes.HOME -> R.string.home_title
+        route == BanavitaRoutes.SETTINGS -> R.string.settings_title
         route == BanavitaRoutes.VENDAS -> R.string.vendas_title
         route == BanavitaRoutes.COMPRAS -> R.string.compras_title
         route == BanavitaRoutes.CADASTROS -> R.string.cadastros_title

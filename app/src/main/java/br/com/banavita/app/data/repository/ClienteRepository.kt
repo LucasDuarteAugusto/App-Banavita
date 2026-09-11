@@ -10,22 +10,23 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class ClienteRepository @Inject constructor(
-    private val clienteDao: ClienteDao,
+    private val clienteDao: Provider<ClienteDao>,
 ) {
     fun observeAll(): Flow<List<Cliente>> =
-        clienteDao.observeAll().map { clientes -> clientes.map { it.toDomain() } }
+        clienteDao.get().observeAll().map { clientes -> clientes.map { it.toDomain() } }
 
     suspend fun getById(id: UUID): Cliente? =
-        clienteDao.getById(id)?.toDomain()
+        clienteDao.get().getById(id)?.toDomain()
 
     suspend fun create(nome: String, telefone: String?): UUID {
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        clienteDao.insert(
+        clienteDao.get().insert(
             ClienteEntity(
                 id = id,
                 createdAt = timestamp,
@@ -38,9 +39,9 @@ class ClienteRepository @Inject constructor(
     }
 
     suspend fun update(id: UUID, nome: String, telefone: String?) {
-        val existing = clienteDao.getById(id)
+        val existing = clienteDao.get().getById(id)
             ?: throw ReferencedEntityException("Cliente $id não encontrado.")
-        clienteDao.update(
+        clienteDao.get().update(
             existing.copy(
                 nome = nome,
                 telefone = telefone,
@@ -50,11 +51,11 @@ class ClienteRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
-        val vendas = clienteDao.countVendasByCliente(id)
+        val vendas = clienteDao.get().countVendasByCliente(id)
         if (vendas > 0) {
             throw ReferencedEntityException("Cliente possui $vendas venda(s) vinculada(s).")
         }
-        val existing = clienteDao.getById(id) ?: return
-        clienteDao.delete(existing)
+        val existing = clienteDao.get().getById(id) ?: return
+        clienteDao.get().delete(existing)
     }
 }

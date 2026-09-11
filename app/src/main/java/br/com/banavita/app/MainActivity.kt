@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import br.com.banavita.app.ui.app.BanavitaApp
-import br.com.banavita.app.ui.theme.BanavitaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,9 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            BanavitaTheme {
-                BanavitaApp(modifier = Modifier.fillMaxSize())
-            }
+            BanavitaApp(modifier = Modifier.fillMaxSize())
         }
     }
 }

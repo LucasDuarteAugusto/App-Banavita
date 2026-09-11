@@ -60,5 +60,6 @@ abstract class BanavitaDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "banavita.db"
+        const val SCHEMA_VERSION = 3
     }
 }

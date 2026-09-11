@@ -19,6 +19,8 @@ object WhisperLib {
         audioData: FloatArray,
         language: String,
         initialPrompt: String?,
+        singleSegment: Boolean,
+        audioCtx: Int,
     ): Int
 
     external fun getTextSegmentCount(contextPtr: Long): Int

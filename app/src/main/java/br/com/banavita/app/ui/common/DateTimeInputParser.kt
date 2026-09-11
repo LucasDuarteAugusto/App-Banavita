@@ -16,6 +16,8 @@ object DateTimeInputParser {
 
     fun nowTimeInput(): String = formatTime(System.currentTimeMillis())
 
+    fun formatDate(date: LocalDate): String = dateFormatter.format(date)
+
     fun formatDate(epochMillis: Long): String =
         dateFormatter.format(Instant.ofEpochMilli(epochMillis).atZone(zone))
 

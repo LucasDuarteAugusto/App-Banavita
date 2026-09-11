@@ -7,12 +7,15 @@ import br.com.banavita.app.domain.exception.ExtractionConfirmException
 import br.com.banavita.app.domain.exception.ExtractionDraftNotFoundException
 import br.com.banavita.app.domain.exception.ExtractionParseException
 import br.com.banavita.app.domain.model.DocumentoItemInput
+import br.com.banavita.app.domain.model.AgendaRecorte
 import br.com.banavita.app.domain.model.TranscriptionResult
 import br.com.banavita.app.domain.model.extraction.BaixaTipo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.domain.model.extraction.ExtractionDraft
 import br.com.banavita.app.domain.model.extraction.ExtractionFields
 import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import java.time.LocalDate
+import java.time.ZoneId
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -88,9 +91,11 @@ class ExtractionRepository @Inject constructor(
         if (quantidade <= 0) {
             throw ExtractionConfirmException("Quantidade inválida.")
         }
+        val clienteId = fields.cliente?.id
+            ?: throw ExtractionConfirmException("Cliente não selecionado. Escolha um cliente cadastrado.")
         val vendaId = vendaRepository.create(
             data = nowEpochMillis(),
-            clienteId = fields.cliente?.id,
+            clienteId = clienteId,
             itens = listOf(
                 DocumentoItemInput(
                     produtoId = produtoId,
@@ -112,9 +117,11 @@ class ExtractionRepository @Inject constructor(
             ?: throw ExtractionConfirmException("Quantidade ausente.")
         val valor = item.valorUnitarioCentavos.value
             ?: throw ExtractionConfirmException("Valor unitário obrigatório na compra.")
+        val fornecedorId = fields.fornecedor?.id
+            ?: throw ExtractionConfirmException("Fornecedor não selecionado. Escolha um fornecedor cadastrado.")
         val compraId = compraRepository.create(
             data = nowEpochMillis(),
-            fornecedorId = fields.fornecedor?.id,
+            fornecedorId = fornecedorId,
             itens = listOf(
                 DocumentoItemInput(
                     produtoId = produtoId,
@@ -200,7 +207,16 @@ class ExtractionRepository @Inject constructor(
     private suspend fun confirmEvento(fields: ExtractionFields.EventoDraft): ConfirmResult {
         val recorte = fields.recorteLista.value
         if (recorte != null && fields.titulo.value.isNullOrBlank()) {
-            return ConfirmResult.AgendaFiltroAplicado(recorte)
+            val zone = ZoneId.systemDefault()
+            val today = LocalDate.now(zone)
+            val (date, hint) = when (recorte) {
+                AgendaRecorte.HOJE -> today to false
+                AgendaRecorte.AMANHA -> today.plusDays(1) to false
+                AgendaRecorte.PROXIMOS_7_DIAS,
+                AgendaRecorte.TODOS,
+                -> today to true
+            }
+            return ConfirmResult.AgendaFiltroAplicado(date.toEpochDay(), monthOverviewHint = hint)
         }
         val titulo = fields.titulo.value?.trim()
             ?: throw ExtractionConfirmException("Título do evento ausente.")
@@ -217,6 +233,6 @@ class ExtractionRepository @Inject constructor(
             notifTitulo = fields.notifTitulo.value,
             notifCorpo = fields.notifCorpo.value,
         )
-        return ConfirmResult.EventoCriado(id)
+        return ConfirmResult.EventoCriado(id, dataHora)
     }
 }

@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
@@ -103,6 +107,110 @@ fun DocumentEntityDropdown(
                         expanded = false
                     },
                 )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchableEntityDropdown(
+    label: String,
+    options: List<Pair<UUID, String>>,
+    selectedId: UUID?,
+    onSelected: (UUID?) -> Unit,
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+    placeholder: String = stringResource(R.string.form_search_hint),
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectedOption = options.find { it.first == selectedId }
+    var searchQuery by remember(selectedId, selectedOption) {
+        mutableStateOf(selectedOption?.second.orEmpty())
+    }
+
+    val filteredOptions = remember(searchQuery, options) {
+        if (searchQuery.isBlank()) {
+            options
+        } else {
+            val query = searchQuery.trim()
+            options.filter {
+                it.second.contains(query, ignoreCase = true)
+            }
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { if (enabled) expanded = it },
+        modifier = modifier,
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(
+                    type = MenuAnchorType.PrimaryEditable,
+                    enabled = enabled,
+                ),
+            value = searchQuery,
+            onValueChange = { query ->
+                searchQuery = query
+                expanded = true
+                val exact = options.find { it.second.equals(query.trim(), ignoreCase = true) }
+                onSelected(exact?.first)
+            },
+            label = { Text(label) },
+            placeholder = { Text(placeholder) },
+            singleLine = true,
+            trailingIcon = {
+                if (searchQuery.isNotEmpty() && enabled) {
+                    IconButton(onClick = {
+                        searchQuery = ""
+                        onSelected(null)
+                        expanded = true
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Limpar",
+                        )
+                    }
+                } else {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                }
+            },
+            enabled = enabled,
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                expanded = false
+                val current = options.find { it.first == selectedId }
+                searchQuery = current?.second.orEmpty()
+            },
+        ) {
+            if (filteredOptions.isEmpty()) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.form_nenhum_encontrado)) },
+                    onClick = { },
+                    enabled = false,
+                )
+            } else {
+                filteredOptions.forEach { (id, nome) ->
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                text = nome,
+                                fontWeight = if (id == selectedId) FontWeight.Bold else FontWeight.Normal,
+                            )
+                        },
+                        onClick = {
+                            searchQuery = nome
+                            onSelected(id)
+                            expanded = false
+                        },
+                    )
+                }
             }
         }
     }

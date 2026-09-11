@@ -48,4 +48,13 @@ object BanavitaIcons {
 
     val ContentCopy: ImageVector
         @Composable get() = ImageVector.vectorResource(R.drawable.ic_content_copy)
+
+    val Settings: ImageVector
+        @Composable get() = ImageVector.vectorResource(R.drawable.ic_settings)
+
+    val ChevronLeft: ImageVector
+        @Composable get() = ImageVector.vectorResource(R.drawable.ic_chevron_left)
+
+    val ChevronRight: ImageVector
+        @Composable get() = ImageVector.vectorResource(R.drawable.ic_chevron_right)
 }

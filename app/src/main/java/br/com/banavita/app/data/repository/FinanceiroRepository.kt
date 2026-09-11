@@ -18,22 +18,23 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class FinanceiroRepository @Inject constructor(
-    private val vendaDao: VendaDao,
-    private val compraDao: CompraDao,
-    private val recebimentoDao: RecebimentoDao,
-    private val pagamentoDao: PagamentoDao,
-    private val clienteDao: ClienteDao,
-    private val fornecedorDao: FornecedorDao,
+    private val vendaDao: Provider<VendaDao>,
+    private val compraDao: Provider<CompraDao>,
+    private val recebimentoDao: Provider<RecebimentoDao>,
+    private val pagamentoDao: Provider<PagamentoDao>,
+    private val clienteDao: Provider<ClienteDao>,
+    private val fornecedorDao: Provider<FornecedorDao>,
 ) {
     fun observeSaldosAReceber(): Flow<List<ParceiroSaldo>> =
         combine(
-            vendaDao.observeAllWithItems(),
-            recebimentoDao.observeAll(),
-            clienteDao.observeAll(),
+            vendaDao.get().observeAllWithItems(),
+            recebimentoDao.get().observeAll(),
+            clienteDao.get().observeAll(),
         ) { vendas, recebimentos, clientes ->
             val pagoPorVenda = recebimentos.groupBy { it.vendaId }
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
@@ -61,9 +62,9 @@ class FinanceiroRepository @Inject constructor(
 
     fun observeSaldosAPagar(): Flow<List<ParceiroSaldo>> =
         combine(
-            compraDao.observeAllWithItems(),
-            pagamentoDao.observeAll(),
-            fornecedorDao.observeAll(),
+            compraDao.get().observeAllWithItems(),
+            pagamentoDao.get().observeAll(),
+            fornecedorDao.get().observeAll(),
         ) { compras, pagamentos, fornecedores ->
             val pagoPorCompra = pagamentos.groupBy { it.compraId }
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
@@ -90,7 +91,7 @@ class FinanceiroRepository @Inject constructor(
         }
 
     fun observeDocumentosAbertosCliente(clienteId: UUID): Flow<List<DocumentoAberto>> =
-        combine(vendaDao.observeAllWithItems(), recebimentoDao.observeAll()) { vendas, recebimentos ->
+        combine(vendaDao.get().observeAllWithItems(), recebimentoDao.get().observeAll()) { vendas, recebimentos ->
             val pagoPorVenda = recebimentos.groupBy { it.vendaId }
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
             vendas
@@ -110,7 +111,7 @@ class FinanceiroRepository @Inject constructor(
         }
 
     fun observeDocumentosAbertosFornecedor(fornecedorId: UUID): Flow<List<DocumentoAberto>> =
-        combine(compraDao.observeAllWithItems(), pagamentoDao.observeAll()) { compras, pagamentos ->
+        combine(compraDao.get().observeAllWithItems(), pagamentoDao.get().observeAll()) { compras, pagamentos ->
             val pagoPorCompra = pagamentos.groupBy { it.compraId }
                 .mapValues { (_, rows) -> rows.sumOf { it.valorCentavos } }
             compras
@@ -130,17 +131,17 @@ class FinanceiroRepository @Inject constructor(
         }
 
     suspend fun saldoAbertoVenda(vendaId: UUID): Long {
-        val venda = vendaDao.getWithItems(vendaId)?.venda
+        val venda = vendaDao.get().getWithItems(vendaId)?.venda
             ?: throw ReferencedEntityException("Venda $vendaId não encontrada.")
         if (!venda.aPrazo) return 0L
-        return venda.valorTotalCentavos - recebimentoDao.totalByVenda(vendaId)
+        return venda.valorTotalCentavos - recebimentoDao.get().totalByVenda(vendaId)
     }
 
     suspend fun saldoAbertoCompra(compraId: UUID): Long {
-        val compra = compraDao.getWithItems(compraId)?.compra
+        val compra = compraDao.get().getWithItems(compraId)?.compra
             ?: throw ReferencedEntityException("Compra $compraId não encontrada.")
         if (!compra.aPrazo) return 0L
-        return compra.valorTotalCentavos - pagamentoDao.totalByCompra(compraId)
+        return compra.valorTotalCentavos - pagamentoDao.get().totalByCompra(compraId)
     }
 
     suspend fun registrarRecebimento(vendaId: UUID, valorCentavos: Long, data: Long = nowEpochMillis()): UUID {
@@ -153,7 +154,7 @@ class FinanceiroRepository @Inject constructor(
         }
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        recebimentoDao.insert(
+        recebimentoDao.get().insert(
             RecebimentoEntity(
                 id = id,
                 createdAt = timestamp,
@@ -176,7 +177,7 @@ class FinanceiroRepository @Inject constructor(
         }
         val timestamp = nowEpochMillis()
         val id = UUID.randomUUID()
-        pagamentoDao.insert(
+        pagamentoDao.get().insert(
             PagamentoEntity(
                 id = id,
                 createdAt = timestamp,

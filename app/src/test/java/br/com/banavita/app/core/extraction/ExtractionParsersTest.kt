@@ -57,8 +57,89 @@ class ExtractionParsersTest {
     @Test
     fun `cliente parser nome e telefone`() {
         val parsed = ClienteExtractionParser.parse("cadastrar cliente Ana Souza 11999887766")
-        assertTrue(parsed.nome.value!!.contains("Ana", ignoreCase = true) || parsed.nome.value!!.contains("ana"))
+        assertEquals("Ana Souza", parsed.nome.value)
         assertEquals("11999887766", parsed.telefone.value)
+    }
+
+    @Test
+    fun `cliente parser groq ignora pontuacao e variante cadastrar`() {
+        val parsed = ClienteExtractionParser.parse("Cadatrar cliente Alfredo. Telefone 11987654321.")
+        assertEquals("Alfredo", parsed.nome.value)
+        assertEquals("11987654321", parsed.telefone.value)
+    }
+
+    @Test
+    fun `cliente parser tiny recupera telefone em digitos isolados`() {
+        val parsed = ClienteExtractionParser.parse(
+            "Cadê a extracta e a gente Alfredo, telefoni 11, 9, 8, 7, 6, 5, 4, 3, 2, 1.",
+        )
+        assertEquals("11987654321", parsed.telefone.value)
+        val nome = parsed.nome.value.orEmpty()
+        assertTrue(nome.contains("Alfredo", ignoreCase = true))
+        assertTrue(nome.none { it.isDigit() })
+        assertTrue(!nome.contains("telefoni", ignoreCase = true))
+    }
+
+    @Test
+    fun `cliente parser preserva acentos e descarta pontuacao`() {
+        val joao = ClienteExtractionParser.parse("cadastrar cliente João da Silva telefone 11987654321")
+        assertEquals("João da Silva", joao.nome.value)
+        assertEquals("11987654321", joao.telefone.value)
+
+        val marcia = ClienteExtractionParser.parse("novo cliente Márcia.")
+        assertEquals("Márcia", marcia.nome.value)
+        assertEquals(null, marcia.telefone.value)
+    }
+
+    @Test
+    fun `phone extrai formato parenteses e hifen`() {
+        val hit = PhoneParser.find("cliente Joao telefone (11) 98765-4321")
+        assertNotNull(hit)
+        assertEquals("11987654321", hit!!.digits)
+    }
+
+    @Test
+    fun `phone extrai digitos isolados por virgula`() {
+        val hit = PhoneParser.find("telefoni 11, 9, 8, 7, 6, 5, 4, 3, 2, 1")
+        assertNotNull(hit)
+        assertEquals("11987654321", hit!!.digits)
+    }
+
+    @Test
+    fun `fornecedor parser nome e telefone`() {
+        val parsed = FornecedorExtractionParser.parse("cadastrar fornecedor Sitio Verde telefone 11987654321")
+        assertEquals("Sitio Verde", parsed.nome.value)
+        assertEquals("11987654321", parsed.telefone.value)
+    }
+
+    @Test
+    fun `fornecedor parser groq ignora pontuacao e variante cadastrar`() {
+        val parsed = FornecedorExtractionParser.parse("Cadatrar fornecedor Alfredo. Telefone 11987654321.")
+        assertEquals("Alfredo", parsed.nome.value)
+        assertEquals("11987654321", parsed.telefone.value)
+    }
+
+    @Test
+    fun `fornecedor parser tiny recupera telefone em digitos isolados`() {
+        val parsed = FornecedorExtractionParser.parse(
+            "Cadê a extracta e a gente Alfredo, telefoni 11, 9, 8, 7, 6, 5, 4, 3, 2, 1.",
+        )
+        assertEquals("11987654321", parsed.telefone.value)
+        val nome = parsed.nome.value.orEmpty()
+        assertTrue(nome.contains("Alfredo", ignoreCase = true))
+        assertTrue(nome.none { it.isDigit() })
+        assertTrue(!nome.contains("telefoni", ignoreCase = true))
+    }
+
+    @Test
+    fun `fornecedor parser preserva acentos e descarta pontuacao`() {
+        val sitio = FornecedorExtractionParser.parse("cadastrar fornecedor Sítio Verde telefone 11987654321")
+        assertEquals("Sítio Verde", sitio.nome.value)
+        assertEquals("11987654321", sitio.telefone.value)
+
+        val marcia = FornecedorExtractionParser.parse("novo fornecedor Márcia.")
+        assertEquals("Márcia", marcia.nome.value)
+        assertEquals(null, marcia.telefone.value)
     }
 
     @Test
@@ -77,10 +158,51 @@ class ExtractionParsersTest {
     }
 
     @Test
+    fun `prazo parser reconhece pago e nao pago com precisao`() {
+        assertEquals(true, PrazoParser.parse("vende banana nao pagou").value)
+        assertEquals(true, PrazoParser.parse("vende banana ficou devendo").value)
+        assertEquals(true, PrazoParser.parse("vende banana a prazo").value)
+        assertEquals(false, PrazoParser.parse("vende banana pago").value)
+        assertEquals(false, PrazoParser.parse("vende banana pagou no pix").value)
+        assertEquals(false, PrazoParser.parse("vende banana a vista").value)
+    }
+
+    @Test
+    fun `venda parser limpa termos de pagamento do clienteRaw`() {
+        val parsed = VendaExtractionParser.parse("vende 5 quilos de banana nanica pro Joao a vista")
+        assertEquals("joao", parsed.clienteRaw.value)
+        assertEquals(false, parsed.aPrazo.value)
+    }
+
+    @Test
+    fun `compra parser limpa termos de pagamento do fornecedorRaw`() {
+        val parsed = CompraExtractionParser.parse("comprei 10 caixas de banana do Sitio Verde a prazo a 10 reais")
+        assertEquals("sitio verde", parsed.fornecedorRaw.value)
+        assertEquals(true, parsed.aPrazo.value)
+    }
+
+    @Test
     fun `evento parser recorte hoje nao exige titulo`() {
         assertTrue(EventoExtractionParser.looksLikeFilterOnly("hoje"))
         val parsed = EventoExtractionParser.parse("hoje")
         assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.HOJE, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
+    }
+
+    @Test
+    fun `evento parser recorte amanha seleciona o dia seguinte`() {
+        assertTrue(EventoExtractionParser.looksLikeFilterOnly("amanhã"))
+        val parsed = EventoExtractionParser.parse("amanha")
+        assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.AMANHA, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
+    }
+
+    @Test
+    fun `evento parser proximos 7 dias permanece visao de mes`() {
+        assertTrue(EventoExtractionParser.looksLikeFilterOnly("próximos 7 dias"))
+        val parsed = EventoExtractionParser.parse("esta semana")
+        assertEquals(br.com.banavita.app.domain.model.AgendaRecorte.PROXIMOS_7_DIAS, parsed.recorteLista.value)
+        assertEquals(null, parsed.titulo.value)
     }
 
     @Test

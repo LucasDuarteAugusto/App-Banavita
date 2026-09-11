@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import javax.inject.Provider
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
@@ -34,32 +35,35 @@ class FinanceiroRepositoryTest {
         database = Room.inMemoryDatabaseBuilder(context, BanavitaDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        val factory = DocumentoItemFactory(database.produtoDao())
-        val validator = EstoqueValidator(database.estoqueDao())
-        produtoRepository = ProdutoRepository(database.produtoDao(), database.grupoDao())
-        clienteRepository = ClienteRepository(database.clienteDao())
+        val factory = DocumentoItemFactory(Provider { database.produtoDao() })
+        val validator = EstoqueValidator(Provider { database.estoqueDao() })
+        produtoRepository = ProdutoRepository(
+            Provider { database.produtoDao() },
+            Provider { database.grupoDao() },
+        )
+        clienteRepository = ClienteRepository(Provider { database.clienteDao() })
         vendaRepository = VendaRepository(
-            database,
-            database.vendaDao(),
-            database.clienteDao(),
+            Provider { database },
+            Provider { database.vendaDao() },
+            Provider { database.clienteDao() },
             factory,
             validator,
-            database.recebimentoDao(),
+            Provider { database.recebimentoDao() },
         )
         compraRepository = CompraRepository(
-            database,
-            database.compraDao(),
-            database.fornecedorDao(),
+            Provider { database },
+            Provider { database.compraDao() },
+            Provider { database.fornecedorDao() },
             factory,
-            database.pagamentoDao(),
+            Provider { database.pagamentoDao() },
         )
         financeiroRepository = FinanceiroRepository(
-            database.vendaDao(),
-            database.compraDao(),
-            database.recebimentoDao(),
-            database.pagamentoDao(),
-            database.clienteDao(),
-            database.fornecedorDao(),
+            Provider { database.vendaDao() },
+            Provider { database.compraDao() },
+            Provider { database.recebimentoDao() },
+            Provider { database.pagamentoDao() },
+            Provider { database.clienteDao() },
+            Provider { database.fornecedorDao() },
         )
     }
 

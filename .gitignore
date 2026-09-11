@@ -1,24 +1,27 @@
-# *.iml
-# .gradle
-# /local.properties
-# /.idea
-# .DS_Store
-# build
-# /captures
-# .externalNativeBuild
-# .cxx
-# *.apk
-# *.ap_
-# *.aab
-# *.dex
-# *.class
-# bin/
-# gen/
-# out/
-# .navigation/
-# captures/
-# output.json
-# *.hprof
-# tools/speech-model/models/*.bin
-# app/src/main/assets/models/*.bin
-# app/src/main/cpp/.whisper-cache/
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+.navigation/
+captures/
+output.json
+*.hprof
+.env
+.jdk/
+app/src/main/java/br/com/banavita/app/GroqBuildFields.kt
+tools/speech-model/models/*.bin
+app/src/main/assets/models/*.bin
+app/src/main/cpp/.whisper-cache/

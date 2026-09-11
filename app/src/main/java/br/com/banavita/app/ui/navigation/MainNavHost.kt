@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import br.com.banavita.app.core.reminder.AgendaNotifications
 import br.com.banavita.app.domain.model.ConsultaModo
+import br.com.banavita.app.domain.model.extraction.ConfirmResult
 import br.com.banavita.app.ui.agenda.AgendaListRoute
 import br.com.banavita.app.ui.agenda.EventoFormRoute
 import br.com.banavita.app.ui.cadastros.CadastrosHubScreen
@@ -30,6 +31,7 @@ import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheRoute
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheRoute
 import br.com.banavita.app.ui.home.HomeNavEvent
 import br.com.banavita.app.ui.home.HomeRoute
+import br.com.banavita.app.ui.settings.SettingsRoute
 import br.com.banavita.app.ui.vendas.VendaFormRoute
 import br.com.banavita.app.ui.vendas.VendaListRoute
 
@@ -44,11 +46,18 @@ fun MainNavHost(
         modifier = modifier,
     ) {
         addTopLevelScreens(navController)
+        addSettingsScreen()
         addCadastrosNestedScreens(navController)
         addCadastroFormScreens(navController)
         addDocumentoFormScreens(navController)
         addConsultasScreens(navController)
         addAgendaScreens(navController)
+    }
+}
+
+private fun NavGraphBuilder.addSettingsScreen() {
+    composable(BanavitaRoutes.SETTINGS) {
+        SettingsRoute()
     }
 }
 
@@ -61,7 +70,9 @@ private fun NavGraphBuilder.addTopLevelScreens(navController: NavHostController)
                     is HomeNavEvent.Consultas -> navController.navigate(
                         BanavitaRoutes.consultas(event.modo, event.busca, event.periodo),
                     )
-                    HomeNavEvent.Agenda -> navController.navigate(BanavitaRoutes.AGENDA)
+                    is HomeNavEvent.Agenda -> navController.navigate(
+                        BanavitaRoutes.agenda(event.epochDay, event.monthOverviewHint),
+                    )
                     is HomeNavEvent.Evento -> navController.navigate(BanavitaRoutes.eventoEdit(event.eventoId))
                     is HomeNavEvent.EstoqueDetalhe ->
                         navController.navigate(BanavitaRoutes.estoqueDetalhe(event.produtoId))
@@ -180,14 +191,51 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
 
 private fun NavGraphBuilder.addAgendaScreens(navController: NavHostController) {
     val popBack: () -> Unit = { navController.popBackStack() }
-    composable(BanavitaRoutes.AGENDA) {
+    composable(
+        route = BanavitaRoutes.AGENDA,
+        arguments = listOf(
+            navArgument(BanavitaRoutes.ARG_AGENDA_DATE) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+            navArgument(BanavitaRoutes.ARG_AGENDA_HINT) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) {
         AgendaListRoute(
-            onAddClick = { navController.navigate(BanavitaRoutes.AGENDA_FORM_NEW) },
+            onAddClick = { epochDay ->
+                navController.navigate(BanavitaRoutes.agendaFormNew(epochDay))
+            },
             onItemClick = { id -> navController.navigate(BanavitaRoutes.eventoEdit(id)) },
         )
     }
-    composable(BanavitaRoutes.AGENDA_FORM_NEW) {
-        EventoFormRoute(onDone = popBack)
+    composable(
+        route = BanavitaRoutes.AGENDA_FORM_NEW,
+        arguments = listOf(
+            navArgument(BanavitaRoutes.ARG_AGENDA_DATE) {
+                type = NavType.StringType
+                defaultValue = ""
+            },
+        ),
+    ) {
+        EventoFormRoute(
+            onDone = popBack,
+            onVoiceSuccess = { result ->
+                if (result is ConfirmResult.EventoCriado) {
+                    val epochDay = java.time.Instant.ofEpochMilli(result.dataHoraMillis)
+                        .atZone(java.time.ZoneId.systemDefault())
+                        .toLocalDate()
+                        .toEpochDay()
+                    navController.navigate(BanavitaRoutes.agenda(epochDay)) {
+                        popUpTo(BanavitaRoutes.AGENDA) { inclusive = true }
+                    }
+                } else {
+                    popBack()
+                }
+            },
+        )
     }
     composable(
         route = BanavitaRoutes.AGENDA_FORM_EDIT,

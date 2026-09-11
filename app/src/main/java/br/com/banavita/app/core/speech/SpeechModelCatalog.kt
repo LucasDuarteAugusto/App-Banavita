@@ -9,10 +9,11 @@ object SpeechModelCatalog {
             id = SpeechConstants.ACTIVE_MODEL_ID,
             fileName = SpeechConstants.ACTIVE_MODEL_FILE,
             sha256 = SpeechConstants.ACTIVE_MODEL_SHA256,
-            profile = DeviceSpeechProfile.MINIMUM,
+            profile = DeviceSpeechProfile.valueOf(SpeechConstants.ACTIVE_MODEL_PROFILE),
             active = true,
-            approximateSizeMb = 57,
+            approximateSizeMb = SpeechConstants.ACTIVE_MODEL_SIZE_MB,
         ),
+        // Reservados para futuro (não ativos no build)
         SpeechModelSpec(
             id = "ggml-base-q8_0",
             fileName = "ggml-base-q8_0.bin",
@@ -20,14 +21,6 @@ object SpeechModelCatalog {
             profile = DeviceSpeechProfile.INTERMEDIATE,
             active = false,
             approximateSizeMb = 78,
-        ),
-        SpeechModelSpec(
-            id = "ggml-small-q5_1",
-            fileName = "ggml-small-q5_1.bin",
-            sha256 = "",
-            profile = DeviceSpeechProfile.INTERMEDIATE,
-            active = false,
-            approximateSizeMb = 190,
         ),
         SpeechModelSpec(
             id = "ggml-small-q8_0",

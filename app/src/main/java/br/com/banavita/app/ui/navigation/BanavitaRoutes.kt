@@ -7,6 +7,7 @@ import java.util.UUID
 
 object BanavitaRoutes {
     const val HOME = "home"
+    const val SETTINGS = "configuracoes"
     const val VENDAS = "vendas"
     const val COMPRAS = "compras"
     const val CADASTROS = "cadastros"
@@ -23,9 +24,11 @@ object BanavitaRoutes {
     const val RECEBER_DETALHE = "consultas/receber/{clienteId}"
     const val PAGAR_DETALHE = "consultas/pagar/{fornecedorId}"
 
-    const val AGENDA = "agenda"
-    const val AGENDA_FORM_NEW = "agenda/novo"
+    const val AGENDA = "agenda?date={date}&hint={hint}"
+    const val AGENDA_FORM_NEW = "agenda/novo?date={date}"
     const val AGENDA_FORM_EDIT = "agenda/edit/{eventoId}"
+    const val ARG_AGENDA_DATE = "date"
+    const val ARG_AGENDA_HINT = "hint"
 
     const val GRUPO_FORM_NEW = "cadastros/grupos/novo"
     const val GRUPO_FORM_EDIT = "cadastros/grupos/edit/{grupoId}"
@@ -60,7 +63,7 @@ object BanavitaRoutes {
     fun topLevelRouteFor(route: String?): String? = when {
         route == null -> null
         route == HOME || route.startsWith("$HOME/") -> HOME
-        route.startsWith("consultas") || route.startsWith("agenda") -> HOME
+        route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") -> HOME
         route == VENDAS || route.startsWith("$VENDAS/") -> VENDAS
         route == COMPRAS || route.startsWith("$COMPRAS/") -> COMPRAS
         route == CADASTROS || route.startsWith("$CADASTROS/") -> CADASTROS
@@ -88,4 +91,15 @@ object BanavitaRoutes {
     fun vendaEdit(vendaId: UUID): String = "vendas/edit/$vendaId"
     fun compraEdit(compraId: UUID): String = "compras/edit/$compraId"
     fun eventoEdit(eventoId: UUID): String = "agenda/edit/$eventoId"
+
+    fun agenda(epochDay: Long? = null, monthOverviewHint: Boolean = false): String {
+        val date = epochDay?.toString().orEmpty()
+        val hint = if (monthOverviewHint) "1" else ""
+        return "agenda?date=$date&hint=$hint"
+    }
+
+    fun agendaFormNew(epochDay: Long? = null): String {
+        val date = epochDay?.toString().orEmpty()
+        return "agenda/novo?date=$date"
+    }
 }

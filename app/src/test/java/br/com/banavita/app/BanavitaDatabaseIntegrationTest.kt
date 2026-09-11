@@ -38,6 +38,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Provider
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.util.UUID
@@ -79,28 +80,28 @@ class BanavitaDatabaseIntegrationTest {
         compraDao = database.compraDao()
         estoqueDao = database.estoqueDao()
 
-        val documentoItemFactory = DocumentoItemFactory(produtoDao)
-        val estoqueValidator = EstoqueValidator(estoqueDao)
+        val documentoItemFactory = DocumentoItemFactory(Provider { produtoDao })
+        val estoqueValidator = EstoqueValidator(Provider { estoqueDao })
 
-        grupoRepository = GrupoRepository(grupoDao)
-        produtoRepository = ProdutoRepository(produtoDao, grupoDao)
-        clienteRepository = ClienteRepository(clienteDao)
+        grupoRepository = GrupoRepository(Provider { grupoDao })
+        produtoRepository = ProdutoRepository(Provider { produtoDao }, Provider { grupoDao })
+        clienteRepository = ClienteRepository(Provider { clienteDao })
         compraRepository = CompraRepository(
-            database,
-            compraDao,
-            fornecedorDao,
+            Provider { database },
+            Provider { compraDao },
+            Provider { fornecedorDao },
             documentoItemFactory,
-            database.pagamentoDao(),
+            Provider { database.pagamentoDao() },
         )
         vendaRepository = VendaRepository(
-            database,
-            vendaDao,
-            clienteDao,
+            Provider { database },
+            Provider { vendaDao },
+            Provider { clienteDao },
             documentoItemFactory,
             estoqueValidator,
-            database.recebimentoDao(),
+            Provider { database.recebimentoDao() },
         )
-        estoqueRepository = EstoqueRepository(estoqueDao)
+        estoqueRepository = EstoqueRepository(Provider { estoqueDao })
     }
 
     @After

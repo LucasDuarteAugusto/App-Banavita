@@ -22,4 +22,15 @@ object RoleKeywords {
         val match = cue.find(text) ?: return null
         return match.groupValues[1].trim().takeIf { it.isNotBlank() }
     }
+
+    fun cleanPartnerCandidate(candidate: String): String {
+        val cleaned = candidate
+            .replace(Regex("""(?i)\b(a\s*vista|avista|a\s*prazo|fiado|pago|pagou|ja\s+pago|ja\s+pagou|nao\s+pago|nao\s+pagou|no\s+pix|em\s+dinheiro|no\s+dinheiro|no\s+cartao|no\s+debito|pendente)\b"""), " ")
+            .replace(Regex("""(?i)\b(reais?|real|r\$)\b"""), " ")
+            .replace(Regex("""\b\d+([.,]\d+)?\b"""), " ")
+            .replace(Regex("""\s+"""), " ")
+            .trim()
+        val tokens = cleaned.split(" ").filter { it.isNotBlank() && !isStopWord(it) }
+        return tokens.joinToString(" ")
+    }
 }

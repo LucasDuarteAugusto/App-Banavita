@@ -12,13 +12,13 @@ O Banavita só inclui biblioteca nativa **arm64-v8a** (Whisper). Celular real de
 ### 1. Abrir o projeto
 
 1. Abra o Android Studio Quail.
-2. **File → Open** e escolha a pasta `App-Banavita` (a que contém `settings.gradle.kts`).
-3. Espere o Gradle terminar (**File → Sync Project with Gradle Files** se o sync não começar sozinho).
-4. Confirme o JDK 17 da IDE: **File → Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK**. Deixe o **jbr-17** (JDK embutido do Android Studio).
+2. **File -> Open** e escolha a pasta `App-Banavita` (a que contém `settings.gradle.kts`).
+3. Espere o Gradle terminar (**File -> Sync Project with Gradle Files** se o sync não começar sozinho).
+4. Confirme o JDK 17 da IDE: **File -> Settings -> Build, Execution, Deployment -> Build Tools -> Gradle -> Gradle JDK**. Deixe o **jbr-17** (JDK embutido do Android Studio).
 
 ### 2. Instalar SDK, NDK e CMake
 
-1. **File → Settings → Languages & Frameworks → Android SDK**.
+1. **File -> Settings -> Languages & Frameworks -> Android SDK**.
 2. Aba **SDK Platforms**: marque **Android 15.0 (API 35)** (ou a plataforma 35 que aparecer).
 3. Aba **SDK Tools**, marque:
    - **Android SDK Build-Tools**
@@ -26,11 +26,11 @@ O Banavita só inclui biblioteca nativa **arm64-v8a** (Whisper). Celular real de
    - **CMake** (o projeto pede **3.22.1**)
    - **Android Emulator** (se for usar emulador)
    - **Android SDK Platform-Tools**
-4. **Apply → OK** e espere baixar.
+4. **Apply -> OK** e espere baixar.
 
 ### 3. Baixar o modelo de voz (obrigatório no APK com voz)
 
-No Terminal do Android Studio (**View → Tool Windows → Terminal**):
+No Terminal do Android Studio (**View -> Tool Windows -> Terminal**):
 
 ```bash
 cd tools/speech-model
@@ -49,15 +49,15 @@ Use emulador só se você conseguir uma imagem **ARM 64 v8a**. No PC Windows x86
 
 ### Criar o AVD
 
-1. **View → Tool Windows → Device Manager**.
+1. **View -> Tool Windows -> Device Manager**.
 2. Aba **Virtual**.
-3. **+** → **Create Virtual Device**.
-4. Hardware: **Pixel 7** ou **Medium Phone** → **Next**.
+3. **+** -> **Create Virtual Device**.
+4. Hardware: **Pixel 7** ou **Medium Phone** -> **Next**.
 5. System image:
    - API **35** (ou próxima disponível ≥ 26).
    - Na coluna **ABI**, escolha **arm64-v8a** (nome típico: *Google APIs ARM 64 v8a*).
    - Se a imagem não estiver baixada, clique **Download**.
-6. **Next** → **Finish**.
+6. **Next** -> **Finish**.
 
 RAM do AVD: nas configurações avançadas do dispositivo, use **8 GB** se o PC aguentar. O ASR do Banavita não é suportado em aparelhos de 4 GB.
 
@@ -71,10 +71,10 @@ Espere a tela inicial do Android aparecer.
 
 1. Na barra superior, no seletor de dispositivo, escolha o emulador ligado.
 2. Confirme que o módulo é **app**.
-3. Clique no **Run** (triângulo verde) ou **Run → Run 'app'**.
+3. Clique no **Run** (triângulo verde) ou **Run -> Run 'app'**.
 4. Na primeira vez, o Android Studio instala o APK e abre o Banavita.
 
-Microfone no emulador: **⋮** (Extended controls) → **Microphone** → permita o host. Ainda assim a voz pode ser pior que no celular.
+Microfone no emulador: **⋮** (Extended controls) -> **Microphone** -> permita o host. Ainda assim a voz pode ser pior que no celular.
 
 Se a instalação falhar com ABI, o emulador não é arm64. Use um celular.
 
@@ -88,8 +88,8 @@ Há dois jeitos na IDE. O que **gera um arquivo** para copiar é o **Generate AP
 
 #### No celular
 
-1. **Ajustes → Sobre o telefone** → toque ~7 vezes em **Número da versão** (ou **Versão do software**) até aparecer “você é um desenvolvedor”.
-2. **Ajustes → Sistema → Opções do desenvolvedor** (o caminho varia por marca).
+1. **Ajustes -> Sobre o telefone** -> toque ~7 vezes em **Número da versão** (ou **Versão do software**) até aparecer “você é um desenvolvedor”.
+2. **Ajustes -> Sistema -> Opções do desenvolvedor** (o caminho varia por marca).
 3. Ative **Depuração USB**.
 4. Ligue o cabo USB no PC. No celular, autorize o computador.
 5. Modo USB: **Transferência de arquivos** (MTP), se o Windows não reconhecer.
@@ -98,19 +98,19 @@ Marcas Samsung/Xiaomi: ative também **Instalar via USB** / **Depuração USB (c
 
 #### No Android Studio
 
-1. Seletor de dispositivo na barra → o nome do celular deve aparecer.
-2. **Run → Run 'app'** (triângulo verde).
+1. Seletor de dispositivo na barra -> o nome do celular deve aparecer.
+2. **Run -> Run 'app'** (triângulo verde).
 3. O Studio compila, instala e abre o app.
 
-Se o aparelho não listar: **View → Tool Windows → Device Manager** → aba **Physical**. Confira o cabo, o driver (Windows Update) e a depuração USB.
+Se o aparelho não listar: **View -> Tool Windows -> Device Manager** -> aba **Physical**. Confira o cabo, o driver (Windows Update) e a depuração USB.
 
 ### B. Gerar o APK e copiar o arquivo (sem depender do Run)
 
 Use este fluxo para mandar o `.apk` por WhatsApp, Drive ou pasta do celular.
 
-1. No seletor **Build Variants** (**View → Tool Windows → Build Variants**), deixe **app** em **debug** para teste.
-2. Menu **Build → Generate App Bundles or APKs → Generate APKs**.  
-   (Em algumas builds da IDE o item aparece como **Build → Build Bundle(s) / APK(s) → Build APK(s)**.)
+1. No seletor **Build Variants** (**View -> Tool Windows -> Build Variants**), deixe **app** em **debug** para teste.
+2. Menu **Build -> Generate App Bundles or APKs -> Generate APKs**.  
+   (Em algumas builds da IDE o item aparece como **Build -> Build Bundle(s) / APK(s) -> Build APK(s)**.)
 3. Espere o **Build** na parte de baixo chegar em sucesso.
 4. Na notificação **APK(s) generated successfully**, clique **locate**.
 
@@ -135,20 +135,20 @@ Esse APK de **debug** já vem assinado com a chave de debug e **pode ser instala
 **Opção 2 — Drive / WhatsApp**
 
 1. Envie `app-debug.apk` para você mesmo.
-2. Abra no celular → **Download** / **Abrir**.
-3. Permita a origem se o Android pedir → **Instalar**.
+2. Abra no celular -> **Download** / **Abrir**.
+3. Permita a origem se o Android pedir -> **Instalar**.
 
 ### APK de release (assinado)
 
 Para um APK que não seja debug (distribuir de forma mais “oficial”, ainda fora da Play Store):
 
-1. **Build → Generate Signed App Bundle or APK**.
-2. Escolha **APK** → **Next**.
+1. **Build -> Generate Signed App Bundle or APK**.
+2. Escolha **APK** -> **Next**.
 3. Crie um keystore (só na primeira vez):
    - **Create new…**
    - Pasta segura no PC, senhas que você consiga repetir, validade longa.
    - Guarde o `.jks` — sem ele não atualiza o mesmo app no celular.
-4. **release** → **Finish**.
+4. **release** -> **Finish**.
 5. A notificação aponta o APK. Caminho típico:
 
 ```
@@ -169,7 +169,7 @@ Fluxo resumido:
 
 1. Copie o código `BAN1-REQ-…`.
 2. No PC, gere `BAN1-LIC-…` com o gerador de licenças.
-3. Cole a licença no app → **Liberar aplicativo**.
+3. Cole a licença no app -> **Liberar aplicativo**.
 
 Passo a passo: [docs/activation/README.md](../activation/README.md).
 

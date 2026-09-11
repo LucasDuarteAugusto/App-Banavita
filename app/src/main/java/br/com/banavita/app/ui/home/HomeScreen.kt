@@ -53,9 +53,13 @@ fun HomeRoute(
         onAgendaClick = {
             val evento = uiState.proximoEvento
             if (evento != null) {
-                onNavEvent(HomeNavEvent.Evento(evento.id))
+                val epochDay = java.time.Instant.ofEpochMilli(evento.dataHora)
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate()
+                    .toEpochDay()
+                onNavEvent(HomeNavEvent.Agenda(epochDay))
             } else {
-                onNavEvent(HomeNavEvent.Agenda)
+                onNavEvent(HomeNavEvent.Agenda())
             }
         },
         onVoiceResult = viewModel::applyVoice,

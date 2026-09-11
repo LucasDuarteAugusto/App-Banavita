@@ -124,8 +124,9 @@ object VendaExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val clienteCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.clienteCue)
-        val clienteRaw: ExtractionField<String> = if (!clienteCue.isNullOrBlank()) {
-            ExtractionField(clienteCue, clienteCue, 0.8f, FieldSource.HEURISTIC)
+        val cleaned = clienteCue?.let { RoleKeywords.cleanPartnerCandidate(it) }?.takeIf { it.isNotBlank() }
+        val clienteRaw: ExtractionField<String> = if (!cleaned.isNullOrBlank()) {
+            ExtractionField(cleaned, cleaned, 0.8f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }
@@ -142,8 +143,9 @@ object CompraExtractionParser {
         val normalized = TextNormalizer.normalize(transcript)
         val item = DocumentLineParser.parseItem(normalized, transcript)
         val fornecedorCue = RoleKeywords.extractAfterCue(normalized, RoleKeywords.fornecedorCue)
-        val fornecedorRaw: ExtractionField<String> = if (!fornecedorCue.isNullOrBlank()) {
-            ExtractionField(fornecedorCue, fornecedorCue, 0.75f, FieldSource.HEURISTIC)
+        val cleaned = fornecedorCue?.let { RoleKeywords.cleanPartnerCandidate(it) }?.takeIf { it.isNotBlank() }
+        val fornecedorRaw: ExtractionField<String> = if (!cleaned.isNullOrBlank()) {
+            ExtractionField(cleaned, cleaned, 0.75f, FieldSource.HEURISTIC)
         } else {
             ExtractionField(null, null, 0f)
         }
@@ -156,47 +158,13 @@ object CompraExtractionParser {
 }
 
 object ClienteExtractionParser {
-    fun parse(transcript: String): ParsedNomeTelefone {
-        val phone = PhoneParser.find(transcript)
-        var nomeText = transcript
-        phone?.rawSpan?.let { nomeText = nomeText.replace(it, " ") }
-        nomeText = TextNormalizer.normalize(nomeText)
-            .replace(Regex("(?i)\\b(cliente|cadastrar|cadastro|novo|telefone|fone|whatsapp)\\b"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
-        val nome = nomeText.takeIf { it.isNotBlank() }?.replaceFirstChar { it.uppercase() }
-        return ParsedNomeTelefone(
-            nome = ExtractionField(
-                value = nome,
-                rawSpan = nome,
-                confidence = if (nome != null) 0.8f else 0f,
-                source = FieldSource.HEURISTIC,
-            ),
-            telefone = PhoneParser.toField(phone),
-        )
-    }
+    fun parse(transcript: String): ParsedNomeTelefone =
+        NomeTelefoneParser.parse(transcript, entityKeywords = setOf("cliente"))
 }
 
 object FornecedorExtractionParser {
-    fun parse(transcript: String): ParsedNomeTelefone {
-        val phone = PhoneParser.find(transcript)
-        var nomeText = transcript
-        phone?.rawSpan?.let { nomeText = nomeText.replace(it, " ") }
-        nomeText = TextNormalizer.normalize(nomeText)
-            .replace(Regex("(?i)\\b(fornecedor|cadastrar|cadastro|novo|telefone|fone)\\b"), " ")
-            .replace(Regex("\\s+"), " ")
-            .trim()
-        val nome = nomeText.takeIf { it.isNotBlank() }?.replaceFirstChar { it.uppercase() }
-        return ParsedNomeTelefone(
-            nome = ExtractionField(
-                value = nome,
-                rawSpan = nome,
-                confidence = if (nome != null) 0.8f else 0f,
-                source = FieldSource.HEURISTIC,
-            ),
-            telefone = PhoneParser.toField(phone),
-        )
-    }
+    fun parse(transcript: String): ParsedNomeTelefone =
+        NomeTelefoneParser.parse(transcript, entityKeywords = setOf("fornecedor"))
 }
 
 object ProdutoExtractionParser {

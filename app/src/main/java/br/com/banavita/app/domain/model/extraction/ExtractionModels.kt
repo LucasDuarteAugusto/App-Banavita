@@ -171,6 +171,9 @@ sealed class ConfirmResult {
     ) : ConfirmResult()
     data class RecebimentoCriado(val recebimentoIds: List<UUID>) : ConfirmResult()
     data class PagamentoCriado(val pagamentoIds: List<UUID>) : ConfirmResult()
-    data class EventoCriado(val eventoId: UUID) : ConfirmResult()
-    data class AgendaFiltroAplicado(val recorte: AgendaRecorte) : ConfirmResult()
+    data class EventoCriado(val eventoId: UUID, val dataHoraMillis: Long) : ConfirmResult()
+    data class AgendaFiltroAplicado(
+        val epochDay: Long,
+        val monthOverviewHint: Boolean = false,
+    ) : ConfirmResult()
 }

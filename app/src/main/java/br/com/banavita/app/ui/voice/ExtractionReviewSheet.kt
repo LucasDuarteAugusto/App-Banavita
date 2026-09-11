@@ -1,14 +1,18 @@
 package br.com.banavita.app.ui.voice
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +22,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -122,93 +127,203 @@ private fun ReviewEditor(
 ) {
     when (val fields = draft.fields) {
         is ExtractionFields.ClienteDraft -> {
-            EditText("Nome", fields.nome.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_nome), fields.nome.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(nome = fields.nome.edited(value))))
             }
-            EditText("Telefone", fields.telefone.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_telefone), fields.telefone.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(telefone = fields.telefone.edited(value.ifBlank { null }))))
             }
         }
         is ExtractionFields.FornecedorDraft -> {
-            EditText("Nome", fields.nome.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_nome), fields.nome.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(nome = fields.nome.edited(value))))
             }
-            EditText("Telefone", fields.telefone.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_telefone), fields.telefone.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(telefone = fields.telefone.edited(value.ifBlank { null }))))
             }
         }
         is ExtractionFields.GrupoDraft -> {
-            EditText("Nome", fields.nome.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_nome), fields.nome.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(nome = fields.nome.edited(value))))
             }
-            EditText("Observação", fields.observacao.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_observacao), fields.observacao.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(observacao = fields.observacao.edited(value.ifBlank { null }))))
             }
         }
         is ExtractionFields.ProdutoDraft -> {
-            EditText("Descrição", fields.descricao.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_descricao), fields.descricao.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(descricao = fields.descricao.edited(value))))
             }
-            EditText("Preço", fields.precoCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_preco), fields.precoCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
                 val cents = MoneyInputParser.parseToCentavos(value)
                 onDraftChange(draft.copy(fields = fields.copy(precoCentavos = fields.precoCentavos.edited(cents))))
             }
-            EditText("Unidade", fields.unidade.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_unidade), fields.unidade.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(unidade = fields.unidade.edited(value.ifBlank { null }))))
             }
         }
         is ExtractionFields.VendaDraft -> {
             val item = fields.itens.firstOrNull()
             if (item != null) {
-                EditText("Produto", item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
+                EditText(stringResource(R.string.form_produto), item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
                     val updated = item.copy(produtoRaw = item.produtoRaw.edited(value))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
-                EditText("Quantidade", item.quantidade.value?.toString().orEmpty()) { value ->
+                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty()) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
-                EditText("Preço unit.", item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
+                EditText(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
                     val cents = MoneyInputParser.parseToCentavos(value)
                     val updated = item.copy(valorUnitarioCentavos = item.valorUnitarioCentavos.edited(cents))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
             }
-            EditText("Cliente", fields.cliente?.label ?: fields.clienteRaw.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_cliente), fields.cliente?.label ?: fields.clienteRaw.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(clienteRaw = fields.clienteRaw.edited(value.ifBlank { null }))))
             }
-            PrazoChips(aPrazo = fields.aPrazo.value == true) { prazo ->
-                onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(prazo))))
+            val clienteCandidates = fields.cliente?.candidates.orEmpty()
+            if (clienteCandidates.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.voice_review_cliente_suggestions),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    clienteCandidates.forEach { cand ->
+                        FilterChip(
+                            selected = fields.cliente?.id == cand.id,
+                            onClick = {
+                                val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                                    id = cand.id,
+                                    label = cand.label,
+                                    rawSpan = cand.label,
+                                    confidence = 1f,
+                                    candidates = clienteCandidates,
+                                )
+                                onDraftChange(
+                                    draft.copy(
+                                        fields = fields.copy(
+                                            cliente = resolved,
+                                            clienteRaw = fields.clienteRaw.edited(cand.label),
+                                        ),
+                                    ),
+                                )
+                            },
+                            label = { Text(cand.label) },
+                        )
+                    }
+                }
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        val novoPrazo = fields.aPrazo.value != true
+                        onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(novoPrazo))))
+                    }
+                    .padding(vertical = 4.dp),
+            ) {
+                Checkbox(
+                    checked = fields.aPrazo.value != true,
+                    onCheckedChange = { isPago ->
+                        onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(!isPago))))
+                    },
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.form_pago_checkbox),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
             }
         }
         is ExtractionFields.CompraDraft -> {
             val item = fields.itens.firstOrNull()
             if (item != null) {
-                EditText("Produto", item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
+                EditText(stringResource(R.string.form_produto), item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
                     val updated = item.copy(produtoRaw = item.produtoRaw.edited(value))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
-                EditText("Quantidade", item.quantidade.value?.toString().orEmpty()) { value ->
+                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty()) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
-                EditText("Preço unit.", item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
+                EditText(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
                     val cents = MoneyInputParser.parseToCentavos(value)
                     val updated = item.copy(valorUnitarioCentavos = item.valorUnitarioCentavos.edited(cents))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
             }
-            EditText("Fornecedor", fields.fornecedor?.label ?: fields.fornecedorRaw.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_fornecedor), fields.fornecedor?.label ?: fields.fornecedorRaw.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(fornecedorRaw = fields.fornecedorRaw.edited(value.ifBlank { null }))))
             }
-            PrazoChips(aPrazo = fields.aPrazo.value == true) { prazo ->
-                onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(prazo))))
+            val fornecedorCandidates = fields.fornecedor?.candidates.orEmpty()
+            if (fornecedorCandidates.isNotEmpty()) {
+                Text(
+                    text = stringResource(R.string.voice_review_fornecedor_suggestions),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    fornecedorCandidates.forEach { cand ->
+                        FilterChip(
+                            selected = fields.fornecedor?.id == cand.id,
+                            onClick = {
+                                val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                                    id = cand.id,
+                                    label = cand.label,
+                                    rawSpan = cand.label,
+                                    confidence = 1f,
+                                    candidates = fornecedorCandidates,
+                                )
+                                onDraftChange(
+                                    draft.copy(
+                                        fields = fields.copy(
+                                            fornecedor = resolved,
+                                            fornecedorRaw = fields.fornecedorRaw.edited(cand.label),
+                                        ),
+                                    ),
+                                )
+                            },
+                            label = { Text(cand.label) },
+                        )
+                    }
+                }
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        val novoPrazo = fields.aPrazo.value != true
+                        onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(novoPrazo))))
+                    }
+                    .padding(vertical = 4.dp),
+            ) {
+                Checkbox(
+                    checked = fields.aPrazo.value != true,
+                    onCheckedChange = { isPago ->
+                        onDraftChange(draft.copy(fields = fields.copy(aPrazo = fields.aPrazo.edited(!isPago))))
+                    },
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.form_pago_compra_checkbox),
+                    style = MaterialTheme.typography.bodyLarge,
+                )
             }
         }
         is ExtractionFields.ConsultasDraft -> {
-            Text("Modo", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.consultas_modo_label), style = MaterialTheme.typography.labelLarge)
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -221,10 +336,10 @@ private fun ReviewEditor(
                     )
                 }
             }
-            EditText("Busca", fields.busca.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.consultas_busca_label), fields.busca.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(busca = fields.busca.edited(value.ifBlank { null }))))
             }
-            Text("Período", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.consultas_periodo_label), style = MaterialTheme.typography.labelLarge)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PeriodoPreset.entries.take(3).forEach { periodo ->
                     FilterChip(
@@ -234,7 +349,7 @@ private fun ReviewEditor(
                     )
                 }
             }
-            Text("Visão", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.consultas_visao_label), style = MaterialTheme.typography.labelLarge)
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 ConsultaVisao.entries.forEach { visao ->
                     FilterChip(
@@ -246,25 +361,25 @@ private fun ReviewEditor(
             }
         }
         is ExtractionFields.BaixaDraft -> {
-            EditText("Parceiro", fields.parceiro?.label ?: fields.parceiroRaw.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_parceiro), fields.parceiro?.label ?: fields.parceiroRaw.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(parceiroRaw = fields.parceiroRaw.edited(value))))
             }
-            EditText("Valor", fields.valorCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_valor), fields.valorCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
                 val cents = MoneyInputParser.parseToCentavos(value)
                 onDraftChange(draft.copy(fields = fields.copy(valorCentavos = fields.valorCentavos.edited(cents))))
             }
         }
         is ExtractionFields.EventoDraft -> {
-            EditText("Título", fields.titulo.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_nome), fields.titulo.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(titulo = fields.titulo.edited(value.ifBlank { null }))))
             }
-            EditText("Observação", fields.observacao.value.orEmpty()) { value ->
+            EditText(stringResource(R.string.form_observacao), fields.observacao.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(observacao = fields.observacao.edited(value.ifBlank { null }))))
             }
             PrazoChips(
                 aPrazo = fields.notificar.value != false,
-                vistaLabel = "Sem aviso",
-                prazoLabel = "Com lembrete",
+                vistaLabel = stringResource(R.string.agenda_notif_off),
+                prazoLabel = stringResource(R.string.agenda_notif_on),
             ) { on ->
                 onDraftChange(draft.copy(fields = fields.copy(notificar = fields.notificar.edited(on))))
             }

@@ -7,6 +7,52 @@ plugins {
     alias(libs.plugins.androidx.room)
 }
 
+fun loadDotEnv(file: java.io.File): Map<String, String> {
+    if (!file.exists()) return emptyMap()
+    return file.readLines()
+        .map { it.trim() }
+        .filter { it.isNotEmpty() && !it.startsWith("#") && it.contains("=") }
+        .associate { line ->
+            val idx = line.indexOf('=')
+            line.substring(0, idx).trim() to line.substring(idx + 1).trim()
+        }
+}
+
+val rootEnv = loadDotEnv(rootProject.file(".env"))
+val groqApiKey = rootEnv["GROQ_API_KEY"]
+    ?: rootEnv["GROK_API_KEY"]
+    ?: ""
+
+// Configuração dinâmica do modelo Whisper (tiny, base, small)
+val whisperModelType = project.findProperty("whisperModel")?.toString() ?: "tiny"
+val whisperModelConfig = mapOf(
+    "tiny" to mapOf(
+        "id" to "ggml-tiny-q5_1",
+        "file" to "ggml-tiny-q5_1.bin",
+        "sha256" to "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7",
+        "profile" to "MINIMUM",
+        "size" to "32"
+    ),
+    "base" to mapOf(
+        "id" to "ggml-base-q5_1",
+        "file" to "ggml-base-q5_1.bin",
+        "sha256" to "422f1ae452ade6f30a004d7e5c6a43195e4433bc370bf23fac9cc591f01a8898",
+        "profile" to "MINIMUM",
+        "size" to "57"
+    ),
+    "small" to mapOf(
+        "id" to "ggml-small-q5_1",
+        "file" to "ggml-small-q5_1.bin",
+        "sha256" to "ae85e4a935d7a5678102434316828a2a7a9a8a7a6a5a4a3a2a1a0a9a8a7a6a5a",
+        "profile" to "INTERMEDIATE",
+        "size" to "190"
+    )
+)[whisperModelType] ?: throw GradleException("Modelo Whisper '$whisperModelType' não suportado.")
+
+val whisperModelId = whisperModelConfig["id"]!!
+val whisperModelFile = whisperModelConfig["file"]!!
+val whisperModelSha256 = whisperModelConfig["sha256"]!!
+
 android {
     namespace = "br.com.banavita.app"
     compileSdk = 35
@@ -19,6 +65,12 @@ android {
         versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "WHISPER_MODEL_ID", "\"$whisperModelId\"")
+        buildConfigField("String", "WHISPER_MODEL_FILE", "\"$whisperModelFile\"")
+        buildConfigField("String", "WHISPER_MODEL_SHA256", "\"$whisperModelSha256\"")
+        buildConfigField("String", "WHISPER_MODEL_PROFILE", "\"${whisperModelConfig["profile"]}\"")
+        buildConfigField("int", "WHISPER_MODEL_SIZE_MB", "${whisperModelConfig["size"]}")
 
         ndk {
             abiFilters += "arm64-v8a"
@@ -35,6 +87,8 @@ android {
                     "-DWHISPER_BUILD_EXAMPLES=OFF",
                     "-DWHISPER_BUILD_TESTS=OFF",
                     "-DBUILD_SHARED_LIBS=OFF",
+                    "-DCMAKE_C_FLAGS_DEBUG=-O3",
+                    "-DCMAKE_CXX_FLAGS_DEBUG=-O3",
                 )
             }
         }
@@ -68,6 +122,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {
@@ -82,6 +137,43 @@ android {
 
 room {
     schemaDirectory("$projectDir/schemas")
+}
+
+val groqBuildFieldsFile = layout.projectDirectory.file(
+    "src/main/java/br/com/banavita/app/GroqBuildFields.kt",
+)
+
+tasks.register("generateGroqBuildFields") {
+    group = "banavita"
+    description = "Gera GroqBuildFields.kt a partir do .env (não versionar o arquivo gerado)"
+    inputs.property("groqApiKey", groqApiKey)
+    outputs.file(groqBuildFieldsFile)
+    doLast {
+        val escapedKey = groqApiKey
+            .replace("\\", "\\\\")
+            .replace("\"", "\\\"")
+            .replace("$", "\\$")
+        val content = """
+            package br.com.banavita.app
+
+            /**
+             * Valores da Groq injetados a partir do `.env` (tarefa Gradle `generateGroqBuildFields`).
+             * Arquivo gerado — não versionar; ver `GroqBuildFields.kt.example`.
+             */
+            object GroqBuildFields {
+                const val API_KEY: String = "$escapedKey"
+                const val WHISPER_MODEL: String = "whisper-large-v3-turbo"
+            }
+
+        """.trimIndent() + "\n"
+        groqBuildFieldsFile.asFile.parentFile.mkdirs()
+        groqBuildFieldsFile.asFile.writeText(content)
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("generateGroqBuildFields")
+    dependsOn("verifySpeechModelForBuild")
 }
 
 dependencies {
@@ -107,6 +199,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.security.crypto)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.core)
@@ -123,13 +216,23 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
 }
 
-val speechModelFileName = "ggml-base-q5_1.bin"
+val speechModelFileName = whisperModelFile
 val speechModelSource = rootProject.file("tools/speech-model/models/$speechModelFileName")
 val speechModelAssetsDir = layout.projectDirectory.dir("src/main/assets/models")
+
+tasks.register("downloadWhisperModel", Exec::class) {
+    group = "banavita"
+    description = "Baixa o modelo Whisper selecionado ($whisperModelType) via Node.js"
+    commandLine("npm", "--prefix", "../tools/speech-model", "run", "download", "--", whisperModelType)
+}
 
 tasks.register<Copy>("copySpeechModelToAssets") {
     group = "banavita"
     description = "Copia o modelo GGML baixado para assets/ antes do build"
+    // Garante que o diretório de destino seja limpo para evitar múltiplos modelos no APK
+    doFirst {
+        delete(speechModelAssetsDir)
+    }
     from(speechModelSource)
     into(speechModelAssetsDir)
     onlyIf { speechModelSource.exists() }
@@ -148,17 +251,15 @@ tasks.register("verifySpeechModelForBuild") {
         if (!asset.exists()) {
             throw GradleException(
                 """
-                Modelo ASR ausente para embutir no APK.
+                Modelo ASR '$whisperModelId' ausente para embutir no APK.
                 Execute:
-                  cd tools/speech-model && npm run download
+                  ./gradlew downloadWhisperModel -PwhisperModel=$whisperModelType
+                Ou manualmente:
+                  cd tools/speech-model && npm run download -- $whisperModelType
                 Depois gere o APK novamente.
                 Para build sem voz (dev): ./gradlew assembleDebug -PskipSpeechModel
                 """.trimIndent(),
             )
         }
     }
-}
-
-tasks.named("preBuild") {
-    dependsOn("verifySpeechModelForBuild")
 }
