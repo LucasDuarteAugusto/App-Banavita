@@ -2,6 +2,7 @@ package br.com.banavita.app;
 
 import br.com.banavita.app.core.reminder.AgendaAlarmReceiver_GeneratedInjector;
 import br.com.banavita.app.core.reminder.BootCompletedReceiver_GeneratedInjector;
+import br.com.banavita.app.core.reminder.PereciveisAlarmReceiver_GeneratedInjector;
 import br.com.banavita.app.di.DatabaseModule;
 import br.com.banavita.app.di.ExtractionModule;
 import br.com.banavita.app.di.NetworkModule;
@@ -26,6 +27,9 @@ import br.com.banavita.app.ui.consultas.ConsultasViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel_HiltModules;
 import br.com.banavita.app.ui.home.HomeViewModel_HiltModules;
+import br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormViewModel_HiltModules;
+import br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel_HiltModules;
+import br.com.banavita.app.ui.pereciveis.perda.PerdaFormViewModel_HiltModules;
 import br.com.banavita.app.ui.settings.SettingsViewModel_HiltModules;
 import br.com.banavita.app.ui.vendas.VendaFormViewModel_HiltModules;
 import br.com.banavita.app.ui.vendas.VendaListViewModel_HiltModules;
@@ -170,6 +174,7 @@ public final class BanavitaApplication_HiltComponents {
   public abstract static class SingletonC implements BanavitaApplication_GeneratedInjector,
       AgendaAlarmReceiver_GeneratedInjector,
       BootCompletedReceiver_GeneratedInjector,
+      PereciveisAlarmReceiver_GeneratedInjector,
       FragmentGetContextFix.FragmentGetContextFixEntryPoint,
       HiltWrapper_ActivityRetainedComponentManager_ActivityRetainedComponentBuilderEntryPoint,
       ServiceComponentManager.ServiceComponentBuilderEntryPoint,
@@ -198,7 +203,9 @@ public final class BanavitaApplication_HiltComponents {
           CompraFormViewModel_HiltModules.KeyModule.class,
           CompraListViewModel_HiltModules.KeyModule.class,
           ConsultasViewModel_HiltModules.KeyModule.class,
+          EncomendaFormViewModel_HiltModules.KeyModule.class,
           EstoqueDetalheViewModel_HiltModules.KeyModule.class,
+          EtilenoFilaViewModel_HiltModules.KeyModule.class,
           EventoFormViewModel_HiltModules.KeyModule.class,
           FinanceiroDetalheViewModel_HiltModules.KeyModule.class,
           FornecedorFormViewModel_HiltModules.KeyModule.class,
@@ -208,6 +215,7 @@ public final class BanavitaApplication_HiltComponents {
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           HomeViewModel_HiltModules.KeyModule.class,
+          PerdaFormViewModel_HiltModules.KeyModule.class,
           ProdutoFormViewModel_HiltModules.KeyModule.class,
           ProdutoListViewModel_HiltModules.KeyModule.class,
           SettingsViewModel_HiltModules.KeyModule.class,
@@ -257,7 +265,9 @@ public final class BanavitaApplication_HiltComponents {
           CompraFormViewModel_HiltModules.BindsModule.class,
           CompraListViewModel_HiltModules.BindsModule.class,
           ConsultasViewModel_HiltModules.BindsModule.class,
+          EncomendaFormViewModel_HiltModules.BindsModule.class,
           EstoqueDetalheViewModel_HiltModules.BindsModule.class,
+          EtilenoFilaViewModel_HiltModules.BindsModule.class,
           EventoFormViewModel_HiltModules.BindsModule.class,
           FinanceiroDetalheViewModel_HiltModules.BindsModule.class,
           FornecedorFormViewModel_HiltModules.BindsModule.class,
@@ -266,6 +276,7 @@ public final class BanavitaApplication_HiltComponents {
           GrupoListViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           HomeViewModel_HiltModules.BindsModule.class,
+          PerdaFormViewModel_HiltModules.BindsModule.class,
           ProdutoFormViewModel_HiltModules.BindsModule.class,
           ProdutoListViewModel_HiltModules.BindsModule.class,
           SettingsViewModel_HiltModules.BindsModule.class,

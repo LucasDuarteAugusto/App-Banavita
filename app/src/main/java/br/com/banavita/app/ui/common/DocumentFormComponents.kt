@@ -35,7 +35,6 @@ import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.Produto
 import java.util.UUID
-import java.util.UUID
 import androidx.compose.ui.unit.dp
 
 @Composable

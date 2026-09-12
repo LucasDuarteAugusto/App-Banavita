@@ -93,7 +93,7 @@ public final class VendaDao_Impl implements VendaDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `venda_item` (`VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`) VALUES (?,?,?,?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `venda_item` (`VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO`) VALUES (?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -122,6 +122,11 @@ public final class VendaDao_Impl implements VendaDao {
         statement.bindLong(6, entity.getValorUnitarioCentavos());
         statement.bindDouble(7, entity.getQuantidade());
         statement.bindLong(8, entity.getValorTotalCentavos());
+        if (entity.getEstado() == null) {
+          statement.bindNull(9);
+        } else {
+          statement.bindString(9, entity.getEstado());
+        }
       }
     };
     this.__updateAdapterOfVendaEntity = new EntityDeletionOrUpdateAdapter<VendaEntity>(__db) {
@@ -593,7 +598,7 @@ public final class VendaDao_Impl implements VendaDao {
       return;
     }
     final StringBuilder _stringBuilder = StringUtil.newStringBuilder();
-    _stringBuilder.append("SELECT `VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT` FROM `venda_item` WHERE `VEI_VENDA` IN (");
+    _stringBuilder.append("SELECT `VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO` FROM `venda_item` WHERE `VEI_VENDA` IN (");
     final int _inputSize = __mapKeySet.size();
     StringUtil.appendPlaceholders(_stringBuilder, _inputSize);
     _stringBuilder.append(")");
@@ -619,6 +624,7 @@ public final class VendaDao_Impl implements VendaDao {
       final int _cursorIndexOfValorUnitarioCentavos = 5;
       final int _cursorIndexOfQuantidade = 6;
       final int _cursorIndexOfValorTotalCentavos = 7;
+      final int _cursorIndexOfEstado = 8;
       while (_cursor.moveToNext()) {
         final String _tmpKey;
         _tmpKey = _cursor.getString(_itemKeyIndex);
@@ -674,7 +680,13 @@ public final class VendaDao_Impl implements VendaDao {
           _tmpQuantidade = _cursor.getDouble(_cursorIndexOfQuantidade);
           final long _tmpValorTotalCentavos;
           _tmpValorTotalCentavos = _cursor.getLong(_cursorIndexOfValorTotalCentavos);
-          _item_1 = new VendaItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpVendaId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos);
+          final String _tmpEstado;
+          if (_cursor.isNull(_cursorIndexOfEstado)) {
+            _tmpEstado = null;
+          } else {
+            _tmpEstado = _cursor.getString(_cursorIndexOfEstado);
+          }
+          _item_1 = new VendaItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpVendaId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos,_tmpEstado);
           _tmpRelation.add(_item_1);
         }
       }

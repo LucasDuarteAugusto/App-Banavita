@@ -2,6 +2,7 @@ package br.com.banavita.app.ui.consultas.estoque;
 
 import androidx.lifecycle.SavedStateHandle;
 import br.com.banavita.app.data.repository.EstoqueRepository;
+import br.com.banavita.app.data.repository.LoteRepository;
 import br.com.banavita.app.data.repository.ProdutoRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -32,28 +33,34 @@ public final class EstoqueDetalheViewModel_Factory implements Factory<EstoqueDet
 
   private final Provider<EstoqueRepository> estoqueRepositoryProvider;
 
+  private final Provider<LoteRepository> loteRepositoryProvider;
+
   public EstoqueDetalheViewModel_Factory(Provider<SavedStateHandle> savedStateHandleProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
-      Provider<EstoqueRepository> estoqueRepositoryProvider) {
+      Provider<EstoqueRepository> estoqueRepositoryProvider,
+      Provider<LoteRepository> loteRepositoryProvider) {
     this.savedStateHandleProvider = savedStateHandleProvider;
     this.produtoRepositoryProvider = produtoRepositoryProvider;
     this.estoqueRepositoryProvider = estoqueRepositoryProvider;
+    this.loteRepositoryProvider = loteRepositoryProvider;
   }
 
   @Override
   public EstoqueDetalheViewModel get() {
-    return newInstance(savedStateHandleProvider.get(), produtoRepositoryProvider.get(), estoqueRepositoryProvider.get());
+    return newInstance(savedStateHandleProvider.get(), produtoRepositoryProvider.get(), estoqueRepositoryProvider.get(), loteRepositoryProvider.get());
   }
 
   public static EstoqueDetalheViewModel_Factory create(
       Provider<SavedStateHandle> savedStateHandleProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
-      Provider<EstoqueRepository> estoqueRepositoryProvider) {
-    return new EstoqueDetalheViewModel_Factory(savedStateHandleProvider, produtoRepositoryProvider, estoqueRepositoryProvider);
+      Provider<EstoqueRepository> estoqueRepositoryProvider,
+      Provider<LoteRepository> loteRepositoryProvider) {
+    return new EstoqueDetalheViewModel_Factory(savedStateHandleProvider, produtoRepositoryProvider, estoqueRepositoryProvider, loteRepositoryProvider);
   }
 
   public static EstoqueDetalheViewModel newInstance(SavedStateHandle savedStateHandle,
-      ProdutoRepository produtoRepository, EstoqueRepository estoqueRepository) {
-    return new EstoqueDetalheViewModel(savedStateHandle, produtoRepository, estoqueRepository);
+      ProdutoRepository produtoRepository, EstoqueRepository estoqueRepository,
+      LoteRepository loteRepository) {
+    return new EstoqueDetalheViewModel(savedStateHandle, produtoRepository, estoqueRepository, loteRepository);
   }
 }

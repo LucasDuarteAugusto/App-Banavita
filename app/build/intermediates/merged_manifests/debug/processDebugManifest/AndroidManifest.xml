@@ -51,10 +51,23 @@
                     android:host="agenda"
                     android:scheme="banavita" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="consultas"
+                    android:scheme="banavita" />
+            </intent-filter>
         </activity>
 
         <receiver
             android:name="br.com.banavita.app.core.reminder.AgendaAlarmReceiver"
+            android:exported="false" />
+        <receiver
+            android:name="br.com.banavita.app.core.reminder.PereciveisAlarmReceiver"
             android:exported="false" />
         <receiver
             android:name="br.com.banavita.app.core.reminder.BootCompletedReceiver"

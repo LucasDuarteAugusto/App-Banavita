@@ -51,7 +51,7 @@ public final class ClienteDao_Impl implements ClienteDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `cliente` (`CLI_ID`,`created_at`,`updated_at`,`CLI_NOME`,`CLI_TELEFONE`) VALUES (?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `cliente` (`CLI_ID`,`created_at`,`updated_at`,`CLI_NOME`,`CLI_TELEFONE`,`CLI_PONTO_PREF`) VALUES (?,?,?,?,?,?)";
       }
 
       @Override
@@ -70,6 +70,11 @@ public final class ClienteDao_Impl implements ClienteDao {
           statement.bindNull(5);
         } else {
           statement.bindString(5, entity.getTelefone());
+        }
+        if (entity.getPontoPreferido() == null) {
+          statement.bindNull(6);
+        } else {
+          statement.bindString(6, entity.getPontoPreferido());
         }
       }
     };
@@ -95,7 +100,7 @@ public final class ClienteDao_Impl implements ClienteDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "UPDATE OR ABORT `cliente` SET `CLI_ID` = ?,`created_at` = ?,`updated_at` = ?,`CLI_NOME` = ?,`CLI_TELEFONE` = ? WHERE `CLI_ID` = ?";
+        return "UPDATE OR ABORT `cliente` SET `CLI_ID` = ?,`created_at` = ?,`updated_at` = ?,`CLI_NOME` = ?,`CLI_TELEFONE` = ?,`CLI_PONTO_PREF` = ? WHERE `CLI_ID` = ?";
       }
 
       @Override
@@ -115,11 +120,16 @@ public final class ClienteDao_Impl implements ClienteDao {
         } else {
           statement.bindString(5, entity.getTelefone());
         }
-        final String _tmp_1 = __uuidConverters.fromUuid(entity.getId());
-        if (_tmp_1 == null) {
+        if (entity.getPontoPreferido() == null) {
           statement.bindNull(6);
         } else {
-          statement.bindString(6, _tmp_1);
+          statement.bindString(6, entity.getPontoPreferido());
+        }
+        final String _tmp_1 = __uuidConverters.fromUuid(entity.getId());
+        if (_tmp_1 == null) {
+          statement.bindNull(7);
+        } else {
+          statement.bindString(7, _tmp_1);
         }
       }
     };
@@ -194,6 +204,7 @@ public final class ClienteDao_Impl implements ClienteDao {
           final int _cursorIndexOfUpdatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "updated_at");
           final int _cursorIndexOfNome = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_NOME");
           final int _cursorIndexOfTelefone = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_TELEFONE");
+          final int _cursorIndexOfPontoPreferido = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_PONTO_PREF");
           final List<ClienteEntity> _result = new ArrayList<ClienteEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ClienteEntity _item;
@@ -222,7 +233,13 @@ public final class ClienteDao_Impl implements ClienteDao {
             } else {
               _tmpTelefone = _cursor.getString(_cursorIndexOfTelefone);
             }
-            _item = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone);
+            final String _tmpPontoPreferido;
+            if (_cursor.isNull(_cursorIndexOfPontoPreferido)) {
+              _tmpPontoPreferido = null;
+            } else {
+              _tmpPontoPreferido = _cursor.getString(_cursorIndexOfPontoPreferido);
+            }
+            _item = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone,_tmpPontoPreferido);
             _result.add(_item);
           }
           return _result;
@@ -254,6 +271,7 @@ public final class ClienteDao_Impl implements ClienteDao {
           final int _cursorIndexOfUpdatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "updated_at");
           final int _cursorIndexOfNome = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_NOME");
           final int _cursorIndexOfTelefone = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_TELEFONE");
+          final int _cursorIndexOfPontoPreferido = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_PONTO_PREF");
           final List<ClienteEntity> _result = new ArrayList<ClienteEntity>(_cursor.getCount());
           while (_cursor.moveToNext()) {
             final ClienteEntity _item;
@@ -282,7 +300,13 @@ public final class ClienteDao_Impl implements ClienteDao {
             } else {
               _tmpTelefone = _cursor.getString(_cursorIndexOfTelefone);
             }
-            _item = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone);
+            final String _tmpPontoPreferido;
+            if (_cursor.isNull(_cursorIndexOfPontoPreferido)) {
+              _tmpPontoPreferido = null;
+            } else {
+              _tmpPontoPreferido = _cursor.getString(_cursorIndexOfPontoPreferido);
+            }
+            _item = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone,_tmpPontoPreferido);
             _result.add(_item);
           }
           return _result;
@@ -317,6 +341,7 @@ public final class ClienteDao_Impl implements ClienteDao {
           final int _cursorIndexOfUpdatedAt = CursorUtil.getColumnIndexOrThrow(_cursor, "updated_at");
           final int _cursorIndexOfNome = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_NOME");
           final int _cursorIndexOfTelefone = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_TELEFONE");
+          final int _cursorIndexOfPontoPreferido = CursorUtil.getColumnIndexOrThrow(_cursor, "CLI_PONTO_PREF");
           final ClienteEntity _result;
           if (_cursor.moveToFirst()) {
             final UUID _tmpId;
@@ -344,7 +369,13 @@ public final class ClienteDao_Impl implements ClienteDao {
             } else {
               _tmpTelefone = _cursor.getString(_cursorIndexOfTelefone);
             }
-            _result = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone);
+            final String _tmpPontoPreferido;
+            if (_cursor.isNull(_cursorIndexOfPontoPreferido)) {
+              _tmpPontoPreferido = null;
+            } else {
+              _tmpPontoPreferido = _cursor.getString(_cursorIndexOfPontoPreferido);
+            }
+            _result = new ClienteEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpNome,_tmpTelefone,_tmpPontoPreferido);
           } else {
             _result = null;
           }

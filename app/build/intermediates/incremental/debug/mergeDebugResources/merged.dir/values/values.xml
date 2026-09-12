@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:ns1="http://schemas.android.com/tools" xmlns:ns2="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="agenda_weekdays">
+        <item>D</item>
+        <item>S</item>
+        <item>T</item>
+        <item>Q</item>
+        <item>Q</item>
+        <item>S</item>
+        <item>S</item>
+    </string-array>
     <attr format="reference" name="nestedScrollViewStyle"/>
     <color name="androidx_core_ripple_material_light">#1f000000</color>
     <color name="androidx_core_secondary_text_default_material_light">#8a000000</color>
@@ -126,18 +135,31 @@
     <string name="agenda_antecipacao_1d">1 dia antes</string>
     <string name="agenda_antecipacao_1h">1 h antes</string>
     <string name="agenda_antecipacao_hora">Na hora</string>
+    <string name="agenda_cd_date">Dia %1$d</string>
+    <string name="agenda_cd_events">%d compromissos</string>
+    <string name="agenda_cd_one_event">1 compromisso</string>
+    <string name="agenda_cd_selected">selecionado</string>
+    <string name="agenda_cd_today">hoje</string>
     <string name="agenda_delete_message">Deseja excluir este evento? O lembrete será cancelado.</string>
     <string name="agenda_delete_title">Excluir evento</string>
     <string name="agenda_empty">Nenhum evento. Crie um lembrete.</string>
+    <string name="agenda_empty_day">Nenhum compromisso neste dia.</string>
     <string name="agenda_form_edit_title">Editar evento</string>
     <string name="agenda_form_hora">Hora (HH:mm)</string>
     <string name="agenda_form_new_title">Novo evento</string>
     <string name="agenda_form_titulo">Título</string>
+    <string name="agenda_month_overview_hint">A agenda é por mês. Os pontos marcam os dias com compromisso.</string>
+    <string name="agenda_next_month">Mês seguinte</string>
+    <string name="agenda_next_year">Ano seguinte</string>
     <string name="agenda_notif_corpo">Texto da notificação</string>
     <string name="agenda_notif_off">Sem aviso</string>
     <string name="agenda_notif_on">Com lembrete</string>
     <string name="agenda_notif_titulo">Título da notificação</string>
     <string name="agenda_notification_body">Lembrete do Banavita</string>
+    <string name="agenda_pick_month_cd">Escolher mês, %1$s</string>
+    <string name="agenda_pick_month_title">Escolher mês</string>
+    <string name="agenda_prev_month">Mês anterior</string>
+    <string name="agenda_prev_year">Ano anterior</string>
     <string name="agenda_recorte_7">Próximos 7 dias</string>
     <string name="agenda_recorte_hoje">Hoje</string>
     <string name="agenda_recorte_todos">Todos</string>
@@ -169,6 +191,8 @@
     <string name="call_notification_incoming_text">Incoming call</string>
     <string name="call_notification_ongoing_text">Ongoing call</string>
     <string name="call_notification_screening_text">Screening an incoming call</string>
+    <string name="camara_etileno">etileno</string>
+    <string name="camara_fria">fria</string>
     <string name="cliente_delete_message">Deseja excluir este cliente?</string>
     <string name="cliente_delete_title">Excluir cliente</string>
     <string name="cliente_form_edit_title">Editar cliente</string>
@@ -188,23 +212,38 @@
     <string name="consultas_busca">Buscar</string>
     <string name="consultas_busca_label">Busca</string>
     <string name="consultas_compras_empty">Nenhuma compra no período.</string>
+    <string name="consultas_encomendas_empty">Nenhuma encomenda.</string>
+    <string name="consultas_estoque_criticos">Só críticos</string>
+    <string name="consultas_fila_etileno">Fila da etileno</string>
     <string name="consultas_intervalo_fim">Até (dd/MM/aaaa)</string>
     <string name="consultas_intervalo_inicio">De (dd/MM/aaaa)</string>
     <string name="consultas_mode_compras">Compras</string>
+    <string name="consultas_mode_encomendas">Encomendas</string>
     <string name="consultas_mode_estoque">Estoque</string>
     <string name="consultas_mode_pagar">A pagar</string>
+    <string name="consultas_mode_perdas">Perdas</string>
+    <string name="consultas_mode_previsao">Previsão</string>
     <string name="consultas_mode_receber">A receber</string>
     <string name="consultas_mode_vendas">Vendas</string>
     <string name="consultas_modo_label">Modo</string>
+    <string name="consultas_nova_encomenda">Nova encomenda</string>
+    <string name="consultas_nova_perda">Lançar perda</string>
     <string name="consultas_ordenar_nome">Nome</string>
     <string name="consultas_ordenar_saldo">Acabando</string>
     <string name="consultas_pagar_acao">Pagar</string>
     <string name="consultas_pagar_empty">Nenhuma conta a pagar.</string>
+    <string name="consultas_perdas_empty">Nenhuma perda no período.</string>
+    <string name="consultas_perdas_linha">Comprado %1$s · vendido %2$s · perdido %3$s (%4$s)</string>
+    <string name="consultas_perdas_regra">% perda = kg perdidos ÷ kg comprados no recorte. R$ = custo do lote/compra.</string>
     <string name="consultas_periodo_hoje">Hoje</string>
     <string name="consultas_periodo_intervalo">Intervalo</string>
     <string name="consultas_periodo_label">Período</string>
     <string name="consultas_periodo_mes">Mês</string>
     <string name="consultas_periodo_semana">Semana</string>
+    <string name="consultas_previsao_3d">em 3 dias: %1$s</string>
+    <string name="consultas_previsao_7d">em 7 dias: %1$s</string>
+    <string name="consultas_previsao_empty">Nenhum lote madurando na etileno.</string>
+    <string name="consultas_previsao_hint">Só entra o que já está na etileno. O que está na fria não amadurece até ser solto.</string>
     <string name="consultas_receber_acao">Receber</string>
     <string name="consultas_receber_empty">Nenhum valor em aberto.</string>
     <string name="consultas_so_zerados">Só zerados</string>
@@ -217,20 +256,53 @@
     <string name="default_error_message">"Invalid input"</string>
     <string name="default_popup_window_title" ns1:ignore="ExtraTranslation">"Pop-Up Window"</string>
     <string name="dropdown_menu">"Dropdown menu"</string>
+    <string name="encomenda_atender">Atender (gerar venda)</string>
+    <string name="encomenda_atender_parcial">Atender com o saldo disponível</string>
+    <string name="encomenda_atender_parcial_msg">Não há saldo suficiente do estado pedido. Atender só o que houver em estoque?</string>
+    <string name="encomenda_data_entrega">Data de entrega</string>
+    <string name="encomenda_delete_message">Deseja excluir esta encomenda em aberto?</string>
+    <string name="encomenda_delete_title">Excluir encomenda</string>
+    <string name="encomenda_form_edit_title">Encomenda</string>
+    <string name="encomenda_form_new_title">Nova encomenda</string>
+    <string name="encomenda_status_aberto">Aberto</string>
+    <string name="encomenda_status_atendido">Atendido</string>
     <string name="error_delete">Erro ao excluir</string>
     <string name="error_generic">Erro inesperado</string>
     <string name="error_load">Erro ao carregar</string>
     <string name="error_not_found">Registro não encontrado</string>
     <string name="error_save">Erro ao salvar</string>
+    <string name="estado_amarela">amarela</string>
+    <string name="estado_pintada">pintada</string>
+    <string name="estado_podre">podre</string>
+    <string name="estado_verde">verde</string>
+    <string name="estado_verdolenga">verdolenga</string>
+    <string name="estoque_aplicar_queima">Aplicar preço de queima hoje</string>
+    <string name="estoque_corrigir_estado">Marcar como…</string>
     <string name="estoque_detalhe_cadastro">Abrir cadastro do produto</string>
     <string name="estoque_detalhe_movimentos">Movimentações</string>
     <string name="estoque_detalhe_saldo">Saldo: %1$s</string>
     <string name="estoque_detalhe_sem_movimento">Nenhuma movimentação.</string>
     <string name="estoque_detalhe_title">Estoque</string>
     <string name="estoque_empty">Nenhum produto com estoque registrado.</string>
+    <string name="estoque_lancar_perda">Lançar perda</string>
+    <string name="estoque_linha_subtitle">%1$s · %2$s</string>
+    <string name="estoque_lote_fria_pausa">Relógio parado (câmara fria)</string>
+    <string name="estoque_lote_vira">Vira %1$s em %2$d dia(s)</string>
+    <string name="estoque_lotes_empty">Nenhum lote restante.</string>
+    <string name="estoque_lotes_title">Lotes</string>
     <string name="estoque_movimento_entrada">Entrada (compra)</string>
+    <string name="estoque_movimento_perda">Perda</string>
     <string name="estoque_movimento_saida">Saída (venda)</string>
+    <string name="estoque_movimento_transferencia">Solto para etileno</string>
+    <string name="estoque_soltar_etileno">Soltar para etileno</string>
+    <string name="estoque_soltar_qtde">Quantidade a soltar</string>
     <string name="estoque_unit_label">Unidade: %1$s</string>
+    <string name="etileno_empty">Nenhum lote na câmara fria.</string>
+    <string name="etileno_regra">Folga = menor entre (capacidade − kg já na etileno) e (kg/dia − já soltos hoje). Capacidade e kg/dia em 0 nas Configurações = sem limite.</string>
+    <string name="etileno_resumo">Na fria: %1$s · na etileno: %2$s · folga agora: %3$s</string>
+    <string name="etileno_sem_teto">sem teto</string>
+    <string name="etileno_soltar">Soltar</string>
+    <string name="etileno_title">Fila da etileno</string>
     <string name="form_a_prazo">A prazo / fiado</string>
     <string name="form_add_item">Adicionar item</string>
     <string name="form_cancel">Cancelar</string>
@@ -242,7 +314,10 @@
     <string name="form_delete">Excluir</string>
     <string name="form_delete_confirm">Excluir</string>
     <string name="form_descricao">Descrição</string>
+    <string name="form_estado">Estado</string>
+    <string name="form_estado_obrigatorio">Informe o estado da banana para vender.</string>
     <string name="form_estoque_disponivel">Estoque disponível: %1$s</string>
+    <string name="form_estoque_estado">Saldo neste estado: %1$s</string>
     <string name="form_fornecedor">Fornecedor</string>
     <string name="form_fornecedor_obrigatorio">Selecione um fornecedor cadastrado.</string>
     <string name="form_fornecedor_select">Pesquisar ou selecionar fornecedor</string>
@@ -258,6 +333,8 @@
     <string name="form_pago_compra_checkbox">Pago (gerar pagamento)</string>
     <string name="form_pago_simples">Pago</string>
     <string name="form_parceiro">Parceiro</string>
+    <string name="form_ponto_preferido">Ponto preferido</string>
+    <string name="form_ponto_preferido_none">Sem preferência</string>
     <string name="form_preco">Preço</string>
     <string name="form_preco_hint">0,00</string>
     <string name="form_preco_unit_short">Preço unit.</string>
@@ -290,13 +367,23 @@
     <string name="home_card_agenda_title">Próximo evento</string>
     <string name="home_card_compras_empty">Nenhuma compra hoje</string>
     <string name="home_card_compras_title">Compras de hoje</string>
+    <string name="home_card_encomendas_count">%d encomenda(s) em aberto</string>
+    <string name="home_card_encomendas_empty">Nenhuma encomenda nesta semana</string>
+    <string name="home_card_encomendas_title">Encomendas da semana</string>
     <string name="home_card_estoque_ok">Ver estoque</string>
     <string name="home_card_estoque_title">Estoque</string>
     <string name="home_card_estoque_zerados">%1$d produto(s) zerado(s)</string>
     <string name="home_card_pagar_title">A pagar</string>
+    <string name="home_card_pereciveis_empty">Nenhum perecível crítico hoje</string>
+    <string name="home_card_pereciveis_pintada">%1$s kg %2$s pintada</string>
+    <string name="home_card_pereciveis_podre">%1$s kg a apodrecer / podre</string>
+    <string name="home_card_pereciveis_title">Perecíveis do dia</string>
     <string name="home_card_receber_title">A receber</string>
     <string name="home_card_vendas_empty">Nenhuma venda hoje</string>
     <string name="home_card_vendas_title">Vendas de hoje</string>
+    <string name="home_queima_aplicar">Aplicar hoje</string>
+    <string name="home_queima_message">Vendas deste estado usam este preço até meia-noite local. Não altera o cadastro do produto.</string>
+    <string name="home_queima_title">Preço de queima (só hoje)</string>
     <string name="home_shortcut_venda_desc">Registrar uma venda agora</string>
     <string name="home_shortcut_venda_title">Nova venda</string>
     <string name="home_shortcuts_title">Atalhos</string>
@@ -377,8 +464,24 @@
     <string name="nav_vendas">Vendas</string>
     <string name="navigation_menu">"Navigation menu"</string>
     <string name="not_selected">Not selected</string>
+    <string name="notif_pereciveis_body">%1$s. Toque para abrir o estoque crítico.</string>
+    <string name="notif_pereciveis_empty">Nenhum perecível crítico hoje</string>
+    <string name="notif_pereciveis_title">Perecíveis do dia</string>
+    <string name="perda_confirm">A perda some do lote e não conta como venda.</string>
+    <string name="perda_form_title">Lançar perda</string>
+    <string name="perda_lote">Lote</string>
+    <string name="perda_motivo">Motivo</string>
+    <string name="perda_motivo_apodreceu">Apodreceu</string>
+    <string name="perda_motivo_manuseio">Manuseio</string>
+    <string name="perda_motivo_outro">Outro</string>
+    <string name="produto_curva_title">Curva de maturação (dias na etileno)</string>
     <string name="produto_delete_message">Deseja excluir este produto?</string>
     <string name="produto_delete_title">Excluir produto</string>
+    <string name="produto_dias_amarela">Dias em amarela</string>
+    <string name="produto_dias_pintada">Dias em pintada</string>
+    <string name="produto_dias_verde">Dias em verde</string>
+    <string name="produto_dias_verdolenga">Dias em verdolenga</string>
+    <string name="produto_error_curva">Informe dias maiores que zero em cada etapa da curva.</string>
     <string name="produto_error_delete">Erro ao excluir produto.</string>
     <string name="produto_error_descricao_empty">Informe a descrição do produto.</string>
     <string name="produto_error_load">Erro ao carregar produto.</string>
@@ -388,16 +491,31 @@
     <string name="produto_error_unidade_empty">Informe a unidade do produto.</string>
     <string name="produto_form_edit_title">Editar produto</string>
     <string name="produto_form_new_title">Novo produto</string>
+    <string name="produto_perecivel">Perecível</string>
+    <string name="produto_preco_amarela">Preço amarela</string>
+    <string name="produto_preco_pintada">Preço pintada</string>
+    <string name="produto_preco_podre_hint">Podre não se vende (preço 0). Lance como perda.</string>
+    <string name="produto_preco_verde">Preço verde</string>
+    <string name="produto_preco_verdolenga">Preço verdolenga</string>
+    <string name="produto_precos_estado_title">Preço sugerido por estado</string>
     <string name="produtos_add">Novo produto</string>
     <string name="produtos_empty">Nenhum produto cadastrado.</string>
     <string name="range_end">"Range end"</string>
     <string name="range_start">"Range start"</string>
     <string name="selected">Selected</string>
+    <string name="settings_appearance_section">Aparência</string>
+    <string name="settings_aviso_matinal">Horário do aviso matinal (HH:mm)</string>
+    <string name="settings_aviso_matinal_hint">Padrão 07:00. Canal próprio, separado da agenda.</string>
     <string name="settings_database_section">Banco de dados</string>
     <string name="settings_database_section_desc">Os dados do negócio ficam neste aparelho. Use exportar/restaurar para trocar de celular ou após desinstalar.</string>
+    <string name="settings_etileno_capacidade">Kg que a etileno comporta</string>
+    <string name="settings_etileno_capacidade_hint">0 = sem teto de capacidade</string>
+    <string name="settings_etileno_dia">Kg que posso soltar por dia</string>
+    <string name="settings_etileno_dia_hint">0 = sem teto diário. Folga = o menor entre capacidade − já na etileno e kg/dia − já soltos hoje.</string>
     <string name="settings_export_button">Exportar dados</string>
     <string name="settings_export_desc">Salva uma cópia dos cadastros, vendas, compras, estoque, financeiro e agenda num arquivo que você escolhe (pasta, Drive, etc.).</string>
     <string name="settings_export_success">Cópia salva com sucesso.</string>
+    <string name="settings_pereciveis_section">Câmara de etileno</string>
     <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
     <string name="settings_provider_groq_missing_key">Chave GROQ_API_KEY ausente no .env. Gere o APK novamente após configurar.</string>
     <string name="settings_provider_groq_ready">Chave de API configurada neste build.</string>
@@ -410,7 +528,11 @@
     <string name="settings_restore_confirm_title">Restaurar dados?</string>
     <string name="settings_restore_desc">Substitui os dados atuais do aplicativo pelos do arquivo escolhido.</string>
     <string name="settings_restore_success">Dados restaurados. Os lembretes da agenda foram reagendados.</string>
-    <string name="settings_subtitle">Ajuste a transcrição de voz e a cópia de segurança dos dados do negócio.</string>
+    <string name="settings_subtitle">Ajuste aparência, transcrição de voz e a cópia de segurança dos dados do negócio.</string>
+    <string name="settings_theme_dark_desc">Fundo escuro, melhor à noite.</string>
+    <string name="settings_theme_dark_title">Escuro</string>
+    <string name="settings_theme_light_desc">Fundo claro, melhor à luz do dia.</string>
+    <string name="settings_theme_light_title">Claro</string>
     <string name="settings_title">Configurações</string>
     <string name="settings_transcription_section">Modelo de transcrição</string>
     <string name="state_empty">Empty</string>
@@ -433,6 +555,17 @@
     <string name="voice_applying">Aplicando…</string>
     <string name="voice_hold_to_talk">Segure o botão para falar</string>
     <string name="voice_mic_button">Segure para gravar</string>
+    <string name="voice_pattern_agenda">Fale: título, hoje ou amanhã, às hora</string>
+    <string name="voice_pattern_cliente">Fale: nome e telefone</string>
+    <string name="voice_pattern_compra">Fale: quantidade, unidade, produto, do fornecedor, preço</string>
+    <string name="voice_pattern_consultas">Fale: estoque, vendas, período ou produto</string>
+    <string name="voice_pattern_fornecedor">Fale: nome e telefone</string>
+    <string name="voice_pattern_grupo">Fale: nome do grupo</string>
+    <string name="voice_pattern_inicio">Fale uma venda, nova venda, consulta ou agenda</string>
+    <string name="voice_pattern_pagar">Fale: valor em reais do fornecedor — ou só o filtro</string>
+    <string name="voice_pattern_produto">Fale: nome, preço em reais e unidade</string>
+    <string name="voice_pattern_receber">Fale: valor em reais da cliente — ou só o filtro</string>
+    <string name="voice_pattern_venda">Fale: quantidade, unidade, produto, pra cliente</string>
     <string name="voice_recording">Gravando</string>
     <string name="voice_review_cliente_suggestions">Sugestões de clientes:</string>
     <string name="voice_review_confirm">Confirmar</string>
@@ -517,14 +650,23 @@
         <attr format="reference" name="fontProviderCerts"/>
         
         <attr name="fontProviderFetchStrategy">
-            
+            <!-- The blocking font fetch works as follows.
+              First, check the local cache, then if the requested font is not cached, request the
+              font from the provider and wait until it is finished.  You can change the length of
+              the timeout by modifying fontProviderFetchTimeout.  If the timeout happens, the
+              default typeface will be used instead. -->
             <enum name="blocking" value="0"/>
-            
+            <!-- The async font fetch works as follows.
+              First, check the local cache, then if the requested font is not cached, trigger a
+              request the font and continue with layout inflation. Once the font fetch succeeds, the
+              target text view will be refreshed with the downloaded font data. The
+              fontProviderFetchTimeout will be ignored if async loading is specified. -->
             <enum name="async" value="1"/>
         </attr>
         
         <attr format="integer" name="fontProviderFetchTimeout">
-            
+            <!-- A special value for the timeout. In this case, the blocking font fetching will not
+              timeout and wait until a reply is received from the font provider. -->
             <enum name="forever" value="-1"/>
         </attr>
         

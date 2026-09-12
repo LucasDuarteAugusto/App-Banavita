@@ -170,7 +170,6 @@ fun SettingsScreen(
                 footnote = stringResource(R.string.settings_provider_local_note),
                 onClick = { onProviderSelected(TranscriptionProvider.LOCAL) },
             )
-            )
         }
 
         Text(

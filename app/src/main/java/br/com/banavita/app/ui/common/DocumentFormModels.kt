@@ -17,14 +17,13 @@ data class DocumentLineItemFormState(
         val id = produtoId ?: return null
         val quantidade = QuantityInputParser.parse(quantidadeInput) ?: return null
         val produto = produtos.find { it.id == id }
-        val defaultPrice = if (produto?.perecivel == true && estado != null) {
+        val defaultPrice = if ((produto?.perecivel == true) && (estado != null)) {
             produto.precoSugerido(estado)
         } else {
             produto?.precoCentavos
         }
         val precoCentavos = MoneyInputParser.parseToCentavos(precoInput)
-            ?: if (!precoObrigatorio) defaultPrice else null
-            ?: return null
+            ?: if (!precoObrigatorio) defaultPrice else return null
         return Money.lineTotal(precoCentavos, quantidade)
     }
 }
@@ -33,4 +32,6 @@ fun computeDocumentTotalCentavos(
     itens: List<DocumentLineItemFormState>,
     produtos: List<Produto>,
     precoObrigatorio: Boolean,
-): Long = itens.sumOf { item -> item.lineTotalCentavos(produtos, precoObrigatorio) ?: 0L }
+): Long = itens.fold(0L) { acc, item ->
+    acc + (item.lineTotalCentavos(produtos, precoObrigatorio) ?: 0L)
+}

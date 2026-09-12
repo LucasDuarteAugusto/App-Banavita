@@ -357,6 +357,124 @@ public final class EstoqueDao_Impl implements EstoqueDao {
     }, $completion);
   }
 
+  @Override
+  public Object perdasDoProduto(final UUID produtoId,
+      final Continuation<? super List<EstoqueMovimentoRow>> $completion) {
+    final String _sql = "\n"
+            + "        SELECT perda.PER_DATA AS data, perda.PER_QTDE AS quantidade, perda.PER_ID AS documentoId\n"
+            + "        FROM perda\n"
+            + "        WHERE perda.PER_PRODUTO = ?\n"
+            + "        ORDER BY perda.PER_DATA DESC\n"
+            + "        ";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    final String _tmp = __uuidConverters.fromUuid(produtoId);
+    if (_tmp == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, _tmp);
+    }
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<EstoqueMovimentoRow>>() {
+      @Override
+      @NonNull
+      public List<EstoqueMovimentoRow> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfData = 0;
+          final int _cursorIndexOfQuantidade = 1;
+          final int _cursorIndexOfDocumentoId = 2;
+          final List<EstoqueMovimentoRow> _result = new ArrayList<EstoqueMovimentoRow>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final EstoqueMovimentoRow _item;
+            final long _tmpData;
+            _tmpData = _cursor.getLong(_cursorIndexOfData);
+            final double _tmpQuantidade;
+            _tmpQuantidade = _cursor.getDouble(_cursorIndexOfQuantidade);
+            final UUID _tmpDocumentoId;
+            final String _tmp_1;
+            if (_cursor.isNull(_cursorIndexOfDocumentoId)) {
+              _tmp_1 = null;
+            } else {
+              _tmp_1 = _cursor.getString(_cursorIndexOfDocumentoId);
+            }
+            final UUID _tmp_2 = __uuidConverters.toUuid(_tmp_1);
+            if (_tmp_2 == null) {
+              throw new IllegalStateException("Expected NON-NULL 'java.util.UUID', but it was NULL.");
+            } else {
+              _tmpDocumentoId = _tmp_2;
+            }
+            _item = new EstoqueMovimentoRow(_tmpData,_tmpQuantidade,_tmpDocumentoId);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object transferenciasDoProduto(final UUID produtoId,
+      final Continuation<? super List<EstoqueMovimentoRow>> $completion) {
+    final String _sql = "\n"
+            + "        SELECT lote.created_at AS data, lote.LOT_QTDE_INICIAL AS quantidade, lote.LOT_ID AS documentoId\n"
+            + "        FROM lote\n"
+            + "        WHERE lote.LOT_PRODUTO = ? AND lote.LOT_ORIGEM IS NOT NULL\n"
+            + "        ORDER BY lote.created_at DESC\n"
+            + "        ";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    final String _tmp = __uuidConverters.fromUuid(produtoId);
+    if (_tmp == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, _tmp);
+    }
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<EstoqueMovimentoRow>>() {
+      @Override
+      @NonNull
+      public List<EstoqueMovimentoRow> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfData = 0;
+          final int _cursorIndexOfQuantidade = 1;
+          final int _cursorIndexOfDocumentoId = 2;
+          final List<EstoqueMovimentoRow> _result = new ArrayList<EstoqueMovimentoRow>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final EstoqueMovimentoRow _item;
+            final long _tmpData;
+            _tmpData = _cursor.getLong(_cursorIndexOfData);
+            final double _tmpQuantidade;
+            _tmpQuantidade = _cursor.getDouble(_cursorIndexOfQuantidade);
+            final UUID _tmpDocumentoId;
+            final String _tmp_1;
+            if (_cursor.isNull(_cursorIndexOfDocumentoId)) {
+              _tmp_1 = null;
+            } else {
+              _tmp_1 = _cursor.getString(_cursorIndexOfDocumentoId);
+            }
+            final UUID _tmp_2 = __uuidConverters.toUuid(_tmp_1);
+            if (_tmp_2 == null) {
+              throw new IllegalStateException("Expected NON-NULL 'java.util.UUID', but it was NULL.");
+            } else {
+              _tmpDocumentoId = _tmp_2;
+            }
+            _item = new EstoqueMovimentoRow(_tmpData,_tmpQuantidade,_tmpDocumentoId);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
   @NonNull
   public static List<Class<?>> getRequiredConverters() {
     return Collections.emptyList();

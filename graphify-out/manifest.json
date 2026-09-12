@@ -1,1732 +1,2462 @@
 {
-  ".gradle/8.9/dependencies-accessors/ec4fbde60b6ae70808a671255ccd81b6c466defa/sources/org/gradle/accessors/dm/LibrariesForLibs.java": {
-    "mtime": 1788870771.8523467,
-    "ast_hash": "eff5d1fd742463adc511c6166c5c734a",
-    "semantic_hash": ""
-  },
-  ".gradle/8.9/dependencies-accessors/ec4fbde60b6ae70808a671255ccd81b6c466defa/sources/org/gradle/accessors/dm/LibrariesForLibsInPluginsBlock.java": {
-    "mtime": 1788870771.8533528,
-    "ast_hash": "a33a5482766d8b9bcf731159769883eb",
-    "semantic_hash": ""
-  },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/cache-v2-c3715a748bcc678dde59.json": {
-    "mtime": 1788870774.9192798,
+    "mtime": 1789221550.5584223,
+    "seen": 1789234284.0308642,
     "ast_hash": "83c076dabf1a563c8636f21677f3766b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-d4adfe347ce8f521657f.json": {
-    "mtime": 1788870774.9217973,
+    "mtime": 1789221550.5584223,
+    "seen": 1789234284.0308733,
     "ast_hash": "fbff20a79abe8b7087a197d4a8618942",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-1adc8ed62600e25b4a7a.json": {
-    "mtime": 1788870774.923807,
+    "mtime": 1789221550.5594263,
+    "seen": 1789234284.030877,
     "ast_hash": "d76a478424b0199d0f4a02678bfbe459",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-.-Debug-d0094a50bb2071803777.json": {
-    "mtime": 1788870774.924806,
+    "mtime": 1789221550.5594263,
+    "seen": 1789234284.0308797,
     "ast_hash": "9f40cd23d42f6f64a253672a38c7ce57",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build-Debug-de945ea6bed4c6289e98.json": {
-    "mtime": 1788870774.9258056,
+    "mtime": 1789221550.5604246,
+    "seen": 1789234284.0308824,
     "ast_hash": "338b9f59f30d51e9f76aaf846d1fc742",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml-Debug-7d65eedb7b3bd3c2bdd9.json": {
-    "mtime": 1788870774.9278047,
+    "mtime": 1789221550.5604246,
+    "seen": 1789234284.030885,
     "ast_hash": "56df80783e314f1d7dba4c4b183a8a56",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml.src-Debug-f1a537eb44990b961380.json": {
-    "mtime": 1788870774.9288058,
+    "mtime": 1789221550.5604246,
+    "seen": 1789234284.030887,
     "ast_hash": "ea9976b0f5d91c0516c5535cc92b4430",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml.src.ggml-cpu-Debug-e48deedb46755f752d12.json": {
-    "mtime": 1788870774.9298048,
+    "mtime": 1789221550.5614374,
+    "seen": 1789234284.0308893,
     "ast_hash": "3197abc009c687fe3b9e1d756a82b642",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.src-Debug-6303fa6c21439641f1fd.json": {
-    "mtime": 1788870774.931312,
+    "mtime": 1789221550.5614374,
+    "seen": 1789234284.0308914,
     "ast_hash": "a35d85f7dfb44853e86368441458f0aa",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/index-2026-09-01T09-36-26-0769.json": {
-    "mtime": 1788870774.9333293,
+    "mtime": 1789221550.5624475,
+    "seen": 1789234284.0308938,
     "ast_hash": "940fe319c318500311be55aa00af57e3",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/target-banavita_whisper-Debug-1fa5bd414745eca54479.json": {
-    "mtime": 1788870774.934328,
+    "mtime": 1789221550.5624475,
+    "seen": 1789234284.030896,
     "ast_hash": "889dc53962f18c1b257ea6ffca0f7144",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/target-ggml-Debug-fa01bffe7c2523a84ce1.json": {
-    "mtime": 1788870774.9418468,
+    "mtime": 1789221550.5624475,
+    "seen": 1789234284.0308979,
     "ast_hash": "1fb31b10de37b3cd110457d3a54a610c",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/target-ggml-base-Debug-cb7d7c4d5ac1c41a65a9.json": {
-    "mtime": 1788870774.9428542,
+    "mtime": 1789221550.5634243,
+    "seen": 1789234284.0309005,
     "ast_hash": "b19104ec5739deb3d673b32dddfb0b42",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/target-ggml-cpu-Debug-d4bfd337640b1b65c784.json": {
-    "mtime": 1788870774.9438546,
+    "mtime": 1789221550.5643847,
+    "seen": 1789234284.0309026,
     "ast_hash": "64a11019be06b1eae86de291e477c992",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/.cmake/api/v1/reply/target-whisper-Debug-6c968dcce937548b7043.json": {
-    "mtime": 1788870774.9458542,
+    "mtime": 1789221550.5643847,
+    "seen": 1789234284.0309045,
     "ast_hash": "6911097c205887b93d1c3d43ad6c20df",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/CMakeFiles/3.22.1-g37088a8-dirty/CompilerIdCXX/CMakeCXXCompilerId.cpp": {
-    "mtime": 1788870774.976884,
+    "mtime": 1789221550.5683942,
+    "seen": 1789234284.030907,
     "ast_hash": "493a7cc5e29a3cf2b0d95a50ee58d987",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/CMakeFiles/3.22.1-g37088a8-dirty/CompilerIdC/CMakeCCompilerId.c": {
-    "mtime": 1788870774.9728916,
+    "mtime": 1789221550.567392,
+    "seen": 1789234284.0309093,
     "ast_hash": "245b894a1d9b5e1b569506b0cfe5d36b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate.dir/Labels.json": {
-    "mtime": 1788870775.0818603,
+    "mtime": 1789221550.579657,
+    "seen": 1789234284.030911,
     "ast_hash": "0688c18244b637de6afbaf79993e108c",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/android_gradle_build.json": {
-    "mtime": 1788870775.1227121,
+    "mtime": 1789221550.5846553,
+    "seen": 1789234284.0309136,
     "ast_hash": "d921ce098f756507112ac998c627e72b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/android_gradle_build_mini.json": {
-    "mtime": 1788870775.1247063,
+    "mtime": 1789221550.5856562,
+    "seen": 1789234284.0309155,
     "ast_hash": "84c5c405bcbbb209c281ce70526dd49c",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/compile_commands.json": {
-    "mtime": 1788870775.1277077,
+    "mtime": 1789221550.5876567,
+    "seen": 1789234284.030918,
     "ast_hash": "65c91dc531d30c977dda6181a433dd9a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/prefab_config.json": {
-    "mtime": 1788870775.1317387,
+    "mtime": 1789221550.588656,
+    "seen": 1789234284.0309205,
     "ast_hash": "daba852cd6069886b306e31ab2c46843",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/cache-v2-390e7253d28e99ec7bbc.json": {
-    "mtime": 1788870775.1427505,
+    "mtime": 1789221550.5916567,
+    "seen": 1789234284.030923,
     "ast_hash": "a22f7fa0bcae783ff05bc64d1fecc73e",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/cmakeFiles-v1-eaf9c2bd51e968a92888.json": {
-    "mtime": 1788870775.1447504,
+    "mtime": 1789221550.5926566,
+    "seen": 1789234284.0309253,
     "ast_hash": "6d91417a0954f7baabe3531785a845ec",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/codemodel-v2-435996a0472d1dcfab01.json": {
-    "mtime": 1788870775.1467283,
+    "mtime": 1789221550.5926566,
+    "seen": 1789234284.0309274,
     "ast_hash": "bbb691831fd11379a20ffff005462bd7",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-.-Debug-d0094a50bb2071803777.json": {
-    "mtime": 1788870775.1477346,
+    "mtime": 1789221550.5926566,
+    "seen": 1789234284.0309303,
     "ast_hash": "9f40cd23d42f6f64a253672a38c7ce57",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build-Debug-47142fc16c521b2b155d.json": {
-    "mtime": 1788870775.1487358,
+    "mtime": 1789221550.5936575,
+    "seen": 1789234284.0309324,
     "ast_hash": "047cbe694cfdc775269bbe259b2df3ce",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml-Debug-a33874e4fc1d332555eb.json": {
-    "mtime": 1788870775.1497371,
+    "mtime": 1789221550.5936575,
+    "seen": 1789234284.0309346,
     "ast_hash": "02e33101ef7b56887560aadcd2eb9140",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml.src-Debug-e556cccaab481000dc06.json": {
-    "mtime": 1788870775.1507347,
+    "mtime": 1789221550.5936575,
+    "seen": 1789234284.0309367,
     "ast_hash": "2e4f34cad65b60c665dbd2beac2db1ae",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.ggml.src.ggml-cpu-Debug-50bab0f874edc579f70f.json": {
-    "mtime": 1788870775.1529324,
+    "mtime": 1789221550.594661,
+    "seen": 1789234284.0309389,
     "ast_hash": "4d52ffbbc7ed00f85c76627c75663f43",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/directory-_deps.whispercpp-build.src-Debug-473eecf92922a06a0adc.json": {
-    "mtime": 1788870775.1539319,
+    "mtime": 1789221550.594661,
+    "seen": 1789234284.0309412,
     "ast_hash": "11c8c846a38824f84480da36861b3710",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/target-banavita_whisper-Debug-62481e1ff4b4aef1e2ef.json": {
-    "mtime": 1788870775.1559305,
+    "mtime": 1789221550.5956614,
+    "seen": 1789234284.0309432,
     "ast_hash": "82cd5aebb78d78cbb832f639f72b2e23",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/target-ggml-Debug-6d50df7a23945da2320d.json": {
-    "mtime": 1788870775.1569355,
+    "mtime": 1789221550.5956614,
+    "seen": 1789234284.0309453,
     "ast_hash": "9877def64b91c50ca13d559a2736c827",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/target-ggml-base-Debug-36c26b1090eae85bf8c7.json": {
-    "mtime": 1788870775.157931,
+    "mtime": 1789221550.5956614,
+    "seen": 1789234284.0309474,
     "ast_hash": "59612c7a4c027e2157293216bffa91d7",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/target-ggml-cpu-Debug-80cdf7e92b0a2c3b4919.json": {
-    "mtime": 1788870775.158931,
+    "mtime": 1789221550.596658,
+    "seen": 1789234284.030949,
     "ast_hash": "27970e19454c0d74c87bb332e1b9d169",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/.cmake/api/v1/reply/target-whisper-Debug-51f6fc416bfc63491bb0.json": {
-    "mtime": 1788870775.1604526,
+    "mtime": 1789221550.596658,
+    "seen": 1789234284.0309515,
     "ast_hash": "166441f1c8c96a163787dac4a751aa0a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/3.22.1-g37088a8-dirty/CompilerIdCXX/CMakeCXXCompilerId.cpp": {
-    "mtime": 1788870775.1788435,
+    "mtime": 1789221550.602998,
+    "seen": 1789234284.030954,
     "ast_hash": "493a7cc5e29a3cf2b0d95a50ee58d987",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/3.22.1-g37088a8-dirty/CompilerIdC/CMakeCCompilerId.c": {
-    "mtime": 1788870775.176583,
+    "mtime": 1789221550.6020012,
+    "seen": 1789234284.0309563,
     "ast_hash": "245b894a1d9b5e1b569506b0cfe5d36b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate.dir/Labels.json": {
-    "mtime": 1788870775.5772173,
+    "mtime": 1789221550.8485887,
+    "seen": 1789234284.0309582,
     "ast_hash": "926c2cb9f6dc73093ec60b39d9f34e6a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/android_gradle_build.json": {
-    "mtime": 1788870775.5987911,
+    "mtime": 1789221550.8545897,
+    "seen": 1789234284.0309608,
     "ast_hash": "237f88823c3504c4c89ff59128c453b6",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/android_gradle_build_mini.json": {
-    "mtime": 1788870775.5987911,
+    "mtime": 1789221550.855595,
+    "seen": 1789234284.0309632,
     "ast_hash": "4dd49fb366eb32587447001b2076fe48",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/compile_commands.json": {
-    "mtime": 1788870775.6038213,
+    "mtime": 1789221550.856591,
+    "seen": 1789234284.0309656,
     "ast_hash": "bb7fc0824244709c503589a00f99931e",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/prefab_config.json": {
-    "mtime": 1788870775.6068249,
+    "mtime": 1789221550.8575904,
+    "seen": 1789234284.0309672,
     "ast_hash": "daba852cd6069886b306e31ab2c46843",
     "semantic_hash": ""
   },
   "app/.cxx/tools/debug/arm64-v8a/compile_commands.json": {
-    "mtime": 1788870775.6119025,
-    "ast_hash": "bb7fc0824244709c503589a00f99931e",
+    "mtime": 1789221716.4987175,
+    "seen": 1789234284.0309694,
+    "ast_hash": "8a2272d58724e4004d04e901799c4e3c",
     "semantic_hash": ""
   },
   "app/build.gradle.kts": {
-    "mtime": 1788870775.6129048,
-    "ast_hash": "63e93c421f22c6b95eabb119be46f781",
+    "mtime": 1789221550.8595898,
+    "seen": 1789234284.0309718,
+    "ast_hash": "ab961cffeb0a22da0bd3734a2a87e1a8",
     "semantic_hash": ""
   },
   "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/3.json": {
-    "mtime": 1788870818.7506762,
+    "mtime": 1789221553.9692056,
+    "seen": 1789234284.0309737,
     "ast_hash": "3bfb8521cf09bce47d7062fc4eac2b5e",
     "semantic_hash": ""
   },
   "app/src/main/cpp/jni.c": {
-    "mtime": 1788205579.1518104,
-    "ast_hash": "9f1b710b258ea0c3ec3cd68795252342",
+    "mtime": 1789221553.9702046,
+    "seen": 1789234284.0309782,
+    "ast_hash": "713f3017d1443a61e1a5c0855e4af5e3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/BanavitaApplication.kt": {
-    "mtime": 1788362278.534417,
-    "ast_hash": "ed46cc9b8d6d52eb7537f1ee62d9f5e0",
+    "mtime": 1789221553.971203,
+    "seen": 1789234284.0309803,
+    "ast_hash": "3475a6852cc5147c68338526ea39dc19",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/MainActivity.kt": {
-    "mtime": 1788268447.6319938,
-    "ast_hash": "c8623c07f7e3f254c9233d5931b0325b",
+    "mtime": 1789221553.971203,
+    "seen": 1789234284.0309825,
+    "ast_hash": "e938abcd68da1df8972ad4e925e10ad4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/ContextParsers.kt": {
-    "mtime": 1788870819.3127742,
-    "ast_hash": "f157400fd07dbae20b679e650434f3d6",
+    "mtime": 1789221553.971203,
+    "seen": 1789234284.0309842,
+    "ast_hash": "89c16ada8627322762c2c1a07761495b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/EntityResolver.kt": {
-    "mtime": 1788870819.313774,
-    "ast_hash": "f37236eab7ad13f497225ddb6b6132e9",
+    "mtime": 1789221553.9722033,
+    "seen": 1789234284.0309863,
+    "ast_hash": "18a4f56d6870beb11cc6885fa1b9df3d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/ExtractionPipeline.kt": {
-    "mtime": 1788870819.314778,
-    "ast_hash": "eb7c71eade969d3e13b2b923d37bb75c",
+    "mtime": 1789221553.9722033,
+    "seen": 1789234284.0309882,
+    "ast_hash": "16ee6823fdafae92c8219e39e62d46a7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/MoneyParser.kt": {
-    "mtime": 1788209717.7396586,
-    "ast_hash": "e539ae83df3cf71eec5d53e50bbd502f",
+    "mtime": 1789221553.9732027,
+    "seen": 1789234284.030991,
+    "ast_hash": "6e8310fb70439836123be67a4ec1cb71",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/PhoneParser.kt": {
-    "mtime": 1788209724.2380075,
-    "ast_hash": "fa0e32456e0f9f03faf7ad46d491dc2a",
+    "mtime": 1789221553.9732027,
+    "seen": 1789234284.0309947,
+    "ast_hash": "bcd30abd92338bc9d6aa3288b18c2748",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/QuantityParser.kt": {
-    "mtime": 1788209714.103422,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0309968,
     "ast_hash": "7a5d06f6b4cb5058f0c35096c72e4b74",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/RoleKeywords.kt": {
-    "mtime": 1788870819.315765,
-    "ast_hash": "c74749514853673260d1bff8f387260e",
+    "mtime": 1789221553.9742029,
+    "seen": 1789234284.0309987,
+    "ast_hash": "02bf0e7834e4b2b5d274c8b72463eed6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/TextNormalizer.kt": {
-    "mtime": 1788209699.7806025,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310032,
     "ast_hash": "d28cee9312f1cb2508c474b26fbac6f1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/UnitDictionary.kt": {
-    "mtime": 1788209706.1911755,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310051,
     "ast_hash": "e2e347f9869dcc1517b955d153712016",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/V2Parsers.kt": {
-    "mtime": 1788870819.3167562,
-    "ast_hash": "acdf866dfcc86980c9c08a3ddbeec151",
+    "mtime": 1789221553.9752045,
+    "seen": 1789234284.0310073,
+    "ast_hash": "50856abf436e172507729535b7190d98",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/money/Money.kt": {
-    "mtime": 1788261463.676934,
-    "ast_hash": "275f090521ead04fd6b2323986bf3b97",
+    "mtime": 1789223374.7714198,
+    "seen": 1789234284.0310092,
+    "ast_hash": "556a153569965398de935fc44c437fd9",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/AgendaAlarmReceiver.kt": {
-    "mtime": 1788362269.251986,
+    "mtime": 1788471757.8308787,
+    "seen": 1789234284.0310113,
     "ast_hash": "ad58544320fca073e3d7b1f454e51539",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/AgendaNotifications.kt": {
-    "mtime": 1788362256.0560777,
+    "mtime": 1788471757.8318956,
+    "seen": 1789234284.031013,
     "ast_hash": "de1420b6ffc852dc55526dd5b11d8fc5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/AndroidReminderScheduler.kt": {
-    "mtime": 1788433966.0626435,
+    "mtime": 1788471797.2726302,
+    "seen": 1789234284.031015,
     "ast_hash": "261b6645e707e90191b281087d68d20e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/BootCompletedReceiver.kt": {
-    "mtime": 1788362271.1772745,
-    "ast_hash": "f41a510813b9b9dfbaee6a841508b464",
+    "mtime": 1789221553.9762084,
+    "seen": 1789234284.031017,
+    "ast_hash": "60136aac35c6a7b13b6dbc5b5a3d08ce",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/AndroidDeviceFingerprintProvider.kt": {
-    "mtime": 1788261476.8512492,
+    "mtime": 1788340183.8171043,
+    "seen": 1789234284.0310261,
     "ast_hash": "c2eae0ebf97a1fa2e3508e3d86413628",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/AndroidDeviceKeystoreManager.kt": {
-    "mtime": 1788261480.4274156,
+    "mtime": 1788340183.8181007,
+    "seen": 1789234284.0310285,
     "ast_hash": "8342f54c3e74db24724880aa70835b54",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/DeviceFingerprintProvider.kt": {
-    "mtime": 1788188810.0414257,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.031031,
     "ast_hash": "9f25189c1ed3ab6d7a05302fc5b84ac6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/DeviceKeystoreManager.kt": {
-    "mtime": 1788188740.0319805,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310328,
     "ast_hash": "2e583dc841b679b9ed977bd534146b75",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/Hashing.kt": {
-    "mtime": 1788188740.0319805,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.031035,
     "ast_hash": "efdd0217340c63d159073d3c00ff57fb",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/LicenseCodec.kt": {
-    "mtime": 1788261478.3627968,
+    "mtime": 1788340183.8181007,
+    "seen": 1789234284.0310366,
     "ast_hash": "fd09adf8842d45b5d9ab1356c3a1dd2c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/LicenseConstants.kt": {
-    "mtime": 1788870819.3177571,
+    "mtime": 1789221553.9772048,
+    "seen": 1789234284.0310385,
     "ast_hash": "067f87f3d946f789538810e788038ea5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/LicensePublicKeyProvider.kt": {
-    "mtime": 1788188813.6717591,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310404,
     "ast_hash": "e7ea39c98ec821f2b12d9e45a57897f0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/security/LicenseValidator.kt": {
-    "mtime": 1788188770.6665702,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310423,
     "ast_hash": "0d0aad951179177c78d1ea430d8f7564",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/AmplitudeMeter.kt": {
-    "mtime": 1788524951.599341,
+    "mtime": 1788635392.953584,
+    "seen": 1789234284.0310447,
     "ast_hash": "15011774c4e467bc1da41c3c23e684f5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/AudioCapture.kt": {
-    "mtime": 1788525447.5817473,
+    "mtime": 1788635392.9545858,
+    "seen": 1789234284.0310464,
     "ast_hash": "5d862025ed06dbca49f9dc8c66f5572d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/PcmConverter.kt": {
-    "mtime": 1788205667.5077384,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310504,
     "ast_hash": "6a734633e3aae29c07534998df7b1125",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/PtBrPromptHints.kt": {
-    "mtime": 1788205819.5974016,
+    "mtime": 1788254653.2048144,
+    "seen": 1789234284.0310528,
     "ast_hash": "adc87d79bb37051dcd0eca8596d2b9b6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechConstants.kt": {
-    "mtime": 1788870819.318768,
-    "ast_hash": "a497323ba47dcb689f042ba476e8a1ae",
+    "mtime": 1789221553.9792032,
+    "seen": 1789234284.0310574,
+    "ast_hash": "c15c3506fa98a2cf47e941b16bc969ab",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechModelCatalog.kt": {
-    "mtime": 1788870819.320273,
+    "mtime": 1789221553.9792032,
+    "seen": 1789234284.0310593,
     "ast_hash": "6521a0c6b6c339588aab381dc15aba26",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechModelManager.kt": {
-    "mtime": 1788525187.4582534,
+    "mtime": 1788635392.9555833,
+    "seen": 1789234284.0310614,
     "ast_hash": "cbf6a2c76a157883268d19977ac22336",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WavReader.kt": {
-    "mtime": 1788205675.1572182,
+    "mtime": 1788254653.2205677,
+    "seen": 1789234284.031072,
     "ast_hash": "2390145deafef2c24adddfd91248ddc0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperCppEngine.kt": {
-    "mtime": 1788205690.726382,
-    "ast_hash": "91aa5e8704e9b5f732efa833e129b6c4",
+    "mtime": 1789221553.9802036,
+    "seen": 1789234284.0310845,
+    "ast_hash": "78ac3034c140963d273981821f792974",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperEngine.kt": {
-    "mtime": 1788205591.8680649,
+    "mtime": 1788254653.2205677,
+    "seen": 1789234284.0310884,
     "ast_hash": "517b88fb3aaabf096ec667b51bf10a6c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperLib.kt": {
-    "mtime": 1788205585.6622455,
-    "ast_hash": "84aec88f9e0ca3261d02447c2094ecc5",
+    "mtime": 1789221553.9812102,
+    "seen": 1789234284.0310903,
+    "ast_hash": "50abad7bc71059ad5f432ed37ca53fb5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/time/PeriodRanges.kt": {
-    "mtime": 1788433964.829753,
+    "mtime": 1788471797.2726302,
+    "seen": 1789234284.031094,
     "ast_hash": "2e4a6eb5553368296c4088d4f76337b8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/time/TimeProvider.kt": {
-    "mtime": 1788187186.1415153,
+    "mtime": 1788254653.2205677,
+    "seen": 1789234284.0310988,
     "ast_hash": "72eafdc63d40dcc35ac9f66dcbfc198f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/cache/ExtractionSessionCache.kt": {
-    "mtime": 1788209683.87685,
+    "mtime": 1788254653.2205677,
+    "seen": 1789234284.0311024,
     "ast_hash": "a2815d5f8631d9b3777e39edb3c96d2a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabase.kt": {
-    "mtime": 1788361974.0255153,
-    "ast_hash": "880a112b391ed5b6de5392f997e8f470",
+    "mtime": 1789221553.983209,
+    "seen": 1789234284.0311046,
+    "ast_hash": "c37ed81f00a543373e8d31f9b28df94b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaMigrations.kt": {
-    "mtime": 1788361966.6814358,
-    "ast_hash": "f507df8e4861b7637bbe1cf53acf27a0",
+    "mtime": 1789223892.5196278,
+    "seen": 1789234284.0311086,
+    "ast_hash": "9ea2450874b8c993298f32a6ddd7bda2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/activation/ActivationLocalDataSource.kt": {
-    "mtime": 1788261476.089161,
+    "mtime": 1788340183.8212802,
+    "seen": 1789234284.0311108,
     "ast_hash": "480cd0ee48cccd23f32ca33e3d50d270",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/converter/UuidConverters.kt": {
-    "mtime": 1788187186.1470299,
+    "mtime": 1788254653.2205677,
+    "seen": 1789234284.0311127,
     "ast_hash": "8896ae730e4acdd18e450a66165eda38",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/ClienteDao.kt": {
-    "mtime": 1788209668.7201898,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311153,
     "ast_hash": "7f3522f4806adb39d3676941f77b7db2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/CompraDao.kt": {
-    "mtime": 1788187208.598785,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311196,
     "ast_hash": "342bcbd9ef9a4e9f06bdde1ef50441f7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/EstoqueDao.kt": {
-    "mtime": 1788361950.165193,
-    "ast_hash": "276287e5b65aba919a9f7e7a5e42a07d",
+    "mtime": 1789221553.9852097,
+    "seen": 1789234284.031122,
+    "ast_hash": "e788c2f1d20aed3ddd94376e859c9a54",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/EstoqueMovimentoRow.kt": {
-    "mtime": 1788361958.8327913,
+    "mtime": 1788471757.8428774,
+    "seen": 1789234284.0311248,
     "ast_hash": "dfab511cbc14e91d80fd4c6f81adf3c2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/EventoDao.kt": {
-    "mtime": 1788361935.409388,
+    "mtime": 1788471757.8438902,
+    "seen": 1789234284.0311272,
     "ast_hash": "837faf2717d8245832d551348adecbe8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/FornecedorDao.kt": {
-    "mtime": 1788209670.883132,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311296,
     "ast_hash": "53bdc48efb54c7c57b4bbe9e4b7104c4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/GrupoDao.kt": {
-    "mtime": 1788209679.7376704,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.031132,
     "ast_hash": "75b79b3832706b3cecf21835a73775ad",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/PagamentoDao.kt": {
-    "mtime": 1788361934.8932822,
+    "mtime": 1788471757.8449006,
+    "seen": 1789234284.031137,
     "ast_hash": "dcb3c00d03e7f2c445c23d042786c542",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/ProdutoDao.kt": {
-    "mtime": 1788209666.5104403,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.031142,
     "ast_hash": "d668cb1956d09173e0a817d05f2c003b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/RecebimentoDao.kt": {
-    "mtime": 1788361930.5956788,
+    "mtime": 1788471757.8458936,
+    "seen": 1789234284.0311441,
     "ast_hash": "8084015611c6fff06c39152429a02f4c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/VendaDao.kt": {
-    "mtime": 1788187207.1142533,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311465,
     "ast_hash": "b0d85bbf20420e027a381f45a09619a4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/ClienteEntity.kt": {
-    "mtime": 1788187188.2419443,
-    "ast_hash": "4a32ab81b534a2e092e42e52a6014580",
+    "mtime": 1789221553.98621,
+    "seen": 1789234284.031149,
+    "ast_hash": "314eed96a38af676f5ef1531593c80fa",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/CompraEntity.kt": {
-    "mtime": 1788361913.039876,
+    "mtime": 1788471757.8469577,
+    "seen": 1789234284.0311513,
     "ast_hash": "7bf442493f90f0a9bc891d93e723041f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/CompraItemEntity.kt": {
-    "mtime": 1788187196.2659457,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311534,
     "ast_hash": "00c24ecf52919411b3e787787b2d4cf1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/EventoEntity.kt": {
-    "mtime": 1788361927.8398087,
+    "mtime": 1788471757.84788,
+    "seen": 1789234284.0311582,
     "ast_hash": "215266ffbc67e40a3dce0bde80b48ec7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/FornecedorEntity.kt": {
-    "mtime": 1788187190.010124,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311606,
     "ast_hash": "dbd2849e610bac930e2a888aa52f8fb1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/GrupoEntity.kt": {
-    "mtime": 1788187186.320287,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311632,
     "ast_hash": "f2d1e976cda33f793da2c63a866aa621",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/PagamentoEntity.kt": {
-    "mtime": 1788361924.3434577,
+    "mtime": 1788471757.84788,
+    "seen": 1789234284.0311682,
     "ast_hash": "185d1c98f30f0a45e3bf0ea54575ba92",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/ProdutoEntity.kt": {
-    "mtime": 1788187187.7289405,
-    "ast_hash": "c2a4a77f174f41af232fa6ba9d29edfc",
+    "mtime": 1789221553.9882088,
+    "seen": 1789234284.0311732,
+    "ast_hash": "270dab408c0638d5a160171fb36186ce",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/RecebimentoEntity.kt": {
-    "mtime": 1788361916.8454175,
+    "mtime": 1788471757.8488884,
+    "seen": 1789234284.0311782,
     "ast_hash": "237ba61d6f2ba1823ea5a47379903277",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/VendaEntity.kt": {
-    "mtime": 1788361909.0208354,
+    "mtime": 1788471757.849889,
+    "seen": 1789234284.0311804,
     "ast_hash": "dd1dd8854bdbfe2ac4d859091bba3708",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/VendaItemEntity.kt": {
-    "mtime": 1788187194.0080564,
-    "ast_hash": "4a05b8428ddc0eda324d1c5f145e1a7c",
+    "mtime": 1789221553.9892087,
+    "seen": 1789234284.0311823,
+    "ast_hash": "5d1a079cce4d791979a6ca4cd759b72d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/relation/CompraWithItems.kt": {
-    "mtime": 1788187197.7566078,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311844,
     "ast_hash": "faa49b6339177b185781da98a2629914",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/relation/VendaWithItems.kt": {
-    "mtime": 1788187197.34915,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0311885,
     "ast_hash": "4bb535db59be2a804126b938fe010b03",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/view/ProdutoEstoqueView.kt": {
-    "mtime": 1788187196.9230723,
-    "ast_hash": "98e0a62feb2c138cb21ab8ae2538b42b",
+    "mtime": 1789223874.3447528,
+    "seen": 1789234284.031193,
+    "ast_hash": "67b8e68f5d6e5dd34bcfe5ea9ac6fea3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/mapper/EntityMappers.kt": {
-    "mtime": 1788361995.9328735,
-    "ast_hash": "734803ad118332f98455b0e9ec39ebd2",
+    "mtime": 1789221553.9912066,
+    "seen": 1789234284.031195,
+    "ast_hash": "3c75fff969bef111416f94aa5c1d46be",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ActivationRepository.kt": {
-    "mtime": 1788188753.0078769,
+    "mtime": 1788254653.2362425,
+    "seen": 1789234284.0312018,
     "ast_hash": "3a5f2be968df5abbc1bad7772cdd2c3d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ClienteRepository.kt": {
-    "mtime": 1788187226.0167377,
-    "ast_hash": "6101306476d73ce232e92fbc50eafb7f",
+    "mtime": 1789221553.9922094,
+    "seen": 1789234284.0312057,
+    "ast_hash": "2f9feb155618148ffd7b72fd6f0de1ac",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/CompraRepository.kt": {
-    "mtime": 1788362050.7465446,
-    "ast_hash": "280b69e3560c8db923876ec3ad1b2fab",
+    "mtime": 1789221553.993209,
+    "seen": 1789234284.031208,
+    "ast_hash": "506922ab7397445da450fef1fad61a72",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/DocumentoSupport.kt": {
-    "mtime": 1788187237.7066903,
-    "ast_hash": "8918adc18e6ca6e9fc884422ad3ace47",
+    "mtime": 1789221553.9952083,
+    "seen": 1789234284.0312123,
+    "ast_hash": "78e221a72e578d0bdbe4337c0115cea4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/EstoqueRepository.kt": {
-    "mtime": 1788362099.4931104,
-    "ast_hash": "2f0c6a2b7d36ac85c2fbb8caaa8ec069",
+    "mtime": 1789221553.9952083,
+    "seen": 1789234284.0312169,
+    "ast_hash": "33ebc5f04b5d5e73f7a92462c7642e6b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/EventoRepository.kt": {
-    "mtime": 1788362645.3177922,
-    "ast_hash": "14b4867fb6fb9def34ad31979508e8e6",
+    "mtime": 1789221553.9962065,
+    "seen": 1789234284.0312188,
+    "ast_hash": "c847ec05269f9168a761a98a11ede36e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ExtractionRepository.kt": {
-    "mtime": 1788870819.3272886,
-    "ast_hash": "0d00e279beb1fde3d4a7971348425be5",
+    "mtime": 1789221553.9962065,
+    "seen": 1789234284.0312207,
+    "ast_hash": "1146152353cc5dfb706e86287bf24e11",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/FinanceiroRepository.kt": {
-    "mtime": 1788433969.5438154,
-    "ast_hash": "90f23e61d625be478007c89222e27136",
+    "mtime": 1789221553.9972117,
+    "seen": 1789234284.0312228,
+    "ast_hash": "eb954dad5da30c97a0787f3d25eca264",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/FornecedorRepository.kt": {
-    "mtime": 1788187227.0387263,
-    "ast_hash": "83370d289446165e90bc38874f4ba076",
+    "mtime": 1789221553.9972117,
+    "seen": 1789234284.0312245,
+    "ast_hash": "5c26d8cb56e51926e40dd7b7dabb92af",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/GrupoRepository.kt": {
-    "mtime": 1788187222.1527958,
-    "ast_hash": "1c26eabbff3b9bdfd8efb45e7637a580",
+    "mtime": 1789221553.9972117,
+    "seen": 1789234284.0312266,
+    "ast_hash": "1127735cf7ed830891cc3f45e4464577",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ProdutoRepository.kt": {
-    "mtime": 1788187224.6177227,
-    "ast_hash": "1e77403923f0516ed64ede5613ec0b75",
+    "mtime": 1789221553.9982083,
+    "seen": 1789234284.0312302,
+    "ast_hash": "35de4ddcdc730188af3cb32062316efb",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/SpeechToTextRepository.kt": {
-    "mtime": 1788870819.3282871,
-    "ast_hash": "162d72bf76050019ac3755be5f8a9d1a",
+    "mtime": 1789221553.999208,
+    "seen": 1789234284.0312324,
+    "ast_hash": "6f6ef575932737f2d0578206bb1dec4b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/VendaRepository.kt": {
-    "mtime": 1788362018.324102,
-    "ast_hash": "769ff44f2fe579f72b211922d5e4c703",
+    "mtime": 1789221553.999208,
+    "seen": 1789234284.0312343,
+    "ast_hash": "a97fbe9ca4c89280ec4e9eb84181d943",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/DatabaseModule.kt": {
-    "mtime": 1788361974.1124196,
-    "ast_hash": "c5b836b69e39f77fe34fc620238b95f4",
+    "mtime": 1789221553.999208,
+    "seen": 1789234284.0312362,
+    "ast_hash": "4bee8ec3e94fcc487ea6eb5ec5b090fa",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/ExtractionModule.kt": {
-    "mtime": 1788209806.8674338,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312383,
     "ast_hash": "5a4780730fa158e5d48818b7bfc33020",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/ReminderModule.kt": {
-    "mtime": 1788362273.0193346,
+    "mtime": 1788471757.8688235,
+    "seen": 1789234284.0312428,
     "ast_hash": "b99be8d16aff58dfbe0346515af1408c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/SecurityModule.kt": {
-    "mtime": 1788188811.3184268,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312448,
     "ast_hash": "6464e83eface86124d57d813dd1819bc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/SpeechModule.kt": {
-    "mtime": 1788870819.3292897,
+    "mtime": 1789221554.0012145,
+    "seen": 1789234284.0312471,
     "ast_hash": "099e4861b4661fbd3e31772f14bc758c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/ActivationException.kt": {
-    "mtime": 1788188743.6606362,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312488,
     "ast_hash": "3201de4c05b67fa2307f9e596a882c6c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/BanavitaDomainException.kt": {
-    "mtime": 1788361886.3812103,
+    "mtime": 1788471757.8707125,
+    "seen": 1789234284.0312536,
     "ast_hash": "60498dcac12facc395d2284fd768d7be",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/ExtractionException.kt": {
-    "mtime": 1788209683.7705011,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312555,
     "ast_hash": "c34bb218d0fa4cb466f6f7b7a2428c46",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/SpeechException.kt": {
-    "mtime": 1788870819.3302875,
+    "mtime": 1789221554.0022078,
+    "seen": 1789234284.0312576,
     "ast_hash": "0e60792c900c476c6fedf8e9a9cd4f79",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/ActivationModels.kt": {
-    "mtime": 1788188743.1115758,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312595,
     "ast_hash": "d0d652e4184228440d0dedcc3b51e0d4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/ConsultaModels.kt": {
-    "mtime": 1788361877.2042785,
-    "ast_hash": "afd22ff16ead4d1260b1dcf6576b9a94",
+    "mtime": 1789221554.0022078,
+    "seen": 1789234284.0312617,
+    "ast_hash": "2be73577effbbe95bc15a605f8832ea2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/DomainModels.kt": {
-    "mtime": 1788361886.3812103,
-    "ast_hash": "b8cdffdf0b8653e52d7cedab57c0b5ef",
+    "mtime": 1789221554.0022078,
+    "seen": 1789234284.0312636,
+    "ast_hash": "98aba5666b9b7eb2b0223950cac32ac8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/TranscriptionModels.kt": {
-    "mtime": 1788205611.567712,
+    "mtime": 1788254653.2520967,
+    "seen": 1789234284.0312705,
     "ast_hash": "8d18f2557aeda493ececf9eb44f6a8cf",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/extraction/ExtractionModels.kt": {
-    "mtime": 1788362231.2925773,
-    "ast_hash": "982f27d92f6a0e811a457f31fdaac786",
+    "mtime": 1789221554.0038147,
+    "seen": 1789234284.0312746,
+    "ast_hash": "71d20e758951bc1a45a63c7b272e47fc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/reminder/ReminderScheduler.kt": {
-    "mtime": 1788362245.6608458,
+    "mtime": 1788471757.876777,
+    "seen": 1789234284.0312767,
     "ast_hash": "3674c9102470ddf27e5737bb61df1c4a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/activation/ActivationScreen.kt": {
-    "mtime": 1788433962.0260189,
+    "mtime": 1788471797.2766259,
+    "seen": 1789234284.0312788,
     "ast_hash": "ff598ca89d996b921c2d0ec4fb34d2db",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/activation/ActivationUiState.kt": {
-    "mtime": 1788268435.3387983,
+    "mtime": 1788340183.8222866,
+    "seen": 1789234284.0312812,
     "ast_hash": "910bd08cf6e2e586716d27e408d0ed20",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/activation/ActivationViewModel.kt": {
-    "mtime": 1788268438.7019656,
+    "mtime": 1788817514.6018617,
+    "seen": 1789234284.0312831,
     "ast_hash": "8e5e60c32cf3b9a9c15a0ad18032225e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/AgendaListScreen.kt": {
-    "mtime": 1788363401.629702,
-    "ast_hash": "d2561a2dd4cc94a9aa0145ea3da27238",
+    "mtime": 1789221554.0048306,
+    "seen": 1789234284.031285,
+    "ast_hash": "39c1ae21165d67761f3918c46f24a90d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/AgendaListViewModel.kt": {
-    "mtime": 1788362663.0605276,
-    "ast_hash": "38ee760aa4619bcad14f4c76189b4b91",
+    "mtime": 1789221554.0048306,
+    "seen": 1789234284.0312867,
+    "ast_hash": "25cc46112365c014fcfa99b41383a94b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/AgendaUiState.kt": {
-    "mtime": 1788362652.4902656,
-    "ast_hash": "36abf5604958a764da699807bcd4f1e1",
+    "mtime": 1789221554.0058236,
+    "seen": 1789234284.0312886,
+    "ast_hash": "846ce58f22eda6ee48f62320b5b42a24",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/EventoFormScreen.kt": {
-    "mtime": 1788871686.3164558,
-    "ast_hash": "f75608cf4513468fb016633e49d816b4",
+    "mtime": 1789221554.0068245,
+    "seen": 1789234284.0312905,
+    "ast_hash": "c9ef9373c494c152e3efaa39b775b8c1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/EventoFormUiState.kt": {
-    "mtime": 1788363391.0225618,
+    "mtime": 1788471757.883781,
+    "seen": 1789234284.0312924,
     "ast_hash": "c087f67ad7b98c71708a5e64acaf3519",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/EventoFormViewModel.kt": {
-    "mtime": 1788362757.2358553,
-    "ast_hash": "43cb250220391e909257e89cc9d99f09",
+    "mtime": 1789221554.0068245,
+    "seen": 1789234284.031294,
+    "ast_hash": "0c4181779e020ab04e3e16baae5993e8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/app/AppUiState.kt": {
-    "mtime": 1788268434.876477,
-    "ast_hash": "db26ab51db3a9293a79ef4ba40f5cf09",
+    "mtime": 1789221554.0078235,
+    "seen": 1789234284.031296,
+    "ast_hash": "e6950837ad259bfdbe925904ae91b09f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/app/BanavitaApp.kt": {
-    "mtime": 1788272015.7132745,
-    "ast_hash": "2f1b0a65549cbd1514b91dfc8ac21cc9",
+    "mtime": 1789221554.0078235,
+    "seen": 1789234284.0312982,
+    "ast_hash": "e358047f48d3874909a72e04386e88fd",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/app/BanavitaAppViewModel.kt": {
-    "mtime": 1788268435.3367991,
-    "ast_hash": "3ce1c81d256e6d1b12b662e5fc6b74bb",
+    "mtime": 1789221554.0078235,
+    "seen": 1789234284.0313,
+    "ast_hash": "e08dec5605adca6b60ca4f8cdeabf56c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/CadastrosHubScreen.kt": {
-    "mtime": 1788433920.7701085,
+    "mtime": 1788471797.2786264,
+    "seen": 1789234284.0313013,
     "ast_hash": "2a20e81f1e2d545319f25831f53a3479",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/clientes/ClienteFormScreen.kt": {
-    "mtime": 1788362363.9344885,
-    "ast_hash": "c0d2216cb52cbc0e353bd50118f590bb",
+    "mtime": 1789221554.0088232,
+    "seen": 1789234284.031303,
+    "ast_hash": "de5ae70241ef44cfcb43bbff330dfa67",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/clientes/ClienteFormViewModel.kt": {
-    "mtime": 1788273286.8239627,
-    "ast_hash": "ed1d3cca4aab18b7034e1a7ab8147e5e",
+    "mtime": 1789221554.0088232,
+    "seen": 1789234284.0313046,
+    "ast_hash": "afa633f75dc1cda43fa528490b85a5e5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/clientes/ClienteListScreen.kt": {
-    "mtime": 1788273695.61221,
+    "mtime": 1788340183.8262982,
+    "seen": 1789234284.0313063,
     "ast_hash": "f1aaa8cdf7dbf86ed91fa02a61cbf3a7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/clientes/ClienteListViewModel.kt": {
-    "mtime": 1788272909.6951993,
+    "mtime": 1788340183.8262982,
+    "seen": 1789234284.0313077,
     "ast_hash": "06d987a546e42b1dbd16df6c34b2c554",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/fornecedores/FornecedorFormScreen.kt": {
-    "mtime": 1788362362.9978,
+    "mtime": 1788471757.892772,
+    "seen": 1789234284.0313094,
     "ast_hash": "276e6056b6516064b8dca70594b213c3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/fornecedores/FornecedorFormViewModel.kt": {
-    "mtime": 1788273293.985453,
+    "mtime": 1788340183.828335,
+    "seen": 1789234284.031311,
     "ast_hash": "2dff74a4d62afd037f19c6a58dddc687",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/fornecedores/FornecedorListScreen.kt": {
-    "mtime": 1788273697.5341861,
+    "mtime": 1788340183.8293283,
+    "seen": 1789234284.031313,
     "ast_hash": "0ecbf0ebbae3da6e56c98f50f4398849",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/fornecedores/FornecedorListViewModel.kt": {
-    "mtime": 1788272912.2375698,
+    "mtime": 1788340183.8293283,
+    "seen": 1789234284.0313144,
     "ast_hash": "7b09cc2e932330b35ac801cf5ba3e950",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/grupos/GrupoFormScreen.kt": {
-    "mtime": 1788362365.5921576,
+    "mtime": 1788471757.893776,
+    "seen": 1789234284.0313196,
     "ast_hash": "1fb49b07df4ddd9a3a1c23dc93fd0ee2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/grupos/GrupoFormViewModel.kt": {
-    "mtime": 1788273276.6909394,
+    "mtime": 1788340183.830333,
+    "seen": 1789234284.0313213,
     "ast_hash": "cb129db127cc6f1dfbcc8fc2d8243d87",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/grupos/GrupoListScreen.kt": {
-    "mtime": 1788273699.0590212,
+    "mtime": 1788340183.830333,
+    "seen": 1789234284.0313232,
     "ast_hash": "c911023a8c2d7ecc4732fa5bcfbac766",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/grupos/GrupoListViewModel.kt": {
-    "mtime": 1788272914.2685473,
+    "mtime": 1788340183.830333,
+    "seen": 1789234284.0313253,
     "ast_hash": "8ff96e9f969ec0867972ce1250df7cdc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormScreen.kt": {
-    "mtime": 1788870819.3328454,
-    "ast_hash": "8d5e7a2ba7ab3bb00b2318485184b7e4",
+    "mtime": 1789221554.009822,
+    "seen": 1789234284.0313272,
+    "ast_hash": "2634c1352c3c6304116d187109fbcdc4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormUiState.kt": {
-    "mtime": 1788273331.3801868,
-    "ast_hash": "e50df52852a7607ab8efb25dff10b965",
+    "mtime": 1789221554.0108366,
+    "seen": 1789234284.031329,
+    "ast_hash": "196c70afcf15249f97f6ef7c4924e225",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormViewModel.kt": {
-    "mtime": 1788273307.6108148,
-    "ast_hash": "3e50cd3f6a556c250afc300fe8f04104",
+    "mtime": 1789221554.0118213,
+    "seen": 1789234284.031331,
+    "ast_hash": "d4208bc72cb6d9d784045293feec2233",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoListScreen.kt": {
-    "mtime": 1788273700.797073,
+    "mtime": 1788340183.8323622,
+    "seen": 1789234284.0313334,
     "ast_hash": "364f848a324c54d6ca01f60843bb2b0c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoListUiState.kt": {
-    "mtime": 1788272918.425879,
+    "mtime": 1788340183.8323622,
+    "seen": 1789234284.0313354,
     "ast_hash": "ef5fed457a0c95ed2aed23c38fab480b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoListViewModel.kt": {
-    "mtime": 1788272919.6439812,
+    "mtime": 1788340183.8323622,
+    "seen": 1789234284.0313375,
     "ast_hash": "2130f89892876d8ce9de2523c75e23de",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/BanavitaIcons.kt": {
-    "mtime": 1788870819.333855,
-    "ast_hash": "d09bd8959cd031d5fed9e13362d284ce",
+    "mtime": 1789221554.0118213,
+    "seen": 1789234284.0313394,
+    "ast_hash": "bec4630a8a3f53dee82b3c953ab601dd",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DateInputParser.kt": {
-    "mtime": 1788274892.8620338,
+    "mtime": 1788340183.8333716,
+    "seen": 1789234284.0313413,
     "ast_hash": "51a449062d4199d4473e9dbd4778acf3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DateTimeInputParser.kt": {
-    "mtime": 1788362646.6552956,
-    "ast_hash": "fd2e91a100cddad966c4ac87a6621da7",
+    "mtime": 1789221554.0118213,
+    "seen": 1789234284.0313435,
+    "ast_hash": "b918f78961f3df1bf0a71cf3d7e3b88d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DocumentFormComponents.kt": {
-    "mtime": 1788870819.334854,
-    "ast_hash": "aa3fec583f58221f617e4349c7cdc75c",
+    "mtime": 1789222784.949651,
+    "seen": 1789234284.0313456,
+    "ast_hash": "052c0e74dedb30e4b19cdca5f039a374",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DocumentFormModels.kt": {
-    "mtime": 1788274892.912172,
-    "ast_hash": "bea33007366ff4baf400d624929031bf",
+    "mtime": 1789223575.2721062,
+    "seen": 1789234284.0313478,
+    "ast_hash": "287aa0890e610956721b254b3f800bc5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/EntityListContent.kt": {
-    "mtime": 1788273694.1203046,
+    "mtime": 1788340183.834373,
+    "seen": 1789234284.03135,
     "ast_hash": "d9888abce4fbeea76c85312af9a9248f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/FormComponents.kt": {
-    "mtime": 1788352240.7718496,
-    "ast_hash": "6adaaa292dec8f69be3fe698e9991a15",
+    "mtime": 1789221554.0138228,
+    "seen": 1789234284.031352,
+    "ast_hash": "1c1c7c4b4f407172bf8994f7bcaad6aa",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/Formatters.kt": {
-    "mtime": 1788362367.5561259,
-    "ast_hash": "d469c12de087493044b707d5d9702123",
+    "mtime": 1789221554.0138228,
+    "seen": 1789234284.031355,
+    "ast_hash": "454e61ceee7cceabaef2f61315f9dc0e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/ListComponents.kt": {
-    "mtime": 1788362535.937344,
+    "mtime": 1788471757.9008307,
+    "seen": 1789234284.0313568,
     "ast_hash": "9fef3c4d86b125257ad5a88c9eea55ab",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/MoneyInputParser.kt": {
-    "mtime": 1788273266.1134684,
+    "mtime": 1788340183.834373,
+    "seen": 1789234284.0313592,
     "ast_hash": "d253ec71ba169aa190da8ed457dc3198",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/NotificationPermission.kt": {
-    "mtime": 1788363399.124938,
+    "mtime": 1788471757.901793,
+    "seen": 1789234284.0313613,
     "ast_hash": "e1ed8867935f03d65806f7d7e7a09f51",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/QuantityInputParser.kt": {
-    "mtime": 1788274892.8620338,
+    "mtime": 1788340183.8353698,
+    "seen": 1789234284.0313654,
     "ast_hash": "124c2620f3d803915d3fa1cd159a406b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraFormScreen.kt": {
-    "mtime": 1788870819.3358538,
+    "mtime": 1789221554.0148225,
+    "seen": 1789234284.0313678,
     "ast_hash": "56d2281ead1dd0c6c11afd175dd652c0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraFormUiState.kt": {
-    "mtime": 1788870819.336854,
+    "mtime": 1789221554.0148225,
+    "seen": 1789234284.0313697,
     "ast_hash": "ea18608b2d7e782520234c08093d0bc3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraFormViewModel.kt": {
-    "mtime": 1788870819.337855,
+    "mtime": 1789221554.0158207,
+    "seen": 1789234284.0313718,
     "ast_hash": "48bfb9cc4548869950f5d5b5772316b4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraListScreen.kt": {
-    "mtime": 1788274942.221295,
+    "mtime": 1788340183.837257,
+    "seen": 1789234284.0313737,
     "ast_hash": "2b25ddea9e55f5c57cce037fcb3d50e9",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraListUiState.kt": {
-    "mtime": 1788272933.8461354,
+    "mtime": 1788340183.8382635,
+    "seen": 1789234284.031376,
     "ast_hash": "72786126759107fbb2e659f638d175b6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraListViewModel.kt": {
-    "mtime": 1788272944.4936428,
+    "mtime": 1788340183.8382635,
+    "seen": 1789234284.0313783,
     "ast_hash": "c640b8e49e313ec86549bc857bf46001",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt": {
-    "mtime": 1788363017.1945705,
-    "ast_hash": "c8ed8f430235fdcbaf5135999e7c5e3e",
+    "mtime": 1789221554.0158207,
+    "seen": 1789234284.0313802,
+    "ast_hash": "2f7b70e951f642bae473e5262182de76",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasUiState.kt": {
-    "mtime": 1788362400.6724634,
-    "ast_hash": "e718822b064c0e1d2fa224014f906b42",
+    "mtime": 1789221554.016822,
+    "seen": 1789234284.031382,
+    "ast_hash": "3b5e3c362daa9f64afa911fccd41786f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasViewModel.kt": {
-    "mtime": 1788363385.9322977,
-    "ast_hash": "61070a92e8b13da3c3a6c4df73aaccad",
+    "mtime": 1789221554.016822,
+    "seen": 1789234284.031384,
+    "ast_hash": "726222ee6a7da21b795b19dd3a37f46c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/estoque/EstoqueDetalheScreen.kt": {
-    "mtime": 1788362542.8995988,
-    "ast_hash": "8d59a39c7f96fbc9a7e8b90308f99e96",
+    "mtime": 1789221554.016822,
+    "seen": 1789234284.0313873,
+    "ast_hash": "83d9ee8b60d632db97cce839b9fe7cfd",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/estoque/EstoqueDetalheViewModel.kt": {
-    "mtime": 1788362543.5917144,
-    "ast_hash": "7cf4e80529e61bbad3a7ff229815f29e",
+    "mtime": 1789221554.0178218,
+    "seen": 1789234284.0313897,
+    "ast_hash": "25b35d4613941c0f689fbe0d39db42a0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/financeiro/FinanceiroDetalheScreen.kt": {
-    "mtime": 1788362577.3741531,
+    "mtime": 1788471757.9127707,
+    "seen": 1789234284.031392,
     "ast_hash": "549300534abf397f71ac46a1edd06e4c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/financeiro/FinanceiroDetalheViewModel.kt": {
-    "mtime": 1788362577.3741531,
+    "mtime": 1788471757.9137714,
+    "seen": 1789234284.031394,
     "ast_hash": "a2488e45d771d4bb50eb734781edaddf",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeScreen.kt": {
-    "mtime": 1788433941.1255534,
-    "ast_hash": "eb1956714ce2f491a7bcc1cea93249be",
+    "mtime": 1789221554.0188234,
+    "seen": 1789234284.0313962,
+    "ast_hash": "be4fd7bf01a57a09320e368bfd5cbd0a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeUiState.kt": {
-    "mtime": 1788363374.8782463,
-    "ast_hash": "57c671c0d9e2afb87b7ead7b03e53ca4",
+    "mtime": 1789221554.0188234,
+    "seen": 1789234284.0313983,
+    "ast_hash": "085d43980dd858528f479402f91a0c91",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeViewModel.kt": {
-    "mtime": 1788363376.7743435,
-    "ast_hash": "7432ffae344e0000f9b1082554c842db",
+    "mtime": 1789221554.0198238,
+    "seen": 1789234284.0314004,
+    "ast_hash": "04e4afb80322cf3ba733e7875b65972b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/navigation/BanavitaRoutes.kt": {
-    "mtime": 1788870819.3385358,
-    "ast_hash": "34de03317349166317aedaad4dd72780",
+    "mtime": 1789221554.0198238,
+    "seen": 1789234284.0314026,
+    "ast_hash": "e832127f28f13a71f5919abb87d0806d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/navigation/MainNavHost.kt": {
-    "mtime": 1788870819.3395498,
-    "ast_hash": "147a314514b2acbc53b6a0a8d3d91a4e",
+    "mtime": 1789221554.0198238,
+    "seen": 1789234284.0314043,
+    "ast_hash": "7358f57e12ea7eec88b9b3ecb3cef259",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/shell/MainAppShell.kt": {
-    "mtime": 1788870819.3440704,
-    "ast_hash": "7cda25098e888e46050f46fba7ab9d73",
+    "mtime": 1789221554.0260603,
+    "seen": 1789234284.0314255,
+    "ast_hash": "038d01ca1bc6d7cabbbcb0457b717a8e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/theme/Color.kt": {
-    "mtime": 1788268434.7765317,
-    "ast_hash": "cdc5d3f84eb00bce5271306b7ab5f26b",
+    "mtime": 1789221554.0270636,
+    "seen": 1789234284.0314276,
+    "ast_hash": "a3bbe79c8566452d5829c06724402feb",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/theme/Theme.kt": {
-    "mtime": 1788268434.8754747,
-    "ast_hash": "b36078df6c744a6e1f6aa3da5bcf53f1",
+    "mtime": 1789221554.0270636,
+    "seen": 1789234284.0314295,
+    "ast_hash": "2646214ccdaae25cc70a1a61b7611bb3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormScreen.kt": {
-    "mtime": 1788870819.3450682,
-    "ast_hash": "8292eae979652f4e46dff1ccdbd0507f",
+    "mtime": 1789221554.02806,
+    "seen": 1789234284.0314317,
+    "ast_hash": "3862caa9cc09e7ccae7028821fd027e4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormUiState.kt": {
-    "mtime": 1788870819.3460686,
+    "mtime": 1789221554.0290565,
+    "seen": 1789234284.031434,
     "ast_hash": "8d672108477cd927742ce3094d9378a1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormViewModel.kt": {
-    "mtime": 1788870819.3470685,
-    "ast_hash": "a3c40a24ea052d42ca081d265504cec1",
+    "mtime": 1789221554.0290565,
+    "seen": 1789234284.031436,
+    "ast_hash": "d22bdfb06be5f69a2b50aa55ff814be0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaListScreen.kt": {
-    "mtime": 1788274938.7858534,
+    "mtime": 1788340183.8416731,
+    "seen": 1789234284.031438,
     "ast_hash": "e50d1fda3f4921c084a2d5c8b0d2b3be",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaListUiState.kt": {
-    "mtime": 1788272929.5216115,
+    "mtime": 1788340183.8427076,
+    "seen": 1789234284.03144,
     "ast_hash": "949a9171e64a3d18d53707d777f769cc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaListViewModel.kt": {
-    "mtime": 1788272944.4936428,
+    "mtime": 1788340183.8427076,
+    "seen": 1789234284.0314422,
     "ast_hash": "fc0ad95f694a6b13c8397e85e31e5278",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/ExtractionDraftFormatter.kt": {
-    "mtime": 1788433429.6835718,
+    "mtime": 1788471757.9357963,
+    "seen": 1789234284.0314443,
     "ast_hash": "a39b2f6d422ae42cb3453f451f625e76",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/ExtractionReviewSheet.kt": {
-    "mtime": 1788870819.3480709,
-    "ast_hash": "13b97e0244d7b159702ab2fbb81f2063",
+    "mtime": 1789221554.0290565,
+    "seen": 1789234284.031446,
+    "ast_hash": "ff480cc2ba2d207b2f85b1a722c21f8e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureUiState.kt": {
-    "mtime": 1788525108.9453495,
+    "mtime": 1788635392.957585,
+    "seen": 1789234284.0314484,
     "ast_hash": "33921790d180c99097ea9d29a79b7539",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureViewModel.kt": {
-    "mtime": 1788525110.444092,
+    "mtime": 1788635392.9585946,
+    "seen": 1789234284.0314505,
     "ast_hash": "abdac2162c664b37be0e18800657db82",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceEnabledScreen.kt": {
-    "mtime": 1788525149.0348337,
+    "mtime": 1788635392.959588,
+    "seen": 1789234284.0314527,
     "ast_hash": "db3bbd11ab4c9fd07b36ed102553eb90",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceFabLayout.kt": {
-    "mtime": 1788525183.5932593,
+    "mtime": 1788635392.9605832,
+    "seen": 1789234284.031455,
     "ast_hash": "9a28f888c0f77432921c4215a5274ba1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceRecordingBar.kt": {
-    "mtime": 1788525491.9283175,
+    "mtime": 1788635392.9615867,
+    "seen": 1789234284.0314572,
     "ast_hash": "2a62715151d30cd463ae838d22b27e20",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/BanavitaDatabaseIntegrationTest.kt": {
-    "mtime": 1788362919.801422,
-    "ast_hash": "6330847751b3cf6a57c308d8d2629d7e",
+    "mtime": 1789221554.0320659,
+    "seen": 1789234284.0314596,
+    "ast_hash": "740071672848622bb768fb21fea17ad9",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/extraction/ExtractionParsersTest.kt": {
-    "mtime": 1788870819.3508873,
-    "ast_hash": "1ef52b5938c20fa12b9d439d7e2b96bb",
+    "mtime": 1789221554.034057,
+    "seen": 1789234284.031465,
+    "ast_hash": "8c88518b09eed40c0b026d1e353a136a",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/money/MoneyTest.kt": {
-    "mtime": 1788187248.0264215,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.0314672,
     "ast_hash": "f716d75d51633b6115e8660596d2a3b5",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/security/LicenseCodecTest.kt": {
-    "mtime": 1788188825.7899368,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.031469,
     "ast_hash": "ece6d023ee9467450a19b5d5ec4cfccc",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/security/LicenseValidatorTest.kt": {
-    "mtime": 1788188810.2080646,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.0314708,
     "ast_hash": "9d8d767f607c424d4ae06fb04682c808",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/AmplitudeMeterTest.kt": {
-    "mtime": 1788525052.1854649,
+    "mtime": 1788635392.9635897,
+    "seen": 1789234284.0314732,
     "ast_hash": "a682553dcd5ee9b464e966f1772ecf6a",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/PcmConverterTest.kt": {
-    "mtime": 1788205747.8033082,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.0314755,
     "ast_hash": "4f1f47c0451d89c5f3df9cd730137405",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/PtBrPromptHintsTest.kt": {
-    "mtime": 1788205753.6326916,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.0314775,
     "ast_hash": "0513da219be79f9d19a36845e3fddda2",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/SpeechModelManagerTest.kt": {
-    "mtime": 1788274397.6070094,
+    "mtime": 1788340183.8480496,
+    "seen": 1789234284.0314822,
     "ast_hash": "356718a4c0dd94f86595bb7d7430e4ea",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/time/PeriodRangesTest.kt": {
-    "mtime": 1788362953.6977313,
+    "mtime": 1788471757.945811,
+    "seen": 1789234284.0314882,
     "ast_hash": "033ff262374552592c0bcd405059dc1c",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/ActivationRepositoryTest.kt": {
-    "mtime": 1788188813.4726436,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.031499,
     "ast_hash": "4170a31617791a1f1893ae8d17c7cf1d",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/EventoRepositoryTest.kt": {
-    "mtime": 1788363017.7084196,
-    "ast_hash": "c7f38c640a12b66bac7c9cb496d4c9d5",
+    "mtime": 1789221554.0380595,
+    "seen": 1789234284.0315034,
+    "ast_hash": "f58edbc279484838e8c48d8637428fc5",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/ExtractionRepositoryTest.kt": {
-    "mtime": 1788363428.4629655,
-    "ast_hash": "3642991aefaeb97db375b5e3aa310527",
+    "mtime": 1789221554.0380595,
+    "seen": 1789234284.0315053,
+    "ast_hash": "8c2a9128727aebb76eee904e8c4e2ea4",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/FinanceiroRepositoryTest.kt": {
-    "mtime": 1788362951.45287,
-    "ast_hash": "2702d6056bd6c657b87bf07a358caa52",
+    "mtime": 1789221554.03906,
+    "seen": 1789234284.0315073,
+    "ast_hash": "3ad6ffc438a35e5ab4a95b2357fa31bf",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/SpeechToTextRepositoryTest.kt": {
-    "mtime": 1788870819.3543425,
-    "ast_hash": "98d08a69b988fbc2febbf6fb303cb222",
+    "mtime": 1789221554.03906,
+    "seen": 1789234284.0315092,
+    "ast_hash": "f3cfb00b1bd9d1a977e1f08e06f6ff52",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/domain/reminder/FakeReminderScheduler.kt": {
-    "mtime": 1788362904.70965,
+    "mtime": 1788471757.9508197,
+    "seen": 1789234284.0315113,
     "ast_hash": "554cc6d258a0b1ae0fdbcd83a5870389",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/testutil/MainDispatcherRule.kt": {
-    "mtime": 1788268454.9251375,
+    "mtime": 1788340183.8491986,
+    "seen": 1789234284.0315137,
     "ast_hash": "08552076ffa9e29fad8230c31af6c7c4",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/ui/activation/ActivationViewModelTest.kt": {
-    "mtime": 1788268462.7631798,
+    "mtime": 1788340183.8491986,
+    "seen": 1789234284.0315158,
     "ast_hash": "8d4492f2bc30aada53132d764b5a96fc",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/ui/common/MoneyInputParserTest.kt": {
-    "mtime": 1788273349.7363708,
+    "mtime": 1788340183.8503113,
+    "seen": 1789234284.031518,
     "ast_hash": "d96fb15b220e871fcef8e961b6501c58",
     "semantic_hash": ""
   },
   "build.gradle.kts": {
-    "mtime": 1788352240.7778668,
+    "mtime": 1788426184.9406319,
+    "seen": 1789234284.0315204,
     "ast_hash": "ed913b690bb4e1ad89b6b7ae7ef766a3",
     "semantic_hash": ""
   },
   "gradlew": {
-    "mtime": 1788187275.5359757,
+    "mtime": 1788254653.2677758,
+    "seen": 1789234284.0315223,
     "ast_hash": "9802ce73fce184d2097147e77bac3677",
     "semantic_hash": ""
   },
   "settings.gradle.kts": {
-    "mtime": 1788187171.0086558,
+    "mtime": 1789220843.6703067,
+    "seen": 1789234284.0315247,
     "ast_hash": "26d360584d27e01e7d62c4e69b1436b7",
     "semantic_hash": ""
   },
   "tools/license-generator/package.json": {
-    "mtime": 1788188836.680676,
+    "mtime": 1788254653.2835479,
+    "seen": 1789234284.0315266,
     "ast_hash": "0ad5017f5af352e31e92425e96c00381",
     "semantic_hash": ""
   },
   "tools/license-generator/src/generate-keys.js": {
-    "mtime": 1788279718.8181818,
+    "mtime": 1788340184.1387227,
+    "seen": 1789234284.0315287,
     "ast_hash": "086a261370e8a7c8277876c52ecddcb8",
     "semantic_hash": ""
   },
   "tools/license-generator/src/generate-license.js": {
-    "mtime": 1788188790.2529132,
+    "mtime": 1788254653.2835479,
+    "seen": 1789234284.0315309,
     "ast_hash": "9eb04c8a52c13f63ea9408bb413c624e",
     "semantic_hash": ""
   },
   "tools/license-generator/src/license-format.js": {
-    "mtime": 1788188790.588487,
+    "mtime": 1788254653.2835479,
+    "seen": 1789234284.0315328,
     "ast_hash": "01003d508be94bab83377f226928b859",
     "semantic_hash": ""
   },
   "tools/speech-model/checksums.json": {
-    "mtime": 1788870823.1178515,
+    "mtime": 1789221554.340694,
+    "seen": 1789234284.0315347,
     "ast_hash": "6d1d9b06a5fff1fb14e7cfec3b054a99",
     "semantic_hash": ""
   },
   "tools/speech-model/package.json": {
-    "mtime": 1788205716.0037725,
+    "mtime": 1788254653.2835479,
+    "seen": 1789234284.0315366,
     "ast_hash": "95becf2f116c2a27ee0061cfd2ae4d0c",
     "semantic_hash": ""
   },
   "tools/speech-model/src/download-model.js": {
-    "mtime": 1788870823.1188512,
+    "mtime": 1789221554.340694,
+    "seen": 1789234284.0315392,
     "ast_hash": "be0bd381d5401370b9f43114c2adf2ac",
     "semantic_hash": ""
   },
   ".cursor/skills/android-modern-stack/SKILL.md": {
-    "mtime": 1788183402.6492405,
+    "mtime": 1788254653.173373,
+    "seen": 1789234284.0315495,
     "ast_hash": "deac99c4a28e5b6c376c13a5c3c2fe86",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1788870774.8812902,
+    "mtime": 1789221550.5554292,
+    "seen": 1789234284.0315566,
     "ast_hash": "bbffa27ec98eb156d3e1d74c3434818b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/CMakeCache.txt": {
-    "mtime": 1788870774.9468553,
+    "mtime": 1789221550.5643847,
+    "seen": 1789234284.0315585,
     "ast_hash": "23bc535cc08594f0d32982e7a8dd6128",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
-    "mtime": 1788870774.988402,
+    "mtime": 1789221550.5703912,
+    "seen": 1789234284.0315604,
     "ast_hash": "2f9dc203b05a3b7dc86f8e356b9d4eab",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/CMakeCache.txt": {
-    "mtime": 1788870775.0445137,
+    "mtime": 1789221550.5763915,
+    "seen": 1789234284.0315626,
     "ast_hash": "ce3cade2cb07c9ae621bc5397f3c7767",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/TargetDirectories.txt": {
-    "mtime": 1788870775.0743563,
+    "mtime": 1789221550.5786498,
+    "seen": 1789234284.0315647,
     "ast_hash": "ac6729a5283b4cf309c99cd6c70db4ba",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate.dir/Labels.txt": {
-    "mtime": 1788870775.0843809,
+    "mtime": 1789221550.579657,
+    "seen": 1789234284.031567,
     "ast_hash": "598888f51086f3831ff94dc5f48c8d1a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/CMakeLists.txt": {
-    "mtime": 1788870775.0863793,
+    "mtime": 1789221550.5806563,
+    "seen": 1789234284.0315695,
     "ast_hash": "b74768024975c811ce3dcf652ff649fd",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-gitclone-lastrun.txt": {
-    "mtime": 1788870775.1086254,
+    "mtime": 1789221550.582657,
+    "seen": 1789234284.0315714,
     "ast_hash": "f898f20bce579ca39155aae7e6dff3ac",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-gitinfo.txt": {
-    "mtime": 1788870775.1106248,
+    "mtime": 1789221550.582657,
+    "seen": 1789234284.0315735,
     "ast_hash": "f898f20bce579ca39155aae7e6dff3ac",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/tmp/whispercpp-populate-cfgcmd.txt": {
-    "mtime": 1788870775.1181896,
+    "mtime": 1789221550.5836565,
+    "seen": 1789234284.0315754,
     "ast_hash": "e2a103f6ed0b893a23b31e7fe1d3e810",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/additional_project_files.txt": {
-    "mtime": 1788870775.1227121,
+    "mtime": 1789221550.5846553,
+    "seen": 1789234284.031577,
     "ast_hash": "d217338060a1c34896411bdf67ac76ff",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/build_file_index.txt": {
-    "mtime": 1788870775.1257064,
+    "mtime": 1789221550.58666,
+    "seen": 1789234284.031579,
     "ast_hash": "33f7f741cb737d310ec68425e2d43d15",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/metadata_generation_command.txt": {
-    "mtime": 1788870775.1307065,
+    "mtime": 1789221550.588656,
+    "seen": 1789234284.031581,
     "ast_hash": "eee98254c53967822a474423252220a9",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/arm64-v8a/symbol_folder_index.txt": {
-    "mtime": 1788870775.1317387,
+    "mtime": 1789221550.588656,
+    "seen": 1789234284.0315828,
     "ast_hash": "1fd7eef54a0b169d14bd4743904a3a80",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/1u21m3k1/hash_key.txt": {
-    "mtime": 1788870775.132746,
+    "mtime": 1789221550.5896578,
+    "seen": 1789234284.0315843,
     "ast_hash": "6641cb1ad371095e11b45ce8a62218a5",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeCache.txt": {
-    "mtime": 1788870775.1664648,
+    "mtime": 1789221550.5989876,
+    "seen": 1789234284.031586,
     "ast_hash": "0540796821bc84f5077592185590f61a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/CMakeFiles/TargetDirectories.txt": {
-    "mtime": 1788870775.1833766,
+    "mtime": 1789221550.6043563,
+    "seen": 1789234284.031588,
     "ast_hash": "490774321c45de9188a91f9aba6010ac",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeCache.txt": {
-    "mtime": 1788870775.5665338,
+    "mtime": 1789221550.845589,
+    "seen": 1789234284.03159,
     "ast_hash": "5021fece696d30d4296f7ff7cb12804a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/TargetDirectories.txt": {
-    "mtime": 1788870775.573059,
+    "mtime": 1789221550.8465896,
+    "seen": 1789234284.0315921,
     "ast_hash": "b91a43c8556043f0046793233893f41b",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeFiles/whispercpp-populate.dir/Labels.txt": {
-    "mtime": 1788870775.5782218,
+    "mtime": 1789221550.8485887,
+    "seen": 1789234284.0315945,
     "ast_hash": "160d2dab7e7a68b0f73eac0cda64dd1e",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/CMakeLists.txt": {
-    "mtime": 1788870775.5792174,
+    "mtime": 1789221550.8485887,
+    "seen": 1789234284.0315962,
     "ast_hash": "322413b599af9fb2b9b2e50cb806af10",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-gitclone-lastrun.txt": {
-    "mtime": 1788870775.5877392,
+    "mtime": 1789221550.8505905,
+    "seen": 1789234284.031598,
     "ast_hash": "f898f20bce579ca39155aae7e6dff3ac",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/src/whispercpp-populate-stamp/whispercpp-populate-gitinfo.txt": {
-    "mtime": 1788870775.5877392,
+    "mtime": 1789221550.8515892,
+    "seen": 1789234284.0315998,
     "ast_hash": "f898f20bce579ca39155aae7e6dff3ac",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/_deps/whispercpp-subbuild/whispercpp-populate-prefix/tmp/whispercpp-populate-cfgcmd.txt": {
-    "mtime": 1788870775.5932646,
+    "mtime": 1789221550.8525903,
+    "seen": 1789234284.0316017,
     "ast_hash": "e2a103f6ed0b893a23b31e7fe1d3e810",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/additional_project_files.txt": {
-    "mtime": 1788870775.5977921,
+    "mtime": 1789221550.8545897,
+    "seen": 1789234284.031603,
     "ast_hash": "cf435784de6ca9f7f1402ffb659265f1",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/build_file_index.txt": {
-    "mtime": 1788870775.601818,
+    "mtime": 1789221550.856591,
+    "seen": 1789234284.031605,
     "ast_hash": "5db4361d31ff7c853ac1d3c60f01da0f",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/metadata_generation_command.txt": {
-    "mtime": 1788870775.605821,
+    "mtime": 1789221550.8575904,
+    "seen": 1789234284.0316064,
     "ast_hash": "b0420541200c18a64fdfdcbdd6097f8a",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/arm64-v8a/symbol_folder_index.txt": {
-    "mtime": 1788870775.6078198,
+    "mtime": 1789221550.8575904,
+    "seen": 1789234284.0316083,
     "ast_hash": "f0f2b63ca41aa26cd91e505f165f7062",
     "semantic_hash": ""
   },
   "app/.cxx/Debug/3dm3b4h2/hash_key.txt": {
-    "mtime": 1788870775.608819,
+    "mtime": 1789221550.85859,
+    "seen": 1789234284.0316103,
     "ast_hash": "e92ef23e5b5ffac379376c4449e4a665",
     "semantic_hash": ""
   },
   "app/src/main/cpp/CMakeLists.txt": {
-    "mtime": 1788205579.1518104,
-    "ast_hash": "e1eea158012d682b0f9849f9ff0aa246",
+    "mtime": 1789221553.9702046,
+    "seen": 1789234284.0316124,
+    "ast_hash": "5ba3af3c4df1ae4db882a96013088188",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-02-v2-consultas-financeiro-agenda.md": {
-    "mtime": 1788363867.9119189,
+    "mtime": 1788471757.9517722,
+    "seen": 1789234284.0316143,
     "ast_hash": "e3f10d85a3b8f06c0305c302b54af0bc",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-03-android-studio-icons-warnings.md": {
-    "mtime": 1788434060.4907224,
+    "mtime": 1788471797.2885687,
+    "seen": 1789234284.0316157,
     "ast_hash": "9e7356ac40e948b49ae2f6d920a17a27",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-04-voz-segurar-intensidade.md": {
-    "mtime": 1788527314.9157014,
+    "mtime": 1788635392.9660883,
+    "seen": 1789234284.0316176,
     "ast_hash": "4cecf114e0a4a6a850aefc8b690ac637",
     "semantic_hash": ""
   },
   "docs/Modifications/Backlog_v2.md": {
-    "mtime": 1788361346.401127,
+    "mtime": 1788471757.9537776,
+    "seen": 1789234284.0316427,
     "ast_hash": "832bbef4ad082594c396e753c8c7b5fa",
     "semantic_hash": ""
   },
   "docs/Modifications/README.md": {
-    "mtime": 1788354752.6764917,
+    "mtime": 1788471757.9547794,
+    "seen": 1789234284.0316446,
     "ast_hash": "896b7380abfc0175dc036d1d96394e6c",
     "semantic_hash": ""
   },
   "docs/activation/README.md": {
-    "mtime": 1788870819.3588593,
+    "mtime": 1789221554.046084,
+    "seen": 1789234284.0316465,
     "ast_hash": "a3e5716d4d613be31f63620c6778dff1",
     "semantic_hash": ""
   },
   "docs/android/README.md": {
-    "mtime": 1788870819.3613806,
+    "mtime": 1789221554.046084,
+    "seen": 1789234284.0316484,
     "ast_hash": "52b0545b693421d9dfacbc058a1013f1",
     "semantic_hash": ""
   },
   "docs/database/README.md": {
-    "mtime": 1788870819.3623774,
-    "ast_hash": "ed0e4fb928bea311058cc9cd4627097e",
+    "mtime": 1789221554.0480833,
+    "seen": 1789234284.0316582,
+    "ast_hash": "e92b1b9f9d35b6ca1640627e92e4bc73",
     "semantic_hash": ""
   },
   "docs/extraction/README.md": {
-    "mtime": 1788870819.3633845,
-    "ast_hash": "3c82ce431ec8561ce27d67aa6e962f6b",
+    "mtime": 1789221554.0490842,
+    "seen": 1789234284.0316603,
+    "ast_hash": "e4f55e2605817a4c5f7060a43560210c",
     "semantic_hash": ""
   },
   "docs/speech/README.md": {
-    "mtime": 1788870819.3633845,
+    "mtime": 1789221554.0490842,
+    "seen": 1789234284.031662,
     "ast_hash": "6c9b17eb44b20f4f744e88591cc88de0",
     "semantic_hash": ""
   },
   "docs/ui/README.md": {
-    "mtime": 1788870819.364384,
-    "ast_hash": "d6c3c82889b43d4ffabcb0c2baec465b",
+    "mtime": 1789221554.0500896,
+    "seen": 1789234284.0316641,
+    "ast_hash": "375729af1aaa51d91536ba46f9096dbb",
     "semantic_hash": ""
   },
   "tools/license-generator/README.md": {
-    "mtime": 1788279740.6995127,
+    "mtime": 1788340184.1387227,
+    "seen": 1789234284.031669,
     "ast_hash": "e37fefc0f5e33ea9ccba30624f0beb96",
     "semantic_hash": ""
   },
   "tools/speech-model/README.md": {
-    "mtime": 1788527324.8942926,
+    "mtime": 1788635393.0191243,
+    "seen": 1789234284.0316708,
     "ast_hash": "32c8a86cfc485150e3aaddc623358934",
     "semantic_hash": ""
   },
   "docs/ui/mockups/activation.png": {
-    "mtime": 1788286753.9013736,
+    "mtime": 1788340183.8661356,
+    "seen": 1789234284.0316732,
     "ast_hash": "a59459c64ae4bd8de84739a9001a3679",
     "semantic_hash": ""
   },
   "docs/ui/mockups/agenda-form.png": {
-    "mtime": 1788363771.2265484,
-    "ast_hash": "ac307af7261d78663e18e96e855e5c0a",
+    "mtime": 1789221554.055082,
+    "seen": 1789234284.0316749,
+    "ast_hash": "5f55de44d694a5783318b7d65425aa28",
     "semantic_hash": ""
   },
   "docs/ui/mockups/agenda-list.png": {
-    "mtime": 1788363771.1941707,
-    "ast_hash": "b1d591a889a8176750b248a4f3a63193",
+    "mtime": 1789221554.0570898,
+    "seen": 1789234284.031677,
+    "ast_hash": "526d6f41cebbbb4e8f825ba3a7bd3352",
     "semantic_hash": ""
   },
   "docs/ui/mockups/cadastros-hub.png": {
-    "mtime": 1788363771.0280309,
-    "ast_hash": "c8dbbd5ab3f3e1eb001f1264d4442bab",
+    "mtime": 1789221554.0612514,
+    "seen": 1789234284.0316787,
+    "ast_hash": "f9baf7270dc6586bc5561dbd74ee3c19",
     "semantic_hash": ""
   },
   "docs/ui/mockups/cliente-form-editar.png": {
-    "mtime": 1788286754.1176329,
-    "ast_hash": "8ff503b34737973852569e83de449a79",
+    "mtime": 1789221554.0662537,
+    "seen": 1789234284.0316803,
+    "ast_hash": "9a304e25759b6ce416c1acd40cc04255",
     "semantic_hash": ""
   },
   "docs/ui/mockups/cliente-form-novo.png": {
-    "mtime": 1788286754.0819938,
-    "ast_hash": "dc17b0342faa37017c1b12fd08e86a99",
+    "mtime": 1789221554.0672526,
+    "seen": 1789234284.031683,
+    "ast_hash": "631ee56d4b0f89ceaa7bcb2663886b22",
     "semantic_hash": ""
   },
   "docs/ui/mockups/clientes-list.png": {
-    "mtime": 1788286754.042544,
-    "ast_hash": "0c3ef0fe814c211a540578f7a92a7398",
+    "mtime": 1789221554.0722506,
+    "seen": 1789234284.0316849,
+    "ast_hash": "732661e9a16820d62f214d7be4b2a6c3",
     "semantic_hash": ""
   },
   "docs/ui/mockups/compra-form-editar.png": {
-    "mtime": 1788286754.6585398,
-    "ast_hash": "c51498ad96e82dd07158820a76f5de76",
+    "mtime": 1789221554.0772529,
+    "seen": 1789234284.031687,
+    "ast_hash": "2c35c1c453a5e82d7d58e45fcc29a02e",
     "semantic_hash": ""
   },
   "docs/ui/mockups/compra-form-novo.png": {
-    "mtime": 1788363771.3237796,
-    "ast_hash": "f5f708852bf3d4ebf67afb7429ac56db",
+    "mtime": 1789221554.0822563,
+    "seen": 1789234284.031689,
+    "ast_hash": "a381463b9a79a4ebe75288c4fa24d6fd",
     "semantic_hash": ""
   },
   "docs/ui/mockups/compras-list.png": {
-    "mtime": 1788286754.5875225,
-    "ast_hash": "6bc71ce4be05636ce485cd17c9de88b7",
+    "mtime": 1789221554.0862472,
+    "seen": 1789234284.031691,
+    "ast_hash": "6a4e5d2c18e052cb36461c6560f4f156",
     "semantic_hash": ""
   },
   "docs/ui/mockups/consultas-estoque.png": {
-    "mtime": 1788363771.0625622,
-    "ast_hash": "2327ccddd1fd20d7dbd8c14f333b53ed",
+    "mtime": 1789221554.0872483,
+    "seen": 1789234284.0316942,
+    "ast_hash": "27a8e7c0ac57b788e5c354ab6b75d24a",
     "semantic_hash": ""
   },
   "docs/ui/mockups/consultas-receber.png": {
-    "mtime": 1788363771.1303418,
-    "ast_hash": "441d739a69c2682dcba47e770b7298e7",
+    "mtime": 1789221554.093836,
+    "seen": 1789234284.0316994,
+    "ast_hash": "900234c5d8fb59c61fbe521fd399d764",
     "semantic_hash": ""
   },
   "docs/ui/mockups/consultas-vendas.png": {
-    "mtime": 1788363771.0965102,
-    "ast_hash": "033a016c19ffaeb33897d4c59fae06eb",
+    "mtime": 1789221554.0978312,
+    "seen": 1789234284.031701,
+    "ast_hash": "0508af9ed6ca60490f39cddbb863e1b5",
     "semantic_hash": ""
   },
   "docs/ui/mockups/estoque-detalhe.png": {
-    "mtime": 1788363771.1618614,
-    "ast_hash": "e8ad04f88de3d90fb431e4efccff1a57",
+    "mtime": 1789221554.100836,
+    "seen": 1789234284.0317066,
+    "ast_hash": "4d94a87a20996b45b4f5a8561a3e030f",
     "semantic_hash": ""
   },
   "docs/ui/mockups/fornecedor-form-editar.png": {
-    "mtime": 1788286754.2201536,
-    "ast_hash": "3831aede9c8f6e18f800b6be70da4546",
+    "mtime": 1789221554.1065738,
+    "seen": 1789234284.0317104,
+    "ast_hash": "241e1c2edacbd7da6dbcef789856d867",
     "semantic_hash": ""
   },
   "docs/ui/mockups/fornecedor-form-novo.png": {
-    "mtime": 1788286754.1851537,
-    "ast_hash": "224f64688af4c8113c78a65fa8542c43",
+    "mtime": 1789221554.1115634,
+    "seen": 1789234284.0317125,
+    "ast_hash": "c0c5f8d4e4c3d5af778979f67b09713b",
     "semantic_hash": ""
   },
   "docs/ui/mockups/fornecedores-list.png": {
-    "mtime": 1788286754.1516309,
-    "ast_hash": "0e6e89039a75cf07d668d460b68be388",
+    "mtime": 1789221554.116562,
+    "seen": 1789234284.0317142,
+    "ast_hash": "52c4a6e2c8e84fb4dc1ae48b9ee7519a",
     "semantic_hash": ""
   },
   "docs/ui/mockups/grupo-form-editar.png": {
-    "mtime": 1788286754.3330557,
-    "ast_hash": "7e1e3952cb79cedf8faa279ff42769e2",
+    "mtime": 1789221554.1218941,
+    "seen": 1789234284.031716,
+    "ast_hash": "a809148a523a451d2df148ce242dbb5d",
     "semantic_hash": ""
   },
   "docs/ui/mockups/grupo-form-novo.png": {
-    "mtime": 1788286754.2972066,
-    "ast_hash": "cd6456b08529f80b553aaffc6836668b",
+    "mtime": 1789221554.125903,
+    "seen": 1789234284.0317175,
+    "ast_hash": "ebe652e7e4087546744360ae804b7e2a",
     "semantic_hash": ""
   },
   "docs/ui/mockups/grupos-list.png": {
-    "mtime": 1788286754.2581635,
-    "ast_hash": "302f7db131cc32de7e4d8f8732109561",
+    "mtime": 1789221554.1309047,
+    "seen": 1789234284.0317192,
+    "ast_hash": "3b0e46f89819105e775a3d43d5da5261",
     "semantic_hash": ""
   },
   "docs/ui/mockups/home.png": {
-    "mtime": 1788363770.9938016,
-    "ast_hash": "57358da69ae0bf6181c854141eb9d767",
+    "mtime": 1789221554.1459029,
+    "seen": 1789234284.0317206,
+    "ast_hash": "27582eee568af8c4c80cf832c2765c27",
     "semantic_hash": ""
   },
   "docs/ui/mockups/produto-form-editar.png": {
-    "mtime": 1788286754.4382825,
-    "ast_hash": "792a1e9e310041c9dbbca1a61a2f0122",
+    "mtime": 1789221554.148909,
+    "seen": 1789234284.0317245,
+    "ast_hash": "3c8d1f2e406cbad8522bc10331c8308f",
     "semantic_hash": ""
   },
   "docs/ui/mockups/produto-form-novo.png": {
-    "mtime": 1788286754.4052818,
-    "ast_hash": "770169e6239de57fcc74e023b230fcf1",
+    "mtime": 1789221554.1509027,
+    "seen": 1789234284.0317266,
+    "ast_hash": "a4b70a6ae7f4b7277d84df4b599c97f5",
     "semantic_hash": ""
   },
   "docs/ui/mockups/produtos-list.png": {
-    "mtime": 1788286754.3690567,
-    "ast_hash": "5d787acc62dbcba5a59723c0ecbe9a1f",
+    "mtime": 1789221554.1569018,
+    "seen": 1789234284.031728,
+    "ast_hash": "29cf2a66ed9a7a394e3a8cccd9b463cd",
     "semantic_hash": ""
   },
   "docs/ui/mockups/venda-form-editar.png": {
-    "mtime": 1788286754.5490046,
-    "ast_hash": "5e1431c00637042229d8ecf69e5331f8",
+    "mtime": 1789221554.158902,
+    "seen": 1789234284.0317316,
+    "ast_hash": "b31bf743311fb773f6ae1faab3047e49",
     "semantic_hash": ""
   },
   "docs/ui/mockups/venda-form-novo.png": {
-    "mtime": 1788363771.2904062,
-    "ast_hash": "dc29ee0f84bf74d5e846ba5b6c24f604",
+    "mtime": 1789221554.159902,
+    "seen": 1789234284.0317335,
+    "ast_hash": "7d113516a9ec5542d4fb4d5fff90b2a8",
     "semantic_hash": ""
   },
   "docs/ui/mockups/vendas-list.png": {
-    "mtime": 1788286754.4738052,
-    "ast_hash": "a92b6758b56334bd7dac028ab7a61b85",
+    "mtime": 1789221554.1669009,
+    "seen": 1789234284.0317352,
+    "ast_hash": "8cbfa3946697be598adae846c0e4e607",
     "semantic_hash": ""
   },
   "docs/ui/mockups/voice-recording.png": {
-    "mtime": 1788525403.06472,
-    "ast_hash": "f963be5ee831d3d5611096f149c08bc6",
+    "mtime": 1789221554.1729016,
+    "seen": 1789234284.031737,
+    "ast_hash": "5ed416627876143202fbbb1e58309f76",
     "semantic_hash": ""
   },
   "docs/ui/mockups/voice-review-sheet.png": {
-    "mtime": 1788363771.259391,
-    "ast_hash": "031ba7967808bcaad6f1e4fb2ef25c8c",
+    "mtime": 1789221554.1739008,
+    "seen": 1789234284.0317385,
+    "ast_hash": "ba87660b4cf843ad52570c99a3ad4ea2",
     "semantic_hash": ""
   },
   "docs/ui/mockups/voice-transcribing.png": {
-    "mtime": 1788525403.102311,
-    "ast_hash": "28989f26d2990bbf328208b0b4ad2f73",
+    "mtime": 1789221554.1788995,
+    "seen": 1789234284.03174,
+    "ast_hash": "1e96ea3a6961f083481a379bf8aa178c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/GroqSpeechConstants.kt": {
-    "mtime": 1788870819.318768,
+    "mtime": 1789221553.9782064,
+    "seen": 1789234284.0310488,
     "ast_hash": "7012a72298ba0388eb913618d4f55dc9",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WavWriter.kt": {
-    "mtime": 1788870819.3212812,
+    "mtime": 1789221553.9802036,
+    "seen": 1789234284.0310829,
     "ast_hash": "989b13581098e509953dd73a48828706",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/settings/AppSettingsLocalDataSource.kt": {
-    "mtime": 1788870819.3222802,
-    "ast_hash": "0da9918c187bd4fb9dbe48f2114335b5",
+    "mtime": 1789221553.9902089,
+    "seen": 1789234284.0311909,
+    "ast_hash": "91a17e2aeaf150256e3c45b03d2150ce",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqConfig.kt": {
-    "mtime": 1788870819.325289,
+    "mtime": 1789221553.9912066,
+    "seen": 1789234284.0311978,
     "ast_hash": "ca97ec8943630178115494e5298f4c96",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqWhisperClient.kt": {
-    "mtime": 1788870819.325289,
+    "mtime": 1789221553.9912066,
+    "seen": 1789234284.0311997,
     "ast_hash": "d02efb051518f5c4dba8238f30978bcd",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/AppSettingsRepository.kt": {
-    "mtime": 1788870819.3262873,
-    "ast_hash": "15c3a28b15c30191f5e601eefe2ba4aa",
+    "mtime": 1789221553.9922094,
+    "seen": 1789234284.0312037,
+    "ast_hash": "9874416166d3dbc64ead970a96997160",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/NetworkModule.kt": {
-    "mtime": 1788870819.3292897,
+    "mtime": 1789221554.0002146,
+    "seen": 1789234284.0312405,
     "ast_hash": "8a87512d4ed883086c03420a4bf12b5d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/TranscriptionProvider.kt": {
-    "mtime": 1788870819.3313353,
+    "mtime": 1789221554.0038147,
+    "seen": 1789234284.0312726,
     "ast_hash": "962b5e7f990f2e62395b10b5b782808b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsScreen.kt": {
-    "mtime": 1788870819.3410518,
-    "ast_hash": "38f7afd629245bddc2e2711e58a3682a",
+    "mtime": 1789222657.2751434,
+    "seen": 1789234284.0314188,
+    "ast_hash": "6d4950f4b9bad5a313fb978e5575d4fe",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsUiState.kt": {
-    "mtime": 1788870819.342061,
-    "ast_hash": "5328a85a1a26ca2503de686696b76869",
+    "mtime": 1789221554.0240586,
+    "seen": 1789234284.0314214,
+    "ast_hash": "9dced4c7c6425c0612bd57b6a7c059c7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsViewModel.kt": {
-    "mtime": 1788870819.343069,
-    "ast_hash": "650d9125d1f1e4d619decf21a4de7064",
+    "mtime": 1789221554.0250583,
+    "seen": 1789234284.0314236,
+    "ast_hash": "7835525adc28dc9efd847defbf1617f7",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/WavWriterTest.kt": {
-    "mtime": 1788870819.3508873,
+    "mtime": 1789221554.034057,
+    "seen": 1789234284.0314841,
     "ast_hash": "87753867c139abaca503a757c288ac9d",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/remote/groq/GroqWhisperClientTest.kt": {
-    "mtime": 1788870819.3528953,
+    "mtime": 1789221554.0370586,
+    "seen": 1789234284.031497,
     "ast_hash": "f8b522d9389561d6fc6a55ccfdbb029c",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-07-config-transcricao-groq.md": {
-    "mtime": 1788870819.3578577,
+    "mtime": 1789221554.0410774,
+    "seen": 1789234284.0316215,
     "ast_hash": "1144cd9edca6677c7347f5cfe891eb46",
     "semantic_hash": ""
   },
   "docs/ui/mockups/settings.png": {
-    "mtime": 1788870819.3788042,
-    "ast_hash": "14262aaba774321204544d996a8b3535",
+    "mtime": 1789221554.1569018,
+    "seen": 1789234284.0317302,
+    "ast_hash": "5b76ddf928eaca9fbc92a41ecd12f435",
     "semantic_hash": ""
   },
   ".artifacts/668b71ff-abff-4506-a9cd-3df00ab4b22e/implementation_plan.artifact.md": {
-    "mtime": 1788870763.9141626,
+    "mtime": 1789221550.4864,
+    "seen": 1789234284.0315473,
     "ast_hash": "4da43be8c5e5b8360ca2623ca058f7bf",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-07-correcao-erros-ide.md": {
-    "mtime": 1788870819.3588593,
+    "mtime": 1789221554.0420861,
+    "seen": 1789234284.0316231,
     "ast_hash": "7426141f5139df71bf75f529b8ae9429",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-08-agenda-chip-1-dia-antes.md": {
-    "mtime": 1788871686.3224688,
+    "mtime": 1789221554.0420861,
+    "seen": 1789234284.031625,
     "ast_hash": "8323c9c8eead66736845034f1207cd2a",
     "semantic_hash": ""
   },
   "tmp/Form agenda.jpeg": {
-    "mtime": 1788871350.7362478,
+    "mtime": 1789221554.3386908,
+    "seen": 1789234284.0317419,
     "ast_hash": "16fa4ce9b93e477b6a17b97ba9a87bdf",
+    "semantic_hash": ""
+  },
+  "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/4.json": {
+    "mtime": 1789222212.6548326,
+    "seen": 1789234284.030976,
+    "ast_hash": "abf392add9c7c21b5f70b5ee4510da00",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/extraction/NomeTelefoneParser.kt": {
+    "mtime": 1789221553.9732027,
+    "seen": 1789234284.0309927,
+    "ast_hash": "f968159025ff6fe7fb2786e4f289c790",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/extraction/SpokenLeadIn.kt": {
+    "mtime": 1789221553.9742029,
+    "seen": 1789234284.0310009,
+    "ast_hash": "69dfc7a09a1b0261f6de02547822a6dd",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisAlarmReceiver.kt": {
+    "mtime": 1789221553.9762084,
+    "seen": 1789234284.031019,
+    "ast_hash": "cc387b5e1bdf0380f254002674c60964",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisMorningScheduler.kt": {
+    "mtime": 1789221553.9762084,
+    "seen": 1789234284.0310218,
+    "ast_hash": "662ce5093d4b8417d706e9e4972c2720",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisNotifications.kt": {
+    "mtime": 1789221553.9772048,
+    "seen": 1789234284.0310235,
+    "ast_hash": "8f54f3c104c6fb75613ac62629a0e35e",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/speech/SilenceTrimmer.kt": {
+    "mtime": 1789221553.9782064,
+    "seen": 1789234284.0310552,
+    "ast_hash": "54dad1bf5d5af60fa73dfe992b1a45ca",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/speech/SttDiagnostics.kt": {
+    "mtime": 1789221553.9792032,
+    "seen": 1789234284.0310702,
+    "ast_hash": "6d50a15f4237e44010bd90957dd5a655",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/speech/WhisperDecodeParams.kt": {
+    "mtime": 1789221553.9802036,
+    "seen": 1789234284.0310867,
+    "ast_hash": "2c3f0642ea9a0591bcf09e19e667d05d",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/time/MonthCalendar.kt": {
+    "mtime": 1789221553.9812102,
+    "seen": 1789234284.0310922,
+    "ast_hash": "35b59082ae657ad6fc8062e3f8899141",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/core/time/RipeningClock.kt": {
+    "mtime": 1789221553.9822078,
+    "seen": 1789234284.0310962,
+    "ast_hash": "9c90d860022631ace685284d22acc9c2",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/backup/BackupManifest.kt": {
+    "mtime": 1789221553.983209,
+    "seen": 1789234284.0311007,
+    "ast_hash": "d6a8c26aa929fc2cd338f235db13efa5",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabaseHolder.kt": {
+    "mtime": 1789221553.9842012,
+    "seen": 1789234284.0311067,
+    "ast_hash": "f4b59b997bc42b8808248588669e8e6e",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/dao/LoteDao.kt": {
+    "mtime": 1789221553.9852097,
+    "seen": 1789234284.0311344,
+    "ast_hash": "65a212a03499ffcd3182cc1c966f7b50",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/dao/PerecivelDaos.kt": {
+    "mtime": 1789221553.98621,
+    "seen": 1789234284.0311394,
+    "ast_hash": "1add8c43ef68ae51a486a9dd507bac19",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/entity/EncomendaEntity.kt": {
+    "mtime": 1789221553.9872088,
+    "seen": 1789234284.031156,
+    "ast_hash": "f34598a1fc6d4e65cdef2f7bcb75f542",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/entity/LoteEntity.kt": {
+    "mtime": 1789221553.9872088,
+    "seen": 1789234284.0311656,
+    "ast_hash": "f26f38aedfdd43e43d2eef1ffd77fd6b",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/entity/PerecivelEntities.kt": {
+    "mtime": 1789221553.9882088,
+    "seen": 1789234284.0311706,
+    "ast_hash": "f07bfd4d0beb2603164d3423d5c35662",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/local/relation/EncomendaWithItems.kt": {
+    "mtime": 1789221553.9892087,
+    "seen": 1789234284.0311863,
+    "ast_hash": "1410d8744597f2ad671ae8073ece2c46",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/repository/DatabaseBackupRepository.kt": {
+    "mtime": 1789221553.9942071,
+    "seen": 1789234284.03121,
+    "ast_hash": "70baf40a4fd3e25b05099307886c141c",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/repository/EncomendaRepository.kt": {
+    "mtime": 1789221553.9952083,
+    "seen": 1789234284.0312145,
+    "ast_hash": "d05b329f96005d42450aa86cae651bc7",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/data/repository/LoteRepository.kt": {
+    "mtime": 1789221553.9982083,
+    "seen": 1789234284.0312283,
+    "ast_hash": "1f1368d32f5e5d79fecbff68fad3ad0a",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/domain/exception/BackupExceptions.kt": {
+    "mtime": 1789221554.0012145,
+    "seen": 1789234284.0312512,
+    "ast_hash": "01eab15140a2e831d3ec54b5faa6fdb7",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/domain/model/PereciveisModels.kt": {
+    "mtime": 1789221554.003208,
+    "seen": 1789234284.0312662,
+    "ast_hash": "7520fcf5c82f643316ae46fa69f8d868",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/domain/model/ThemeMode.kt": {
+    "mtime": 1789221554.003208,
+    "seen": 1789234284.0312684,
+    "ast_hash": "8ba210611bd604b3d7686a28b6592ec5",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/common/PereciveisUi.kt": {
+    "mtime": 1789221554.0138228,
+    "seen": 1789234284.0313632,
+    "ast_hash": "083350c130d14f6317884dda630c6bdf",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt": {
+    "mtime": 1789221554.0208225,
+    "seen": 1789234284.0314066,
+    "ast_hash": "cebd9c8c73e99f5ee6a59f5c0c827f9d",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormViewModel.kt": {
+    "mtime": 1789221554.0208225,
+    "seen": 1789234284.0314083,
+    "ast_hash": "9bebeb443237614c700b204bb55b9287",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/etileno/EtilenoFilaScreen.kt": {
+    "mtime": 1789221554.0220509,
+    "seen": 1789234284.0314107,
+    "ast_hash": "29a85983acd9e752b0111e3687cf5460",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/etileno/EtilenoFilaViewModel.kt": {
+    "mtime": 1789221554.0220509,
+    "seen": 1789234284.0314128,
+    "ast_hash": "c250bf75ecfde6f5aec7e7998d41e8d9",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/perda/PerdaFormScreen.kt": {
+    "mtime": 1789221554.023057,
+    "seen": 1789234284.0314147,
+    "ast_hash": "7204afebd319c139d77ff0b87073f635",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/pereciveis/perda/PerdaFormViewModel.kt": {
+    "mtime": 1789221554.023057,
+    "seen": 1789234284.0314167,
+    "ast_hash": "c619492a4819dd7dc2dcb36c9f55e77e",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/PereciveisIntegrationTest.kt": {
+    "mtime": 1789221554.0330598,
+    "seen": 1789234284.0314612,
+    "ast_hash": "9d8df2085fb217a8feda96a9152cbb0f",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/TestRepositories.kt": {
+    "mtime": 1789221554.0330598,
+    "seen": 1789234284.031463,
+    "ast_hash": "c1f98c796f61180bc3735a582e808245",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/core/speech/SilenceTrimmerTest.kt": {
+    "mtime": 1789221554.034057,
+    "seen": 1789234284.0314798,
+    "ast_hash": "8a4d142f1ff839ee1ec3569c6b09693c",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/core/time/MonthCalendarTest.kt": {
+    "mtime": 1789221554.0350578,
+    "seen": 1789234284.0314863,
+    "ast_hash": "57948250fba11ea9df8ed80877a35461",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/core/time/RipeningClockTest.kt": {
+    "mtime": 1789221554.0350578,
+    "seen": 1789234284.0314903,
+    "ast_hash": "db66696fd5bae8efed4bf15a39b07a04",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/data/backup/BackupManifestTest.kt": {
+    "mtime": 1789221554.0360591,
+    "seen": 1789234284.0314922,
+    "ast_hash": "71845c5102363a17079359b258698797",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/data/backup/DatabaseBackupRepositoryTest.kt": {
+    "mtime": 1789221554.0360591,
+    "seen": 1789234284.0314946,
+    "ast_hash": "3e8255a5afd5756eb1ff40f181f84410",
+    "semantic_hash": ""
+  },
+  "app/src/test/java/br/com/banavita/app/data/repository/AppSettingsRepositoryTest.kt": {
+    "mtime": 1789221554.0380595,
+    "seen": 1789234284.0315013,
+    "ast_hash": "1d7ecb85aded33f321da5325e56a4862",
+    "semantic_hash": ""
+  },
+  ".agents/rules/modifications-log.md": {
+    "mtime": 1788806139.6813397,
+    "seen": 1789234284.0315413,
+    "ast_hash": "b170963f0593b32707dc43e40f22f8da",
+    "semantic_hash": ""
+  },
+  ".agents/rules/ui-mockups.md": {
+    "mtime": 1788806150.9299052,
+    "seen": 1789234284.031543,
+    "ast_hash": "c7e908db0d79d01bbba89d3ce244bae7",
+    "semantic_hash": ""
+  },
+  ".agents/skills/android-modern-stack/SKILL.md": {
+    "mtime": 1788806158.6594436,
+    "seen": 1789234284.0315452,
+    "ast_hash": "75486f3efd914473d6b973fc8173c184",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1788806129.5041726,
+    "seen": 1789234284.0315518,
+    "ast_hash": "198842622b3c765495901191e974d163",
+    "semantic_hash": ""
+  },
+  "GEMINI.md": {
+    "mtime": 1788806120.6554425,
+    "seen": 1789234284.0315542,
+    "ast_hash": "3ab0b82a4b5796df60aea5fd585bfac4",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-08-config-exportar-restaurar.md": {
+    "mtime": 1789221554.0420861,
+    "seen": 1789234284.031627,
+    "ast_hash": "2e941bfee41a4cb3adf9c0c8565e6d0d",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-08-extracao-nome-telefone.md": {
+    "mtime": 1789221554.0430849,
+    "seen": 1789234284.0316286,
+    "ast_hash": "a9209de61363150d4aaeceabd3137131",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-10-agenda-calendario-mes.md": {
+    "mtime": 1789221554.0430849,
+    "seen": 1789234284.03163,
+    "ast_hash": "bfb67af281e55ed0f729deabc63ff60a",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-10-config-tema-dark-light.md": {
+    "mtime": 1789221554.0430849,
+    "seen": 1789234284.031632,
+    "ast_hash": "be8668d36db351ffa1904972cdc63326",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-10-whisper-tiny-offline-otimizacao.md": {
+    "mtime": 1789221554.0440874,
+    "seen": 1789234284.0316336,
+    "ast_hash": "91a37626e431163a4f30e43432b6d50d",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-11-icone-configuracoes-todas-telas.md": {
+    "mtime": 1789221554.0440874,
+    "seen": 1789234284.0316353,
+    "ast_hash": "bb5dfc421dc68525317adeee731aad2a",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-11-padroes-audio-extracao.md": {
+    "mtime": 1789221554.0450878,
+    "seen": 1789234284.0316372,
+    "ast_hash": "0ad3e1f238979d55780bc6e45d8d4550",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-11-v3-estoque-pereciveis.md": {
+    "mtime": 1789221554.0450878,
+    "seen": 1789234284.031639,
+    "ast_hash": "02e94513a934927958280975383c5fec",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-12-fix-room-migration-crash.md": {
+    "mtime": 1789223969.7603958,
+    "seen": 1789234284.0316405,
+    "ast_hash": "3d64df3f5f72cf83039dee6f3707dba2",
+    "semantic_hash": ""
+  },
+  "docs/android/prompt-agenda-calendario-mes.md": {
+    "mtime": 1789221554.0470908,
+    "seen": 1789234284.0316503,
+    "ast_hash": "a90e083d40893dcc1618945b9978d0b6",
+    "semantic_hash": ""
+  },
+  "docs/android/prompt-configuracoes-exportar-restaurar.md": {
+    "mtime": 1789221554.0470908,
+    "seen": 1789234284.0316522,
+    "ast_hash": "d37a1ab0ced522683b207dceb8fb93ff",
+    "semantic_hash": ""
+  },
+  "docs/android/prompt-padroes-audio-por-tela.md": {
+    "mtime": 1789221554.0480833,
+    "seen": 1789234284.0316544,
+    "ast_hash": "d8fa5512948ee692f2193433b67e6586",
+    "semantic_hash": ""
+  },
+  "docs/android/prompt-v3-estoque-pereciveis.md": {
+    "mtime": 1789221554.0480833,
+    "seen": 1789234284.0316563,
+    "ast_hash": "7d679a975bce5b2a4977c7654f1d1a59",
+    "semantic_hash": ""
+  },
+  "tmp/Plano de otimiza\u00e7\u00e3o - Whisper Tiny offline.md": {
+    "mtime": 1789221554.339694,
+    "seen": 1789234284.031667,
+    "ast_hash": "8c1045b12239e7caf21c1ab52f68ad2d",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/consultas-encomendas.png": {
+    "mtime": 1789221554.0872483,
+    "seen": 1789234284.0316925,
+    "ast_hash": "c92e7d02e8c63d5cb4573dffddb881b7",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/consultas-perdas.png": {
+    "mtime": 1789221554.0892496,
+    "seen": 1789234284.0316958,
+    "ast_hash": "52e3210f4bc53d8ec65644c94f049afb",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/consultas-previsao.png": {
+    "mtime": 1789221554.0902543,
+    "seen": 1789234284.0316978,
+    "ast_hash": "b748b511d6cd95d03a57270fb07d8e25",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/encomenda-form-editar.png": {
+    "mtime": 1789221554.098834,
+    "seen": 1789234284.0317025,
+    "ast_hash": "83a85520ac4a567a07173006203e88cb",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/encomenda-form.png": {
+    "mtime": 1789221554.0998337,
+    "seen": 1789234284.0317047,
+    "ast_hash": "a320c94b01e1014e98599fa4a63df791",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/etileno-fila.png": {
+    "mtime": 1789221554.1018386,
+    "seen": 1789234284.0317085,
+    "ast_hash": "fa007105ac4e0cf02474ac38b6bf5dad",
+    "semantic_hash": ""
+  },
+  "docs/ui/mockups/perda-form.png": {
+    "mtime": 1789221554.1469035,
+    "seen": 1789234284.0317225,
+    "ast_hash": "73b4e396e51a1f67d392bbe18a06e691",
     "semantic_hash": ""
   }
 }

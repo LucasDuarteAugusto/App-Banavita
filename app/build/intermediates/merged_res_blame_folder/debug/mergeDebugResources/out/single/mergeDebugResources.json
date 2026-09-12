@@ -20,6 +20,10 @@
         "source": "br.com.banavita.app-main-64:/drawable/ic_local_shipping.xml"
     },
     {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_chevron_right.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_chevron_right.xml"
+    },
+    {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_event.xml.flat",
         "source": "br.com.banavita.app-main-64:/drawable/ic_event.xml"
     },
@@ -42,6 +46,10 @@
     {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_inventory.xml.flat",
         "source": "br.com.banavita.app-main-64:/drawable/ic_inventory.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_chevron_left.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_chevron_left.xml"
     },
     {
         "merged": "br.com.banavita.app-debug-62:/drawable_ic_mic.xml.flat",

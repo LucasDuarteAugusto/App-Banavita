@@ -3,9 +3,11 @@ package br.com.banavita.app.ui.consultas;
 import androidx.lifecycle.SavedStateHandle;
 import br.com.banavita.app.data.repository.ClienteRepository;
 import br.com.banavita.app.data.repository.CompraRepository;
+import br.com.banavita.app.data.repository.EncomendaRepository;
 import br.com.banavita.app.data.repository.EstoqueRepository;
 import br.com.banavita.app.data.repository.FinanceiroRepository;
 import br.com.banavita.app.data.repository.FornecedorRepository;
+import br.com.banavita.app.data.repository.LoteRepository;
 import br.com.banavita.app.data.repository.ProdutoRepository;
 import br.com.banavita.app.data.repository.VendaRepository;
 import dagger.internal.DaggerGenerated;
@@ -47,6 +49,10 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
 
   private final Provider<FinanceiroRepository> financeiroRepositoryProvider;
 
+  private final Provider<LoteRepository> loteRepositoryProvider;
+
+  private final Provider<EncomendaRepository> encomendaRepositoryProvider;
+
   public ConsultasViewModel_Factory(Provider<SavedStateHandle> savedStateHandleProvider,
       Provider<EstoqueRepository> estoqueRepositoryProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
@@ -54,7 +60,9 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
       Provider<CompraRepository> compraRepositoryProvider,
       Provider<ClienteRepository> clienteRepositoryProvider,
       Provider<FornecedorRepository> fornecedorRepositoryProvider,
-      Provider<FinanceiroRepository> financeiroRepositoryProvider) {
+      Provider<FinanceiroRepository> financeiroRepositoryProvider,
+      Provider<LoteRepository> loteRepositoryProvider,
+      Provider<EncomendaRepository> encomendaRepositoryProvider) {
     this.savedStateHandleProvider = savedStateHandleProvider;
     this.estoqueRepositoryProvider = estoqueRepositoryProvider;
     this.produtoRepositoryProvider = produtoRepositoryProvider;
@@ -63,11 +71,13 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
     this.clienteRepositoryProvider = clienteRepositoryProvider;
     this.fornecedorRepositoryProvider = fornecedorRepositoryProvider;
     this.financeiroRepositoryProvider = financeiroRepositoryProvider;
+    this.loteRepositoryProvider = loteRepositoryProvider;
+    this.encomendaRepositoryProvider = encomendaRepositoryProvider;
   }
 
   @Override
   public ConsultasViewModel get() {
-    return newInstance(savedStateHandleProvider.get(), estoqueRepositoryProvider.get(), produtoRepositoryProvider.get(), vendaRepositoryProvider.get(), compraRepositoryProvider.get(), clienteRepositoryProvider.get(), fornecedorRepositoryProvider.get(), financeiroRepositoryProvider.get());
+    return newInstance(savedStateHandleProvider.get(), estoqueRepositoryProvider.get(), produtoRepositoryProvider.get(), vendaRepositoryProvider.get(), compraRepositoryProvider.get(), clienteRepositoryProvider.get(), fornecedorRepositoryProvider.get(), financeiroRepositoryProvider.get(), loteRepositoryProvider.get(), encomendaRepositoryProvider.get());
   }
 
   public static ConsultasViewModel_Factory create(
@@ -78,15 +88,18 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
       Provider<CompraRepository> compraRepositoryProvider,
       Provider<ClienteRepository> clienteRepositoryProvider,
       Provider<FornecedorRepository> fornecedorRepositoryProvider,
-      Provider<FinanceiroRepository> financeiroRepositoryProvider) {
-    return new ConsultasViewModel_Factory(savedStateHandleProvider, estoqueRepositoryProvider, produtoRepositoryProvider, vendaRepositoryProvider, compraRepositoryProvider, clienteRepositoryProvider, fornecedorRepositoryProvider, financeiroRepositoryProvider);
+      Provider<FinanceiroRepository> financeiroRepositoryProvider,
+      Provider<LoteRepository> loteRepositoryProvider,
+      Provider<EncomendaRepository> encomendaRepositoryProvider) {
+    return new ConsultasViewModel_Factory(savedStateHandleProvider, estoqueRepositoryProvider, produtoRepositoryProvider, vendaRepositoryProvider, compraRepositoryProvider, clienteRepositoryProvider, fornecedorRepositoryProvider, financeiroRepositoryProvider, loteRepositoryProvider, encomendaRepositoryProvider);
   }
 
   public static ConsultasViewModel newInstance(SavedStateHandle savedStateHandle,
       EstoqueRepository estoqueRepository, ProdutoRepository produtoRepository,
       VendaRepository vendaRepository, CompraRepository compraRepository,
       ClienteRepository clienteRepository, FornecedorRepository fornecedorRepository,
-      FinanceiroRepository financeiroRepository) {
-    return new ConsultasViewModel(savedStateHandle, estoqueRepository, produtoRepository, vendaRepository, compraRepository, clienteRepository, fornecedorRepository, financeiroRepository);
+      FinanceiroRepository financeiroRepository, LoteRepository loteRepository,
+      EncomendaRepository encomendaRepository) {
+    return new ConsultasViewModel(savedStateHandle, estoqueRepository, produtoRepository, vendaRepository, compraRepository, clienteRepository, fornecedorRepository, financeiroRepository, loteRepository, encomendaRepository);
   }
 }

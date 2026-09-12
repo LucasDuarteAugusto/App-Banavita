@@ -14,11 +14,11 @@ object Money {
     fun fromCents(cents: Long): BigDecimal =
         BigDecimal.valueOf(cents, CENT_SCALE)
 
-    fun lineTotal(unitCents: Long, quantity: Double): Long =
-        BigDecimal.valueOf(unitCents)
-            .multiply(BigDecimal.valueOf(quantity))
-            .setScale(0, RoundingMode.HALF_UP)
-            .longValueExact()
+    fun lineTotal(unitCents: Long?, quantity: Double): Long =
+        unitCents?.let { BigDecimal.valueOf(it) }
+            ?.multiply(BigDecimal.valueOf(quantity))
+            ?.setScale(0, RoundingMode.HALF_UP)
+            ?.longValueExact() ?: 0L
 
     fun sumCents(values: Iterable<Long>): Long = values.sum()
 }
