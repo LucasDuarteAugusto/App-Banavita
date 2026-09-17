@@ -43,6 +43,7 @@ class SettingsViewModel @Inject constructor(
             avisoMatinalInput = formatMinutes(appSettingsRepository.getAvisoMatinalMinutos()),
             selectedRingtoneName = getRingtoneName(appSettingsRepository.getRingtoneUri()),
             selectedOfflineModelId = appSettingsRepository.getOfflineModelId(),
+            groqApiKeyInput = appSettingsRepository.getGroqApiKey(),
         ),
     )
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
@@ -73,6 +74,23 @@ class SettingsViewModel @Inject constructor(
         }
         // Force reload engine on next use
         speechToTextRepository.release()
+    }
+
+    fun onGroqApiKeyChange(key: String) {
+        if (_uiState.value.isBackupBusy) return
+        appSettingsRepository.setGroqApiKey(key)
+        val isConfigured = appSettingsRepository.isGroqApiKeyConfigured()
+        _uiState.update {
+            it.copy(
+                groqApiKeyInput = key,
+                groqApiKeyConfigured = isConfigured,
+                selectedProvider = if (!isConfigured && it.selectedProvider == TranscriptionProvider.GROQ) {
+                    TranscriptionProvider.LOCAL
+                } else {
+                    it.selectedProvider
+                }
+            )
+        }
     }
 
     fun onEtilenoCapacidadeChange(value: String) {

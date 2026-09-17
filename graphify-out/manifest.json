@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "app/build.gradle.kts": {
-    "mtime": 1789221550.8595898,
-    "seen": 1789234284.0309718,
-    "ast_hash": "ab961cffeb0a22da0bd3734a2a87e1a8",
+    "mtime": 1789652241.0075548,
+    "seen": 1789653726.3648717,
+    "ast_hash": "62cb7e0b8cf236caae85a66b46eb5efa",
     "semantic_hash": ""
   },
   "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/3.json": {
@@ -282,9 +282,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/BanavitaApplication.kt": {
-    "mtime": 1789221553.971203,
-    "seen": 1789234284.0309803,
-    "ast_hash": "3475a6852cc5147c68338526ea39dc19",
+    "mtime": 1789566177.3947942,
+    "seen": 1789653726.3648796,
+    "ast_hash": "76d27ff277208d9dde1b12c0f2487c57",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/MainActivity.kt": {
@@ -294,9 +294,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/ContextParsers.kt": {
-    "mtime": 1789221553.971203,
-    "seen": 1789234284.0309842,
-    "ast_hash": "89c16ada8627322762c2c1a07761495b",
+    "mtime": 1789569062.339846,
+    "seen": 1789653726.3648815,
+    "ast_hash": "e813b0abe46f4a4e84b986fc04b1f009",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/EntityResolver.kt": {
@@ -330,9 +330,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/RoleKeywords.kt": {
-    "mtime": 1789221553.9742029,
-    "seen": 1789234284.0309987,
-    "ast_hash": "02bf0e7834e4b2b5d274c8b72463eed6",
+    "mtime": 1789569149.9522245,
+    "seen": 1789653726.3648884,
+    "ast_hash": "23f2eb44eb98182ccf531bdd7de090f1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/TextNormalizer.kt": {
@@ -342,15 +342,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/UnitDictionary.kt": {
-    "mtime": 1788254653.2048144,
-    "seen": 1789234284.0310051,
-    "ast_hash": "e2e347f9869dcc1517b955d153712016",
+    "mtime": 1789568170.81092,
+    "seen": 1789653726.364892,
+    "ast_hash": "07f2cf26d346247010048fe8d7209473",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/extraction/V2Parsers.kt": {
-    "mtime": 1789221553.9752045,
-    "seen": 1789234284.0310073,
-    "ast_hash": "50856abf436e172507729535b7190d98",
+    "mtime": 1789591662.9978375,
+    "seen": 1789653726.3648927,
+    "ast_hash": "d475f84d6ffff669cd1678d6d47f4462",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/money/Money.kt": {
@@ -360,9 +360,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/AgendaAlarmReceiver.kt": {
-    "mtime": 1788471757.8308787,
-    "seen": 1789234284.0310113,
-    "ast_hash": "ad58544320fca073e3d7b1f454e51539",
+    "mtime": 1789566103.5819962,
+    "seen": 1789653726.3648946,
+    "ast_hash": "a47a59be702953c660b6e9243abaae2e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/AgendaNotifications.kt": {
@@ -456,21 +456,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/PtBrPromptHints.kt": {
-    "mtime": 1788254653.2048144,
-    "seen": 1789234284.0310528,
-    "ast_hash": "adc87d79bb37051dcd0eca8596d2b9b6",
+    "mtime": 1789650911.8455858,
+    "seen": 1789653726.3649156,
+    "ast_hash": "49f29c548071ff0b76fcfeae81226afa",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechConstants.kt": {
-    "mtime": 1789221553.9792032,
-    "seen": 1789234284.0310574,
-    "ast_hash": "c15c3506fa98a2cf47e941b16bc969ab",
+    "mtime": 1789591468.407637,
+    "seen": 1789653726.3649178,
+    "ast_hash": "0d922350732f6503b6d5f9531005733c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechModelCatalog.kt": {
-    "mtime": 1789221553.9792032,
-    "seen": 1789234284.0310593,
-    "ast_hash": "6521a0c6b6c339588aab381dc15aba26",
+    "mtime": 1789591483.7911048,
+    "seen": 1789653726.3649185,
+    "ast_hash": "0ce5bf0f2e0999f2e98e54c9bc3eefac",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/SpeechModelManager.kt": {
@@ -486,15 +486,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperCppEngine.kt": {
-    "mtime": 1789221553.9802036,
-    "seen": 1789234284.0310845,
-    "ast_hash": "78ac3034c140963d273981821f792974",
+    "mtime": 1789592777.7792406,
+    "seen": 1789653726.3649237,
+    "ast_hash": "b8e01fc636b0cfb66fb49bd9182c259c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperEngine.kt": {
-    "mtime": 1788254653.2205677,
-    "seen": 1789234284.0310884,
-    "ast_hash": "517b88fb3aaabf096ec667b51bf10a6c",
+    "mtime": 1789592763.8253326,
+    "seen": 1789653726.3649256,
+    "ast_hash": "a2384a7249ccf4adebe1fd8c4c01a565",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/speech/WhisperLib.kt": {
@@ -522,15 +522,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabase.kt": {
-    "mtime": 1789221553.983209,
-    "seen": 1789234284.0311046,
-    "ast_hash": "c37ed81f00a543373e8d31f9b28df94b",
+    "mtime": 1789568049.8549266,
+    "seen": 1789653726.364934,
+    "ast_hash": "1556eb37dc59b48b2eb7d02f9a5b71df",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaMigrations.kt": {
-    "mtime": 1789223892.5196278,
-    "seen": 1789234284.0311086,
-    "ast_hash": "9ea2450874b8c993298f32a6ddd7bda2",
+    "mtime": 1789568021.2942562,
+    "seen": 1789653726.3649359,
+    "ast_hash": "0117ddd750ef8659d66afc6e20f62b20",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/activation/ActivationLocalDataSource.kt": {
@@ -654,9 +654,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/ProdutoEntity.kt": {
-    "mtime": 1789221553.9882088,
-    "seen": 1789234284.0311732,
-    "ast_hash": "270dab408c0638d5a160171fb36186ce",
+    "mtime": 1789567991.1125855,
+    "seen": 1789653726.3649685,
+    "ast_hash": "ed69efe836a0ae3c27b763c83f3199f7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/RecebimentoEntity.kt": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/mapper/EntityMappers.kt": {
-    "mtime": 1789221553.9912066,
-    "seen": 1789234284.031195,
-    "ast_hash": "3c75fff969bef111416f94aa5c1d46be",
+    "mtime": 1789652241.0015492,
+    "seen": 1789653726.3649778,
+    "ast_hash": "eb24c18257433ff06bf6fdf8d9ec28a4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ActivationRepository.kt": {
@@ -762,15 +762,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ProdutoRepository.kt": {
-    "mtime": 1789221553.9982083,
-    "seen": 1789234284.0312302,
-    "ast_hash": "35de4ddcdc730188af3cb32062316efb",
+    "mtime": 1789568120.5094945,
+    "seen": 1789653726.3649952,
+    "ast_hash": "f02168aed3a2b024cbaf854e1412874a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/SpeechToTextRepository.kt": {
-    "mtime": 1789221553.999208,
-    "seen": 1789234284.0312324,
-    "ast_hash": "6f6ef575932737f2d0578206bb1dec4b",
+    "mtime": 1789649918.8652217,
+    "seen": 1789653726.3649962,
+    "ast_hash": "e1743636fb7e163e369961020520e63a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/VendaRepository.kt": {
@@ -1020,21 +1020,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormScreen.kt": {
-    "mtime": 1789221554.009822,
-    "seen": 1789234284.0313272,
-    "ast_hash": "2634c1352c3c6304116d187109fbcdc4",
+    "mtime": 1789568346.9207506,
+    "seen": 1789653726.3650465,
+    "ast_hash": "f4d4974869e3a4dafc688714566502a8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormUiState.kt": {
-    "mtime": 1789221554.0108366,
-    "seen": 1789234284.031329,
-    "ast_hash": "196c70afcf15249f97f6ef7c4924e225",
+    "mtime": 1789568241.6046917,
+    "seen": 1789653726.3650475,
+    "ast_hash": "ef5be6549a994265947694beb0e538f0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoFormViewModel.kt": {
-    "mtime": 1789221554.0118213,
-    "seen": 1789234284.031331,
-    "ast_hash": "d4208bc72cb6d9d784045293feec2233",
+    "mtime": 1789568301.2484848,
+    "seen": 1789653726.3650484,
+    "ast_hash": "bba385f37d292cb4904384b7f7a3fda0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/cadastros/produtos/ProdutoListScreen.kt": {
@@ -1296,33 +1296,33 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/ExtractionReviewSheet.kt": {
-    "mtime": 1789221554.0290565,
-    "seen": 1789234284.031446,
-    "ast_hash": "ff480cc2ba2d207b2f85b1a722c21f8e",
+    "mtime": 1789643222.082584,
+    "seen": 1789653726.365104,
+    "ast_hash": "85efc1ff8d9eca240dc28de62c7a5ba5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureUiState.kt": {
-    "mtime": 1788635392.957585,
-    "seen": 1789234284.0314484,
-    "ast_hash": "33921790d180c99097ea9d29a79b7539",
+    "mtime": 1789591857.209117,
+    "seen": 1789653726.365105,
+    "ast_hash": "dd6bf37c4f7ca298652399e1e06a7ac3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureViewModel.kt": {
-    "mtime": 1788635392.9585946,
-    "seen": 1789234284.0314505,
-    "ast_hash": "abdac2162c664b37be0e18800657db82",
+    "mtime": 1789592030.5087483,
+    "seen": 1789653726.3651056,
+    "ast_hash": "a753cd668e8e5f7a73057e0e575101ec",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceEnabledScreen.kt": {
-    "mtime": 1788635392.959588,
-    "seen": 1789234284.0314527,
-    "ast_hash": "db3bbd11ab4c9fd07b36ed102553eb90",
+    "mtime": 1789592465.1739364,
+    "seen": 1789653726.3651063,
+    "ast_hash": "10ddd7fbc0989fa94f03a7d4c4758272",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceFabLayout.kt": {
-    "mtime": 1788635392.9605832,
-    "seen": 1789234284.031455,
-    "ast_hash": "9a28f888c0f77432921c4215a5274ba1",
+    "mtime": 1789651925.1344965,
+    "seen": 1789653726.3651075,
+    "ast_hash": "8338f4a3c86c3b784fd3234aa6d248d3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceRecordingBar.kt": {
@@ -1332,15 +1332,15 @@
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/BanavitaDatabaseIntegrationTest.kt": {
-    "mtime": 1789221554.0320659,
-    "seen": 1789234284.0314596,
-    "ast_hash": "740071672848622bb768fb21fea17ad9",
+    "mtime": 1789569524.9939215,
+    "seen": 1789653726.3651109,
+    "ast_hash": "eb951861ea234f8cadaa1698d76b699f",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/extraction/ExtractionParsersTest.kt": {
-    "mtime": 1789221554.034057,
-    "seen": 1789234284.031465,
-    "ast_hash": "8c88518b09eed40c0b026d1e353a136a",
+    "mtime": 1789569258.8235443,
+    "seen": 1789653726.3651135,
+    "ast_hash": "52e79761cd349831c7040b8fc68a29ce",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/money/MoneyTest.kt": {
@@ -1410,15 +1410,15 @@
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/FinanceiroRepositoryTest.kt": {
-    "mtime": 1789221554.03906,
-    "seen": 1789234284.0315073,
-    "ast_hash": "3ad6ffc438a35e5ab4a95b2357fa31bf",
+    "mtime": 1789569560.1031168,
+    "seen": 1789653726.3651338,
+    "ast_hash": "b86ae9d0adf1bbd99cbc1de40f59cec4",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/repository/SpeechToTextRepositoryTest.kt": {
-    "mtime": 1789221554.03906,
-    "seen": 1789234284.0315092,
-    "ast_hash": "f3cfb00b1bd9d1a977e1f08e06f6ff52",
+    "mtime": 1789652240.9925551,
+    "seen": 1789653726.3651345,
+    "ast_hash": "e365902255cfba3b58def7d413d2ad7f",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/domain/reminder/FakeReminderScheduler.kt": {
@@ -1962,9 +1962,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/settings/AppSettingsLocalDataSource.kt": {
-    "mtime": 1789221553.9902089,
-    "seen": 1789234284.0311909,
-    "ast_hash": "91a17e2aeaf150256e3c45b03d2150ce",
+    "mtime": 1789592481.3789961,
+    "seen": 1789653726.3649762,
+    "ast_hash": "9555068de01f8c91308c46ab8ad3aa2d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqConfig.kt": {
@@ -1980,9 +1980,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/AppSettingsRepository.kt": {
-    "mtime": 1789221553.9922094,
-    "seen": 1789234284.0312037,
-    "ast_hash": "9874416166d3dbc64ead970a96997160",
+    "mtime": 1789592526.3057218,
+    "seen": 1789653726.3649821,
+    "ast_hash": "6c8597a68c452591c8e34b3af46e738b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/NetworkModule.kt": {
@@ -1998,21 +1998,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsScreen.kt": {
-    "mtime": 1789222657.2751434,
-    "seen": 1789234284.0314188,
-    "ast_hash": "6d4950f4b9bad5a313fb978e5575d4fe",
+    "mtime": 1789651902.2703507,
+    "seen": 1789653726.3650913,
+    "ast_hash": "6956e7d351eff03dbc5c8bfed9cdc43f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsUiState.kt": {
-    "mtime": 1789221554.0240586,
-    "seen": 1789234284.0314214,
-    "ast_hash": "9dced4c7c6425c0612bd57b6a7c059c7",
+    "mtime": 1789592872.5646176,
+    "seen": 1789653726.3650923,
+    "ast_hash": "c2f95e3ee98237dd1150e46c402babb2",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsViewModel.kt": {
-    "mtime": 1789221554.0250583,
-    "seen": 1789234284.0314236,
-    "ast_hash": "7835525adc28dc9efd847defbf1617f7",
+    "mtime": 1789592915.783737,
+    "seen": 1789653726.3650935,
+    "ast_hash": "25129a86ae31bad6202624e49258934f",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/WavWriterTest.kt": {
@@ -2082,9 +2082,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisAlarmReceiver.kt": {
-    "mtime": 1789221553.9762084,
-    "seen": 1789234284.031019,
-    "ast_hash": "cc387b5e1bdf0380f254002674c60964",
+    "mtime": 1789566121.566561,
+    "seen": 1789653726.3648984,
+    "ast_hash": "32259a6b739a09ffe5d1279c9561bc8d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisMorningScheduler.kt": {
@@ -2136,9 +2136,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabaseHolder.kt": {
-    "mtime": 1789221553.9842012,
-    "seen": 1789234284.0311067,
-    "ast_hash": "f4b59b997bc42b8808248588669e8e6e",
+    "mtime": 1789568062.1820962,
+    "seen": 1789653726.364935,
+    "ast_hash": "c5e9e345501674c78a4636545a8671e5",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/LoteDao.kt": {
@@ -2190,9 +2190,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/LoteRepository.kt": {
-    "mtime": 1789221553.9982083,
-    "seen": 1789234284.0312283,
-    "ast_hash": "1f1368d32f5e5d79fecbff68fad3ad0a",
+    "mtime": 1789568103.6758537,
+    "seen": 1789653726.3649945,
+    "ast_hash": "edeebc60be74459add51df9b9112b2c8",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/BackupExceptions.kt": {
@@ -2202,9 +2202,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/PereciveisModels.kt": {
-    "mtime": 1789221554.003208,
-    "seen": 1789234284.0312662,
-    "ast_hash": "7520fcf5c82f643316ae46fa69f8d868",
+    "mtime": 1789567939.7879267,
+    "seen": 1789653726.3650124,
+    "ast_hash": "4b7327171578d03e91716768cc862b4c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/ThemeMode.kt": {
@@ -2214,9 +2214,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/PereciveisUi.kt": {
-    "mtime": 1789221554.0138228,
-    "seen": 1789234284.0313632,
-    "ast_hash": "083350c130d14f6317884dda630c6bdf",
+    "mtime": 1789568717.5756636,
+    "seen": 1789653726.3650637,
+    "ast_hash": "a8892efd03cc219d0c38a88d25d8be64",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt": {
@@ -2256,9 +2256,9 @@
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/PereciveisIntegrationTest.kt": {
-    "mtime": 1789221554.0330598,
-    "seen": 1789234284.0314612,
-    "ast_hash": "9d8df2085fb217a8feda96a9152cbb0f",
+    "mtime": 1789569539.6217308,
+    "seen": 1789653726.3651118,
+    "ast_hash": "aee51520605047acee52886a79b939cc",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/TestRepositories.kt": {
@@ -2280,9 +2280,9 @@
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/time/RipeningClockTest.kt": {
-    "mtime": 1789221554.0350578,
-    "seen": 1789234284.0314903,
-    "ast_hash": "db66696fd5bae8efed4bf15a39b07a04",
+    "mtime": 1789568483.9022274,
+    "seen": 1789653726.3651257,
+    "ast_hash": "e210941d780c8d29b293afd67ff0c97b",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/data/backup/BackupManifestTest.kt": {
@@ -2457,6 +2457,66 @@
     "mtime": 1789221554.1469035,
     "seen": 1789234284.0317225,
     "ast_hash": "73b4e396e51a1f67d392bbe18a06e691",
+    "semantic_hash": ""
+  },
+  "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/5.json": {
+    "mtime": 1789568609.1259975,
+    "seen": 1789653726.3648767,
+    "ast_hash": "715885bd701ceeece15154381bc1fce6",
+    "semantic_hash": ""
+  },
+  ".artifacts/4d06ec0f-f8b9-4d8c-b51f-8d92741976a8/implementation_plan.artifact.md": {
+    "mtime": 1789565535.697877,
+    "seen": 1789653726.3651538,
+    "ast_hash": "20145d1703d7f78a677037cb9297cb62",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-16-icon-and-notification-sound.md": {
+    "mtime": 1789566337.3610947,
+    "seen": 1789653726.3652072,
+    "ast_hash": "d00c859e86459c0606a70e1780f319ca",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-16-new-units-and-maturation-flow.md": {
+    "mtime": 1789569683.328107,
+    "seen": 1789653726.3652081,
+    "ast_hash": "4ca6390fe48ccdcf51bb766c81fbc2ff",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-16-voice-ux-and-model-switching.md": {
+    "mtime": 1789593243.2267494,
+    "seen": 1789653726.365209,
+    "ast_hash": "03c835a5a29873a6766d2f650d533935",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-17-consolidacao-whisper-base-e-ux.md": {
+    "mtime": 1789651948.3442886,
+    "seen": 1789653726.3652098,
+    "ast_hash": "5f13cae173e53a65b4d06b6c771515df",
+    "semantic_hash": ""
+  },
+  "tmp/TestesAudio.md": {
+    "mtime": 1789651866.5144956,
+    "seen": 1789653726.3652258,
+    "ast_hash": "d05893d2af610038d89f85367712f31e",
+    "semantic_hash": ""
+  },
+  "app/src/main/res/mipmap/ic_launcher_banavita.png": {
+    "mtime": 1789564835.3701758,
+    "seen": 1789653726.365229,
+    "ast_hash": "046d7655d745dc43a9a5bc79f6c93120",
+    "semantic_hash": ""
+  },
+  "tmp/API Google AI Studio.png": {
+    "mtime": 1789592079.1098616,
+    "seen": 1789653726.3652682,
+    "ast_hash": "b0fe19a2ea3bfe0b57c6368a754fa5d0",
+    "semantic_hash": ""
+  },
+  "app/src/main/res/raw/olha_a_banana.m4a": {
+    "mtime": 1789564261.6668756,
+    "seen": 1789653726.3652706,
+    "ast_hash": "16e699e6a2ad29fd286486bef0da0664",
     "semantic_hash": ""
   }
 }

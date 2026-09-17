@@ -70,6 +70,12 @@ class AppSettingsLocalDataSource @Inject constructor(
         preferences.edit { putString(KEY_OFFLINE_MODEL_ID, id) }
     }
 
+    fun getGroqApiKey(): String = preferences.getString(KEY_GROQ_API_KEY, "") ?: ""
+
+    fun setGroqApiKey(key: String) {
+        preferences.edit { putString(KEY_GROQ_API_KEY, key.trim()) }
+    }
+
     companion object {
         private const val PREFS_NAME = "banavita_app_settings"
         private const val KEY_TRANSCRIPTION_PROVIDER = "transcription_provider"
@@ -79,8 +85,9 @@ class AppSettingsLocalDataSource @Inject constructor(
         private const val KEY_AVISO_MATINAL_MINUTOS = "aviso_matinal_minutos"
         private const val KEY_RINGTONE_URI = "ringtone_uri"
         private const val KEY_OFFLINE_MODEL_ID = "offline_model_id"
+        private const val KEY_GROQ_API_KEY = "groq_api_key"
         
         const val DEFAULT_AVISO_MATINAL_MINUTOS = 7 * 60
-        private const val DEFAULT_OFFLINE_MODEL_ID = "ggml-tiny-q5_1"
+        private const val DEFAULT_OFFLINE_MODEL_ID = "ggml-base-q5_1"
     }
 }

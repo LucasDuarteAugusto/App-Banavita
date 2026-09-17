@@ -20,6 +20,8 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -501,19 +503,23 @@ private fun EntityDropdown(
     
     val filteredOptions = remember(searchText, options) {
         if (searchText.isBlank()) {
-            options.take(20)
+            options
         } else {
             options.map { it to calculateSimilarity(searchText, it.second) }
                 .filter { it.second > 0.1 || it.first.second.contains(searchText, ignoreCase = true) }
                 .sortedByDescending { it.second }
                 .map { it.first }
-                .take(15)
         }
     }
 
-    Box(modifier = Modifier.fillMaxWidth()) {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it }
+    ) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(MenuAnchorType.PrimaryEditable, true),
             value = searchText,
             onValueChange = { 
                 searchText = it
@@ -522,19 +528,17 @@ private fun EntityDropdown(
             },
             label = { Text(label) },
             trailingIcon = { 
-                @OptIn(ExperimentalMaterial3Api::class)
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) 
             },
-            colors = @OptIn(ExperimentalMaterial3Api::class) ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+            colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            singleLine = true,
         )
         
-        DropdownMenu(
+        ExposedDropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
-            // Não deve ser focado para permitir digitação no campo de texto
-            properties = androidx.compose.ui.window.PopupProperties(focusable = false),
-            modifier = Modifier.fillMaxWidth(0.9f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             if (filteredOptions.isEmpty() && searchText.isNotBlank()) {
                 DropdownMenuItem(

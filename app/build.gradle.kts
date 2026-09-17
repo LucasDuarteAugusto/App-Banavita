@@ -228,7 +228,6 @@ tasks.register<Copy>("copySpeechModelToAssets") {
         delete(speechModelAssetsDir)
     }
     from(rootProject.file("tools/speech-model/models")) {
-        include(whisperTinyConfig["file"]!!)
         include(whisperBaseConfig["file"]!!)
     }
     into(speechModelAssetsDir)
@@ -243,12 +242,8 @@ tasks.register("verifySpeechModelForBuild") {
             logger.warn("skipSpeechModel: APK será gerado sem modelo ASR embutido")
             return@doLast
         }
-        val tinyFile = speechModelAssetsDir.file(whisperTinyConfig["file"]!!).asFile
         val baseFile = speechModelAssetsDir.file(whisperBaseConfig["file"]!!).asFile
         
-        if (!tinyFile.exists()) {
-            throw GradleException("Modelo Tiny ausente. Execute: ./gradlew downloadWhisperTiny")
-        }
         if (!baseFile.exists()) {
             throw GradleException("Modelo Base ausente. Execute: ./gradlew downloadWhisperBase")
         }

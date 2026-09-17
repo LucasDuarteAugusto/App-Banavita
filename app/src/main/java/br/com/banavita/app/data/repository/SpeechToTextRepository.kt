@@ -64,8 +64,8 @@ class SpeechToTextRepository @Inject constructor(
             TranscriptionProvider.GROQ -> {
                 if (!appSettingsRepository.isGroqApiKeyConfigured()) {
                     throw SpeechRemoteException(
-                        "Chave GROQ_API_KEY ausente. Configure o .env e gere o APK novamente, " +
-                            "ou escolha o modelo local em Configurações.",
+                        "Chave GROQ_API_KEY ausente. Por favor, insira uma chave válida " +
+                            "na tela de Configurações do aplicativo.",
                     )
                 }
             }

@@ -38,7 +38,8 @@ class AppSettingsRepository @Inject constructor(
         _themeMode.value = mode
     }
 
-    fun isGroqApiKeyConfigured(): Boolean = groqConfig.isConfigured()
+    fun isGroqApiKeyConfigured(): Boolean = 
+        localDataSource.getGroqApiKey().isNotBlank()
 
     fun getEtilenoCapacidadeKg(): Double = localDataSource.getEtilenoCapacidadeKg().toDouble()
 
@@ -68,5 +69,11 @@ class AppSettingsRepository @Inject constructor(
 
     fun setOfflineModelId(id: String) {
         localDataSource.setOfflineModelId(id)
+    }
+
+    fun getGroqApiKey(): String = localDataSource.getGroqApiKey()
+
+    fun setGroqApiKey(key: String) {
+        localDataSource.setGroqApiKey(key)
     }
 }

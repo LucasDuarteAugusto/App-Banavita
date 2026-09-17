@@ -36,11 +36,11 @@
     <string name="settings_transcription_section">Modelo de transcrição</string>
     <string name="settings_provider_groq_title">Groq — Whisper Large V3 Turbo</string>
     <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
-    <string name="settings_provider_groq_ready">Chave de API configurada neste build.</string>
+    <string name="settings_provider_groq_ready">Chave de API requerida.</string>
     <string name="settings_provider_groq_missing_key">Chave GROQ_API_KEY ausente no .env. Gere o APK novamente após configurar.</string>
     <string name="settings_provider_local_title">Modelo local (Whisper.cpp)</string>
-    <string name="settings_provider_local_desc">Funciona offline no aparelho, sem enviar áudio.</string>
-    <string name="settings_provider_local_note">Em celulares mais simples pode demorar bastante.</string>
+    <string name="settings_provider_local_desc">Funciona offline no aparelho.</string>
+    <string name="settings_provider_local_note">Em celulares mais simples pode demorar.</string>
     <string name="settings_offline_model_title">Precisão do modelo offline</string>
     <string name="settings_offline_model_tiny">Tiny (Mais rápido, menos preciso)</string>
     <string name="settings_offline_model_base">Base (Mais preciso, um pouco mais lento)</string>

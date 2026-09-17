@@ -39,6 +39,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.material3.IconButton
+import br.com.banavita.app.ui.common.BanavitaIcons
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -94,6 +101,7 @@ fun SettingsRoute(
         onProviderSelected = viewModel::onProviderSelected,
         onThemeSelected = viewModel::onThemeSelected,
         onOfflineModelSelected = viewModel::onOfflineModelSelected,
+        onGroqApiKeyChange = viewModel::onGroqApiKeyChange,
         onEtilenoCapacidadeChange = viewModel::onEtilenoCapacidadeChange,
         onEtilenoSoltarDiaChange = viewModel::onEtilenoSoltarDiaChange,
         onAvisoMatinalChange = viewModel::onAvisoMatinalChange,
@@ -127,6 +135,7 @@ fun SettingsScreen(
     onProviderSelected: (TranscriptionProvider) -> Unit,
     onThemeSelected: (ThemeMode) -> Unit,
     onOfflineModelSelected: (String) -> Unit,
+    onGroqApiKeyChange: (String) -> Unit,
     onEtilenoCapacidadeChange: (String) -> Unit,
     onEtilenoSoltarDiaChange: (String) -> Unit,
     onAvisoMatinalChange: (String) -> Unit,
@@ -195,6 +204,26 @@ fun SettingsScreen(
                 },
                 onClick = { onProviderSelected(TranscriptionProvider.GROQ) },
             )
+            
+            var apiKeyVisible by remember { mutableStateOf(false) }
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+                value = uiState.groqApiKeyInput,
+                onValueChange = onGroqApiKeyChange,
+                label = { Text("Chave API do Groq") },
+                placeholder = { Text("gsk_...") },
+                singleLine = true,
+                enabled = !uiState.isBackupBusy,
+                visualTransformation = if (apiKeyVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                trailingIcon = {
+                    val icon = if (apiKeyVisible) BanavitaIcons.Visibility else BanavitaIcons.VisibilityOff
+                    IconButton(onClick = { apiKeyVisible = !apiKeyVisible }) {
+                        Icon(imageVector = icon, contentDescription = if (apiKeyVisible) "Ocultar" else "Mostrar")
+                    }
+                }
+            )
+
             SettingsOptionCard(
                 title = stringResource(R.string.settings_provider_local_title),
                 description = stringResource(R.string.settings_provider_local_desc),

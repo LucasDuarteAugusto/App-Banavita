@@ -52,3 +52,5 @@ Os testes foram realizados com o seguinte áudio:
 | Local (Base) | 90 caixas plástica, na Nica Grauda, do João, R$ 30 a prazo        | 3         |
 | Groq         | 90 caixas plástica, Nanica Graúda, do João, R$ 30,00 a prazo      | 2         |
 
+# Chave API Groq
+GROQ_API_KEY=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

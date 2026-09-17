@@ -14,6 +14,7 @@ data class SettingsUiState(
     val showRestoreConfirm: Boolean = false,
     val selectedRingtoneName: String? = null,
     val selectedOfflineModelId: String = "ggml-tiny-q5_1",
+    val groqApiKeyInput: String = "",
     val statusMessage: String? = null,
     val errorMessage: String? = null,
 )
