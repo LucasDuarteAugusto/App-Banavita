@@ -2,7 +2,10 @@ package br.com.banavita.app.ui.voice;
 
 import android.content.Context;
 import br.com.banavita.app.core.speech.AudioCapture;
+import br.com.banavita.app.data.repository.ClienteRepository;
 import br.com.banavita.app.data.repository.ExtractionRepository;
+import br.com.banavita.app.data.repository.FornecedorRepository;
+import br.com.banavita.app.data.repository.ProdutoRepository;
 import br.com.banavita.app.data.repository.SpeechToTextRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -35,31 +38,47 @@ public final class VoiceCaptureViewModel_Factory implements Factory<VoiceCapture
 
   private final Provider<AudioCapture> audioCaptureProvider;
 
+  private final Provider<ProdutoRepository> produtoRepositoryProvider;
+
+  private final Provider<ClienteRepository> clienteRepositoryProvider;
+
+  private final Provider<FornecedorRepository> fornecedorRepositoryProvider;
+
   public VoiceCaptureViewModel_Factory(Provider<Context> appContextProvider,
       Provider<SpeechToTextRepository> speechToTextRepositoryProvider,
       Provider<ExtractionRepository> extractionRepositoryProvider,
-      Provider<AudioCapture> audioCaptureProvider) {
+      Provider<AudioCapture> audioCaptureProvider,
+      Provider<ProdutoRepository> produtoRepositoryProvider,
+      Provider<ClienteRepository> clienteRepositoryProvider,
+      Provider<FornecedorRepository> fornecedorRepositoryProvider) {
     this.appContextProvider = appContextProvider;
     this.speechToTextRepositoryProvider = speechToTextRepositoryProvider;
     this.extractionRepositoryProvider = extractionRepositoryProvider;
     this.audioCaptureProvider = audioCaptureProvider;
+    this.produtoRepositoryProvider = produtoRepositoryProvider;
+    this.clienteRepositoryProvider = clienteRepositoryProvider;
+    this.fornecedorRepositoryProvider = fornecedorRepositoryProvider;
   }
 
   @Override
   public VoiceCaptureViewModel get() {
-    return newInstance(appContextProvider.get(), speechToTextRepositoryProvider.get(), extractionRepositoryProvider.get(), audioCaptureProvider.get());
+    return newInstance(appContextProvider.get(), speechToTextRepositoryProvider.get(), extractionRepositoryProvider.get(), audioCaptureProvider.get(), produtoRepositoryProvider.get(), clienteRepositoryProvider.get(), fornecedorRepositoryProvider.get());
   }
 
   public static VoiceCaptureViewModel_Factory create(Provider<Context> appContextProvider,
       Provider<SpeechToTextRepository> speechToTextRepositoryProvider,
       Provider<ExtractionRepository> extractionRepositoryProvider,
-      Provider<AudioCapture> audioCaptureProvider) {
-    return new VoiceCaptureViewModel_Factory(appContextProvider, speechToTextRepositoryProvider, extractionRepositoryProvider, audioCaptureProvider);
+      Provider<AudioCapture> audioCaptureProvider,
+      Provider<ProdutoRepository> produtoRepositoryProvider,
+      Provider<ClienteRepository> clienteRepositoryProvider,
+      Provider<FornecedorRepository> fornecedorRepositoryProvider) {
+    return new VoiceCaptureViewModel_Factory(appContextProvider, speechToTextRepositoryProvider, extractionRepositoryProvider, audioCaptureProvider, produtoRepositoryProvider, clienteRepositoryProvider, fornecedorRepositoryProvider);
   }
 
   public static VoiceCaptureViewModel newInstance(Context appContext,
       SpeechToTextRepository speechToTextRepository, ExtractionRepository extractionRepository,
-      AudioCapture audioCapture) {
-    return new VoiceCaptureViewModel(appContext, speechToTextRepository, extractionRepository, audioCapture);
+      AudioCapture audioCapture, ProdutoRepository produtoRepository,
+      ClienteRepository clienteRepository, FornecedorRepository fornecedorRepository) {
+    return new VoiceCaptureViewModel(appContext, speechToTextRepository, extractionRepository, audioCapture, produtoRepository, clienteRepository, fornecedorRepository);
   }
 }

@@ -72,10 +72,13 @@ fun ProdutoFormRoute(
             onUnidadeChange = viewModel::onUnidadeChange,
             onGrupoSelected = viewModel::onGrupoSelected,
             onPerecivelChange = viewModel::onPerecivelChange,
+            onDiasEmMaturacaoChange = viewModel::onDiasEmMaturacaoChange,
             onDiasVerdeChange = viewModel::onDiasVerdeChange,
             onDiasVerdolengaChange = viewModel::onDiasVerdolengaChange,
             onDiasAmarelaChange = viewModel::onDiasAmarelaChange,
             onDiasPintadaChange = viewModel::onDiasPintadaChange,
+            onPrecoCruaChange = viewModel::onPrecoCruaChange,
+            onPrecoMaturacaoChange = viewModel::onPrecoMaturacaoChange,
             onPrecoVerdeChange = viewModel::onPrecoVerdeChange,
             onPrecoVerdolengaChange = viewModel::onPrecoVerdolengaChange,
             onPrecoAmarelaChange = viewModel::onPrecoAmarelaChange,
@@ -95,10 +98,13 @@ fun ProdutoFormScreen(
     onUnidadeChange: (String) -> Unit,
     onGrupoSelected: (UUID?) -> Unit,
     onPerecivelChange: (Boolean) -> Unit,
+    onDiasEmMaturacaoChange: (String) -> Unit,
     onDiasVerdeChange: (String) -> Unit,
     onDiasVerdolengaChange: (String) -> Unit,
     onDiasAmarelaChange: (String) -> Unit,
     onDiasPintadaChange: (String) -> Unit,
+    onPrecoCruaChange: (String) -> Unit,
+    onPrecoMaturacaoChange: (String) -> Unit,
     onPrecoVerdeChange: (String) -> Unit,
     onPrecoVerdolengaChange: (String) -> Unit,
     onPrecoAmarelaChange: (String) -> Unit,
@@ -238,6 +244,15 @@ fun ProdutoFormScreen(
             )
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
+                value = uiState.diasEmMaturacao,
+                onValueChange = onDiasEmMaturacaoChange,
+                label = { Text(stringResource(R.string.produto_dias_maturacao)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = uiState.diasVerde,
                 onValueChange = onDiasVerdeChange,
                 label = { Text(stringResource(R.string.produto_dias_verde)) },
@@ -275,6 +290,26 @@ fun ProdutoFormScreen(
             Text(
                 text = stringResource(R.string.produto_precos_estado_title),
                 style = MaterialTheme.typography.titleMedium,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoCruaInput,
+                onValueChange = onPrecoCruaChange,
+                label = { Text(stringResource(R.string.produto_preco_crua)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
+            )
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.precoMaturacaoInput,
+                onValueChange = onPrecoMaturacaoChange,
+                label = { Text(stringResource(R.string.produto_preco_maturacao)) },
+                placeholder = { Text(stringResource(R.string.form_preco_hint)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                enabled = !uiState.isSaving,
             )
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),

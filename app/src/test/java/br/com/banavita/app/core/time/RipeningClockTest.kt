@@ -9,7 +9,13 @@ import org.junit.Test
 
 class RipeningClockTest {
 
-    private val curve = RipeningCurve(diasVerde = 3, diasVerdolenga = 2, diasAmarela = 2, diasPintada = 2)
+    private val curve = RipeningCurve(
+        diasEmMaturacao = 1,
+        diasVerde = 3,
+        diasVerdolenga = 2,
+        diasAmarela = 2,
+        diasPintada = 2
+    )
 
     @Test
     fun `fria nao avanca mesmo com dias decorridos`() {
@@ -25,17 +31,31 @@ class RipeningClockTest {
     }
 
     @Test
-    fun `quatro dias na etileno com verde 3 vira verdolenga`() {
+    fun `em maturacao um dia vira verde`() {
         val inicio = 20_000L
         val snap = RipeningClock.snapshot(
             camara = Camara.ETILENO,
-            estadoRegistrado = MaturacaoEstado.VERDE,
+            estadoRegistrado = MaturacaoEstado.EM_MATURACAO,
+            etapaInicioEpochDay = inicio,
+            curve = curve,
+            todayEpochDay = inicio + 1,
+        )
+        assertEquals(MaturacaoEstado.VERDE, snap.estado)
+        assertEquals(3, snap.daysUntilNext)
+    }
+
+    @Test
+    fun `quatro dias na etileno com maturacao 1 e verde 3 vira verdolenga`() {
+        val inicio = 20_000L
+        val snap = RipeningClock.snapshot(
+            camara = Camara.ETILENO,
+            estadoRegistrado = MaturacaoEstado.EM_MATURACAO,
             etapaInicioEpochDay = inicio,
             curve = curve,
             todayEpochDay = inicio + 4,
         )
         assertEquals(MaturacaoEstado.VERDOLENGA, snap.estado)
-        assertEquals(1, snap.daysUntilNext)
+        assertEquals(2, snap.daysUntilNext)
     }
 
     @Test

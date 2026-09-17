@@ -57,6 +57,19 @@ class AppSettingsLocalDataSource @Inject constructor(
         preferences.edit { putInt(KEY_AVISO_MATINAL_MINUTOS, value.coerceIn(0, 23 * 60 + 59)) }
     }
 
+    fun getRingtoneUri(): String? = preferences.getString(KEY_RINGTONE_URI, null)
+
+    fun setRingtoneUri(uri: String?) {
+        preferences.edit { putString(KEY_RINGTONE_URI, uri) }
+    }
+
+    fun getOfflineModelId(): String =
+        preferences.getString(KEY_OFFLINE_MODEL_ID, null) ?: DEFAULT_OFFLINE_MODEL_ID
+
+    fun setOfflineModelId(id: String) {
+        preferences.edit { putString(KEY_OFFLINE_MODEL_ID, id) }
+    }
+
     companion object {
         private const val PREFS_NAME = "banavita_app_settings"
         private const val KEY_TRANSCRIPTION_PROVIDER = "transcription_provider"
@@ -64,6 +77,10 @@ class AppSettingsLocalDataSource @Inject constructor(
         private const val KEY_ETILENO_CAPACIDADE_KG = "etileno_capacidade_kg"
         private const val KEY_ETILENO_SOLTAR_DIA_KG = "etileno_soltar_dia_kg"
         private const val KEY_AVISO_MATINAL_MINUTOS = "aviso_matinal_minutos"
+        private const val KEY_RINGTONE_URI = "ringtone_uri"
+        private const val KEY_OFFLINE_MODEL_ID = "offline_model_id"
+        
         const val DEFAULT_AVISO_MATINAL_MINUTOS = 7 * 60
+        private const val DEFAULT_OFFLINE_MODEL_ID = "ggml-tiny-q5_1"
     }
 }

@@ -49,7 +49,7 @@ class SpeechToTextRepositoryTest {
         val modelManager = object : SpeechModelManager(context) {
             override fun ensureModelReady(spec: SpeechModelSpec): ModelStatus = ModelStatus.READY
 
-            override fun modelPathOrNull(spec: SpeechModelSpec): String? =
+            override fun modelPathOrNull(spec: SpeechModelSpec): String =
                 "/tmp/fake-model.bin"
         }
 
@@ -66,7 +66,7 @@ class SpeechToTextRepositoryTest {
         val result = repository.transcribe(FloatArray(1600) { 0.01f })
         assertEquals("vendeu uma caixinha de banana", result.text)
         assertEquals(SpeechConstants.LANGUAGE_PT, result.language)
-        assertEquals(SpeechConstants.ACTIVE_MODEL_ID, result.modelId)
+        assertEquals(SpeechConstants.TINY_MODEL_ID, result.modelId)
         assertTrue(result.durationMillis >= 0)
         assertTrue(fakeEngine.loadCalled)
         assertTrue(fakeEngine.transcribeCalled)
@@ -104,13 +104,18 @@ class SpeechToTextRepositoryTest {
         var lastLanguage: String? = null
         var lastSampleCount: Int = 0
         private var loaded = false
+        private var _modelId: String? = null
 
         override val isLoaded: Boolean
             get() = loaded
 
-        override suspend fun load(modelPath: String) {
+        override val loadedModelId: String?
+            get() = _modelId
+
+        override suspend fun load(modelPath: String, modelId: String) {
             loadCalled = true
             loaded = true
+            _modelId = modelId
         }
 
         override suspend fun transcribe(

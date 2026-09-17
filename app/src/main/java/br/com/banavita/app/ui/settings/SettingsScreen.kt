@@ -1,12 +1,18 @@
 package br.com.banavita.app.ui.settings
 
+import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -14,10 +20,16 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -29,6 +41,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -44,6 +57,7 @@ fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     val createDocument = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/octet-stream"),
@@ -55,6 +69,13 @@ fun SettingsRoute(
         contract = ActivityResultContracts.OpenDocument(),
     ) { uri ->
         if (uri != null) viewModel.onRestoreFileChosen(uri)
+    }
+
+    val ringtonePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult(),
+    ) { result ->
+        val uri = result.data?.getParcelableExtra<Uri>(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+        viewModel.onRingtoneSelected(uri)
     }
 
     if (uiState.showRestoreConfirm) {
@@ -72,9 +93,19 @@ fun SettingsRoute(
         uiState = uiState,
         onProviderSelected = viewModel::onProviderSelected,
         onThemeSelected = viewModel::onThemeSelected,
+        onOfflineModelSelected = viewModel::onOfflineModelSelected,
         onEtilenoCapacidadeChange = viewModel::onEtilenoCapacidadeChange,
         onEtilenoSoltarDiaChange = viewModel::onEtilenoSoltarDiaChange,
         onAvisoMatinalChange = viewModel::onAvisoMatinalChange,
+        onRingtoneClick = {
+            val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+                putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+                putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, context.getString(R.string.settings_ringtone))
+                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
+            }
+            ringtonePicker.launch(intent)
+        },
         onExportClick = { createDocument.launch(viewModel.suggestedBackupFileName()) },
         onRestoreClick = {
             openDocument.launch(
@@ -95,9 +126,11 @@ fun SettingsScreen(
     uiState: SettingsUiState,
     onProviderSelected: (TranscriptionProvider) -> Unit,
     onThemeSelected: (ThemeMode) -> Unit,
+    onOfflineModelSelected: (String) -> Unit,
     onEtilenoCapacidadeChange: (String) -> Unit,
     onEtilenoSoltarDiaChange: (String) -> Unit,
     onAvisoMatinalChange: (String) -> Unit,
+    onRingtoneClick: () -> Unit,
     onExportClick: () -> Unit,
     onRestoreClick: () -> Unit,
     onDismissMessage: () -> Unit,
@@ -205,6 +238,35 @@ fun SettingsScreen(
             singleLine = true,
             enabled = !uiState.isBackupBusy,
         )
+
+        Text(
+            text = stringResource(R.string.settings_notifications_section),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onRingtoneClick,
+            enabled = !uiState.isBackupBusy,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            ),
+        ) {
+            ListItem(
+                headlineContent = { Text(stringResource(R.string.settings_ringtone)) },
+                supportingContent = {
+                    Text(uiState.selectedRingtoneName ?: stringResource(R.string.settings_ringtone_default))
+                },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Default.Notifications,
+                        contentDescription = null
+                    )
+                },
+                colors = ListItemDefaults.colors(
+                    containerColor = androidx.compose.ui.graphics.Color.Transparent
+                )
+            )
+        }
 
         Text(
             text = stringResource(R.string.settings_database_section),

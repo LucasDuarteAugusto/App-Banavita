@@ -1,7 +1,7 @@
 package br.com.banavita.app.core.speech
 
 interface WhisperEngine {
-    suspend fun load(modelPath: String)
+    suspend fun load(modelPath: String, modelId: String)
 
     suspend fun transcribe(
         samples: FloatArray,
@@ -12,4 +12,5 @@ interface WhisperEngine {
     fun release()
 
     val isLoaded: Boolean
+    val loadedModelId: String?
 }

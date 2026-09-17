@@ -54,12 +54,15 @@ fun ProdutoEntity.toDomain(): Produto =
         unidade = unidade,
         perecivel = perecivel,
         curva = br.com.banavita.app.domain.model.RipeningCurve(
+            diasEmMaturacao = diasEmMaturacao,
             diasVerde = diasVerde,
             diasVerdolenga = diasVerdolenga,
             diasAmarela = diasAmarela,
             diasPintada = diasPintada,
         ),
         precosEstado = br.com.banavita.app.domain.model.PrecosPorEstado(
+            cruaCentavos = precoCruaCentavos,
+            emMaturacaoCentavos = precoEmMaturacaoCentavos,
             verdeCentavos = precoVerdeCentavos,
             verdolengaCentavos = precoVerdolengaCentavos,
             amarelaCentavos = precoAmarelaCentavos,
@@ -75,7 +78,7 @@ fun ClienteEntity.toDomain(): Cliente =
         updatedAt = updatedAt,
         nome = nome,
         telefone = telefone,
-        pontoPreferido = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(pontoPreferido),
+        pontoPreferido = MaturacaoEstado.fromStored(pontoPreferido),
     )
 
 fun FornecedorEntity.toDomain(): Fornecedor =
@@ -97,7 +100,7 @@ fun VendaItemEntity.toDomain(): VendaItem =
         valorUnitarioCentavos = valorUnitarioCentavos,
         quantidade = quantidade,
         valorTotalCentavos = valorTotalCentavos,
-        estado = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(estado),
+        estado = MaturacaoEstado.fromStored(estado),
     )
 
 fun VendaWithItems.toDomain(): Venda =

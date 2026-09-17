@@ -1,8 +1,10 @@
 package br.com.banavita.app.ui.voice
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,9 +13,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -22,10 +28,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.ConsultaModo
@@ -40,11 +51,13 @@ import br.com.banavita.app.ui.common.EstadoChips
 import br.com.banavita.app.ui.common.MoneyInputParser
 import br.com.banavita.app.ui.common.QuantityInputParser
 import br.com.banavita.app.ui.common.formatCurrency
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExtractionReviewSheet(
     draft: ExtractionDraft,
+    uiState: VoiceCaptureUiState,
     isConfirming: Boolean,
     errorMessage: String?,
     onConfirm: () -> Unit,
@@ -92,7 +105,11 @@ fun ExtractionReviewSheet(
                 )
             }
 
-            ReviewEditor(draft = draft, onDraftChange = onDraftChange)
+            ReviewEditor(
+                draft = draft,
+                uiState = uiState,
+                onDraftChange = onDraftChange
+            )
 
             errorMessage?.let { message ->
                 Text(
@@ -128,9 +145,11 @@ fun ExtractionReviewSheet(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ReviewEditor(
     draft: ExtractionDraft,
+    uiState: VoiceCaptureUiState,
     onDraftChange: (ExtractionDraft) -> Unit,
 ) {
     when (val fields = draft.fields) {
@@ -162,22 +181,33 @@ private fun ReviewEditor(
             EditText(stringResource(R.string.form_descricao), fields.descricao.value.orEmpty()) { value ->
                 onDraftChange(draft.copy(fields = fields.copy(descricao = fields.descricao.edited(value))))
             }
-            EditText(stringResource(R.string.form_preco), fields.precoCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
-                val cents = MoneyInputParser.parseToCentavos(value)
+            MoneyEdit(stringResource(R.string.form_preco), fields.precoCentavos.value) { cents ->
                 onDraftChange(draft.copy(fields = fields.copy(precoCentavos = fields.precoCentavos.edited(cents))))
             }
-            EditText(stringResource(R.string.form_unidade), fields.unidade.value.orEmpty()) { value ->
-                onDraftChange(draft.copy(fields = fields.copy(unidade = fields.unidade.edited(value.ifBlank { null }))))
+            UnitDropdown(fields.unidade.value.orEmpty()) { value ->
+                onDraftChange(draft.copy(fields = fields.copy(unidade = fields.unidade.edited(value))))
             }
         }
         is ExtractionFields.VendaDraft -> {
             val item = fields.itens.firstOrNull()
             if (item != null) {
-                EditText(stringResource(R.string.form_produto), item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
-                    val updated = item.copy(produtoRaw = item.produtoRaw.edited(value))
-                    onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
-                }
-                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty()) { value ->
+                EntityDropdown(
+                    label = stringResource(R.string.form_produto),
+                    selectedId = item.produtoResolvido?.id,
+                    selectedLabel = item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty(),
+                    options = uiState.produtos.map { it.id to it.descricao },
+                    onSelected = { id, label ->
+                        val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                            id = id, label = label, rawSpan = label, confidence = 1f
+                        )
+                        val updated = item.copy(
+                            produtoResolvido = resolved,
+                            produtoRaw = item.produtoRaw.edited(label)
+                        )
+                        onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
+                    }
+                )
+                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty(), keyboardType = KeyboardType.Decimal) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
@@ -191,51 +221,23 @@ private fun ReviewEditor(
                     },
                     includePodre = false,
                 )
-                EditText(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
-                    val cents = MoneyInputParser.parseToCentavos(value)
+                MoneyEdit(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value) { cents ->
                     val updated = item.copy(valorUnitarioCentavos = item.valorUnitarioCentavos.edited(cents))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
             }
-            EditText(stringResource(R.string.form_cliente), fields.cliente?.label ?: fields.clienteRaw.value.orEmpty()) { value ->
-                onDraftChange(draft.copy(fields = fields.copy(clienteRaw = fields.clienteRaw.edited(value.ifBlank { null }))))
-            }
-            val clienteCandidates = fields.cliente?.candidates.orEmpty()
-            if (clienteCandidates.isNotEmpty()) {
-                Text(
-                    text = stringResource(R.string.voice_review_cliente_suggestions),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Row(
-                    modifier = Modifier.horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    clienteCandidates.forEach { cand ->
-                        FilterChip(
-                            selected = fields.cliente?.id == cand.id,
-                            onClick = {
-                                val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
-                                    id = cand.id,
-                                    label = cand.label,
-                                    rawSpan = cand.label,
-                                    confidence = 1f,
-                                    candidates = clienteCandidates,
-                                )
-                                onDraftChange(
-                                    draft.copy(
-                                        fields = fields.copy(
-                                            cliente = resolved,
-                                            clienteRaw = fields.clienteRaw.edited(cand.label),
-                                        ),
-                                    ),
-                                )
-                            },
-                            label = { Text(cand.label) },
-                        )
-                    }
+            EntityDropdown(
+                label = stringResource(R.string.form_cliente),
+                selectedId = fields.cliente?.id,
+                selectedLabel = fields.cliente?.label ?: fields.clienteRaw.value.orEmpty(),
+                options = uiState.clientes.map { it.id to it.nome },
+                onSelected = { id, label ->
+                    val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                        id = id, label = label, rawSpan = label, confidence = 1f
+                    )
+                    onDraftChange(draft.copy(fields = fields.copy(cliente = resolved, clienteRaw = fields.clienteRaw.edited(label))))
                 }
-            }
+            )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -262,60 +264,44 @@ private fun ReviewEditor(
         is ExtractionFields.CompraDraft -> {
             val item = fields.itens.firstOrNull()
             if (item != null) {
-                EditText(stringResource(R.string.form_produto), item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty()) { value ->
-                    val updated = item.copy(produtoRaw = item.produtoRaw.edited(value))
-                    onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
-                }
-                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty()) { value ->
+                EntityDropdown(
+                    label = stringResource(R.string.form_produto),
+                    selectedId = item.produtoResolvido?.id,
+                    selectedLabel = item.produtoResolvido?.label ?: item.produtoRaw.value.orEmpty(),
+                    options = uiState.produtos.map { it.id to it.descricao },
+                    onSelected = { id, label ->
+                        val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                            id = id, label = label, rawSpan = label, confidence = 1f
+                        )
+                        val updated = item.copy(
+                            produtoResolvido = resolved,
+                            produtoRaw = item.produtoRaw.edited(label)
+                        )
+                        onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
+                    }
+                )
+                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty(), keyboardType = KeyboardType.Decimal) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
-                EditText(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
-                    val cents = MoneyInputParser.parseToCentavos(value)
+                MoneyEdit(stringResource(R.string.form_preco_unit_short), item.valorUnitarioCentavos.value) { cents ->
                     val updated = item.copy(valorUnitarioCentavos = item.valorUnitarioCentavos.edited(cents))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                 }
             }
-            EditText(stringResource(R.string.form_fornecedor), fields.fornecedor?.label ?: fields.fornecedorRaw.value.orEmpty()) { value ->
-                onDraftChange(draft.copy(fields = fields.copy(fornecedorRaw = fields.fornecedorRaw.edited(value.ifBlank { null }))))
-            }
-            val fornecedorCandidates = fields.fornecedor?.candidates.orEmpty()
-            if (fornecedorCandidates.isNotEmpty()) {
-                Text(
-                    text = stringResource(R.string.voice_review_fornecedor_suggestions),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Row(
-                    modifier = Modifier.horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    fornecedorCandidates.forEach { cand ->
-                        FilterChip(
-                            selected = fields.fornecedor?.id == cand.id,
-                            onClick = {
-                                val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
-                                    id = cand.id,
-                                    label = cand.label,
-                                    rawSpan = cand.label,
-                                    confidence = 1f,
-                                    candidates = fornecedorCandidates,
-                                )
-                                onDraftChange(
-                                    draft.copy(
-                                        fields = fields.copy(
-                                            fornecedor = resolved,
-                                            fornecedorRaw = fields.fornecedorRaw.edited(cand.label),
-                                        ),
-                                    ),
-                                )
-                            },
-                            label = { Text(cand.label) },
-                        )
-                    }
+            EntityDropdown(
+                label = stringResource(R.string.form_fornecedor),
+                selectedId = fields.fornecedor?.id,
+                selectedLabel = fields.fornecedor?.label ?: fields.fornecedorRaw.value.orEmpty(),
+                options = uiState.fornecedores.map { it.id to it.nome },
+                onSelected = { id, label ->
+                    val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                        id = id, label = label, rawSpan = label, confidence = 1f
+                    )
+                    onDraftChange(draft.copy(fields = fields.copy(fornecedor = resolved, fornecedorRaw = fields.fornecedorRaw.edited(label))))
                 }
-            }
+            )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -378,11 +364,19 @@ private fun ReviewEditor(
             }
         }
         is ExtractionFields.BaixaDraft -> {
-            EditText(stringResource(R.string.form_parceiro), fields.parceiro?.label ?: fields.parceiroRaw.value.orEmpty()) { value ->
-                onDraftChange(draft.copy(fields = fields.copy(parceiroRaw = fields.parceiroRaw.edited(value))))
-            }
-            EditText(stringResource(R.string.form_valor), fields.valorCentavos.value?.let { formatCurrency(it) }.orEmpty()) { value ->
-                val cents = MoneyInputParser.parseToCentavos(value)
+            EntityDropdown(
+                label = stringResource(R.string.form_parceiro),
+                selectedId = fields.parceiro?.id,
+                selectedLabel = fields.parceiro?.label ?: fields.parceiroRaw.value.orEmpty(),
+                options = (uiState.clientes.map { it.id to it.nome } + uiState.fornecedores.map { it.id to it.nome }),
+                onSelected = { id, label ->
+                    val resolved = br.com.banavita.app.domain.model.extraction.ResolvedEntity(
+                        id = id, label = label, rawSpan = label, confidence = 1f
+                    )
+                    onDraftChange(draft.copy(fields = fields.copy(parceiro = resolved, parceiroRaw = fields.parceiroRaw.edited(label))))
+                }
+            )
+            MoneyEdit(stringResource(R.string.form_valor), fields.valorCentavos.value) { cents ->
                 onDraftChange(draft.copy(fields = fields.copy(valorCentavos = fields.valorCentavos.edited(cents))))
             }
         }
@@ -405,14 +399,179 @@ private fun ReviewEditor(
 }
 
 @Composable
-private fun EditText(label: String, value: String, onChange: (String) -> Unit) {
+private fun EditText(
+    label: String,
+    value: String,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    onChange: (String) -> Unit
+) {
+    var text by remember(value) { mutableStateOf(value) }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth(),
-        value = value,
-        onValueChange = onChange,
+        value = text,
+        onValueChange = { 
+            text = it
+            onChange(it) 
+        },
         label = { Text(label) },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
     )
+}
+
+@Composable
+private fun MoneyEdit(
+    label: String,
+    centavos: Long?,
+    onChange: (Long?) -> Unit
+) {
+    val initialText = centavos?.let { MoneyInputParser.formatForInput(it) } ?: ""
+    var text by remember(centavos) { mutableStateOf(initialText) }
+    
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = text,
+        onValueChange = { input ->
+            // Permite digitar livremente, valida ao final ou via parse
+            text = input
+            val cents = MoneyInputParser.parseToCentavos(input)
+            onChange(cents)
+        },
+        label = { Text(label) },
+        placeholder = { Text("0,00") },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+    )
+}
+
+@Composable
+private fun UnitDropdown(
+    selected: String,
+    onSelected: (String) -> Unit
+) {
+    val options = listOf("UN", "KG", "CX MADEIRA", "CX PLASTICA", "DZ")
+    var expanded by remember { mutableStateOf(false) }
+    
+    Box(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = true },
+            value = selected,
+            onValueChange = {},
+            readOnly = true,
+            label = { Text(stringResource(R.string.form_unidade)) },
+            trailingIcon = { 
+                @OptIn(ExperimentalMaterial3Api::class)
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) 
+            },
+            colors = @OptIn(ExperimentalMaterial3Api::class) ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+            enabled = true
+        )
+        // Usando DropdownMenu comum para evitar bugs de anchor em BottomSheet
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth(0.8f)
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(option) },
+                    onClick = {
+                        onSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EntityDropdown(
+    label: String,
+    selectedId: UUID?,
+    selectedLabel: String,
+    options: List<Pair<UUID, String>>,
+    onSelected: (UUID?, String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var searchText by remember(selectedLabel) { mutableStateOf(selectedLabel) }
+    
+    val filteredOptions = remember(searchText, options) {
+        if (searchText.isBlank()) {
+            options.take(20)
+        } else {
+            options.map { it to calculateSimilarity(searchText, it.second) }
+                .filter { it.second > 0.1 || it.first.second.contains(searchText, ignoreCase = true) }
+                .sortedByDescending { it.second }
+                .map { it.first }
+                .take(15)
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = searchText,
+            onValueChange = { 
+                searchText = it
+                expanded = true
+                onSelected(null, it) 
+            },
+            label = { Text(label) },
+            trailingIcon = { 
+                @OptIn(ExperimentalMaterial3Api::class)
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) 
+            },
+            colors = @OptIn(ExperimentalMaterial3Api::class) ExposedDropdownMenuDefaults.outlinedTextFieldColors(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        )
+        
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            // Não deve ser focado para permitir digitação no campo de texto
+            properties = androidx.compose.ui.window.PopupProperties(focusable = false),
+            modifier = Modifier.fillMaxWidth(0.9f)
+        ) {
+            if (filteredOptions.isEmpty() && searchText.isNotBlank()) {
+                DropdownMenuItem(
+                    text = { Text("Manter: \"$searchText\"") },
+                    onClick = { expanded = false }
+                )
+            }
+            
+            filteredOptions.forEach { (id, name) ->
+                val isSelected = selectedId == id
+                DropdownMenuItem(
+                    text = { 
+                        Text(
+                            text = name,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
+                        ) 
+                    },
+                    onClick = {
+                        searchText = name
+                        onSelected(id, name)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+private fun calculateSimilarity(s1: String, s2: String): Float {
+    val n1 = s1.lowercase().trim()
+    val n2 = s2.lowercase().trim()
+    if (n1 == n2) return 1.0f
+    if (n2.contains(n1) || n1.contains(n2)) return 0.8f
+    
+    // Levenshtein simplificado ou apenas interseção de caracteres
+    val common = n1.toSet().intersect(n2.toSet()).size
+    return common.toFloat() / maxOf(n1.length, n2.length)
 }
 
 @Composable

@@ -1,5 +1,7 @@
 package br.com.banavita.app.ui.settings
 
+import android.content.Context
+import android.media.RingtoneManager
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,12 +9,14 @@ import br.com.banavita.app.core.reminder.PereciveisMorningScheduler
 import br.com.banavita.app.data.backup.BackupManifest
 import br.com.banavita.app.data.repository.AppSettingsRepository
 import br.com.banavita.app.data.repository.DatabaseBackupRepository
+import br.com.banavita.app.data.repository.SpeechToTextRepository
 import br.com.banavita.app.domain.exception.BackupException
 import br.com.banavita.app.domain.exception.BanavitaDomainException
 import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.domain.model.TranscriptionProvider
 import br.com.banavita.app.ui.common.QuantityInputParser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,9 +26,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val appSettingsRepository: AppSettingsRepository,
     private val databaseBackupRepository: DatabaseBackupRepository,
     private val morningScheduler: PereciveisMorningScheduler,
+    private val speechToTextRepository: SpeechToTextRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
@@ -35,6 +41,8 @@ class SettingsViewModel @Inject constructor(
             etilenoCapacidadeInput = formatKg(appSettingsRepository.getEtilenoCapacidadeKg()),
             etilenoSoltarDiaInput = formatKg(appSettingsRepository.getEtilenoSoltarPorDiaKg()),
             avisoMatinalInput = formatMinutes(appSettingsRepository.getAvisoMatinalMinutos()),
+            selectedRingtoneName = getRingtoneName(appSettingsRepository.getRingtoneUri()),
+            selectedOfflineModelId = appSettingsRepository.getOfflineModelId(),
         ),
     )
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
@@ -57,6 +65,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun onOfflineModelSelected(modelId: String) {
+        if (_uiState.value.isBackupBusy) return
+        appSettingsRepository.setOfflineModelId(modelId)
+        _uiState.update {
+            it.copy(selectedOfflineModelId = modelId, errorMessage = null, statusMessage = null)
+        }
+        // Force reload engine on next use
+        speechToTextRepository.release()
+    }
+
     fun onEtilenoCapacidadeChange(value: String) {
         _uiState.update { it.copy(etilenoCapacidadeInput = value, errorMessage = null) }
         val parsed = QuantityInputParser.parse(value) ?: return
@@ -74,6 +92,24 @@ class SettingsViewModel @Inject constructor(
         parseHhMm(value)?.let {
             appSettingsRepository.setAvisoMatinalMinutos(it)
             morningScheduler.scheduleNext()
+        }
+    }
+
+    fun onRingtoneSelected(uri: Uri?) {
+        val uriString = uri?.toString()
+        appSettingsRepository.setRingtoneUri(uriString)
+        _uiState.update {
+            it.copy(selectedRingtoneName = getRingtoneName(uriString))
+        }
+    }
+
+    private fun getRingtoneName(uriString: String?): String? {
+        if (uriString == null) return null
+        return try {
+            val uri = Uri.parse(uriString)
+            RingtoneManager.getRingtone(context, uri)?.getTitle(context)
+        } catch (e: Exception) {
+            null
         }
     }
 

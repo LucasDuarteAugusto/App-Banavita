@@ -6,32 +6,26 @@ import br.com.banavita.app.domain.model.SpeechModelSpec
 object SpeechModelCatalog {
     val models: List<SpeechModelSpec> = listOf(
         SpeechModelSpec(
-            id = SpeechConstants.ACTIVE_MODEL_ID,
-            fileName = SpeechConstants.ACTIVE_MODEL_FILE,
-            sha256 = SpeechConstants.ACTIVE_MODEL_SHA256,
-            profile = DeviceSpeechProfile.valueOf(SpeechConstants.ACTIVE_MODEL_PROFILE),
-            active = true,
-            approximateSizeMb = SpeechConstants.ACTIVE_MODEL_SIZE_MB,
+            id = SpeechConstants.TINY_MODEL_ID,
+            fileName = SpeechConstants.TINY_MODEL_FILE,
+            sha256 = SpeechConstants.TINY_MODEL_SHA256,
+            profile = DeviceSpeechProfile.MINIMUM,
+            active = true, // Default
+            approximateSizeMb = SpeechConstants.TINY_MODEL_SIZE,
         ),
-        // Reservados para futuro (não ativos no build)
         SpeechModelSpec(
-            id = "ggml-base-q8_0",
-            fileName = "ggml-base-q8_0.bin",
-            sha256 = "",
+            id = SpeechConstants.BASE_MODEL_ID,
+            fileName = SpeechConstants.BASE_MODEL_FILE,
+            sha256 = SpeechConstants.BASE_MODEL_SHA256,
             profile = DeviceSpeechProfile.INTERMEDIATE,
             active = false,
-            approximateSizeMb = 78,
-        ),
-        SpeechModelSpec(
-            id = "ggml-small-q8_0",
-            fileName = "ggml-small-q8_0.bin",
-            sha256 = "",
-            profile = DeviceSpeechProfile.PREMIUM,
-            active = false,
-            approximateSizeMb = 250,
-        ),
+            approximateSizeMb = SpeechConstants.BASE_MODEL_SIZE,
+        )
     )
 
     fun activeModel(): SpeechModelSpec =
         models.first { it.active }
+
+    fun getSpec(id: String): SpeechModelSpec? =
+        models.find { it.id == id }
 }

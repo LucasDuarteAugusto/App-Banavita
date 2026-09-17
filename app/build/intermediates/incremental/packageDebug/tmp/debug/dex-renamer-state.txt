@@ -1,4 +1,4 @@
-#Sat Sep 12 11:38:38 BRT 2026
+#Thu Sep 17 10:32:57 BRT 2026
 base.0=C\:\\projetos-Lucas\\App-Banavita\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\projetos-Lucas\\App-Banavita\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\projetos-Lucas\\App-Banavita\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex

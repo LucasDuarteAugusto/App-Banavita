@@ -45,12 +45,12 @@
 26-->[androidx.core:core:1.15.0] C:\Users\lucas\.gradle\caches\8.13\transforms\a76e63fa17c0e20323d596bf1839015f\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
 27        android:debuggable="true"
 28        android:extractNativeLibs="true"
-29        android:icon="@drawable/ic_launcher"
-29-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:13:9-45
+29        android:icon="@mipmap/ic_launcher_banavita"
+29-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:13:9-52
 30        android:label="@string/app_name"
 30-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:14:9-41
-31        android:roundIcon="@drawable/ic_launcher"
-31-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:15:9-50
+31        android:roundIcon="@mipmap/ic_launcher_banavita"
+31-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:15:9-57
 32        android:supportsRtl="true"
 32-->C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:16:9-35
 33        android:testOnly="true"

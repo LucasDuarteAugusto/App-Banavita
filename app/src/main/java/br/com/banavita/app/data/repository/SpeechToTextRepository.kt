@@ -5,6 +5,7 @@ import br.com.banavita.app.core.speech.PcmConverter
 import br.com.banavita.app.core.speech.PtBrPromptHints
 import br.com.banavita.app.core.speech.SilenceTrimmer
 import br.com.banavita.app.core.speech.SpeechConstants
+import br.com.banavita.app.core.speech.SpeechModelCatalog
 import br.com.banavita.app.core.speech.SpeechModelManager
 import br.com.banavita.app.core.speech.SttDiagnostics
 import br.com.banavita.app.core.speech.TrimResult
@@ -39,9 +40,16 @@ class SpeechToTextRepository @Inject constructor(
     fun currentProvider(): TranscriptionProvider =
         appSettingsRepository.getTranscriptionProvider()
 
+    fun currentOfflineModelId(): String =
+        appSettingsRepository.getOfflineModelId()
+
     fun ensureModelReady(): ModelStatus =
         when (currentProvider()) {
-            TranscriptionProvider.LOCAL -> speechModelManager.ensureModelReady()
+            TranscriptionProvider.LOCAL -> {
+                val spec = SpeechModelCatalog.getSpec(currentOfflineModelId())
+                    ?: SpeechModelCatalog.activeModel()
+                speechModelManager.ensureModelReady(spec)
+            }
             TranscriptionProvider.GROQ -> {
                 if (appSettingsRepository.isGroqApiKeyConfigured()) {
                     ModelStatus.READY
@@ -62,18 +70,25 @@ class SpeechToTextRepository @Inject constructor(
                 }
             }
             TranscriptionProvider.LOCAL -> withContext(Dispatchers.IO) {
-                if (whisperEngine.isLoaded) return@withContext
-                val status = speechModelManager.ensureModelReady()
+                val modelId = currentOfflineModelId()
+                if (whisperEngine.isLoaded && whisperEngine.loadedModelId == modelId) return@withContext
+                
+                val spec = SpeechModelCatalog.getSpec(modelId)
+                    ?: SpeechModelCatalog.activeModel()
+                
+                val status = speechModelManager.ensureModelReady(spec)
                 if (status != ModelStatus.READY) {
                     throw SpeechModelException(
                         "Modelo ASR indisponível ($status). " +
                             "Reinstale o app ou gere o APK com o modelo embutido " +
-                            "(${speechModelManager.activeSpec().fileName}).",
+                            "(${spec.fileName}).",
                     )
                 }
-                val path = speechModelManager.modelPathOrNull()
+                val path = speechModelManager.modelPathOrNull(spec)
                     ?: throw SpeechModelException("Caminho do modelo não encontrado")
-                whisperEngine.load(path)
+                
+                if (whisperEngine.isLoaded) whisperEngine.release()
+                whisperEngine.load(path, modelId)
             }
         }
     }
@@ -152,7 +167,7 @@ class SpeechToTextRepository @Inject constructor(
 
     private fun modelIdFor(provider: TranscriptionProvider): String =
         when (provider) {
-            TranscriptionProvider.LOCAL -> speechModelManager.activeSpec().id
+            TranscriptionProvider.LOCAL -> whisperEngine.loadedModelId ?: appSettingsRepository.getOfflineModelId()
             TranscriptionProvider.GROQ -> GroqSpeechConstants.MODEL_ID
         }
 }

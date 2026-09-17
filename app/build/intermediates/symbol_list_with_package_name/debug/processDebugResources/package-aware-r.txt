@@ -216,6 +216,8 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+mipmap ic_launcher_banavita
+raw olha_a_banana
 string activation_activate_button
 string activation_code_copied
 string activation_code_copy_hint
@@ -377,6 +379,8 @@ string error_load
 string error_not_found
 string error_save
 string estado_amarela
+string estado_crua
+string estado_maturacao
 string estado_pintada
 string estado_podre
 string estado_verde
@@ -579,6 +583,7 @@ string produto_curva_title
 string produto_delete_message
 string produto_delete_title
 string produto_dias_amarela
+string produto_dias_maturacao
 string produto_dias_pintada
 string produto_dias_verde
 string produto_dias_verdolenga
@@ -594,6 +599,8 @@ string produto_form_edit_title
 string produto_form_new_title
 string produto_perecivel
 string produto_preco_amarela
+string produto_preco_crua
+string produto_preco_maturacao
 string produto_preco_pintada
 string produto_preco_podre_hint
 string produto_preco_verde
@@ -616,6 +623,10 @@ string settings_etileno_dia_hint
 string settings_export_button
 string settings_export_desc
 string settings_export_success
+string settings_notifications_section
+string settings_offline_model_base
+string settings_offline_model_tiny
+string settings_offline_model_title
 string settings_pereciveis_section
 string settings_provider_groq_desc
 string settings_provider_groq_missing_key
@@ -629,6 +640,8 @@ string settings_restore_confirm_message
 string settings_restore_confirm_title
 string settings_restore_desc
 string settings_restore_success
+string settings_ringtone
+string settings_ringtone_default
 string settings_subtitle
 string settings_theme_dark_desc
 string settings_theme_dark_title

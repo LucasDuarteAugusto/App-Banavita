@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import br.com.banavita.app.R
 import br.com.banavita.app.core.speech.AmplitudeMeter
 import br.com.banavita.app.core.speech.AudioCapture
+import br.com.banavita.app.data.repository.ClienteRepository
 import br.com.banavita.app.data.repository.ExtractionRepository
+import br.com.banavita.app.data.repository.FornecedorRepository
+import br.com.banavita.app.data.repository.ProdutoRepository
 import br.com.banavita.app.data.repository.SpeechToTextRepository
 import br.com.banavita.app.domain.exception.BanavitaDomainException
 import br.com.banavita.app.domain.exception.ExtractionConfirmException
@@ -21,6 +24,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
@@ -32,10 +36,33 @@ class VoiceCaptureViewModel @Inject constructor(
     private val speechToTextRepository: SpeechToTextRepository,
     private val extractionRepository: ExtractionRepository,
     private val audioCapture: AudioCapture,
+    private val produtoRepository: ProdutoRepository,
+    private val clienteRepository: ClienteRepository,
+    private val fornecedorRepository: FornecedorRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(VoiceCaptureUiState())
     val uiState: StateFlow<VoiceCaptureUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            combine(
+                produtoRepository.observeAll(),
+                clienteRepository.observeAll(),
+                fornecedorRepository.observeAll(),
+            ) { produtos, clientes, fornecedores ->
+                Triple(produtos, clientes, fornecedores)
+            }.collect { (produtos, clientes, fornecedores) ->
+                _uiState.update { 
+                    it.copy(
+                        produtos = produtos.sortedBy { p -> p.descricao.lowercase() },
+                        clientes = clientes.sortedBy { c -> c.nome.lowercase() },
+                        fornecedores = fornecedores.sortedBy { f -> f.nome.lowercase() }
+                    )
+                }
+            }
+        }
+    }
 
     private val finishing = AtomicBoolean(false)
     private var captureContext: VoiceScreenContext? = null

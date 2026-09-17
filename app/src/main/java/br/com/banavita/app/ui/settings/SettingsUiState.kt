@@ -12,6 +12,8 @@ data class SettingsUiState(
     val avisoMatinalInput: String = "07:00",
     val isBackupBusy: Boolean = false,
     val showRestoreConfirm: Boolean = false,
+    val selectedRingtoneName: String? = null,
+    val selectedOfflineModelId: String = "ggml-tiny-q5_1",
     val statusMessage: String? = null,
     val errorMessage: String? = null,
 )

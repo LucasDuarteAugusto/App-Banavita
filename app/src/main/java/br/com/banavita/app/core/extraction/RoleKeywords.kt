@@ -9,7 +9,7 @@ object RoleKeywords {
         "cliente", "fornecedor", "produto", "grupo", "cadastro", "cadastrar",
         "quilo", "quilos", "kg", "unidade", "unidades", "caixa", "caixas", "duzia", "dúzia",
         "reais", "real", "r",
-        "verde", "verdolenga", "amarela", "pintada", "podre",
+        "verde", "verdolenga", "amarela", "pintada", "podre", "crua", "maturacao", "maturação",
         "fiado", "pago", "pagou", "prazo", "vista", "avista",
     )
 

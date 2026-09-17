@@ -69,7 +69,7 @@ class PereciveisIntegrationTest {
     }
 
     @Test
-    fun `compra de perecivel cria lote verde na fria e transferencia parte o lote`() = runBlocking {
+    fun `compra de perecivel cria lote crua na fria e transferencia parte o lote`() = runBlocking {
         val produtoId = nanica()
         graph.compraRepository.create(
             data = timestamp,
@@ -79,7 +79,7 @@ class PereciveisIntegrationTest {
         val lotesAntes = database.loteDao().listByProduto(produtoId)
         assertEquals(1, lotesAntes.size)
         assertEquals(Camara.FRIA.name, lotesAntes.single().camara)
-        assertEquals(MaturacaoEstado.VERDE.name, lotesAntes.single().estado)
+        assertEquals(MaturacaoEstado.CRUA.name, lotesAntes.single().estado)
         assertNull(lotesAntes.single().etapaInicioEpochDay)
         assertEquals(800.0, lotesAntes.single().quantidadeRestante, 0.0001)
 
@@ -90,7 +90,7 @@ class PereciveisIntegrationTest {
         assertEquals(600.0, fria.quantidadeRestante, 0.0001)
         assertEquals(200.0, etileno.quantidadeRestante, 0.0001)
         assertEquals(lotesAntes.single().id, etileno.origemId)
-        assertEquals(MaturacaoEstado.VERDE.name, etileno.estado)
+        assertEquals(MaturacaoEstado.EM_MATURACAO.name, etileno.estado)
         assertEquals(RipeningClock.todayEpochDay(), etileno.etapaInicioEpochDay)
         assertEquals(800.0, estoqueRepository.getSaldo(produtoId), 0.0001)
     }
@@ -112,6 +112,7 @@ class PereciveisIntegrationTest {
         )
         graph.loteRepository.avancarMaturacao()
         val atualizado = database.loteDao().getById(etileno.id)!!
+        // Maturacao (1) + Verde (3) = 4 dias. No 4º dia vira Verdolenga.
         assertEquals(MaturacaoEstado.VERDOLENGA.name, atualizado.estado)
         assertEquals(100.0, atualizado.quantidadeRestante, 0.0001)
     }
@@ -133,7 +134,7 @@ class PereciveisIntegrationTest {
             data = timestamp,
             clienteId = null,
             itens = listOf(
-                DocumentoItemInput(produtoId, 120.0, estado = MaturacaoEstado.VERDE),
+                DocumentoItemInput(produtoId, 120.0, estado = MaturacaoEstado.CRUA),
             ),
         )
         val lotes = database.loteDao().listByProduto(produtoId).sortedBy { it.dataEntrada }
@@ -143,35 +144,39 @@ class PereciveisIntegrationTest {
     }
 
     @Test(expected = InsufficientStockException::class)
-    fun `venda recusa saldo insuficiente daquele estado`() = runBlocking {
-        val produtoId = nanica()
-        graph.compraRepository.create(
-            data = timestamp,
-            fornecedorId = null,
-            itens = listOf(DocumentoItemInput(produtoId, 10.0, 200)),
-        )
-        graph.vendaRepository.create(
-            data = timestamp,
-            clienteId = null,
-            itens = listOf(
-                DocumentoItemInput(produtoId, 1.0, estado = MaturacaoEstado.AMARELA),
-            ),
-        )
+    fun testVendaRecusaSaldoInsuficienteDaqueleEstado() {
+        runBlocking {
+            val produtoId = nanica()
+            graph.compraRepository.create(
+                data = timestamp,
+                fornecedorId = null,
+                itens = listOf(DocumentoItemInput(produtoId, 10.0, 200)),
+            )
+            graph.vendaRepository.create(
+                data = timestamp,
+                clienteId = null,
+                itens = listOf(
+                    DocumentoItemInput(produtoId, 1.0, estado = MaturacaoEstado.AMARELA),
+                ),
+            )
+        }
     }
 
     @Test(expected = InvalidDocumentException::class)
-    fun `venda de perecivel exige estado`() = runBlocking {
-        val produtoId = nanica()
-        graph.compraRepository.create(
-            data = timestamp,
-            fornecedorId = null,
-            itens = listOf(DocumentoItemInput(produtoId, 10.0, 200)),
-        )
-        graph.vendaRepository.create(
-            data = timestamp,
-            clienteId = null,
-            itens = listOf(DocumentoItemInput(produtoId, 1.0)),
-        )
+    fun testVendaDePerecivelExigeEstado() {
+        runBlocking {
+            val produtoId = nanica()
+            graph.compraRepository.create(
+                data = timestamp,
+                fornecedorId = null,
+                itens = listOf(DocumentoItemInput(produtoId, 10.0, 200)),
+            )
+            graph.vendaRepository.create(
+                data = timestamp,
+                clienteId = null,
+                itens = listOf(DocumentoItemInput(produtoId, 1.0)),
+            )
+        }
     }
 
     @Test
@@ -232,7 +237,7 @@ class PereciveisIntegrationTest {
         val encomendaId = encomendaRepository.create(
             clienteId = clienteId,
             dataEntrega = timestamp,
-            itens = listOf(DocumentoItemInput(produtoId, 20.0, estado = MaturacaoEstado.VERDE)),
+            itens = listOf(DocumentoItemInput(produtoId, 20.0, estado = MaturacaoEstado.CRUA)),
         )
         val vendaId = encomendaRepository.atender(encomendaId, aPrazo = false, permitirParcial = false)
         val venda = graph.vendaRepository.getById(vendaId)!!

@@ -8,6 +8,8 @@ enum class Camara {
 }
 
 enum class MaturacaoEstado {
+    CRUA,
+    EM_MATURACAO,
     VERDE,
     VERDOLENGA,
     AMARELA,
@@ -16,6 +18,8 @@ enum class MaturacaoEstado {
     ;
 
     fun next(): MaturacaoEstado? = when (this) {
+        CRUA -> EM_MATURACAO
+        EM_MATURACAO -> VERDE
         VERDE -> VERDOLENGA
         VERDOLENGA -> AMARELA
         AMARELA -> PINTADA
@@ -41,12 +45,15 @@ enum class EncomendaStatus {
 }
 
 data class RipeningCurve(
+    val diasEmMaturacao: Int,
     val diasVerde: Int,
     val diasVerdolenga: Int,
     val diasAmarela: Int,
     val diasPintada: Int,
 ) {
     fun daysOf(estado: MaturacaoEstado): Int? = when (estado) {
+        MaturacaoEstado.CRUA -> null
+        MaturacaoEstado.EM_MATURACAO -> diasEmMaturacao
         MaturacaoEstado.VERDE -> diasVerde
         MaturacaoEstado.VERDOLENGA -> diasVerdolenga
         MaturacaoEstado.AMARELA -> diasAmarela
@@ -55,10 +62,11 @@ data class RipeningCurve(
     }
 
     fun isValid(): Boolean =
-        diasVerde > 0 && diasVerdolenga > 0 && diasAmarela > 0 && diasPintada > 0
+        diasEmMaturacao > 0 && diasVerde > 0 && diasVerdolenga > 0 && diasAmarela > 0 && diasPintada > 0
 
     companion object {
         val DEFAULT = RipeningCurve(
+            diasEmMaturacao = 1,
             diasVerde = 3,
             diasVerdolenga = 2,
             diasAmarela = 2,
@@ -68,6 +76,8 @@ data class RipeningCurve(
 }
 
 data class PrecosPorEstado(
+    val cruaCentavos: Long,
+    val emMaturacaoCentavos: Long,
     val verdeCentavos: Long,
     val verdolengaCentavos: Long,
     val amarelaCentavos: Long,
@@ -75,6 +85,8 @@ data class PrecosPorEstado(
     val podreCentavos: Long = 0L,
 ) {
     fun of(estado: MaturacaoEstado): Long = when (estado) {
+        MaturacaoEstado.CRUA -> cruaCentavos
+        MaturacaoEstado.EM_MATURACAO -> emMaturacaoCentavos
         MaturacaoEstado.VERDE -> verdeCentavos
         MaturacaoEstado.VERDOLENGA -> verdolengaCentavos
         MaturacaoEstado.AMARELA -> amarelaCentavos
@@ -85,6 +97,8 @@ data class PrecosPorEstado(
     companion object {
         fun fromTabela(precoCentavos: Long): PrecosPorEstado =
             PrecosPorEstado(
+                cruaCentavos = precoCentavos,
+                emMaturacaoCentavos = precoCentavos,
                 verdeCentavos = precoCentavos,
                 verdolengaCentavos = precoCentavos,
                 amarelaCentavos = precoCentavos,

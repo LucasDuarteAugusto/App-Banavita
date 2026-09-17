@@ -4,14 +4,17 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import br.com.banavita.app.MainActivity
 import br.com.banavita.app.R
+import br.com.banavita.app.data.repository.AppSettingsRepository
 import br.com.banavita.app.data.repository.LoteRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +27,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
 
     @Inject lateinit var loteRepository: LoteRepository
     @Inject lateinit var morningScheduler: PereciveisMorningScheduler
+    @Inject lateinit var appSettingsRepository: AppSettingsRepository
 
     override fun onReceive(context: Context, intent: Intent) {
         val pending = goAsync()
@@ -65,7 +69,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
         if (value % 1.0 == 0.0) value.toLong().toString() else String.format("%.1f", value)
 
     private fun showNotification(context: Context, body: String) {
-        ensureChannel(context)
+        ensureChannel(context, appSettingsRepository)
         val deepLink = Intent(
             Intent.ACTION_VIEW,
             Uri.parse(PereciveisNotifications.DEEP_LINK),
@@ -80,8 +84,9 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
             deepLink,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
-        val notification = NotificationCompat.Builder(context, PereciveisNotifications.CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher)
+        val channelId = getActiveChannelId(appSettingsRepository)
+        val notification = NotificationCompat.Builder(context, channelId)
+            .setSmallIcon(R.mipmap.ic_launcher_banavita)
             .setContentTitle(context.getString(R.string.notif_pereciveis_title))
             .setContentText(context.getString(R.string.notif_pereciveis_body, body))
             .setStyle(NotificationCompat.BigTextStyle().bigText(body))
@@ -98,14 +103,40 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    private fun getActiveChannelId(repo: AppSettingsRepository): String {
+        return if (repo.getRingtoneUri() != null) {
+            "${PereciveisNotifications.CHANNEL_ID}_custom"
+        } else {
+            PereciveisNotifications.CHANNEL_ID
+        }
+    }
+
     companion object {
-        fun ensureChannel(context: Context) {
+        fun ensureChannel(context: Context, appSettingsRepository: AppSettingsRepository? = null) {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            
+            val soundUri = appSettingsRepository?.getRingtoneUri()?.let { Uri.parse(it) }
+                ?: Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.olha_a_banana}")
+
+            val channelId = if (appSettingsRepository?.getRingtoneUri() != null) {
+                "${PereciveisNotifications.CHANNEL_ID}_custom"
+            } else {
+                PereciveisNotifications.CHANNEL_ID
+            }
+
             val channel = NotificationChannel(
-                PereciveisNotifications.CHANNEL_ID,
+                channelId,
                 PereciveisNotifications.CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_HIGH,
-            )
+            ).apply {
+                setSound(
+                    soundUri,
+                    AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build()
+                )
+            }
             manager.createNotificationChannel(channel)
         }
     }

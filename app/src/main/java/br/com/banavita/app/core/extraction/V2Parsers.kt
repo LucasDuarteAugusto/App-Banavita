@@ -14,12 +14,12 @@ import java.time.format.DateTimeFormatter
 object PrazoParser {
     // Expressões que indicam que NÃO foi pago (a prazo / fiado / pendente)
     private val naoPago = Regex(
-        """(?i)\b(nao\s+(?:foi\s+)?pago|nao\s+pagou|sem\s+pagar|a\s*prazo|prazo|fiado|pendente|ficou\s+devendo|pra\s+acertar|para\s+acertar|deve|devendo|anota\s+ai|anotar)\b""",
+        """(?i)\b(nao\s+(?:foi\s+)?pago|nao\s+pagou|sem\s+pagar|a\s*prazo|prazo|fiado|fiada|pendente|ficou\s+devendo|deve|devida|devido|pra\s+acertar|para\s+acertar|anota\s+ai|anotar|anotada)\b""",
     )
 
     // Expressões que indicam que FOI pago (à vista / quitado / dinheiro / pix)
     private val pago = Regex(
-        """(?i)\b(ja\s+pago|ja\s+pagou|pago\s+agora|pagou\s+agora|pagou|pago|a\s*vista|avista|no\s+pix|em\s+dinheiro|no\s+dinheiro|no\s+cartao|no\s+debito|quitado)\b""",
+        """(?i)\b(ja\s+pago|ja\s+pagou|pago\s+agora|pagou\s+agora|pagou|pago|paga|a\s*vista|avista|no\s+pix|em\s+dinheiro|no\s+dinheiro|no\s+cartao|no\s+debito|quitado|quitada)\b""",
     )
 
     fun parse(transcript: String): ExtractionField<Boolean> {

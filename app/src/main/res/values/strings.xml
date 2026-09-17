@@ -41,6 +41,9 @@
     <string name="settings_provider_local_title">Modelo local (Whisper.cpp)</string>
     <string name="settings_provider_local_desc">Funciona offline no aparelho, sem enviar áudio.</string>
     <string name="settings_provider_local_note">Em celulares mais simples pode demorar bastante.</string>
+    <string name="settings_offline_model_title">Precisão do modelo offline</string>
+    <string name="settings_offline_model_tiny">Tiny (Mais rápido, menos preciso)</string>
+    <string name="settings_offline_model_base">Base (Mais preciso, um pouco mais lento)</string>
 
     <string name="settings_database_section">Banco de dados</string>
     <string name="settings_database_section_desc">Os dados do negócio ficam neste aparelho. Use exportar/restaurar para trocar de celular ou após desinstalar.</string>
@@ -320,12 +323,15 @@
     <string name="consultas_visao_label">Visão</string>
 
     <string name="produto_perecivel">Perecível</string>
-    <string name="produto_curva_title">Curva de maturação (dias na etileno)</string>
+    <string name="produto_curva_title">Curva de maturação (dias)</string>
+    <string name="produto_dias_maturacao">Dias em maturação (gás)</string>
     <string name="produto_dias_verde">Dias em verde</string>
     <string name="produto_dias_verdolenga">Dias em verdolenga</string>
     <string name="produto_dias_amarela">Dias em amarela</string>
     <string name="produto_dias_pintada">Dias em pintada</string>
     <string name="produto_precos_estado_title">Preço sugerido por estado</string>
+    <string name="produto_preco_crua">Preço crua</string>
+    <string name="produto_preco_maturacao">Preço em maturação</string>
     <string name="produto_preco_verde">Preço verde</string>
     <string name="produto_preco_verdolenga">Preço verdolenga</string>
     <string name="produto_preco_amarela">Preço amarela</string>
@@ -333,6 +339,8 @@
     <string name="produto_preco_podre_hint">Podre não se vende (preço 0). Lance como perda.</string>
     <string name="produto_error_curva">Informe dias maiores que zero em cada etapa da curva.</string>
 
+    <string name="estado_crua">crua</string>
+    <string name="estado_maturacao">em maturação</string>
     <string name="estado_verde">verde</string>
     <string name="estado_verdolenga">verdolenga</string>
     <string name="estado_amarela">amarela</string>
@@ -381,6 +389,9 @@
     <string name="settings_etileno_dia_hint">0 = sem teto diário. Folga = o menor entre capacidade − já na etileno e kg/dia − já soltos hoje.</string>
     <string name="settings_aviso_matinal">Horário do aviso matinal (HH:mm)</string>
     <string name="settings_aviso_matinal_hint">Padrão 07:00. Canal próprio, separado da agenda.</string>
+    <string name="settings_notifications_section">Notificações</string>
+    <string name="settings_ringtone">Som de aviso</string>
+    <string name="settings_ringtone_default">Padrão (Olha a banana)</string>
 
     <string name="home_card_pereciveis_title">Perecíveis do dia</string>
     <string name="home_card_pereciveis_empty">Nenhum perecível crítico hoje</string>

@@ -11,10 +11,13 @@ data class ProdutoFormUiState(
     val grupos: List<Grupo> = emptyList(),
     val unidades: List<String> = UNIDADES,
     val perecivel: Boolean = false,
+    val diasEmMaturacao: String = "1",
     val diasVerde: String = "3",
     val diasVerdolenga: String = "2",
     val diasAmarela: String = "2",
     val diasPintada: String = "2",
+    val precoCruaInput: String = "",
+    val precoMaturacaoInput: String = "",
     val precoVerdeInput: String = "",
     val precoVerdolengaInput: String = "",
     val precoAmarelaInput: String = "",
@@ -30,4 +33,4 @@ data class ProdutoFormUiState(
         get() = grupos.find { it.id == grupoId }?.nome
 }
 
-private val UNIDADES = listOf("UN", "KG", "CX", "DZ")
+private val UNIDADES = listOf("UN", "KG", "CX MADEIRA", "CX PLASTICA", "DZ")

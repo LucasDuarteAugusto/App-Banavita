@@ -127,9 +127,9 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\lu
 	android:label
 		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:14:9-41
 	android:roundIcon
-		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:15:9-50
+		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:15:9-57
 	android:icon
-		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:13:9-45
+		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:13:9-52
 	android:allowBackup
 		ADDED from C:\projetos-Lucas\App-Banavita\app\src\main\AndroidManifest.xml:12:9-35
 	android:theme

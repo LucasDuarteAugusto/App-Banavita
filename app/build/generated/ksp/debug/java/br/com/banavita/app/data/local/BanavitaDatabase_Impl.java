@@ -87,11 +87,11 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(4) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(5) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `grupo` (`GRU_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `GRU_NOME` TEXT NOT NULL, `GRU_OBS` TEXT, PRIMARY KEY(`GRU_ID`))");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `produto` (`PRO_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PRO_DESCRICAO` TEXT NOT NULL, `PRO_PRECO` INTEGER NOT NULL, `PRO_GRUPO` TEXT, `PRO_UNIDADE` TEXT NOT NULL DEFAULT 'UN', `PRO_PERECIVEL` INTEGER NOT NULL DEFAULT 0, `PRO_DIAS_VERDE` INTEGER NOT NULL DEFAULT 3, `PRO_DIAS_VERDOLENGA` INTEGER NOT NULL DEFAULT 2, `PRO_DIAS_AMARELA` INTEGER NOT NULL DEFAULT 2, `PRO_DIAS_PINTADA` INTEGER NOT NULL DEFAULT 2, `PRO_PRECO_VERDE` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_VERDOLENGA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_AMARELA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_PINTADA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_PODRE` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`PRO_ID`), FOREIGN KEY(`PRO_GRUPO`) REFERENCES `grupo`(`GRU_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `produto` (`PRO_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PRO_DESCRICAO` TEXT NOT NULL, `PRO_PRECO` INTEGER NOT NULL, `PRO_GRUPO` TEXT, `PRO_UNIDADE` TEXT NOT NULL DEFAULT 'UN', `PRO_PERECIVEL` INTEGER NOT NULL DEFAULT 0, `PRO_DIAS_EM_MATURACAO` INTEGER NOT NULL DEFAULT 1, `PRO_DIAS_VERDE` INTEGER NOT NULL DEFAULT 3, `PRO_DIAS_VERDOLENGA` INTEGER NOT NULL DEFAULT 2, `PRO_DIAS_AMARELA` INTEGER NOT NULL DEFAULT 2, `PRO_DIAS_PINTADA` INTEGER NOT NULL DEFAULT 2, `PRO_PRECO_CRUA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_EM_MATURACAO` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_VERDE` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_VERDOLENGA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_AMARELA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_PINTADA` INTEGER NOT NULL DEFAULT 0, `PRO_PRECO_PODRE` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(`PRO_ID`), FOREIGN KEY(`PRO_GRUPO`) REFERENCES `grupo`(`GRU_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_produto_PRO_GRUPO` ON `produto` (`PRO_GRUPO`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `cliente` (`CLI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `CLI_NOME` TEXT NOT NULL, `CLI_TELEFONE` TEXT, `CLI_PONTO_PREF` TEXT, PRIMARY KEY(`CLI_ID`))");
         db.execSQL("CREATE TABLE IF NOT EXISTS `fornecedor` (`FOR_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `FOR_NOME` TEXT NOT NULL, `FOR_TELEFONE` TEXT, PRIMARY KEY(`FOR_ID`))");
@@ -197,7 +197,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                 + "        ) v ON v.id = p.PRO_ID\n"
                 + "        WHERE p.PRO_PERECIVEL = 0");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6972427fd0320bccb955b02fdbc67915')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a62d25a2e901a65192ec60b59dd2a9fd')");
       }
 
       @Override
@@ -280,7 +280,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoGrupo + "\n"
                   + " Found:\n" + _existingGrupo);
         }
-        final HashMap<String, TableInfo.Column> _columnsProduto = new HashMap<String, TableInfo.Column>(17);
+        final HashMap<String, TableInfo.Column> _columnsProduto = new HashMap<String, TableInfo.Column>(20);
         _columnsProduto.put("PRO_ID", new TableInfo.Column("PRO_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -289,10 +289,13 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsProduto.put("PRO_GRUPO", new TableInfo.Column("PRO_GRUPO", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_UNIDADE", new TableInfo.Column("PRO_UNIDADE", "TEXT", true, 0, "'UN'", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_PERECIVEL", new TableInfo.Column("PRO_PERECIVEL", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
+        _columnsProduto.put("PRO_DIAS_EM_MATURACAO", new TableInfo.Column("PRO_DIAS_EM_MATURACAO", "INTEGER", true, 0, "1", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_DIAS_VERDE", new TableInfo.Column("PRO_DIAS_VERDE", "INTEGER", true, 0, "3", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_DIAS_VERDOLENGA", new TableInfo.Column("PRO_DIAS_VERDOLENGA", "INTEGER", true, 0, "2", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_DIAS_AMARELA", new TableInfo.Column("PRO_DIAS_AMARELA", "INTEGER", true, 0, "2", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_DIAS_PINTADA", new TableInfo.Column("PRO_DIAS_PINTADA", "INTEGER", true, 0, "2", TableInfo.CREATED_FROM_ENTITY));
+        _columnsProduto.put("PRO_PRECO_CRUA", new TableInfo.Column("PRO_PRECO_CRUA", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
+        _columnsProduto.put("PRO_PRECO_EM_MATURACAO", new TableInfo.Column("PRO_PRECO_EM_MATURACAO", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_PRECO_VERDE", new TableInfo.Column("PRO_PRECO_VERDE", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_PRECO_VERDOLENGA", new TableInfo.Column("PRO_PRECO_VERDOLENGA", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
         _columnsProduto.put("PRO_PRECO_AMARELA", new TableInfo.Column("PRO_PRECO_AMARELA", "INTEGER", true, 0, "0", TableInfo.CREATED_FROM_ENTITY));
@@ -697,7 +700,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "6972427fd0320bccb955b02fdbc67915", "ad50c87d0524a55d8635d60aca58b194");
+    }, "a62d25a2e901a65192ec60b59dd2a9fd", "5dbc68a02d9bcf3043b82d426770b628");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

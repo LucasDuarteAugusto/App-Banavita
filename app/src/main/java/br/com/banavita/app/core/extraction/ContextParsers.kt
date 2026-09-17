@@ -47,7 +47,7 @@ enum class LineItemRole {
 }
 
 object DocumentLineParser {
-    private val estadoMask = Regex("""(?i)\b(verdolenga|pintada|amarela|podre|verde)\b""")
+    private val estadoMask = Regex("""(?i)\b(verdolenga|pintada|amarela|podre|verde|crua|em maturacao|em maturação)\b""")
     private val prazoMask = Regex(
         """(?i)\b(nao\s+(?:foi\s+)?pago|nao\s+pagou|sem\s+pagar|a\s*prazo|prazo|fiado|pendente|""" +
             """ficou\s+devendo|pra\s+acertar|para\s+acertar|ja\s+pago|ja\s+pagou|pago\s+agora|""" +
@@ -121,6 +121,8 @@ object MaturacaoEstadoParser {
             Regex("""\bamarela\b""").containsMatchIn(normalized) -> MaturacaoEstado.AMARELA
             Regex("""\bpodre\b""").containsMatchIn(normalized) -> MaturacaoEstado.PODRE
             Regex("""\bverde\b""").containsMatchIn(normalized) -> MaturacaoEstado.VERDE
+            Regex("""\bcrua\b""").containsMatchIn(normalized) -> MaturacaoEstado.CRUA
+            Regex("""\b(em maturacao|em maturação)\b""").containsMatchIn(normalized) -> MaturacaoEstado.EM_MATURACAO
             else -> null
         }
         return ExtractionField(match, match?.name?.lowercase(), if (match != null) 0.9f else 0f)

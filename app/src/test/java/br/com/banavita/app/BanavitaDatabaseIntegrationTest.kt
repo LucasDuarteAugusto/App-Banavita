@@ -126,19 +126,21 @@ class BanavitaDatabaseIntegrationTest {
     }
 
     @Test(expected = InsufficientStockException::class)
-    fun `venda bloqueia estoque insuficiente`() = runBlocking {
-        val produtoId = produtoRepository.create("Banana", 350, null, "KG")
+    fun testVendaBloqueiaEstoqueInsuficiente() {
+        runBlocking {
+            val produtoId = produtoRepository.create("Banana", 350, null, "KG")
 
-        vendaRepository.create(
-            data = timestamp,
-            clienteId = null,
-            itens = listOf(
-                DocumentoItemInput(
-                    produtoId = produtoId,
-                    quantidade = 1.0,
+            vendaRepository.create(
+                data = timestamp,
+                clienteId = null,
+                itens = listOf(
+                    DocumentoItemInput(
+                        produtoId = produtoId,
+                        quantidade = 1.0,
+                    ),
                 ),
-            ),
-        )
+            )
+        }
     }
 
     @Test
@@ -184,25 +186,29 @@ class BanavitaDatabaseIntegrationTest {
     }
 
     @Test(expected = ReferencedEntityException::class)
-    fun `delete produto bloqueado quando referenciado`() = runBlocking {
-        val produtoId = produtoRepository.create("Banana", 350, null, "KG")
-        compraRepository.create(
-            data = timestamp,
-            fornecedorId = null,
-            itens = listOf(
-                DocumentoItemInput(produtoId, 1.0, 200),
-            ),
-        )
+    fun `delete produto bloqueado quando referenciado`() {
+        runBlocking {
+            val produtoId = produtoRepository.create("Banana", 350, null, "KG")
+            compraRepository.create(
+                data = timestamp,
+                fornecedorId = null,
+                itens = listOf(
+                    DocumentoItemInput(produtoId, 1.0, 200),
+                ),
+            )
 
-        produtoRepository.delete(produtoId)
+            produtoRepository.delete(produtoId)
+        }
     }
 
     @Test(expected = ReferencedEntityException::class)
-    fun `delete grupo bloqueado com produtos vinculados`() = runBlocking {
-        val grupoId = grupoRepository.create("Frutas", null)
-        produtoRepository.create("Banana", 350, grupoId, "KG")
+    fun `delete grupo bloqueado com produtos vinculados`() {
+        runBlocking {
+            val grupoId = grupoRepository.create("Frutas", null)
+            produtoRepository.create("Banana", 350, grupoId, "KG")
 
-        grupoRepository.delete(grupoId)
+            grupoRepository.delete(grupoId)
+        }
     }
 
     @Test

@@ -51,7 +51,7 @@ public final class ProdutoDao_Impl implements ProdutoDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `produto` (`PRO_ID`,`created_at`,`updated_at`,`PRO_DESCRICAO`,`PRO_PRECO`,`PRO_GRUPO`,`PRO_UNIDADE`,`PRO_PERECIVEL`,`PRO_DIAS_VERDE`,`PRO_DIAS_VERDOLENGA`,`PRO_DIAS_AMARELA`,`PRO_DIAS_PINTADA`,`PRO_PRECO_VERDE`,`PRO_PRECO_VERDOLENGA`,`PRO_PRECO_AMARELA`,`PRO_PRECO_PINTADA`,`PRO_PRECO_PODRE`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `produto` (`PRO_ID`,`created_at`,`updated_at`,`PRO_DESCRICAO`,`PRO_PRECO`,`PRO_GRUPO`,`PRO_UNIDADE`,`PRO_PERECIVEL`,`PRO_DIAS_EM_MATURACAO`,`PRO_DIAS_VERDE`,`PRO_DIAS_VERDOLENGA`,`PRO_DIAS_AMARELA`,`PRO_DIAS_PINTADA`,`PRO_PRECO_CRUA`,`PRO_PRECO_EM_MATURACAO`,`PRO_PRECO_VERDE`,`PRO_PRECO_VERDOLENGA`,`PRO_PRECO_AMARELA`,`PRO_PRECO_PINTADA`,`PRO_PRECO_PODRE`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -76,15 +76,18 @@ public final class ProdutoDao_Impl implements ProdutoDao {
         statement.bindString(7, entity.getUnidade());
         final int _tmp_2 = entity.getPerecivel() ? 1 : 0;
         statement.bindLong(8, _tmp_2);
-        statement.bindLong(9, entity.getDiasVerde());
-        statement.bindLong(10, entity.getDiasVerdolenga());
-        statement.bindLong(11, entity.getDiasAmarela());
-        statement.bindLong(12, entity.getDiasPintada());
-        statement.bindLong(13, entity.getPrecoVerdeCentavos());
-        statement.bindLong(14, entity.getPrecoVerdolengaCentavos());
-        statement.bindLong(15, entity.getPrecoAmarelaCentavos());
-        statement.bindLong(16, entity.getPrecoPintadaCentavos());
-        statement.bindLong(17, entity.getPrecoPodreCentavos());
+        statement.bindLong(9, entity.getDiasEmMaturacao());
+        statement.bindLong(10, entity.getDiasVerde());
+        statement.bindLong(11, entity.getDiasVerdolenga());
+        statement.bindLong(12, entity.getDiasAmarela());
+        statement.bindLong(13, entity.getDiasPintada());
+        statement.bindLong(14, entity.getPrecoCruaCentavos());
+        statement.bindLong(15, entity.getPrecoEmMaturacaoCentavos());
+        statement.bindLong(16, entity.getPrecoVerdeCentavos());
+        statement.bindLong(17, entity.getPrecoVerdolengaCentavos());
+        statement.bindLong(18, entity.getPrecoAmarelaCentavos());
+        statement.bindLong(19, entity.getPrecoPintadaCentavos());
+        statement.bindLong(20, entity.getPrecoPodreCentavos());
       }
     };
     this.__deletionAdapterOfProdutoEntity = new EntityDeletionOrUpdateAdapter<ProdutoEntity>(__db) {
@@ -109,7 +112,7 @@ public final class ProdutoDao_Impl implements ProdutoDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "UPDATE OR ABORT `produto` SET `PRO_ID` = ?,`created_at` = ?,`updated_at` = ?,`PRO_DESCRICAO` = ?,`PRO_PRECO` = ?,`PRO_GRUPO` = ?,`PRO_UNIDADE` = ?,`PRO_PERECIVEL` = ?,`PRO_DIAS_VERDE` = ?,`PRO_DIAS_VERDOLENGA` = ?,`PRO_DIAS_AMARELA` = ?,`PRO_DIAS_PINTADA` = ?,`PRO_PRECO_VERDE` = ?,`PRO_PRECO_VERDOLENGA` = ?,`PRO_PRECO_AMARELA` = ?,`PRO_PRECO_PINTADA` = ?,`PRO_PRECO_PODRE` = ? WHERE `PRO_ID` = ?";
+        return "UPDATE OR ABORT `produto` SET `PRO_ID` = ?,`created_at` = ?,`updated_at` = ?,`PRO_DESCRICAO` = ?,`PRO_PRECO` = ?,`PRO_GRUPO` = ?,`PRO_UNIDADE` = ?,`PRO_PERECIVEL` = ?,`PRO_DIAS_EM_MATURACAO` = ?,`PRO_DIAS_VERDE` = ?,`PRO_DIAS_VERDOLENGA` = ?,`PRO_DIAS_AMARELA` = ?,`PRO_DIAS_PINTADA` = ?,`PRO_PRECO_CRUA` = ?,`PRO_PRECO_EM_MATURACAO` = ?,`PRO_PRECO_VERDE` = ?,`PRO_PRECO_VERDOLENGA` = ?,`PRO_PRECO_AMARELA` = ?,`PRO_PRECO_PINTADA` = ?,`PRO_PRECO_PODRE` = ? WHERE `PRO_ID` = ?";
       }
 
       @Override
@@ -134,20 +137,23 @@ public final class ProdutoDao_Impl implements ProdutoDao {
         statement.bindString(7, entity.getUnidade());
         final int _tmp_2 = entity.getPerecivel() ? 1 : 0;
         statement.bindLong(8, _tmp_2);
-        statement.bindLong(9, entity.getDiasVerde());
-        statement.bindLong(10, entity.getDiasVerdolenga());
-        statement.bindLong(11, entity.getDiasAmarela());
-        statement.bindLong(12, entity.getDiasPintada());
-        statement.bindLong(13, entity.getPrecoVerdeCentavos());
-        statement.bindLong(14, entity.getPrecoVerdolengaCentavos());
-        statement.bindLong(15, entity.getPrecoAmarelaCentavos());
-        statement.bindLong(16, entity.getPrecoPintadaCentavos());
-        statement.bindLong(17, entity.getPrecoPodreCentavos());
+        statement.bindLong(9, entity.getDiasEmMaturacao());
+        statement.bindLong(10, entity.getDiasVerde());
+        statement.bindLong(11, entity.getDiasVerdolenga());
+        statement.bindLong(12, entity.getDiasAmarela());
+        statement.bindLong(13, entity.getDiasPintada());
+        statement.bindLong(14, entity.getPrecoCruaCentavos());
+        statement.bindLong(15, entity.getPrecoEmMaturacaoCentavos());
+        statement.bindLong(16, entity.getPrecoVerdeCentavos());
+        statement.bindLong(17, entity.getPrecoVerdolengaCentavos());
+        statement.bindLong(18, entity.getPrecoAmarelaCentavos());
+        statement.bindLong(19, entity.getPrecoPintadaCentavos());
+        statement.bindLong(20, entity.getPrecoPodreCentavos());
         final String _tmp_3 = __uuidConverters.fromUuid(entity.getId());
         if (_tmp_3 == null) {
-          statement.bindNull(18);
+          statement.bindNull(21);
         } else {
-          statement.bindString(18, _tmp_3);
+          statement.bindString(21, _tmp_3);
         }
       }
     };
@@ -225,10 +231,13 @@ public final class ProdutoDao_Impl implements ProdutoDao {
           final int _cursorIndexOfGrupoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_GRUPO");
           final int _cursorIndexOfUnidade = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_UNIDADE");
           final int _cursorIndexOfPerecivel = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PERECIVEL");
+          final int _cursorIndexOfDiasEmMaturacao = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_EM_MATURACAO");
           final int _cursorIndexOfDiasVerde = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDE");
           final int _cursorIndexOfDiasVerdolenga = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDOLENGA");
           final int _cursorIndexOfDiasAmarela = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_AMARELA");
           final int _cursorIndexOfDiasPintada = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_PINTADA");
+          final int _cursorIndexOfPrecoCruaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_CRUA");
+          final int _cursorIndexOfPrecoEmMaturacaoCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_EM_MATURACAO");
           final int _cursorIndexOfPrecoVerdeCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDE");
           final int _cursorIndexOfPrecoVerdolengaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDOLENGA");
           final int _cursorIndexOfPrecoAmarelaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_AMARELA");
@@ -272,6 +281,8 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             final int _tmp_3;
             _tmp_3 = _cursor.getInt(_cursorIndexOfPerecivel);
             _tmpPerecivel = _tmp_3 != 0;
+            final int _tmpDiasEmMaturacao;
+            _tmpDiasEmMaturacao = _cursor.getInt(_cursorIndexOfDiasEmMaturacao);
             final int _tmpDiasVerde;
             _tmpDiasVerde = _cursor.getInt(_cursorIndexOfDiasVerde);
             final int _tmpDiasVerdolenga;
@@ -280,6 +291,10 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpDiasAmarela = _cursor.getInt(_cursorIndexOfDiasAmarela);
             final int _tmpDiasPintada;
             _tmpDiasPintada = _cursor.getInt(_cursorIndexOfDiasPintada);
+            final long _tmpPrecoCruaCentavos;
+            _tmpPrecoCruaCentavos = _cursor.getLong(_cursorIndexOfPrecoCruaCentavos);
+            final long _tmpPrecoEmMaturacaoCentavos;
+            _tmpPrecoEmMaturacaoCentavos = _cursor.getLong(_cursorIndexOfPrecoEmMaturacaoCentavos);
             final long _tmpPrecoVerdeCentavos;
             _tmpPrecoVerdeCentavos = _cursor.getLong(_cursorIndexOfPrecoVerdeCentavos);
             final long _tmpPrecoVerdolengaCentavos;
@@ -290,7 +305,7 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpPrecoPintadaCentavos = _cursor.getLong(_cursorIndexOfPrecoPintadaCentavos);
             final long _tmpPrecoPodreCentavos;
             _tmpPrecoPodreCentavos = _cursor.getLong(_cursorIndexOfPrecoPodreCentavos);
-            _item = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
+            _item = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasEmMaturacao,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoCruaCentavos,_tmpPrecoEmMaturacaoCentavos,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
             _result.add(_item);
           }
           return _result;
@@ -325,10 +340,13 @@ public final class ProdutoDao_Impl implements ProdutoDao {
           final int _cursorIndexOfGrupoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_GRUPO");
           final int _cursorIndexOfUnidade = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_UNIDADE");
           final int _cursorIndexOfPerecivel = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PERECIVEL");
+          final int _cursorIndexOfDiasEmMaturacao = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_EM_MATURACAO");
           final int _cursorIndexOfDiasVerde = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDE");
           final int _cursorIndexOfDiasVerdolenga = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDOLENGA");
           final int _cursorIndexOfDiasAmarela = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_AMARELA");
           final int _cursorIndexOfDiasPintada = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_PINTADA");
+          final int _cursorIndexOfPrecoCruaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_CRUA");
+          final int _cursorIndexOfPrecoEmMaturacaoCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_EM_MATURACAO");
           final int _cursorIndexOfPrecoVerdeCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDE");
           final int _cursorIndexOfPrecoVerdolengaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDOLENGA");
           final int _cursorIndexOfPrecoAmarelaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_AMARELA");
@@ -372,6 +390,8 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             final int _tmp_3;
             _tmp_3 = _cursor.getInt(_cursorIndexOfPerecivel);
             _tmpPerecivel = _tmp_3 != 0;
+            final int _tmpDiasEmMaturacao;
+            _tmpDiasEmMaturacao = _cursor.getInt(_cursorIndexOfDiasEmMaturacao);
             final int _tmpDiasVerde;
             _tmpDiasVerde = _cursor.getInt(_cursorIndexOfDiasVerde);
             final int _tmpDiasVerdolenga;
@@ -380,6 +400,10 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpDiasAmarela = _cursor.getInt(_cursorIndexOfDiasAmarela);
             final int _tmpDiasPintada;
             _tmpDiasPintada = _cursor.getInt(_cursorIndexOfDiasPintada);
+            final long _tmpPrecoCruaCentavos;
+            _tmpPrecoCruaCentavos = _cursor.getLong(_cursorIndexOfPrecoCruaCentavos);
+            final long _tmpPrecoEmMaturacaoCentavos;
+            _tmpPrecoEmMaturacaoCentavos = _cursor.getLong(_cursorIndexOfPrecoEmMaturacaoCentavos);
             final long _tmpPrecoVerdeCentavos;
             _tmpPrecoVerdeCentavos = _cursor.getLong(_cursorIndexOfPrecoVerdeCentavos);
             final long _tmpPrecoVerdolengaCentavos;
@@ -390,7 +414,7 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpPrecoPintadaCentavos = _cursor.getLong(_cursorIndexOfPrecoPintadaCentavos);
             final long _tmpPrecoPodreCentavos;
             _tmpPrecoPodreCentavos = _cursor.getLong(_cursorIndexOfPrecoPodreCentavos);
-            _item = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
+            _item = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasEmMaturacao,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoCruaCentavos,_tmpPrecoEmMaturacaoCentavos,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
             _result.add(_item);
           }
           return _result;
@@ -428,10 +452,13 @@ public final class ProdutoDao_Impl implements ProdutoDao {
           final int _cursorIndexOfGrupoId = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_GRUPO");
           final int _cursorIndexOfUnidade = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_UNIDADE");
           final int _cursorIndexOfPerecivel = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PERECIVEL");
+          final int _cursorIndexOfDiasEmMaturacao = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_EM_MATURACAO");
           final int _cursorIndexOfDiasVerde = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDE");
           final int _cursorIndexOfDiasVerdolenga = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_VERDOLENGA");
           final int _cursorIndexOfDiasAmarela = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_AMARELA");
           final int _cursorIndexOfDiasPintada = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_DIAS_PINTADA");
+          final int _cursorIndexOfPrecoCruaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_CRUA");
+          final int _cursorIndexOfPrecoEmMaturacaoCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_EM_MATURACAO");
           final int _cursorIndexOfPrecoVerdeCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDE");
           final int _cursorIndexOfPrecoVerdolengaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_VERDOLENGA");
           final int _cursorIndexOfPrecoAmarelaCentavos = CursorUtil.getColumnIndexOrThrow(_cursor, "PRO_PRECO_AMARELA");
@@ -474,6 +501,8 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             final int _tmp_4;
             _tmp_4 = _cursor.getInt(_cursorIndexOfPerecivel);
             _tmpPerecivel = _tmp_4 != 0;
+            final int _tmpDiasEmMaturacao;
+            _tmpDiasEmMaturacao = _cursor.getInt(_cursorIndexOfDiasEmMaturacao);
             final int _tmpDiasVerde;
             _tmpDiasVerde = _cursor.getInt(_cursorIndexOfDiasVerde);
             final int _tmpDiasVerdolenga;
@@ -482,6 +511,10 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpDiasAmarela = _cursor.getInt(_cursorIndexOfDiasAmarela);
             final int _tmpDiasPintada;
             _tmpDiasPintada = _cursor.getInt(_cursorIndexOfDiasPintada);
+            final long _tmpPrecoCruaCentavos;
+            _tmpPrecoCruaCentavos = _cursor.getLong(_cursorIndexOfPrecoCruaCentavos);
+            final long _tmpPrecoEmMaturacaoCentavos;
+            _tmpPrecoEmMaturacaoCentavos = _cursor.getLong(_cursorIndexOfPrecoEmMaturacaoCentavos);
             final long _tmpPrecoVerdeCentavos;
             _tmpPrecoVerdeCentavos = _cursor.getLong(_cursorIndexOfPrecoVerdeCentavos);
             final long _tmpPrecoVerdolengaCentavos;
@@ -492,7 +525,7 @@ public final class ProdutoDao_Impl implements ProdutoDao {
             _tmpPrecoPintadaCentavos = _cursor.getLong(_cursorIndexOfPrecoPintadaCentavos);
             final long _tmpPrecoPodreCentavos;
             _tmpPrecoPodreCentavos = _cursor.getLong(_cursorIndexOfPrecoPodreCentavos);
-            _result = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
+            _result = new ProdutoEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpDescricao,_tmpPrecoCentavos,_tmpGrupoId,_tmpUnidade,_tmpPerecivel,_tmpDiasEmMaturacao,_tmpDiasVerde,_tmpDiasVerdolenga,_tmpDiasAmarela,_tmpDiasPintada,_tmpPrecoCruaCentavos,_tmpPrecoEmMaturacaoCentavos,_tmpPrecoVerdeCentavos,_tmpPrecoVerdolengaCentavos,_tmpPrecoAmarelaCentavos,_tmpPrecoPintadaCentavos,_tmpPrecoPodreCentavos);
           } else {
             _result = null;
           }

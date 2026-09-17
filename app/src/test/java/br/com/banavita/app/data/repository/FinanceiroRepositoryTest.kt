@@ -102,21 +102,23 @@ class FinanceiroRepositoryTest {
     }
 
     @Test(expected = OverpaymentException::class)
-    fun `baixa maior que saldo falha`() = runBlocking {
-        val produtoId = produtoRepository.create("Banana", 1000, null, "KG")
-        compraRepository.create(
-            data = 1_700_000_000_000L,
-            fornecedorId = null,
-            itens = listOf(DocumentoItemInput(produtoId, 5.0, 200)),
-        )
-        val clienteId = clienteRepository.create("Joao", null)
-        val vendaId = vendaRepository.create(
-            data = 1_700_000_000_000L,
-            clienteId = clienteId,
-            itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
-            aPrazo = true,
-        )
-        val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
-        financeiroRepository.registrarRecebimento(vendaId, total + 1)
+    fun testBaixaMaiorQueSaldoFalha() {
+        runBlocking {
+            val produtoId = produtoRepository.create("Banana", 1000, null, "KG")
+            compraRepository.create(
+                data = 1_700_000_000_000L,
+                fornecedorId = null,
+                itens = listOf(DocumentoItemInput(produtoId, 5.0, 200)),
+            )
+            val clienteId = clienteRepository.create("Joao", null)
+            val vendaId = vendaRepository.create(
+                data = 1_700_000_000_000L,
+                clienteId = clienteId,
+                itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
+                aPrazo = true,
+            )
+            val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
+            financeiroRepository.registrarRecebimento(vendaId, total + 1)
+        }
     }
 }

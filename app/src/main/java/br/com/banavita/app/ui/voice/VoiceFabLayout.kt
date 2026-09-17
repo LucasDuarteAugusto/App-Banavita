@@ -59,7 +59,7 @@ fun VoiceFabLayout(
     ) {
         Surface(
             modifier = Modifier
-                .size(40.dp)
+                .size(60.dp) // Aumentado em 50% de 40.dp para 60.dp
                 .pointerInput(allowHold) {
                     if (!allowHold) return@pointerInput
                     detectTapGestures(
@@ -90,6 +90,7 @@ fun VoiceFabLayout(
                 Icon(
                     imageVector = BanavitaIcons.Mic,
                     contentDescription = stringResource(R.string.voice_mic_button),
+                    modifier = Modifier.size(30.dp) // Aumentando proporcionalmente o ícone interno
                 )
             }
         }

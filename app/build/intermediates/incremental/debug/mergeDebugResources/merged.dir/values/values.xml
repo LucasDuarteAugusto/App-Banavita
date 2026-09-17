@@ -272,6 +272,8 @@
     <string name="error_not_found">Registro não encontrado</string>
     <string name="error_save">Erro ao salvar</string>
     <string name="estado_amarela">amarela</string>
+    <string name="estado_crua">crua</string>
+    <string name="estado_maturacao">em maturação</string>
     <string name="estado_pintada">pintada</string>
     <string name="estado_podre">podre</string>
     <string name="estado_verde">verde</string>
@@ -474,10 +476,11 @@
     <string name="perda_motivo_apodreceu">Apodreceu</string>
     <string name="perda_motivo_manuseio">Manuseio</string>
     <string name="perda_motivo_outro">Outro</string>
-    <string name="produto_curva_title">Curva de maturação (dias na etileno)</string>
+    <string name="produto_curva_title">Curva de maturação (dias)</string>
     <string name="produto_delete_message">Deseja excluir este produto?</string>
     <string name="produto_delete_title">Excluir produto</string>
     <string name="produto_dias_amarela">Dias em amarela</string>
+    <string name="produto_dias_maturacao">Dias em maturação (gás)</string>
     <string name="produto_dias_pintada">Dias em pintada</string>
     <string name="produto_dias_verde">Dias em verde</string>
     <string name="produto_dias_verdolenga">Dias em verdolenga</string>
@@ -493,6 +496,8 @@
     <string name="produto_form_new_title">Novo produto</string>
     <string name="produto_perecivel">Perecível</string>
     <string name="produto_preco_amarela">Preço amarela</string>
+    <string name="produto_preco_crua">Preço crua</string>
+    <string name="produto_preco_maturacao">Preço em maturação</string>
     <string name="produto_preco_pintada">Preço pintada</string>
     <string name="produto_preco_podre_hint">Podre não se vende (preço 0). Lance como perda.</string>
     <string name="produto_preco_verde">Preço verde</string>
@@ -515,6 +520,10 @@
     <string name="settings_export_button">Exportar dados</string>
     <string name="settings_export_desc">Salva uma cópia dos cadastros, vendas, compras, estoque, financeiro e agenda num arquivo que você escolhe (pasta, Drive, etc.).</string>
     <string name="settings_export_success">Cópia salva com sucesso.</string>
+    <string name="settings_notifications_section">Notificações</string>
+    <string name="settings_offline_model_base">Base (Mais preciso, um pouco mais lento)</string>
+    <string name="settings_offline_model_tiny">Tiny (Mais rápido, menos preciso)</string>
+    <string name="settings_offline_model_title">Precisão do modelo offline</string>
     <string name="settings_pereciveis_section">Câmara de etileno</string>
     <string name="settings_provider_groq_desc">Transcrição rápida na nuvem. Requer internet.</string>
     <string name="settings_provider_groq_missing_key">Chave GROQ_API_KEY ausente no .env. Gere o APK novamente após configurar.</string>
@@ -528,6 +537,8 @@
     <string name="settings_restore_confirm_title">Restaurar dados?</string>
     <string name="settings_restore_desc">Substitui os dados atuais do aplicativo pelos do arquivo escolhido.</string>
     <string name="settings_restore_success">Dados restaurados. Os lembretes da agenda foram reagendados.</string>
+    <string name="settings_ringtone">Som de aviso</string>
+    <string name="settings_ringtone_default">Padrão (Olha a banana)</string>
     <string name="settings_subtitle">Ajuste aparência, transcrição de voz e a cópia de segurança dos dados do negócio.</string>
     <string name="settings_theme_dark_desc">Fundo escuro, melhor à noite.</string>
     <string name="settings_theme_dark_title">Escuro</string>
@@ -650,23 +661,14 @@
         <attr format="reference" name="fontProviderCerts"/>
         
         <attr name="fontProviderFetchStrategy">
-            <!-- The blocking font fetch works as follows.
-              First, check the local cache, then if the requested font is not cached, request the
-              font from the provider and wait until it is finished.  You can change the length of
-              the timeout by modifying fontProviderFetchTimeout.  If the timeout happens, the
-              default typeface will be used instead. -->
+            
             <enum name="blocking" value="0"/>
-            <!-- The async font fetch works as follows.
-              First, check the local cache, then if the requested font is not cached, trigger a
-              request the font and continue with layout inflation. Once the font fetch succeeds, the
-              target text view will be refreshed with the downloaded font data. The
-              fontProviderFetchTimeout will be ignored if async loading is specified. -->
+            
             <enum name="async" value="1"/>
         </attr>
         
         <attr format="integer" name="fontProviderFetchTimeout">
-            <!-- A special value for the timeout. In this case, the blocking font fetching will not
-              timeout and wait until a reply is received from the font provider. -->
+            
             <enum name="forever" value="-1"/>
         </attr>
         

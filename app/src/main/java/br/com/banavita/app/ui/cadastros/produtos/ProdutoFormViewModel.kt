@@ -61,10 +61,13 @@ class ProdutoFormViewModel @Inject constructor(
                                 unidade = produto.unidade,
                                 grupoId = produto.grupoId,
                                 perecivel = produto.perecivel,
+                                diasEmMaturacao = produto.curva.diasEmMaturacao.toString(),
                                 diasVerde = produto.curva.diasVerde.toString(),
                                 diasVerdolenga = produto.curva.diasVerdolenga.toString(),
                                 diasAmarela = produto.curva.diasAmarela.toString(),
                                 diasPintada = produto.curva.diasPintada.toString(),
+                                precoCruaInput = MoneyInputParser.formatForInput(produto.precosEstado.cruaCentavos),
+                                precoMaturacaoInput = MoneyInputParser.formatForInput(produto.precosEstado.emMaturacaoCentavos),
                                 precoVerdeInput = MoneyInputParser.formatForInput(produto.precosEstado.verdeCentavos),
                                 precoVerdolengaInput = MoneyInputParser.formatForInput(produto.precosEstado.verdolengaCentavos),
                                 precoAmarelaInput = MoneyInputParser.formatForInput(produto.precosEstado.amarelaCentavos),
@@ -105,12 +108,18 @@ class ProdutoFormViewModel @Inject constructor(
             state.copy(
                 perecivel = value,
                 errorMessage = null,
+                precoCruaInput = if (value && state.precoCruaInput.isBlank()) fill else state.precoCruaInput,
+                precoMaturacaoInput = if (value && state.precoMaturacaoInput.isBlank()) fill else state.precoMaturacaoInput,
                 precoVerdeInput = if (value && state.precoVerdeInput.isBlank()) fill else state.precoVerdeInput,
                 precoVerdolengaInput = if (value && state.precoVerdolengaInput.isBlank()) fill else state.precoVerdolengaInput,
                 precoAmarelaInput = if (value && state.precoAmarelaInput.isBlank()) fill else state.precoAmarelaInput,
                 precoPintadaInput = if (value && state.precoPintadaInput.isBlank()) fill else state.precoPintadaInput,
             )
         }
+    }
+
+    fun onDiasEmMaturacaoChange(value: String) {
+        _uiState.update { it.copy(diasEmMaturacao = value, errorMessage = null) }
     }
 
     fun onDiasVerdeChange(value: String) {
@@ -127,6 +136,14 @@ class ProdutoFormViewModel @Inject constructor(
 
     fun onDiasPintadaChange(value: String) {
         _uiState.update { it.copy(diasPintada = value, errorMessage = null) }
+    }
+
+    fun onPrecoCruaChange(value: String) {
+        _uiState.update { it.copy(precoCruaInput = value, errorMessage = null) }
+    }
+
+    fun onPrecoMaturacaoChange(value: String) {
+        _uiState.update { it.copy(precoMaturacaoInput = value, errorMessage = null) }
     }
 
     fun onPrecoVerdeChange(value: String) {
@@ -176,30 +193,35 @@ class ProdutoFormViewModel @Inject constructor(
         var curva = RipeningCurve.DEFAULT
         var precosEstado: PrecosPorEstado? = null
         if (state.perecivel) {
+            val dMaturacao = state.diasEmMaturacao.trim().toIntOrNull()
             val dVerde = state.diasVerde.trim().toIntOrNull()
             val dVerdolenga = state.diasVerdolenga.trim().toIntOrNull()
             val dAmarela = state.diasAmarela.trim().toIntOrNull()
             val dPintada = state.diasPintada.trim().toIntOrNull()
-            if (dVerde == null || dVerdolenga == null || dAmarela == null || dPintada == null) {
+            if (dMaturacao == null || dVerde == null || dVerdolenga == null || dAmarela == null || dPintada == null) {
                 _uiState.update { it.copy(errorMessage = "Informe dias maiores que zero em cada etapa da curva.") }
                 return
             }
-            curva = RipeningCurve(dVerde, dVerdolenga, dAmarela, dPintada)
+            curva = RipeningCurve(dMaturacao, dVerde, dVerdolenga, dAmarela, dPintada)
             if (!curva.isValid()) {
                 _uiState.update { it.copy(errorMessage = "Informe dias maiores que zero em cada etapa da curva.") }
                 return
             }
+            val pCrua = MoneyInputParser.parseToCentavos(state.precoCruaInput)
+            val pMaturacao = MoneyInputParser.parseToCentavos(state.precoMaturacaoInput)
             val pVerde = MoneyInputParser.parseToCentavos(state.precoVerdeInput)
             val pVerdolenga = MoneyInputParser.parseToCentavos(state.precoVerdolengaInput)
             val pAmarela = MoneyInputParser.parseToCentavos(state.precoAmarelaInput)
             val pPintada = MoneyInputParser.parseToCentavos(state.precoPintadaInput)
-            if (pVerde == null || pVerdolenga == null || pAmarela == null || pPintada == null ||
-                pVerde < 0 || pVerdolenga < 0 || pAmarela < 0 || pPintada < 0
+            if (pCrua == null || pMaturacao == null || pVerde == null || pVerdolenga == null || pAmarela == null || pPintada == null ||
+                pCrua < 0 || pMaturacao < 0 || pVerde < 0 || pVerdolenga < 0 || pAmarela < 0 || pPintada < 0
             ) {
                 _uiState.update { it.copy(errorMessage = "Informe um preço válido para cada estado.") }
                 return
             }
             precosEstado = PrecosPorEstado(
+                cruaCentavos = pCrua,
+                emMaturacaoCentavos = pMaturacao,
                 verdeCentavos = pVerde,
                 verdolengaCentavos = pVerdolenga,
                 amarelaCentavos = pAmarela,

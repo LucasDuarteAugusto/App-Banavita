@@ -54,10 +54,10 @@ class ExtractionParsersTest {
     @Test
     fun `compra parser exige preco no texto tipico`() {
         val parsed = CompraExtractionParser.parse(
-            "comprei 10 caixas de banana do Sitio Verde a 8 reais",
+            "comprei 10 caixas de banana do Sitio Alegre a 8 reais",
         )
         assertEquals(10.0, parsed.item.quantidade.value!!, 0.001)
-        assertEquals("CX", parsed.item.unidade.value)
+        assertEquals("CX MADEIRA", parsed.item.unidade.value)
         assertEquals(800L, parsed.item.valorUnitarioCentavos.value)
         assertTrue(parsed.item.produtoRaw.value!!.contains("banana"))
     }
@@ -115,8 +115,8 @@ class ExtractionParsersTest {
 
     @Test
     fun `fornecedor parser nome e telefone`() {
-        val parsed = FornecedorExtractionParser.parse("cadastrar fornecedor Sitio Verde telefone 11987654321")
-        assertEquals("Sitio Verde", parsed.nome.value)
+        val parsed = FornecedorExtractionParser.parse("cadastrar fornecedor Sitio Alegre telefone 11987654321")
+        assertEquals("Sitio Alegre", parsed.nome.value)
         assertEquals("11987654321", parsed.telefone.value)
     }
 
@@ -141,8 +141,8 @@ class ExtractionParsersTest {
 
     @Test
     fun `fornecedor parser preserva acentos e descarta pontuacao`() {
-        val sitio = FornecedorExtractionParser.parse("cadastrar fornecedor Sítio Verde telefone 11987654321")
-        assertEquals("Sítio Verde", sitio.nome.value)
+        val sitio = FornecedorExtractionParser.parse("cadastrar fornecedor Sítio Alegre telefone 11987654321")
+        assertEquals("Sítio Alegre", sitio.nome.value)
         assertEquals("11987654321", sitio.telefone.value)
 
         val marcia = FornecedorExtractionParser.parse("novo fornecedor Márcia.")
@@ -184,8 +184,8 @@ class ExtractionParsersTest {
 
     @Test
     fun `compra parser limpa termos de pagamento do fornecedorRaw`() {
-        val parsed = CompraExtractionParser.parse("comprei 10 caixas de banana do Sitio Verde a prazo a 10 reais")
-        assertEquals("sitio verde", parsed.fornecedorRaw.value)
+        val parsed = CompraExtractionParser.parse("comprei 10 caixas de banana do Sitio Alegre a prazo a 10 reais")
+        assertEquals("sitio alegre", parsed.fornecedorRaw.value)
         assertEquals(true, parsed.aPrazo.value)
     }
 
@@ -242,8 +242,8 @@ class ExtractionParsersTest {
 
     @Test
     fun `fornecedor parser padrao curto nome e telefone`() {
-        val parsed = FornecedorExtractionParser.parse("Sítio Verde 14936586721")
-        assertEquals("Sítio Verde", parsed.nome.value)
+        val parsed = FornecedorExtractionParser.parse("Sítio Alegre 14936586721")
+        assertEquals("Sítio Alegre", parsed.nome.value)
         assertEquals("14936586721", parsed.telefone.value)
     }
 
@@ -283,9 +283,9 @@ class ExtractionParsersTest {
 
     @Test
     fun `compra parser padrao curto`() {
-        val parsed = CompraExtractionParser.parse("10 caixas nanica do Sitio Verde 6 reais")
+        val parsed = CompraExtractionParser.parse("10 caixas nanica do Sitio Alegre 6 reais")
         assertEquals(10.0, parsed.item.quantidade.value!!, 0.001)
-        assertEquals("CX", parsed.item.unidade.value)
+        assertEquals("CX MADEIRA", parsed.item.unidade.value)
         assertTrue(parsed.item.produtoRaw.value!!.contains("nanica", ignoreCase = true))
         assertTrue(parsed.fornecedorRaw.value!!.contains("sitio", ignoreCase = true))
         assertEquals(600L, parsed.item.valorUnitarioCentavos.value)

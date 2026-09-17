@@ -281,3 +281,18 @@ val MIGRATION_3_4 = object : Migration(3, 4) {
         )
     }
 }
+
+val MIGRATION_4_5 = object : Migration(4, 5) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE produto ADD COLUMN PRO_DIAS_EM_MATURACAO INTEGER NOT NULL DEFAULT 1")
+        db.execSQL("ALTER TABLE produto ADD COLUMN PRO_PRECO_CRUA INTEGER NOT NULL DEFAULT 0")
+        db.execSQL("ALTER TABLE produto ADD COLUMN PRO_PRECO_EM_MATURACAO INTEGER NOT NULL DEFAULT 0")
+        db.execSQL(
+            """
+            UPDATE produto SET
+                PRO_PRECO_CRUA = PRO_PRECO,
+                PRO_PRECO_EM_MATURACAO = PRO_PRECO
+            """.trimIndent(),
+        )
+    }
+}

@@ -13,9 +13,15 @@ object SpeechConstants {
     const val WHISPER_THREADS_MAX = 4
 
     const val MODELS_DIR_NAME = "models"
-    const val ACTIVE_MODEL_ID: String = BuildConfig.WHISPER_MODEL_ID
-    const val ACTIVE_MODEL_FILE: String = BuildConfig.WHISPER_MODEL_FILE
-    const val ACTIVE_MODEL_SHA256: String = BuildConfig.WHISPER_MODEL_SHA256
-    const val ACTIVE_MODEL_PROFILE: String = BuildConfig.WHISPER_MODEL_PROFILE
-    const val ACTIVE_MODEL_SIZE_MB: Int = BuildConfig.WHISPER_MODEL_SIZE_MB
+    
+    // Modelos embutidos (Build Config)
+    const val TINY_MODEL_ID = BuildConfig.WHISPER_TINY_ID
+    const val TINY_MODEL_FILE = BuildConfig.WHISPER_TINY_FILE
+    const val TINY_MODEL_SHA256 = BuildConfig.WHISPER_TINY_SHA256
+    const val TINY_MODEL_SIZE = BuildConfig.WHISPER_TINY_SIZE_MB
+
+    const val BASE_MODEL_ID = BuildConfig.WHISPER_BASE_ID
+    const val BASE_MODEL_FILE = BuildConfig.WHISPER_BASE_FILE
+    const val BASE_MODEL_SHA256 = BuildConfig.WHISPER_BASE_SHA256
+    const val BASE_MODEL_SIZE = BuildConfig.WHISPER_BASE_SIZE_MB
 }

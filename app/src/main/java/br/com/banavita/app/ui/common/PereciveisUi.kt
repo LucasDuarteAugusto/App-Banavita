@@ -24,6 +24,8 @@ import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.PerdaMotivo
 
 fun MaturacaoEstado.labelRes(): Int = when (this) {
+    MaturacaoEstado.CRUA -> R.string.estado_crua
+    MaturacaoEstado.EM_MATURACAO -> R.string.estado_maturacao
     MaturacaoEstado.VERDE -> R.string.estado_verde
     MaturacaoEstado.VERDOLENGA -> R.string.estado_verdolenga
     MaturacaoEstado.AMARELA -> R.string.estado_amarela
@@ -53,7 +55,7 @@ fun EstadoChips(
     val estados = if (includePodre) {
         MaturacaoEstado.entries
     } else {
-        MaturacaoEstado.entries.filter { it != MaturacaoEstado.PODRE }
+        MaturacaoEstado.entries.filter { it != MaturacaoEstado.PODRE && it != MaturacaoEstado.EM_MATURACAO }
     }
     Row(
         modifier = modifier

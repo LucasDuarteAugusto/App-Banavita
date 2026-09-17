@@ -57,4 +57,16 @@ class AppSettingsRepository @Inject constructor(
     fun setAvisoMatinalMinutos(value: Int) {
         localDataSource.setAvisoMatinalMinutos(value)
     }
+
+    fun getRingtoneUri(): String? = localDataSource.getRingtoneUri()
+
+    fun setRingtoneUri(uri: String?) {
+        localDataSource.setRingtoneUri(uri)
+    }
+
+    fun getOfflineModelId(): String = localDataSource.getOfflineModelId()
+
+    fun setOfflineModelId(id: String) {
+        localDataSource.setOfflineModelId(id)
+    }
 }

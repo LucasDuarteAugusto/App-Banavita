@@ -17,19 +17,24 @@ class WhisperCppEngine @Inject constructor() : WhisperEngine {
     @Volatile
     private var contextPtr: Long = 0L
 
+    private var _loadedModelId: String? = null
+    override val loadedModelId: String? get() = _loadedModelId
+
     override val isLoaded: Boolean
         get() = contextPtr != 0L
 
-    override suspend fun load(modelPath: String) = withContext(inferenceDispatcher) {
+    override suspend fun load(modelPath: String, modelId: String) = withContext(inferenceDispatcher) {
         if (contextPtr != 0L) {
             WhisperLib.freeContext(contextPtr)
             contextPtr = 0L
+            _loadedModelId = null
         }
         val ptr = WhisperLib.initContext(modelPath)
         if (ptr == 0L) {
             throw SpeechEngineException("Falha ao carregar modelo Whisper em $modelPath")
         }
         contextPtr = ptr
+        _loadedModelId = modelId
     }
 
     override suspend fun transcribe(

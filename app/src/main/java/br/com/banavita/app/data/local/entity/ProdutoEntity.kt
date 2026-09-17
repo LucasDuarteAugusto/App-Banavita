@@ -40,6 +40,8 @@ data class ProdutoEntity(
     val unidade: String = "UN",
     @ColumnInfo(name = "PRO_PERECIVEL", defaultValue = "0")
     val perecivel: Boolean = false,
+    @ColumnInfo(name = "PRO_DIAS_EM_MATURACAO", defaultValue = "1")
+    val diasEmMaturacao: Int = 1,
     @ColumnInfo(name = "PRO_DIAS_VERDE", defaultValue = "3")
     val diasVerde: Int = 3,
     @ColumnInfo(name = "PRO_DIAS_VERDOLENGA", defaultValue = "2")
@@ -48,6 +50,10 @@ data class ProdutoEntity(
     val diasAmarela: Int = 2,
     @ColumnInfo(name = "PRO_DIAS_PINTADA", defaultValue = "2")
     val diasPintada: Int = 2,
+    @ColumnInfo(name = "PRO_PRECO_CRUA", defaultValue = "0")
+    val precoCruaCentavos: Long = 0,
+    @ColumnInfo(name = "PRO_PRECO_EM_MATURACAO", defaultValue = "0")
+    val precoEmMaturacaoCentavos: Long = 0,
     @ColumnInfo(name = "PRO_PRECO_VERDE", defaultValue = "0")
     val precoVerdeCentavos: Long = 0,
     @ColumnInfo(name = "PRO_PRECO_VERDOLENGA", defaultValue = "0")

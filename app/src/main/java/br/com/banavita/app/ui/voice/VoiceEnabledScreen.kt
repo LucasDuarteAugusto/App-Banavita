@@ -98,6 +98,7 @@ fun VoiceEnabledScreen(
             if (draft != null) {
                 ExtractionReviewSheet(
                     draft = draft,
+                    uiState = uiState,
                     isConfirming = uiState.statusMessage != null,
                     errorMessage = uiState.errorMessage,
                     onConfirm = { viewModel.confirmDraft(onVoiceSuccess) },
