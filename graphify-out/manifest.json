@@ -522,15 +522,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabase.kt": {
-    "mtime": 1789568049.8549266,
-    "seen": 1789653726.364934,
-    "ast_hash": "1556eb37dc59b48b2eb7d02f9a5b71df",
+    "mtime": 1789672514.6979997,
+    "seen": 1789687797.1519258,
+    "ast_hash": "8a179dd15b04946c339f49b806f97f6d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaMigrations.kt": {
-    "mtime": 1789568021.2942562,
-    "seen": 1789653726.3649359,
-    "ast_hash": "0117ddd750ef8659d66afc6e20f62b20",
+    "mtime": 1789672607.6908965,
+    "seen": 1789687797.15193,
+    "ast_hash": "3226c2ecb963a287cb0b899402756dfe",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/activation/ActivationLocalDataSource.kt": {
@@ -624,9 +624,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/CompraItemEntity.kt": {
-    "mtime": 1788254653.2362425,
-    "seen": 1789234284.0311534,
-    "ast_hash": "00c24ecf52919411b3e787787b2d4cf1",
+    "mtime": 1789672391.9761384,
+    "seen": 1789687797.1519675,
+    "ast_hash": "e7caa3c581300f15d58d0835d58c467c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/EventoEntity.kt": {
@@ -672,9 +672,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/VendaItemEntity.kt": {
-    "mtime": 1789221553.9892087,
-    "seen": 1789234284.0311823,
-    "ast_hash": "5d1a079cce4d791979a6ca4cd759b72d",
+    "mtime": 1789672384.1251698,
+    "seen": 1789687797.15199,
+    "ast_hash": "1e3b61ebf8b2be98eeabded4088e2ea1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/relation/CompraWithItems.kt": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/mapper/EntityMappers.kt": {
-    "mtime": 1789652241.0015492,
-    "seen": 1789653726.3649778,
-    "ast_hash": "eb24c18257433ff06bf6fdf8d9ec28a4",
+    "mtime": 1789672588.619496,
+    "seen": 1789687797.1520019,
+    "ast_hash": "99ff28453f83c8c681d9c22da5ab6905",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ActivationRepository.kt": {
@@ -720,9 +720,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/DocumentoSupport.kt": {
-    "mtime": 1789221553.9952083,
-    "seen": 1789234284.0312123,
-    "ast_hash": "78e221a72e578d0bdbe4337c0115cea4",
+    "mtime": 1789687429.573185,
+    "seen": 1789687797.1520176,
+    "ast_hash": "4f72ca6e5ca79b756700c87a23d34640",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/EstoqueRepository.kt": {
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/ExtractionRepository.kt": {
-    "mtime": 1789221553.9962065,
-    "seen": 1789234284.0312207,
-    "ast_hash": "1146152353cc5dfb706e86287bf24e11",
+    "mtime": 1789672663.6871662,
+    "seen": 1789687797.1520257,
+    "ast_hash": "65092c99944cc44d6f74cba7e967eb3b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/FinanceiroRepository.kt": {
@@ -846,9 +846,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/DomainModels.kt": {
-    "mtime": 1789221554.0022078,
-    "seen": 1789234284.0312636,
-    "ast_hash": "98aba5666b9b7eb2b0223950cac32ac8",
+    "mtime": 1789672347.9361002,
+    "seen": 1789687797.1520667,
+    "ast_hash": "782001d8ad3dbdd14b697673b82670c6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/TranscriptionModels.kt": {
@@ -1074,9 +1074,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DocumentFormComponents.kt": {
-    "mtime": 1789222784.949651,
-    "seen": 1789234284.0313456,
-    "ast_hash": "052c0e74dedb30e4b19cdca5f039a374",
+    "mtime": 1789669141.6192853,
+    "seen": 1789687797.1521473,
+    "ast_hash": "e9842d76ee6d5a237bfe21e30e8b1c6a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/common/DocumentFormModels.kt": {
@@ -1140,9 +1140,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraFormViewModel.kt": {
-    "mtime": 1789221554.0158207,
-    "seen": 1789234284.0313718,
-    "ast_hash": "48bfb9cc4548869950f5d5b5772316b4",
+    "mtime": 1789672618.2879088,
+    "seen": 1789687797.1521823,
+    "ast_hash": "662034c225049785d6e2b390b18dbff0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/compras/CompraListScreen.kt": {
@@ -1182,9 +1182,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/estoque/EstoqueDetalheScreen.kt": {
-    "mtime": 1789221554.016822,
-    "seen": 1789234284.0313873,
-    "ast_hash": "83d9ee8b60d632db97cce839b9fe7cfd",
+    "mtime": 1789666568.3925133,
+    "seen": 1789687797.1521957,
+    "ast_hash": "2ac6a9198c8dc60e760331c5081373dd",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/estoque/EstoqueDetalheViewModel.kt": {
@@ -1206,21 +1206,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeScreen.kt": {
-    "mtime": 1789221554.0188234,
-    "seen": 1789234284.0313962,
-    "ast_hash": "be4fd7bf01a57a09320e368bfd5cbd0a",
+    "mtime": 1789680540.0825932,
+    "seen": 1789687797.1522043,
+    "ast_hash": "3d5ff114f1e5b161bcdf2153fc1ac50b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeUiState.kt": {
-    "mtime": 1789221554.0188234,
-    "seen": 1789234284.0313983,
-    "ast_hash": "085d43980dd858528f479402f91a0c91",
+    "mtime": 1789680220.2209375,
+    "seen": 1789687797.1522062,
+    "ast_hash": "9ecf5ec50bf0bd689fc961ce239b92ec",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/home/HomeViewModel.kt": {
-    "mtime": 1789221554.0198238,
-    "seen": 1789234284.0314004,
-    "ast_hash": "04e4afb80322cf3ba733e7875b65972b",
+    "mtime": 1789680245.075985,
+    "seen": 1789687797.1522076,
+    "ast_hash": "5f3c81741fb2c7449d3e51765927d4c7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/navigation/BanavitaRoutes.kt": {
@@ -1236,9 +1236,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/shell/MainAppShell.kt": {
-    "mtime": 1789221554.0260603,
-    "seen": 1789234284.0314255,
-    "ast_hash": "038d01ca1bc6d7cabbbcb0457b717a8e",
+    "mtime": 1789680088.4162784,
+    "seen": 1789687797.152231,
+    "ast_hash": "97b4a1a6da2ab77879623fca74e179b1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/theme/Color.kt": {
@@ -1266,9 +1266,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormViewModel.kt": {
-    "mtime": 1789221554.0290565,
-    "seen": 1789234284.031436,
-    "ast_hash": "d22bdfb06be5f69a2b50aa55ff814be0",
+    "mtime": 1789672627.6776376,
+    "seen": 1789687797.1522412,
+    "ast_hash": "358be62121ce7f977113fa18e789501d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaListScreen.kt": {
@@ -1296,9 +1296,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/ExtractionReviewSheet.kt": {
-    "mtime": 1789655265.9534476,
-    "seen": 1789658187.7571592,
-    "ast_hash": "d9e26e0bc909f998385898f589d2db5b",
+    "mtime": 1789669433.3709254,
+    "seen": 1789687797.1522522,
+    "ast_hash": "7f6a6fde1cdd89689dd7c70b76813cd9",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureUiState.kt": {
@@ -1962,9 +1962,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/settings/AppSettingsLocalDataSource.kt": {
-    "mtime": 1789656631.977922,
-    "seen": 1789658187.757035,
-    "ast_hash": "170c758709fc1c1cf9c2b42f1bef7deb",
+    "mtime": 1789679874.8625848,
+    "seen": 1789687797.151998,
+    "ast_hash": "21b5f43d4243f45e980960385ca95b07",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqConfig.kt": {
@@ -1980,9 +1980,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/AppSettingsRepository.kt": {
-    "mtime": 1789655027.0798185,
-    "seen": 1789658187.7570415,
-    "ast_hash": "50fd6f1222e4d34f55fb1a57678a9c6a",
+    "mtime": 1789679885.1321707,
+    "seen": 1789687797.1520097,
+    "ast_hash": "097820dfba3fec232428fedbad628293",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/NetworkModule.kt": {
@@ -1998,21 +1998,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsScreen.kt": {
-    "mtime": 1789655205.197023,
-    "seen": 1789658187.7571464,
-    "ast_hash": "2c60dd8e6b63a8bf88f98b4f98af1cb7",
+    "mtime": 1789679861.4114735,
+    "seen": 1789687797.1522253,
+    "ast_hash": "8743a0402e1d85d4f554b027698372fc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsUiState.kt": {
-    "mtime": 1789655057.265159,
-    "seen": 1789658187.7571473,
-    "ast_hash": "13ca1eea3a7b91ff1bcd4af26877218f",
+    "mtime": 1789679819.4776683,
+    "seen": 1789687797.1522274,
+    "ast_hash": "87c61a7b8464687656b11a20f093e063",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsViewModel.kt": {
-    "mtime": 1789655076.813461,
-    "seen": 1789658187.7571483,
-    "ast_hash": "828cbf1f8cba6f055f9bd1c3790b19ba",
+    "mtime": 1789680296.8240926,
+    "seen": 1789687797.152229,
+    "ast_hash": "d951c64c70715ae61ad38c48d2dbc2f5",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/WavWriterTest.kt": {
@@ -2082,15 +2082,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisAlarmReceiver.kt": {
-    "mtime": 1789566121.566561,
-    "seen": 1789653726.3648984,
-    "ast_hash": "32259a6b739a09ffe5d1279c9561bc8d",
+    "mtime": 1789680319.719815,
+    "seen": 1789687797.1518502,
+    "ast_hash": "533e1941d049cb9a8778e8057ebcc26b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisMorningScheduler.kt": {
-    "mtime": 1789221553.9762084,
-    "seen": 1789234284.0310218,
-    "ast_hash": "662ce5093d4b8417d706e9e4972c2720",
+    "mtime": 1789680342.8249834,
+    "seen": 1789687797.1518528,
+    "ast_hash": "64d710a08bd398c601fc6e300b98dbb6",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/core/reminder/PereciveisNotifications.kt": {
@@ -2136,15 +2136,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/BanavitaDatabaseHolder.kt": {
-    "mtime": 1789568062.1820962,
-    "seen": 1789653726.364935,
-    "ast_hash": "c5e9e345501674c78a4636545a8671e5",
+    "mtime": 1789672524.2744431,
+    "seen": 1789687797.151928,
+    "ast_hash": "71542c3f2c5284e4b016d44748b12098",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/LoteDao.kt": {
-    "mtime": 1789221553.9852097,
-    "seen": 1789234284.0311344,
-    "ast_hash": "65a212a03499ffcd3182cc1c966f7b50",
+    "mtime": 1789680364.8100874,
+    "seen": 1789687797.151951,
+    "ast_hash": "6e88ac20671f63c3ba1ec5b20ea49d3e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/PerecivelDaos.kt": {
@@ -2160,15 +2160,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/LoteEntity.kt": {
-    "mtime": 1789221553.9872088,
-    "seen": 1789234284.0311656,
-    "ast_hash": "f26f38aedfdd43e43d2eef1ffd77fd6b",
+    "mtime": 1789672399.88369,
+    "seen": 1789687797.1519783,
+    "ast_hash": "113bd6c84a19e9c2698da81eb40eab1b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/PerecivelEntities.kt": {
-    "mtime": 1789221553.9882088,
-    "seen": 1789234284.0311706,
-    "ast_hash": "f07bfd4d0beb2603164d3423d5c35662",
+    "mtime": 1789672580.542022,
+    "seen": 1789687797.151982,
+    "ast_hash": "b015fe7e4ac7dd02453015b6001cbf31",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/relation/EncomendaWithItems.kt": {
@@ -2190,9 +2190,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/LoteRepository.kt": {
-    "mtime": 1789568103.6758537,
-    "seen": 1789653726.3649945,
-    "ast_hash": "edeebc60be74459add51df9b9112b2c8",
+    "mtime": 1789680616.5818956,
+    "seen": 1789687797.1520333,
+    "ast_hash": "f5d3fa1f3c42d70544a6dd7dda950c9b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/BackupExceptions.kt": {
@@ -2202,9 +2202,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/PereciveisModels.kt": {
-    "mtime": 1789567939.7879267,
-    "seen": 1789653726.3650124,
-    "ast_hash": "4b7327171578d03e91716768cc862b4c",
+    "mtime": 1789680420.99068,
+    "seen": 1789687797.1520686,
+    "ast_hash": "2a62c671381f522abc2437a5427c552c",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/model/ThemeMode.kt": {
@@ -2232,9 +2232,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/etileno/EtilenoFilaScreen.kt": {
-    "mtime": 1789221554.0220509,
-    "seen": 1789234284.0314107,
-    "ast_hash": "29a85983acd9e752b0111e3687cf5460",
+    "mtime": 1789680451.9515247,
+    "seen": 1789687797.1522174,
+    "ast_hash": "49eb484e76526363f0813841b64f8dad",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/etileno/EtilenoFilaViewModel.kt": {
@@ -2244,9 +2244,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/perda/PerdaFormScreen.kt": {
-    "mtime": 1789221554.023057,
-    "seen": 1789234284.0314147,
-    "ast_hash": "7204afebd319c139d77ff0b87073f635",
+    "mtime": 1789668817.6502047,
+    "seen": 1789687797.1522212,
+    "ast_hash": "07cac59cc333ca89a684a8f2d444fb87",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/perda/PerdaFormViewModel.kt": {
@@ -2529,6 +2529,24 @@
     "mtime": 1789658113.5482643,
     "seen": 1789658187.7572641,
     "ast_hash": "5aa50c15d7ceeec93f7e79327c21dd2c",
+    "semantic_hash": ""
+  },
+  "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/6.json": {
+    "mtime": 1789672704.6653366,
+    "seen": 1789687797.1518023,
+    "ast_hash": "781659d4e15dab90c0f3d0abf361c9da",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-17-otimizacao-estoque-e-ui-home.md": {
+    "mtime": 1789680701.5704741,
+    "seen": 1789687797.1524916,
+    "ast_hash": "a091b1d9f0ba7f15f43b5ad55f1fab2e",
+    "semantic_hash": ""
+  },
+  "tmp/Checklist.md": {
+    "mtime": 1789678875.5515518,
+    "seen": 1789687797.1525102,
+    "ast_hash": "3bc0cb2726cf3e0259290ba64e6a45d4",
     "semantic_hash": ""
   }
 }
