@@ -48,6 +48,7 @@ data class DocumentoItemInput(
     val quantidade: Double,
     val valorUnitarioCentavos: Long? = null,
     val estado: MaturacaoEstado? = null,
+    val unidade: String? = null,
 )
 
 data class VendaItem(
@@ -60,6 +61,7 @@ data class VendaItem(
     val quantidade: Double,
     val valorTotalCentavos: Long,
     val estado: MaturacaoEstado? = null,
+    val unidade: String? = null,
 )
 
 data class Venda(
@@ -82,6 +84,7 @@ data class CompraItem(
     val valorUnitarioCentavos: Long,
     val quantidade: Double,
     val valorTotalCentavos: Long,
+    val unidade: String? = null,
 )
 
 data class Compra(

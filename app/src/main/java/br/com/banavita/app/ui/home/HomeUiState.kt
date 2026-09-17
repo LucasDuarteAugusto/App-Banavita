@@ -3,6 +3,7 @@ package br.com.banavita.app.ui.home
 import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.Evento
 import br.com.banavita.app.domain.model.PeriodoPreset
+import br.com.banavita.app.domain.model.MoverAdvice
 import java.util.UUID
 
 data class HomeUiState(
@@ -18,6 +19,7 @@ data class HomeUiState(
     val precoQueimaSugeridoCentavos: Long = 0,
     val kgPodreOuAmanha: Double = 0.0,
     val descricaoPodre: String? = null,
+    val moverParaArmazenagem: List<MoverAdvice> = emptyList(),
     val encomendasAbertasSemana: Int = 0,
     val showQueimaDialog: Boolean = false,
     val queimaPrecoInput: String = "",

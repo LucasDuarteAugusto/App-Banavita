@@ -86,6 +86,8 @@ data class PerdaEntity(
     val motivo: String,
     @ColumnInfo(name = "PER_VALOR")
     val valorCentavos: Long,
+    @ColumnInfo(name = "PER_UNIDADE")
+    val unidade: String? = null,
 )
 
 @Entity(

@@ -47,7 +47,7 @@ interface LoteDao {
         WHERE LOT_CAMARA = 'ETILENO' AND LOT_QTDE_RESTANTE > 0.0000001
         """,
     )
-    suspend fun kgNaEtileno(): Double
+    suspend fun qtdeNaEtileno(): Double
 
     @Query(
         """
@@ -55,7 +55,7 @@ interface LoteDao {
         WHERE LOT_CAMARA = 'FRIA' AND LOT_QTDE_RESTANTE > 0.0000001
         """,
     )
-    suspend fun kgNaFria(): Double
+    suspend fun qtdeNaFria(): Double
 
     @Query(
         """
@@ -65,7 +65,7 @@ interface LoteDao {
           AND created_at >= :startMillis AND created_at < :endMillis
         """,
     )
-    suspend fun kgSoltosNoPeriodo(startMillis: Long, endMillis: Long): Double
+    suspend fun qtdeSoltaNoPeriodo(startMillis: Long, endMillis: Long): Double
 
     @Query(
         """

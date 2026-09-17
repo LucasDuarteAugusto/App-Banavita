@@ -93,7 +93,7 @@ public final class VendaDao_Impl implements VendaDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `venda_item` (`VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO`) VALUES (?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `venda_item` (`VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO`,`VEI_UNIDADE`) VALUES (?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -126,6 +126,11 @@ public final class VendaDao_Impl implements VendaDao {
           statement.bindNull(9);
         } else {
           statement.bindString(9, entity.getEstado());
+        }
+        if (entity.getUnidade() == null) {
+          statement.bindNull(10);
+        } else {
+          statement.bindString(10, entity.getUnidade());
         }
       }
     };
@@ -598,7 +603,7 @@ public final class VendaDao_Impl implements VendaDao {
       return;
     }
     final StringBuilder _stringBuilder = StringUtil.newStringBuilder();
-    _stringBuilder.append("SELECT `VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO` FROM `venda_item` WHERE `VEI_VENDA` IN (");
+    _stringBuilder.append("SELECT `VEI_ID`,`created_at`,`updated_at`,`VEI_VENDA`,`VEI_PRODUTO`,`VEI_VLRUN`,`VEI_QTDE`,`VEI_VLRTOT`,`VEI_ESTADO`,`VEI_UNIDADE` FROM `venda_item` WHERE `VEI_VENDA` IN (");
     final int _inputSize = __mapKeySet.size();
     StringUtil.appendPlaceholders(_stringBuilder, _inputSize);
     _stringBuilder.append(")");
@@ -625,6 +630,7 @@ public final class VendaDao_Impl implements VendaDao {
       final int _cursorIndexOfQuantidade = 6;
       final int _cursorIndexOfValorTotalCentavos = 7;
       final int _cursorIndexOfEstado = 8;
+      final int _cursorIndexOfUnidade = 9;
       while (_cursor.moveToNext()) {
         final String _tmpKey;
         _tmpKey = _cursor.getString(_itemKeyIndex);
@@ -686,7 +692,13 @@ public final class VendaDao_Impl implements VendaDao {
           } else {
             _tmpEstado = _cursor.getString(_cursorIndexOfEstado);
           }
-          _item_1 = new VendaItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpVendaId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos,_tmpEstado);
+          final String _tmpUnidade;
+          if (_cursor.isNull(_cursorIndexOfUnidade)) {
+            _tmpUnidade = null;
+          } else {
+            _tmpUnidade = _cursor.getString(_cursorIndexOfUnidade);
+          }
+          _item_1 = new VendaItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpVendaId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos,_tmpEstado,_tmpUnidade);
           _tmpRelation.add(_item_1);
         }
       }

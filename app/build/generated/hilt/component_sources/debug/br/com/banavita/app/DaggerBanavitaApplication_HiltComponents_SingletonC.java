@@ -513,83 +513,71 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel = "br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel";
 
-      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
-
       static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorFormViewModel";
 
-      static String br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel = "br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel";
+      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
+      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
-
-      static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
 
       static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
 
       static String br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel = "br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormViewModel";
 
-      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
-
-      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
-
-      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
-
-      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
-
-      static String br_com_banavita_app_ui_vendas_VendaFormViewModel = "br.com.banavita.app.ui.vendas.VendaFormViewModel";
+      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
 
       static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
 
-      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
-
-      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
-
       static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
 
-      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
-
       static String br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel = "br.com.banavita.app.ui.pereciveis.perda.PerdaFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
+
+      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
+
+      static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+
+      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
+
+      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
+
+      static String br_com_banavita_app_ui_vendas_VendaFormViewModel = "br.com.banavita.app.ui.vendas.VendaFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
+
+      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
+
+      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
+
+      static String br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel = "br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel";
 
       @KeepFieldType
       EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
 
       @KeepFieldType
-      CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
-
-      @KeepFieldType
-      ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
-
-      @KeepFieldType
       FornecedorFormViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel2;
 
       @KeepFieldType
-      EtilenoFilaViewModel br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel2;
+      FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
 
       @KeepFieldType
-      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+      VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
 
       @KeepFieldType
-      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
+      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
 
       @KeepFieldType
-      ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
-
-      @KeepFieldType
-      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
-
-      @KeepFieldType
-      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
+      ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
 
       @KeepFieldType
       HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
@@ -598,43 +586,55 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
       EncomendaFormViewModel br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel2;
 
       @KeepFieldType
-      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
-
-      @KeepFieldType
-      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
-
-      @KeepFieldType
-      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
-
-      @KeepFieldType
-      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
-
-      @KeepFieldType
-      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
-
-      @KeepFieldType
-      VendaFormViewModel br_com_banavita_app_ui_vendas_VendaFormViewModel2;
+      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
 
       @KeepFieldType
       BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
 
       @KeepFieldType
-      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
-
-      @KeepFieldType
       ActivationViewModel br_com_banavita_app_ui_activation_ActivationViewModel2;
 
       @KeepFieldType
-      VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
-
-      @KeepFieldType
-      FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
-
-      @KeepFieldType
       PerdaFormViewModel br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel2;
+
+      @KeepFieldType
+      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
+
+      @KeepFieldType
+      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
+
+      @KeepFieldType
+      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
+
+      @KeepFieldType
+      EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
+
+      @KeepFieldType
+      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+
+      @KeepFieldType
+      CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
+
+      @KeepFieldType
+      ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
+
+      @KeepFieldType
+      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
+
+      @KeepFieldType
+      VendaFormViewModel br_com_banavita_app_ui_vendas_VendaFormViewModel2;
+
+      @KeepFieldType
+      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
+
+      @KeepFieldType
+      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
+
+      @KeepFieldType
+      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
+
+      @KeepFieldType
+      EtilenoFilaViewModel br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel2;
     }
   }
 
@@ -749,67 +749,85 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
+      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
+
+      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
+
+      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
+
+      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
 
       static String br_com_banavita_app_ui_vendas_VendaFormViewModel = "br.com.banavita.app.ui.vendas.VendaFormViewModel";
 
-      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
+      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
 
-      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
+      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
+
+      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
+
+      static String br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel = "br.com.banavita.app.ui.pereciveis.perda.PerdaFormViewModel";
 
       static String br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteListViewModel";
 
       static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorFormViewModel";
 
-      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel";
-
-      static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
-
-      static String br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel = "br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel";
-
-      static String br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel = "br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormViewModel";
-
-      static String br_com_banavita_app_ui_settings_SettingsViewModel = "br.com.banavita.app.ui.settings.SettingsViewModel";
-
-      static String br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel = "br.com.banavita.app.ui.cadastros.fornecedores.FornecedorListViewModel";
-
-      static String br_com_banavita_app_ui_consultas_ConsultasViewModel = "br.com.banavita.app.ui.consultas.ConsultasViewModel";
-
-      static String br_com_banavita_app_ui_home_HomeViewModel = "br.com.banavita.app.ui.home.HomeViewModel";
-
-      static String br_com_banavita_app_ui_voice_VoiceCaptureViewModel = "br.com.banavita.app.ui.voice.VoiceCaptureViewModel";
-
-      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
-
-      static String br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel = "br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel";
+      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
 
       static String br_com_banavita_app_ui_agenda_EventoFormViewModel = "br.com.banavita.app.ui.agenda.EventoFormViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel = "br.com.banavita.app.ui.cadastros.clientes.ClienteFormViewModel";
+      static String br_com_banavita_app_ui_app_BanavitaAppViewModel = "br.com.banavita.app.ui.app.BanavitaAppViewModel";
+
+      static String br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel = "br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormViewModel";
+
+      static String br_com_banavita_app_ui_vendas_VendaListViewModel = "br.com.banavita.app.ui.vendas.VendaListViewModel";
+
+      static String br_com_banavita_app_ui_agenda_AgendaListViewModel = "br.com.banavita.app.ui.agenda.AgendaListViewModel";
+
+      static String br_com_banavita_app_ui_compras_CompraFormViewModel = "br.com.banavita.app.ui.compras.CompraFormViewModel";
 
       static String br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel = "br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel";
 
+      static String br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel = "br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel";
+
       static String br_com_banavita_app_ui_activation_ActivationViewModel = "br.com.banavita.app.ui.activation.ActivationViewModel";
 
-      static String br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel = "br.com.banavita.app.ui.pereciveis.perda.PerdaFormViewModel";
+      static String br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel = "br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoFormViewModel";
+      static String br_com_banavita_app_ui_compras_CompraListViewModel = "br.com.banavita.app.ui.compras.CompraListViewModel";
 
-      static String br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel = "br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel";
+      static String br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel = "br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel";
 
       @KeepFieldType
-      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
+      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+
+      @KeepFieldType
+      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
+
+      @KeepFieldType
+      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
+
+      @KeepFieldType
+      VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
 
       @KeepFieldType
       VendaFormViewModel br_com_banavita_app_ui_vendas_VendaFormViewModel2;
 
       @KeepFieldType
-      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
+      FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
 
       @KeepFieldType
-      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
+      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
+
+      @KeepFieldType
+      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
+
+      @KeepFieldType
+      PerdaFormViewModel br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel2;
 
       @KeepFieldType
       ClienteListViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteListViewModel2;
@@ -818,61 +836,43 @@ public final class DaggerBanavitaApplication_HiltComponents_SingletonC {
       FornecedorFormViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorFormViewModel2;
 
       @KeepFieldType
-      CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
-
-      @KeepFieldType
-      ProdutoFormViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoFormViewModel2;
-
-      @KeepFieldType
-      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
-
-      @KeepFieldType
-      EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
-
-      @KeepFieldType
-      EncomendaFormViewModel br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel br_com_banavita_app_ui_settings_SettingsViewModel2;
-
-      @KeepFieldType
-      FornecedorListViewModel br_com_banavita_app_ui_cadastros_fornecedores_FornecedorListViewModel2;
-
-      @KeepFieldType
-      ConsultasViewModel br_com_banavita_app_ui_consultas_ConsultasViewModel2;
-
-      @KeepFieldType
-      HomeViewModel br_com_banavita_app_ui_home_HomeViewModel2;
-
-      @KeepFieldType
-      VoiceCaptureViewModel br_com_banavita_app_ui_voice_VoiceCaptureViewModel2;
-
-      @KeepFieldType
-      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
-
-      @KeepFieldType
-      EtilenoFilaViewModel br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel2;
+      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
 
       @KeepFieldType
       EventoFormViewModel br_com_banavita_app_ui_agenda_EventoFormViewModel2;
 
       @KeepFieldType
-      ClienteFormViewModel br_com_banavita_app_ui_cadastros_clientes_ClienteFormViewModel2;
+      BanavitaAppViewModel br_com_banavita_app_ui_app_BanavitaAppViewModel2;
+
+      @KeepFieldType
+      EncomendaFormViewModel br_com_banavita_app_ui_pereciveis_encomenda_EncomendaFormViewModel2;
+
+      @KeepFieldType
+      VendaListViewModel br_com_banavita_app_ui_vendas_VendaListViewModel2;
+
+      @KeepFieldType
+      AgendaListViewModel br_com_banavita_app_ui_agenda_AgendaListViewModel2;
+
+      @KeepFieldType
+      CompraFormViewModel br_com_banavita_app_ui_compras_CompraFormViewModel2;
 
       @KeepFieldType
       ProdutoListViewModel br_com_banavita_app_ui_cadastros_produtos_ProdutoListViewModel2;
 
       @KeepFieldType
+      EtilenoFilaViewModel br_com_banavita_app_ui_pereciveis_etileno_EtilenoFilaViewModel2;
+
+      @KeepFieldType
       ActivationViewModel br_com_banavita_app_ui_activation_ActivationViewModel2;
 
       @KeepFieldType
-      PerdaFormViewModel br_com_banavita_app_ui_pereciveis_perda_PerdaFormViewModel2;
+      EstoqueDetalheViewModel br_com_banavita_app_ui_consultas_estoque_EstoqueDetalheViewModel2;
 
       @KeepFieldType
-      GrupoFormViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoFormViewModel2;
+      CompraListViewModel br_com_banavita_app_ui_compras_CompraListViewModel2;
 
       @KeepFieldType
-      GrupoListViewModel br_com_banavita_app_ui_cadastros_grupos_GrupoListViewModel2;
+      FinanceiroDetalheViewModel br_com_banavita_app_ui_consultas_financeiro_FinanceiroDetalheViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

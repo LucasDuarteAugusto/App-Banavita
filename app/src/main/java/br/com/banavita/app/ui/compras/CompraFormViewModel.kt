@@ -257,6 +257,7 @@ class CompraFormViewModel @Inject constructor(
                 produtoId = produtoId,
                 quantidade = quantidade,
                 valorUnitarioCentavos = precoCentavos,
+                unidade = state.produtos.find { it.id == produtoId }?.unidade,
             )
         }
         return InputsResult(inputs = inputs)

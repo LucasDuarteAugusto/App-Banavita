@@ -130,6 +130,7 @@ data class Lote(
     val etapaInicioEpochDay: Long?,
     val custoUnitarioCentavos: Long,
     val rotulo: String,
+    val unidade: String? = null,
 )
 
 data class EstoqueLinha(
@@ -153,6 +154,7 @@ data class Perda(
     val quantidade: Double,
     val motivo: PerdaMotivo,
     val valorCentavos: Long,
+    val unidade: String? = null,
 )
 
 data class PrecoQueima(
@@ -209,13 +211,19 @@ data class PerecivelCriticoResumo(
     val kgPodreOuAmanha: Double,
     val descricaoPodre: String?,
     val produtoIdPodre: UUID? = null,
+    val moverParaArmazenagem: List<MoverAdvice> = emptyList(),
+)
+
+data class MoverAdvice(
+    val produtoId: UUID,
+    val descricao: String,
+    val quantidade: Double,
+    val unidade: String,
 )
 
 data class EtilenoCapacidadeSnapshot(
-    val capacidadeKg: Double,
-    val soltarPorDiaKg: Double,
-    val kgNaEtileno: Double,
-    val kgNaFria: Double,
-    val kgSoltosHoje: Double,
-    val folgaKg: Double?,
+    val capacidade: Double,
+    val qtdeNaEtileno: Double,
+    val qtdeNaFria: Double,
+    val folga: Double?,
 )

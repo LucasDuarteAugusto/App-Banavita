@@ -48,6 +48,7 @@ class DocumentoItemFactory @Inject constructor(
                 quantidade = input.quantidade,
                 valorTotalCentavos = Money.lineTotal(unitCents, input.quantidade),
                 estado = input.estado?.name,
+                unidade = input.unidade ?: produto.unidade,
             )
         }
     }
@@ -72,6 +73,7 @@ class DocumentoItemFactory @Inject constructor(
                 valorUnitarioCentavos = unitCents,
                 quantidade = input.quantidade,
                 valorTotalCentavos = Money.lineTotal(unitCents, input.quantidade),
+                unidade = input.unidade ?: produto.unidade,
             )
         }
     }
@@ -105,9 +107,9 @@ class EstoqueValidator @Inject constructor(
             val produto = produtoDao.get().getById(produtoId)
                 ?: throw InvalidDocumentException("Produto $produtoId não encontrado.")
             if (produto.perecivel) {
-                val estado = br.com.banavita.app.domain.model.MaturacaoEstado.fromStored(estadoRaw)
+                val estado = MaturacaoEstado.fromStored(estadoRaw)
                     ?: throw InvalidDocumentException("Informe o estado da banana para vender.")
-                if (estado == br.com.banavita.app.domain.model.MaturacaoEstado.PODRE) {
+                if (estado == MaturacaoEstado.PODRE) {
                     throw InvalidDocumentException("Podre não se vende. Lance como perda.")
                 }
                 val disponivel = loteDao.get().saldoPorEstado(produtoId, estado.name)

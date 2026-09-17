@@ -65,4 +65,6 @@ data class LoteEntity(
     val custoUnitarioCentavos: Long,
     @ColumnInfo(name = "LOT_ROTULO")
     val rotulo: String,
+    @ColumnInfo(name = "LOT_UNIDADE")
+    val unidade: String? = null,
 )

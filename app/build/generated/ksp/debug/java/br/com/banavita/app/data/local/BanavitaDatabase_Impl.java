@@ -87,7 +87,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(5) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(6) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `grupo` (`GRU_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `GRU_NOME` TEXT NOT NULL, `GRU_OBS` TEXT, PRIMARY KEY(`GRU_ID`))");
@@ -98,13 +98,13 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         db.execSQL("CREATE TABLE IF NOT EXISTS `venda` (`VEN_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `VEN_DATA` INTEGER NOT NULL, `VEN_CLIENTE` TEXT, `VEN_VLRTOT` INTEGER NOT NULL, `VEN_PRAZO` INTEGER NOT NULL, PRIMARY KEY(`VEN_ID`), FOREIGN KEY(`VEN_CLIENTE`) REFERENCES `cliente`(`CLI_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_venda_VEN_DATA` ON `venda` (`VEN_DATA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_venda_VEN_CLIENTE` ON `venda` (`VEN_CLIENTE`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `venda_item` (`VEI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `VEI_VENDA` TEXT NOT NULL, `VEI_PRODUTO` TEXT NOT NULL, `VEI_VLRUN` INTEGER NOT NULL, `VEI_QTDE` REAL NOT NULL, `VEI_VLRTOT` INTEGER NOT NULL, `VEI_ESTADO` TEXT, PRIMARY KEY(`VEI_ID`), FOREIGN KEY(`VEI_VENDA`) REFERENCES `venda`(`VEN_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`VEI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `venda_item` (`VEI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `VEI_VENDA` TEXT NOT NULL, `VEI_PRODUTO` TEXT NOT NULL, `VEI_VLRUN` INTEGER NOT NULL, `VEI_QTDE` REAL NOT NULL, `VEI_VLRTOT` INTEGER NOT NULL, `VEI_ESTADO` TEXT, `VEI_UNIDADE` TEXT, PRIMARY KEY(`VEI_ID`), FOREIGN KEY(`VEI_VENDA`) REFERENCES `venda`(`VEN_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`VEI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_venda_item_VEI_VENDA` ON `venda_item` (`VEI_VENDA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_venda_item_VEI_PRODUTO` ON `venda_item` (`VEI_PRODUTO`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `compra` (`COM_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `COM_DATA` INTEGER NOT NULL, `COM_FORNECEDOR` TEXT, `COM_VLRTOT` INTEGER NOT NULL, `COM_PRAZO` INTEGER NOT NULL, PRIMARY KEY(`COM_ID`), FOREIGN KEY(`COM_FORNECEDOR`) REFERENCES `fornecedor`(`FOR_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_compra_COM_DATA` ON `compra` (`COM_DATA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_compra_COM_FORNECEDOR` ON `compra` (`COM_FORNECEDOR`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `compra_item` (`COI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `COI_COMPRA` TEXT NOT NULL, `COI_PRODUTO` TEXT NOT NULL, `COI_VLRUN` INTEGER NOT NULL, `COI_QTDE` REAL NOT NULL, `COI_VLRTOT` INTEGER NOT NULL, PRIMARY KEY(`COI_ID`), FOREIGN KEY(`COI_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`COI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `compra_item` (`COI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `COI_COMPRA` TEXT NOT NULL, `COI_PRODUTO` TEXT NOT NULL, `COI_VLRUN` INTEGER NOT NULL, `COI_QTDE` REAL NOT NULL, `COI_VLRTOT` INTEGER NOT NULL, `COI_UNIDADE` TEXT, PRIMARY KEY(`COI_ID`), FOREIGN KEY(`COI_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`COI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_compra_item_COI_COMPRA` ON `compra_item` (`COI_COMPRA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_compra_item_COI_PRODUTO` ON `compra_item` (`COI_PRODUTO`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `recebimento` (`REC_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `REC_VENDA` TEXT NOT NULL, `REC_DATA` INTEGER NOT NULL, `REC_VALOR` INTEGER NOT NULL, PRIMARY KEY(`REC_ID`), FOREIGN KEY(`REC_VENDA`) REFERENCES `venda`(`VEN_ID`) ON UPDATE NO ACTION ON DELETE CASCADE )");
@@ -117,7 +117,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_evento_EVE_DATAHORA` ON `evento` (`EVE_DATAHORA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_evento_EVE_CLIENTE` ON `evento` (`EVE_CLIENTE`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_evento_EVE_FORNECEDOR` ON `evento` (`EVE_FORNECEDOR`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `lote` (`LOT_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `LOT_PRODUTO` TEXT NOT NULL, `LOT_COMPRA` TEXT, `LOT_COMPRA_ITEM` TEXT, `LOT_ORIGEM` TEXT, `LOT_DATA` INTEGER NOT NULL, `LOT_QTDE_INICIAL` REAL NOT NULL, `LOT_QTDE_RESTANTE` REAL NOT NULL, `LOT_CAMARA` TEXT NOT NULL, `LOT_ESTADO` TEXT NOT NULL, `LOT_ETAPA_INICIO_DAY` INTEGER, `LOT_CUSTO_UN` INTEGER NOT NULL, `LOT_ROTULO` TEXT NOT NULL, PRIMARY KEY(`LOT_ID`), FOREIGN KEY(`LOT_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`LOT_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE SET NULL )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `lote` (`LOT_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `LOT_PRODUTO` TEXT NOT NULL, `LOT_COMPRA` TEXT, `LOT_COMPRA_ITEM` TEXT, `LOT_ORIGEM` TEXT, `LOT_DATA` INTEGER NOT NULL, `LOT_QTDE_INICIAL` REAL NOT NULL, `LOT_QTDE_RESTANTE` REAL NOT NULL, `LOT_CAMARA` TEXT NOT NULL, `LOT_ESTADO` TEXT NOT NULL, `LOT_ETAPA_INICIO_DAY` INTEGER, `LOT_CUSTO_UN` INTEGER NOT NULL, `LOT_ROTULO` TEXT NOT NULL, `LOT_UNIDADE` TEXT, PRIMARY KEY(`LOT_ID`), FOREIGN KEY(`LOT_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`LOT_COMPRA`) REFERENCES `compra`(`COM_ID`) ON UPDATE NO ACTION ON DELETE SET NULL )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_LOT_PRODUTO` ON `lote` (`LOT_PRODUTO`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_LOT_COMPRA` ON `lote` (`LOT_COMPRA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_LOT_ESTADO` ON `lote` (`LOT_ESTADO`)");
@@ -127,7 +127,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_baixa_LBA_LOTE` ON `lote_baixa` (`LBA_LOTE`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_baixa_LBA_VENDA` ON `lote_baixa` (`LBA_VENDA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_lote_baixa_LBA_PERDA` ON `lote_baixa` (`LBA_PERDA`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `perda` (`PER_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PER_DATA` INTEGER NOT NULL, `PER_PRODUTO` TEXT NOT NULL, `PER_LOTE` TEXT, `PER_ESTADO` TEXT NOT NULL, `PER_QTDE` REAL NOT NULL, `PER_MOTIVO` TEXT NOT NULL, `PER_VALOR` INTEGER NOT NULL, PRIMARY KEY(`PER_ID`), FOREIGN KEY(`PER_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`PER_LOTE`) REFERENCES `lote`(`LOT_ID`) ON UPDATE NO ACTION ON DELETE SET NULL )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `perda` (`PER_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `PER_DATA` INTEGER NOT NULL, `PER_PRODUTO` TEXT NOT NULL, `PER_LOTE` TEXT, `PER_ESTADO` TEXT NOT NULL, `PER_QTDE` REAL NOT NULL, `PER_MOTIVO` TEXT NOT NULL, `PER_VALOR` INTEGER NOT NULL, `PER_UNIDADE` TEXT, PRIMARY KEY(`PER_ID`), FOREIGN KEY(`PER_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`PER_LOTE`) REFERENCES `lote`(`LOT_ID`) ON UPDATE NO ACTION ON DELETE SET NULL )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_perda_PER_PRODUTO` ON `perda` (`PER_PRODUTO`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_perda_PER_LOTE` ON `perda` (`PER_LOTE`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_perda_PER_DATA` ON `perda` (`PER_DATA`)");
@@ -197,7 +197,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                 + "        ) v ON v.id = p.PRO_ID\n"
                 + "        WHERE p.PRO_PERECIVEL = 0");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a62d25a2e901a65192ec60b59dd2a9fd')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '24fde4b6e5b5cd5cbe16a5978b83700c')");
       }
 
       @Override
@@ -363,7 +363,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoVenda + "\n"
                   + " Found:\n" + _existingVenda);
         }
-        final HashMap<String, TableInfo.Column> _columnsVendaItem = new HashMap<String, TableInfo.Column>(9);
+        final HashMap<String, TableInfo.Column> _columnsVendaItem = new HashMap<String, TableInfo.Column>(10);
         _columnsVendaItem.put("VEI_ID", new TableInfo.Column("VEI_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVendaItem.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVendaItem.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -373,6 +373,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsVendaItem.put("VEI_QTDE", new TableInfo.Column("VEI_QTDE", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVendaItem.put("VEI_VLRTOT", new TableInfo.Column("VEI_VLRTOT", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsVendaItem.put("VEI_ESTADO", new TableInfo.Column("VEI_ESTADO", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsVendaItem.put("VEI_UNIDADE", new TableInfo.Column("VEI_UNIDADE", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysVendaItem = new HashSet<TableInfo.ForeignKey>(2);
         _foreignKeysVendaItem.add(new TableInfo.ForeignKey("venda", "CASCADE", "NO ACTION", Arrays.asList("VEI_VENDA"), Arrays.asList("VEN_ID")));
         _foreignKeysVendaItem.add(new TableInfo.ForeignKey("produto", "RESTRICT", "NO ACTION", Arrays.asList("VEI_PRODUTO"), Arrays.asList("PRO_ID")));
@@ -406,7 +407,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoCompra + "\n"
                   + " Found:\n" + _existingCompra);
         }
-        final HashMap<String, TableInfo.Column> _columnsCompraItem = new HashMap<String, TableInfo.Column>(8);
+        final HashMap<String, TableInfo.Column> _columnsCompraItem = new HashMap<String, TableInfo.Column>(9);
         _columnsCompraItem.put("COI_ID", new TableInfo.Column("COI_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsCompraItem.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsCompraItem.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -415,6 +416,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsCompraItem.put("COI_VLRUN", new TableInfo.Column("COI_VLRUN", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsCompraItem.put("COI_QTDE", new TableInfo.Column("COI_QTDE", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsCompraItem.put("COI_VLRTOT", new TableInfo.Column("COI_VLRTOT", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCompraItem.put("COI_UNIDADE", new TableInfo.Column("COI_UNIDADE", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysCompraItem = new HashSet<TableInfo.ForeignKey>(2);
         _foreignKeysCompraItem.add(new TableInfo.ForeignKey("compra", "CASCADE", "NO ACTION", Arrays.asList("COI_COMPRA"), Arrays.asList("COM_ID")));
         _foreignKeysCompraItem.add(new TableInfo.ForeignKey("produto", "RESTRICT", "NO ACTION", Arrays.asList("COI_PRODUTO"), Arrays.asList("PRO_ID")));
@@ -493,7 +495,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoEvento + "\n"
                   + " Found:\n" + _existingEvento);
         }
-        final HashMap<String, TableInfo.Column> _columnsLote = new HashMap<String, TableInfo.Column>(15);
+        final HashMap<String, TableInfo.Column> _columnsLote = new HashMap<String, TableInfo.Column>(16);
         _columnsLote.put("LOT_ID", new TableInfo.Column("LOT_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsLote.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsLote.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -509,6 +511,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsLote.put("LOT_ETAPA_INICIO_DAY", new TableInfo.Column("LOT_ETAPA_INICIO_DAY", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsLote.put("LOT_CUSTO_UN", new TableInfo.Column("LOT_CUSTO_UN", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsLote.put("LOT_ROTULO", new TableInfo.Column("LOT_ROTULO", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsLote.put("LOT_UNIDADE", new TableInfo.Column("LOT_UNIDADE", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysLote = new HashSet<TableInfo.ForeignKey>(2);
         _foreignKeysLote.add(new TableInfo.ForeignKey("produto", "RESTRICT", "NO ACTION", Arrays.asList("LOT_PRODUTO"), Arrays.asList("PRO_ID")));
         _foreignKeysLote.add(new TableInfo.ForeignKey("compra", "SET NULL", "NO ACTION", Arrays.asList("LOT_COMPRA"), Arrays.asList("COM_ID")));
@@ -545,7 +548,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoLoteBaixa + "\n"
                   + " Found:\n" + _existingLoteBaixa);
         }
-        final HashMap<String, TableInfo.Column> _columnsPerda = new HashMap<String, TableInfo.Column>(10);
+        final HashMap<String, TableInfo.Column> _columnsPerda = new HashMap<String, TableInfo.Column>(11);
         _columnsPerda.put("PER_ID", new TableInfo.Column("PER_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPerda.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPerda.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -556,6 +559,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsPerda.put("PER_QTDE", new TableInfo.Column("PER_QTDE", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPerda.put("PER_MOTIVO", new TableInfo.Column("PER_MOTIVO", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsPerda.put("PER_VALOR", new TableInfo.Column("PER_VALOR", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsPerda.put("PER_UNIDADE", new TableInfo.Column("PER_UNIDADE", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysPerda = new HashSet<TableInfo.ForeignKey>(2);
         _foreignKeysPerda.add(new TableInfo.ForeignKey("produto", "RESTRICT", "NO ACTION", Arrays.asList("PER_PRODUTO"), Arrays.asList("PRO_ID")));
         _foreignKeysPerda.add(new TableInfo.ForeignKey("lote", "SET NULL", "NO ACTION", Arrays.asList("PER_LOTE"), Arrays.asList("LOT_ID")));
@@ -700,7 +704,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "a62d25a2e901a65192ec60b59dd2a9fd", "5dbc68a02d9bcf3043b82d426770b628");
+    }, "24fde4b6e5b5cd5cbe16a5978b83700c", "ea4142e9e93dd26270eabf99ba1e1dde");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

@@ -103,7 +103,6 @@ fun SettingsRoute(
         onOfflineModelSelected = viewModel::onOfflineModelSelected,
         onGroqApiKeyChange = viewModel::onGroqApiKeyChange,
         onEtilenoCapacidadeChange = viewModel::onEtilenoCapacidadeChange,
-        onEtilenoSoltarDiaChange = viewModel::onEtilenoSoltarDiaChange,
         onAvisoMatinalChange = viewModel::onAvisoMatinalChange,
         onRingtoneClick = {
             val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
@@ -137,7 +136,6 @@ fun SettingsScreen(
     onOfflineModelSelected: (String) -> Unit,
     onGroqApiKeyChange: (String) -> Unit,
     onEtilenoCapacidadeChange: (String) -> Unit,
-    onEtilenoSoltarDiaChange: (String) -> Unit,
     onAvisoMatinalChange: (String) -> Unit,
     onRingtoneClick: () -> Unit,
     onExportClick: () -> Unit,
@@ -244,16 +242,6 @@ fun SettingsScreen(
             onValueChange = onEtilenoCapacidadeChange,
             label = { Text(stringResource(R.string.settings_etileno_capacidade)) },
             supportingText = { Text(stringResource(R.string.settings_etileno_capacidade_hint)) },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            enabled = !uiState.isBackupBusy,
-        )
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = uiState.etilenoSoltarDiaInput,
-            onValueChange = onEtilenoSoltarDiaChange,
-            label = { Text(stringResource(R.string.settings_etileno_dia)) },
-            supportingText = { Text(stringResource(R.string.settings_etileno_dia_hint)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             enabled = !uiState.isBackupBusy,

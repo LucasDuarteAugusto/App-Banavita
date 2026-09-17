@@ -99,6 +99,7 @@ class HomeViewModel @Inject constructor(
             precoQueimaSugeridoCentavos = preco,
             kgPodreOuAmanha = resumo.kgPodreOuAmanha,
             descricaoPodre = resumo.descricaoPodre,
+            moverParaArmazenagem = resumo.moverParaArmazenagem,
             encomendasAbertasSemana = encCount,
             showQueimaDialog = queimaUi.visible,
             queimaPrecoInput = queimaUi.precoInput,

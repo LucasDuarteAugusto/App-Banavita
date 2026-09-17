@@ -48,4 +48,6 @@ data class CompraItemEntity(
     val quantidade: Double,
     @ColumnInfo(name = "COI_VLRTOT")
     val valorTotalCentavos: Long,
+    @ColumnInfo(name = "COI_UNIDADE")
+    val unidade: String? = null,
 )

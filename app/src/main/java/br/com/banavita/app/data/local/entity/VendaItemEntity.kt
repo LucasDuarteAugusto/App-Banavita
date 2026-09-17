@@ -50,4 +50,6 @@ data class VendaItemEntity(
     val valorTotalCentavos: Long,
     @ColumnInfo(name = "VEI_ESTADO")
     val estado: String? = null,
+    @ColumnInfo(name = "VEI_UNIDADE")
+    val unidade: String? = null,
 )

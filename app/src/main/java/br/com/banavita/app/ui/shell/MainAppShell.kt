@@ -69,6 +69,20 @@ fun MainAppShell(
                     }
                 },
                 actions = {
+                    if (currentRoute != BanavitaRoutes.AGENDA) {
+                        IconButton(
+                            onClick = {
+                                navController.navigate(BanavitaRoutes.AGENDA) {
+                                    launchSingleTop = true
+                                }
+                            },
+                        ) {
+                            Icon(
+                                imageVector = BanavitaIcons.Event,
+                                contentDescription = stringResource(R.string.agenda_title),
+                            )
+                        }
+                    }
                     if (currentRoute != BanavitaRoutes.SETTINGS) {
                         IconButton(
                             onClick = {

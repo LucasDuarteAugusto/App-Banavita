@@ -15,6 +15,7 @@ import br.com.banavita.app.domain.exception.BanavitaDomainException
 import br.com.banavita.app.domain.model.ThemeMode
 import br.com.banavita.app.domain.model.TranscriptionProvider
 import br.com.banavita.app.ui.common.QuantityInputParser
+import br.com.banavita.app.ui.common.formatQuantity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,8 +39,7 @@ class SettingsViewModel @Inject constructor(
             selectedProvider = appSettingsRepository.getTranscriptionProvider(),
             selectedTheme = appSettingsRepository.getThemeMode(),
             groqApiKeyConfigured = appSettingsRepository.isGroqApiKeyConfigured(),
-            etilenoCapacidadeInput = formatKg(appSettingsRepository.getEtilenoCapacidadeKg()),
-            etilenoSoltarDiaInput = formatKg(appSettingsRepository.getEtilenoSoltarPorDiaKg()),
+            etilenoCapacidadeInput = formatQuantity(appSettingsRepository.getEtilenoCapacidadeKg(), ""),
             avisoMatinalInput = formatMinutes(appSettingsRepository.getAvisoMatinalMinutos()),
             selectedRingtoneName = getRingtoneName(appSettingsRepository.getRingtoneUri()),
             selectedOfflineModelId = appSettingsRepository.getOfflineModelId(),
@@ -99,12 +99,6 @@ class SettingsViewModel @Inject constructor(
         appSettingsRepository.setEtilenoCapacidadeKg(parsed.coerceAtLeast(0.0))
     }
 
-    fun onEtilenoSoltarDiaChange(value: String) {
-        _uiState.update { it.copy(etilenoSoltarDiaInput = value, errorMessage = null) }
-        val parsed = QuantityInputParser.parse(value) ?: return
-        appSettingsRepository.setEtilenoSoltarPorDiaKg(parsed.coerceAtLeast(0.0))
-    }
-
     fun onAvisoMatinalChange(value: String) {
         _uiState.update { it.copy(avisoMatinalInput = value, errorMessage = null) }
         parseHhMm(value)?.let {
@@ -119,6 +113,8 @@ class SettingsViewModel @Inject constructor(
         _uiState.update {
             it.copy(selectedRingtoneName = getRingtoneName(uriString))
         }
+        // Recriar canal com o novo som
+        br.com.banavita.app.core.reminder.PereciveisAlarmReceiver.ensureChannel(context, appSettingsRepository)
     }
 
     private fun getRingtoneName(uriString: String?): String? {
@@ -130,9 +126,6 @@ class SettingsViewModel @Inject constructor(
             null
         }
     }
-
-    private fun formatKg(value: Double): String =
-        if (value == 0.0) "0" else value.toString().replace('.', ',')
 
     private fun formatMinutes(total: Int): String {
         val h = total / 60

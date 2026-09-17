@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,20 +51,7 @@ fun HomeRoute(
     }
     HomeScreen(
         uiState = uiState,
-        onNovaVendaClick = { onNavEvent(HomeNavEvent.NovaVenda) },
         onConsultasClick = { modo -> onNavEvent(HomeNavEvent.Consultas(modo)) },
-        onAgendaClick = {
-            val evento = uiState.proximoEvento
-            if (evento != null) {
-                val epochDay = java.time.Instant.ofEpochMilli(evento.dataHora)
-                    .atZone(java.time.ZoneId.systemDefault())
-                    .toLocalDate()
-                    .toEpochDay()
-                onNavEvent(HomeNavEvent.Agenda(epochDay))
-            } else {
-                onNavEvent(HomeNavEvent.Agenda())
-            }
-        },
         onVoiceResult = viewModel::applyVoice,
         onPereciveisClick = viewModel::onPereciveisClick,
         onEncomendasClick = viewModel::onEncomendasClick,
@@ -78,9 +66,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     uiState: HomeUiState,
-    onNovaVendaClick: () -> Unit,
     onConsultasClick: (ConsultaModo) -> Unit,
-    onAgendaClick: () -> Unit,
     onVoiceResult: (ConfirmResult) -> Unit,
     onPereciveisClick: () -> Unit,
     onEncomendasClick: () -> Unit,
@@ -123,12 +109,6 @@ fun HomeScreen(
                 text = stringResource(R.string.home_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_shortcut_venda_title),
-                description = stringResource(R.string.home_shortcut_venda_desc),
-                icon = Icons.Default.ShoppingCart,
-                onClick = onNovaVendaClick,
             )
             ShortcutCard(
                 title = stringResource(R.string.home_card_estoque_title),
@@ -195,17 +175,6 @@ fun HomeScreen(
                 icon = BanavitaIcons.Payments,
                 onClick = { onConsultasClick(ConsultaModo.PAGAR) },
             )
-            val evento = uiState.proximoEvento
-            ShortcutCard(
-                title = stringResource(R.string.home_card_agenda_title),
-                description = if (evento == null) {
-                    stringResource(R.string.home_card_agenda_empty)
-                } else {
-                    "${evento.titulo} • ${formatDateTime(evento.dataHora)}"
-                },
-                icon = BanavitaIcons.Event,
-                onClick = onAgendaClick,
-            )
         }
     }
 }
@@ -216,15 +185,17 @@ private fun PereciveisCard(
     onClick: () -> Unit,
     onQueimaClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     val description = when {
-        uiState.kgPintada <= 1e-9 && uiState.kgPodreOuAmanha <= 1e-9 ->
+        uiState.kgPintada <= 1e-9 && uiState.kgPodreOuAmanha <= 1e-9 && uiState.moverParaArmazenagem.isEmpty() ->
             stringResource(R.string.home_card_pereciveis_empty)
         else -> buildString {
             if (uiState.kgPintada > 1e-9) {
                 append(
-                    stringResource(
+                    context.getString(
                         R.string.home_card_pereciveis_pintada,
                         formatKg(uiState.kgPintada),
+                        "Kg",
                         uiState.descricaoPintada.orEmpty(),
                     ),
                 )
@@ -232,9 +203,21 @@ private fun PereciveisCard(
             if (uiState.kgPodreOuAmanha > 1e-9) {
                 if (isNotEmpty()) append(" · ")
                 append(
-                    stringResource(
+                    context.getString(
                         R.string.home_card_pereciveis_podre,
                         formatKg(uiState.kgPodreOuAmanha),
+                        "Kg",
+                    ),
+                )
+            }
+            uiState.moverParaArmazenagem.forEach { advice ->
+                if (isNotEmpty()) append(" · ")
+                append(
+                    context.getString(
+                        R.string.home_card_pereciveis_mover,
+                        formatKg(advice.quantidade),
+                        advice.unidade,
+                        advice.descricao,
                     ),
                 )
             }

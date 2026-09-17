@@ -273,6 +273,7 @@ string home_card_estoque_title
 string home_card_estoque_zerados
 string home_card_pagar_title
 string home_card_pereciveis_empty
+string home_card_pereciveis_mover
 string home_card_pereciveis_pintada
 string home_card_pereciveis_podre
 string home_card_pereciveis_title
@@ -343,8 +344,6 @@ string settings_database_section
 string settings_database_section_desc
 string settings_etileno_capacidade
 string settings_etileno_capacidade_hint
-string settings_etileno_dia
-string settings_etileno_dia_hint
 string settings_export_button
 string settings_export_desc
 string settings_export_success

@@ -93,6 +93,7 @@ class ExtractionRepository @Inject constructor(
         }
         val clienteId = fields.cliente?.id
             ?: throw ExtractionConfirmException("Cliente não selecionado. Escolha um cliente cadastrado.")
+        val produto = produtoRepository.getById(produtoId)
         val vendaId = vendaRepository.create(
             data = nowEpochMillis(),
             clienteId = clienteId,
@@ -102,6 +103,7 @@ class ExtractionRepository @Inject constructor(
                     quantidade = quantidade,
                     valorUnitarioCentavos = item.valorUnitarioCentavos.value,
                     estado = item.estado.value,
+                    unidade = produto?.unidade,
                 ),
             ),
             aPrazo = fields.aPrazo.value == true,
@@ -120,6 +122,7 @@ class ExtractionRepository @Inject constructor(
             ?: throw ExtractionConfirmException("Valor unitário obrigatório na compra.")
         val fornecedorId = fields.fornecedor?.id
             ?: throw ExtractionConfirmException("Fornecedor não selecionado. Escolha um fornecedor cadastrado.")
+        val produto = produtoRepository.getById(produtoId)
         val compraId = compraRepository.create(
             data = nowEpochMillis(),
             fornecedorId = fornecedorId,
@@ -128,6 +131,7 @@ class ExtractionRepository @Inject constructor(
                     produtoId = produtoId,
                     quantidade = quantidade,
                     valorUnitarioCentavos = valor,
+                    unidade = produto?.unidade,
                 ),
             ),
             aPrazo = fields.aPrazo.value == true,

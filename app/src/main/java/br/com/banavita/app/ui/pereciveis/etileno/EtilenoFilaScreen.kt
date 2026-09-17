@@ -50,7 +50,7 @@ fun EtilenoFilaScreen(
     modifier: Modifier = Modifier,
 ) {
     val cap = uiState.capacidade
-    val folgaLabel = cap?.folgaKg?.let { formatQuantity(it, "KG") }
+    val folgaLabel = cap?.folga?.let { formatQuantity(it, "CX") }
         ?: stringResource(R.string.etileno_sem_teto)
     Column(
         modifier = modifier
@@ -62,8 +62,8 @@ fun EtilenoFilaScreen(
             Text(
                 text = stringResource(
                     R.string.etileno_resumo,
-                    formatQuantity(cap.kgNaFria, "KG"),
-                    formatQuantity(cap.kgNaEtileno, "KG"),
+                    formatQuantity(cap.qtdeNaFria, "CX"),
+                    formatQuantity(cap.qtdeNaEtileno, "CX"),
                     folgaLabel,
                 ),
                 style = MaterialTheme.typography.titleMedium,
@@ -85,7 +85,7 @@ fun EtilenoFilaScreen(
                         ListItemCard(
                             title = lote.rotulo,
                             subtitle = stringResource(lote.estado.labelRes()) +
-                                " · " + formatQuantity(lote.quantidadeRestante, "KG"),
+                                " · " + formatQuantity(lote.quantidadeRestante, lote.unidade ?: "UN"),
                         )
                         Row(
                             modifier = Modifier.fillMaxWidth(),

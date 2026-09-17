@@ -81,18 +81,35 @@ fun PerdaFormScreen(
         SearchableEntityDropdown(
             label = stringResource(R.string.perda_lote),
             options = uiState.lotes.map { lote ->
-                lote.id to "${lote.rotulo} · ${formatQuantity(lote.quantidadeRestante, "KG")}"
+                val produto = uiState.produtos.find { it.id == lote.produtoId }
+                val unidade = produto?.unidade ?: "UN"
+                lote.id to "${lote.rotulo} · ${formatQuantity(lote.quantidadeRestante, unidade)}"
             },
             selectedId = uiState.loteId,
             onSelected = onLoteSelected,
             enabled = !uiState.isSaving && uiState.lotes.isNotEmpty(),
             placeholder = stringResource(R.string.perda_lote),
         )
+        val loteSelecionado = uiState.lotes.find { it.id == uiState.loteId }
+        val produtoSelecionado = uiState.produtos.find { it.id == (loteSelecionado?.produtoId ?: uiState.produtoId) }
+        val unidade = produtoSelecionado?.unidade
+
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.quantidadeInput,
             onValueChange = onQuantidadeChange,
-            label = { Text(stringResource(R.string.form_quantidade)) },
+            label = {
+                if (!unidade.isNullOrBlank()) {
+                    Text("${stringResource(R.string.form_quantidade)} ($unidade)")
+                } else {
+                    Text(stringResource(R.string.form_quantidade))
+                }
+            },
+            suffix = {
+                if (!unidade.isNullOrBlank()) {
+                    Text(unidade)
+                }
+            },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             enabled = !uiState.isSaving,

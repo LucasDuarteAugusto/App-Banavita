@@ -21,7 +21,7 @@ class PereciveisMorningScheduler @Inject constructor(
     private val settings: AppSettingsRepository,
 ) {
     fun scheduleNext() {
-        PereciveisAlarmReceiver.ensureChannel(context)
+        PereciveisAlarmReceiver.ensureChannel(context, settings)
         val minutes = settings.getAvisoMatinalMinutos()
         val zone = ZoneId.systemDefault()
         val now = Instant.ofEpochMilli(nowEpochMillis()).atZone(zone)

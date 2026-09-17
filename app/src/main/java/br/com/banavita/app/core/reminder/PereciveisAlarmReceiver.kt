@@ -35,14 +35,15 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
             try {
                 loteRepository.avancarMaturacao()
                 val resumo = loteRepository.resumoCriticos()
-                val hasAlert = resumo.kgPintada > 1e-9 || resumo.kgPodreOuAmanha > 1e-9
+                val hasAlert = resumo.kgPintada > 1e-9 || resumo.kgPodreOuAmanha > 1e-9 || resumo.moverParaArmazenagem.isNotEmpty()
                 if (hasAlert) {
                     val parts = buildList {
                         if (resumo.kgPintada > 1e-9) {
                             add(
                                 context.getString(
                                     R.string.home_card_pereciveis_pintada,
-                                    formatKg(resumo.kgPintada),
+                                    formatQty(resumo.kgPintada),
+                                    "Kg",
                                     resumo.descricaoPintada.orEmpty(),
                                 ),
                             )
@@ -51,7 +52,18 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
                             add(
                                 context.getString(
                                     R.string.home_card_pereciveis_podre,
-                                    formatKg(resumo.kgPodreOuAmanha),
+                                    formatQty(resumo.kgPodreOuAmanha),
+                                    "Kg",
+                                ),
+                            )
+                        }
+                        resumo.moverParaArmazenagem.forEach { advice ->
+                            add(
+                                context.getString(
+                                    R.string.home_card_pereciveis_mover,
+                                    formatQty(advice.quantidade),
+                                    advice.unidade,
+                                    advice.descricao,
                                 ),
                             )
                         }
@@ -65,7 +77,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun formatKg(value: Double): String =
+    private fun formatQty(value: Double): String =
         if (value % 1.0 == 0.0) value.toLong().toString() else String.format("%.1f", value)
 
     private fun showNotification(context: Context, body: String) {

@@ -296,3 +296,32 @@ val MIGRATION_4_5 = object : Migration(4, 5) {
         )
     }
 }
+
+val MIGRATION_5_6 = object : Migration(5, 6) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE venda_item ADD COLUMN VEI_UNIDADE TEXT")
+        db.execSQL("ALTER TABLE compra_item ADD COLUMN COI_UNIDADE TEXT")
+        db.execSQL("ALTER TABLE lote ADD COLUMN LOT_UNIDADE TEXT")
+        db.execSQL("ALTER TABLE perda ADD COLUMN PER_UNIDADE TEXT")
+        db.execSQL(
+            """
+            UPDATE venda_item SET VEI_UNIDADE = (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = VEI_PRODUTO)
+            """.trimIndent(),
+        )
+        db.execSQL(
+            """
+            UPDATE compra_item SET COI_UNIDADE = (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = COI_PRODUTO)
+            """.trimIndent(),
+        )
+        db.execSQL(
+            """
+            UPDATE lote SET LOT_UNIDADE = (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = LOT_PRODUTO)
+            """.trimIndent(),
+        )
+        db.execSQL(
+            """
+            UPDATE perda SET PER_UNIDADE = (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = PER_PRODUTO)
+            """.trimIndent(),
+        )
+    }
+}

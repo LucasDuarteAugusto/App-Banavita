@@ -327,6 +327,7 @@ class VendaFormViewModel @Inject constructor(
                 quantidade = quantidade,
                 valorUnitarioCentavos = precoCentavos,
                 estado = item.estado,
+                unidade = produto?.unidade,
             )
         }
         return InputsResult(inputs = inputs)

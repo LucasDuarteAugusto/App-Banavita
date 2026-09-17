@@ -209,7 +209,19 @@ private fun ReviewEditor(
                         onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                     }
                 )
-                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty(), keyboardType = KeyboardType.Decimal) { value ->
+                val produtoVenda = uiState.produtos.find { it.id == item.produtoResolvido?.id }
+                val unidadeVenda = produtoVenda?.unidade
+                val labelVendaQtde = if (!unidadeVenda.isNullOrBlank()) {
+                    "${stringResource(R.string.form_quantidade)} ($unidadeVenda)"
+                } else {
+                    stringResource(R.string.form_quantidade)
+                }
+                EditText(
+                    label = labelVendaQtde,
+                    value = item.quantidade.value?.toString().orEmpty(),
+                    keyboardType = KeyboardType.Decimal,
+                    suffix = unidadeVenda,
+                ) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
@@ -282,7 +294,19 @@ private fun ReviewEditor(
                         onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
                     }
                 )
-                EditText(stringResource(R.string.form_quantidade), item.quantidade.value?.toString().orEmpty(), keyboardType = KeyboardType.Decimal) { value ->
+                val produtoVenda = uiState.produtos.find { it.id == item.produtoResolvido?.id }
+                val unidadeVenda = produtoVenda?.unidade
+                val labelVendaQtde = if (!unidadeVenda.isNullOrBlank()) {
+                    "${stringResource(R.string.form_quantidade)} ($unidadeVenda)"
+                } else {
+                    stringResource(R.string.form_quantidade)
+                }
+                EditText(
+                    label = labelVendaQtde,
+                    value = item.quantidade.value?.toString().orEmpty(),
+                    keyboardType = KeyboardType.Decimal,
+                    suffix = unidadeVenda,
+                ) { value ->
                     val qty = QuantityInputParser.parse(value)
                     val updated = item.copy(quantidade = item.quantidade.edited(qty))
                     onDraftChange(draft.copy(fields = fields.copy(itens = listOf(updated))))
@@ -405,6 +429,7 @@ private fun EditText(
     label: String,
     value: String,
     keyboardType: KeyboardType = KeyboardType.Text,
+    suffix: String? = null,
     onChange: (String) -> Unit
 ) {
     var text by remember(value) { mutableStateOf(value) }
@@ -416,6 +441,7 @@ private fun EditText(
             onChange(it) 
         },
         label = { Text(label) },
+        suffix = { suffix?.takeIf { it.isNotBlank() }?.let { Text(it) } },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
     )

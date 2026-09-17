@@ -269,19 +269,33 @@ private fun LoteCard(
             title = lote.rotulo,
             subtitle = subtitle,
         )
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            if (lote.camara == Camara.FRIA) {
-                OutlinedButton(onClick = onSoltar) {
-                    Text(stringResource(R.string.estoque_soltar_etileno))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                if (lote.camara == Camara.FRIA) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f),
+                        onClick = onSoltar
+                    ) {
+                        Text(stringResource(R.string.estoque_soltar_etileno))
+                    }
+                }
+                OutlinedButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = onCorrigir
+                ) {
+                    Text(stringResource(R.string.estoque_corrigir_estado))
                 }
             }
-            OutlinedButton(onClick = onCorrigir) {
-                Text(stringResource(R.string.estoque_corrigir_estado))
-            }
-            OutlinedButton(onClick = onPerda) {
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onPerda
+            ) {
                 Text(stringResource(R.string.estoque_lancar_perda))
             }
         }

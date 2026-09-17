@@ -101,6 +101,7 @@ fun VendaItemEntity.toDomain(): VendaItem =
         quantidade = quantidade,
         valorTotalCentavos = valorTotalCentavos,
         estado = MaturacaoEstado.fromStored(estado),
+        unidade = unidade,
     )
 
 fun VendaWithItems.toDomain(): Venda =
@@ -125,6 +126,7 @@ fun CompraItemEntity.toDomain(): CompraItem =
         valorUnitarioCentavos = valorUnitarioCentavos,
         quantidade = quantidade,
         valorTotalCentavos = valorTotalCentavos,
+        unidade = unidade,
     )
 
 fun CompraWithItems.toDomain(): Compra =
@@ -183,6 +185,7 @@ fun LoteEntity.toDomain(): Lote =
         etapaInicioEpochDay = etapaInicioEpochDay,
         custoUnitarioCentavos = custoUnitarioCentavos,
         rotulo = rotulo,
+        unidade = unidade,
     )
 
 fun EstoqueLinhaView.toDomain(): EstoqueLinha =
@@ -208,6 +211,7 @@ fun PerdaEntity.toDomain(): Perda =
         quantidade = quantidade,
         motivo = PerdaMotivo.valueOf(motivo),
         valorCentavos = valorCentavos,
+        unidade = unidade,
     )
 
 fun EventoEntity.toDomain(): Evento =

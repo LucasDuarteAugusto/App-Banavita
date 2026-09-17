@@ -93,7 +93,7 @@ public final class CompraDao_Impl implements CompraDao {
       @Override
       @NonNull
       protected String createQuery() {
-        return "INSERT OR ABORT INTO `compra_item` (`COI_ID`,`created_at`,`updated_at`,`COI_COMPRA`,`COI_PRODUTO`,`COI_VLRUN`,`COI_QTDE`,`COI_VLRTOT`) VALUES (?,?,?,?,?,?,?,?)";
+        return "INSERT OR ABORT INTO `compra_item` (`COI_ID`,`created_at`,`updated_at`,`COI_COMPRA`,`COI_PRODUTO`,`COI_VLRUN`,`COI_QTDE`,`COI_VLRTOT`,`COI_UNIDADE`) VALUES (?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -122,6 +122,11 @@ public final class CompraDao_Impl implements CompraDao {
         statement.bindLong(6, entity.getValorUnitarioCentavos());
         statement.bindDouble(7, entity.getQuantidade());
         statement.bindLong(8, entity.getValorTotalCentavos());
+        if (entity.getUnidade() == null) {
+          statement.bindNull(9);
+        } else {
+          statement.bindString(9, entity.getUnidade());
+        }
       }
     };
     this.__updateAdapterOfCompraEntity = new EntityDeletionOrUpdateAdapter<CompraEntity>(__db) {
@@ -595,7 +600,7 @@ public final class CompraDao_Impl implements CompraDao {
       return;
     }
     final StringBuilder _stringBuilder = StringUtil.newStringBuilder();
-    _stringBuilder.append("SELECT `COI_ID`,`created_at`,`updated_at`,`COI_COMPRA`,`COI_PRODUTO`,`COI_VLRUN`,`COI_QTDE`,`COI_VLRTOT` FROM `compra_item` WHERE `COI_COMPRA` IN (");
+    _stringBuilder.append("SELECT `COI_ID`,`created_at`,`updated_at`,`COI_COMPRA`,`COI_PRODUTO`,`COI_VLRUN`,`COI_QTDE`,`COI_VLRTOT`,`COI_UNIDADE` FROM `compra_item` WHERE `COI_COMPRA` IN (");
     final int _inputSize = __mapKeySet.size();
     StringUtil.appendPlaceholders(_stringBuilder, _inputSize);
     _stringBuilder.append(")");
@@ -621,6 +626,7 @@ public final class CompraDao_Impl implements CompraDao {
       final int _cursorIndexOfValorUnitarioCentavos = 5;
       final int _cursorIndexOfQuantidade = 6;
       final int _cursorIndexOfValorTotalCentavos = 7;
+      final int _cursorIndexOfUnidade = 8;
       while (_cursor.moveToNext()) {
         final String _tmpKey;
         _tmpKey = _cursor.getString(_itemKeyIndex);
@@ -676,7 +682,13 @@ public final class CompraDao_Impl implements CompraDao {
           _tmpQuantidade = _cursor.getDouble(_cursorIndexOfQuantidade);
           final long _tmpValorTotalCentavos;
           _tmpValorTotalCentavos = _cursor.getLong(_cursorIndexOfValorTotalCentavos);
-          _item_1 = new CompraItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpCompraId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos);
+          final String _tmpUnidade;
+          if (_cursor.isNull(_cursorIndexOfUnidade)) {
+            _tmpUnidade = null;
+          } else {
+            _tmpUnidade = _cursor.getString(_cursorIndexOfUnidade);
+          }
+          _item_1 = new CompraItemEntity(_tmpId,_tmpCreatedAt,_tmpUpdatedAt,_tmpCompraId,_tmpProdutoId,_tmpValorUnitarioCentavos,_tmpQuantidade,_tmpValorTotalCentavos,_tmpUnidade);
           _tmpRelation.add(_item_1);
         }
       }

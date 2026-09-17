@@ -319,13 +319,25 @@ fun DocumentLineItemCard(
                 )
             }
 
+            val unidadeLabel = produtoSelecionado?.unidade
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = item.quantidadeInput,
                 onValueChange = onQuantidadeChange,
-                label = { Text(stringResource(R.string.form_quantidade)) },
+                label = {
+                    if (!unidadeLabel.isNullOrBlank()) {
+                        Text("${stringResource(R.string.form_quantidade)} ($unidadeLabel)")
+                    } else {
+                        Text(stringResource(R.string.form_quantidade))
+                    }
+                },
+                suffix = {
+                    if (!unidadeLabel.isNullOrBlank()) {
+                        Text(unidadeLabel)
+                    }
+                },
                 placeholder = {
-                    Text(produtoSelecionado?.unidade?.let { "0 $it" } ?: "0")
+                    Text(unidadeLabel?.let { "0 $it" } ?: "0")
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),

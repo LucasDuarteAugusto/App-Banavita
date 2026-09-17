@@ -47,12 +47,6 @@ class AppSettingsRepository @Inject constructor(
         localDataSource.setEtilenoCapacidadeKg(value.toFloat())
     }
 
-    fun getEtilenoSoltarPorDiaKg(): Double = localDataSource.getEtilenoSoltarPorDiaKg().toDouble()
-
-    fun setEtilenoSoltarPorDiaKg(value: Double) {
-        localDataSource.setEtilenoSoltarPorDiaKg(value.toFloat())
-    }
-
     fun getAvisoMatinalMinutos(): Int = localDataSource.getAvisoMatinalMinutos()
 
     fun setAvisoMatinalMinutos(value: Int) {

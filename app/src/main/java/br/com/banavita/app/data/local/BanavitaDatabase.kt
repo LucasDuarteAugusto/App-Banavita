@@ -59,7 +59,7 @@ import br.com.banavita.app.data.local.view.ProdutoEstoqueView
         EncomendaItemEntity::class,
     ],
     views = [ProdutoEstoqueView::class, EstoqueLinhaView::class],
-    version = 5,
+    version = 6,
     exportSchema = true,
 )
 @TypeConverters(UuidConverters::class)
@@ -81,6 +81,6 @@ abstract class BanavitaDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "banavita.db"
-        const val SCHEMA_VERSION = 5
+        const val SCHEMA_VERSION = 6
     }
 }

@@ -383,10 +383,8 @@
     <string name="estoque_lotes_empty">Nenhum lote restante.</string>
 
     <string name="settings_pereciveis_section">Câmara de etileno</string>
-    <string name="settings_etileno_capacidade">Kg que a etileno comporta</string>
-    <string name="settings_etileno_capacidade_hint">0 = sem teto de capacidade</string>
-    <string name="settings_etileno_dia">Kg que posso soltar por dia</string>
-    <string name="settings_etileno_dia_hint">0 = sem teto diário. Folga = o menor entre capacidade − já na etileno e kg/dia − já soltos hoje.</string>
+    <string name="settings_etileno_capacidade">Capacidade da câmara (caixas)</string>
+    <string name="settings_etileno_capacidade_hint">Limite total de caixas na etileno. 0 = sem teto.</string>
     <string name="settings_aviso_matinal">Horário do aviso matinal (HH:mm)</string>
     <string name="settings_aviso_matinal_hint">Padrão 07:00. Canal próprio, separado da agenda.</string>
     <string name="settings_notifications_section">Notificações</string>
@@ -395,8 +393,9 @@
 
     <string name="home_card_pereciveis_title">Perecíveis do dia</string>
     <string name="home_card_pereciveis_empty">Nenhum perecível crítico hoje</string>
-    <string name="home_card_pereciveis_pintada">%1$s kg %2$s pintada</string>
-    <string name="home_card_pereciveis_podre">%1$s kg a apodrecer / podre</string>
+    <string name="home_card_pereciveis_pintada">%1$s %2$s %3$s pintada</string>
+    <string name="home_card_pereciveis_podre">%1$s %2$s a apodrecer / podre</string>
+    <string name="home_card_pereciveis_mover">Mover %1$s %2$s de %3$s para armazenagem</string>
     <string name="home_card_encomendas_title">Encomendas da semana</string>
     <string name="home_card_encomendas_empty">Nenhuma encomenda nesta semana</string>
     <string name="home_card_encomendas_count">%d encomenda(s) em aberto</string>
@@ -404,12 +403,12 @@
     <string name="home_queima_message">Vendas deste estado usam este preço até meia-noite local. Não altera o cadastro do produto.</string>
     <string name="home_queima_aplicar">Aplicar hoje</string>
 
-    <string name="etileno_title">Fila da etileno</string>
-    <string name="etileno_resumo">Na fria: %1$s · na etileno: %2$s · folga agora: %3$s</string>
+    <string name="etileno_title">Soltar lotes para etileno</string>
+    <string name="etileno_resumo">Na fria: %1$s · na etileno: %2$s · folga: %3$s</string>
     <string name="etileno_sem_teto">sem teto</string>
-    <string name="etileno_regra">Folga = menor entre (capacidade − kg já na etileno) e (kg/dia − já soltos hoje). Capacidade e kg/dia em 0 nas Configurações = sem limite.</string>
-    <string name="etileno_empty">Nenhum lote na câmara fria.</string>
-    <string name="etileno_soltar">Soltar</string>
+    <string name="etileno_regra">Ao soltar um lote para a etileno, o relógio de maturação começa a contar. O limite é baseado na capacidade da câmara (caixas).</string>
+    <string name="etileno_empty">Nenhum lote perecível na câmara fria.</string>
+    <string name="etileno_soltar">Soltar agora</string>
 
     <string name="perda_form_title">Lançar perda</string>
     <string name="perda_motivo">Motivo</string>

@@ -23,6 +23,7 @@ import br.com.banavita.app.domain.model.EtilenoCapacidadeSnapshot
 import br.com.banavita.app.domain.model.EstoqueLinha
 import br.com.banavita.app.domain.model.Lote
 import br.com.banavita.app.domain.model.MaturacaoEstado
+import br.com.banavita.app.domain.model.MoverAdvice
 import br.com.banavita.app.domain.model.OfertaPrevista
 import br.com.banavita.app.domain.model.Perda
 import br.com.banavita.app.domain.model.PerdaMotivo
@@ -95,6 +96,7 @@ class LoteRepository @Inject constructor(
                 etapaInicioEpochDay = null,
                 custoUnitarioCentavos = item.valorUnitarioCentavos,
                 rotulo = rotuloLote(produto.descricao, data, seq),
+                unidade = item.unidade ?: produto.unidade,
             )
         }
         if (lotes.isNotEmpty()) {
@@ -138,8 +140,9 @@ class LoteRepository @Inject constructor(
         }
         val folga = folgaEtileno()
         if (folga != null && quantidade > folga + 1e-9) {
+            val unidade = lote.unidade ?: "unidade"
             throw InvalidDocumentException(
-                "A etileno não comporta essa quantidade. Folga agora: ${"%.1f".format(folga)} kg.",
+                "A etileno não comporta essa quantidade. Espaço restante: ${"%.1f".format(folga)} $unidade.",
             )
         }
         val timestamp = nowEpochMillis()
@@ -171,6 +174,7 @@ class LoteRepository @Inject constructor(
                     etapaInicioEpochDay = today,
                     custoUnitarioCentavos = lote.custoUnitarioCentavos,
                     rotulo = rotulo,
+                    unidade = lote.unidade,
                 ),
             )
         }
@@ -178,35 +182,26 @@ class LoteRepository @Inject constructor(
     }
 
     /**
-     * Folga para soltar: mínimo entre capacidade − kg na etileno e kg/dia − já soltos hoje.
-     * Null = sem teto (os dois campos em 0 nas Configurações).
+     * Folga para soltar: capacidade − total de itens na etileno.
+     * Null = sem teto (capacidade em 0 nas Configurações).
      */
     suspend fun folgaEtileno(): Double? {
         val capacidade = settings.getEtilenoCapacidadeKg()
-        val porDia = settings.getEtilenoSoltarPorDiaKg()
-        if (capacidade <= 0.0 && porDia <= 0.0) return null
-        val hoje = PeriodRanges.of(PeriodoPreset.HOJE)
-        val naCamara = loteDao.get().kgNaEtileno()
-        val soltosHoje = loteDao.get().kgSoltosNoPeriodo(hoje.startInclusive, hoje.endExclusive)
-        var folga = Double.POSITIVE_INFINITY
-        if (capacidade > 0) folga = min(folga, (capacidade - naCamara).coerceAtLeast(0.0))
-        if (porDia > 0) folga = min(folga, (porDia - soltosHoje).coerceAtLeast(0.0))
-        return if (folga.isFinite()) folga else null
+        if (capacidade <= 0.0) return null
+        val naCamara = loteDao.get().qtdeNaEtileno()
+        return (capacidade - naCamara).coerceAtLeast(0.0)
     }
 
-    suspend fun kgNaEtileno(): Double = loteDao.get().kgNaEtileno()
+    suspend fun kgNaEtileno(): Double = loteDao.get().qtdeNaEtileno()
 
-    suspend fun kgNaFria(): Double = loteDao.get().kgNaFria()
+    suspend fun kgNaFria(): Double = loteDao.get().qtdeNaFria()
 
     suspend fun capacidadeSnapshot(): EtilenoCapacidadeSnapshot {
-        val hoje = PeriodRanges.of(PeriodoPreset.HOJE)
         return EtilenoCapacidadeSnapshot(
-            capacidadeKg = settings.getEtilenoCapacidadeKg(),
-            soltarPorDiaKg = settings.getEtilenoSoltarPorDiaKg(),
-            kgNaEtileno = loteDao.get().kgNaEtileno(),
-            kgNaFria = loteDao.get().kgNaFria(),
-            kgSoltosHoje = loteDao.get().kgSoltosNoPeriodo(hoje.startInclusive, hoje.endExclusive),
-            folgaKg = folgaEtileno(),
+            capacidade = settings.getEtilenoCapacidadeKg(),
+            qtdeNaEtileno = loteDao.get().qtdeNaEtileno(),
+            qtdeNaFria = loteDao.get().qtdeNaFria(),
+            folga = folgaEtileno(),
         )
     }
 
@@ -332,6 +327,7 @@ class LoteRepository @Inject constructor(
                     quantidade = quantidade,
                     motivo = motivo.name,
                     valorCentavos = valor,
+                    unidade = lote.unidade,
                 ),
             )
             loteDao.get().insertBaixa(
@@ -422,20 +418,33 @@ class LoteRepository @Inject constructor(
         var kgAmanha = 0.0
         var descAmanha: String? = null
         var produtoIdAmanha: UUID? = null
+
+        val moverMap = mutableMapOf<UUID, MoverAdvice>()
+
         loteDao.get().listEtilenoAbertos().forEach { lote ->
             val produto = produtoDao.get().getById(lote.produtoId)?.toDomain() ?: return@forEach
+            val estadoAtual = MaturacaoEstado.valueOf(lote.estado)
             val amanha = RipeningClock.estadoEm(
                 Camara.ETILENO,
-                MaturacaoEstado.valueOf(lote.estado),
+                estadoAtual,
                 lote.etapaInicioEpochDay,
                 produto.curva,
                 today + 1,
             )
-            val hoje = MaturacaoEstado.valueOf(lote.estado)
-            if (hoje != MaturacaoEstado.PODRE && amanha == MaturacaoEstado.PODRE) {
+            if (estadoAtual != MaturacaoEstado.PODRE && amanha == MaturacaoEstado.PODRE) {
                 kgAmanha += lote.quantidadeRestante
                 descAmanha = produto.descricao
                 produtoIdAmanha = produto.id
+            }
+
+            // Aconselhável mover se estiver AMARELA ou PINTADA na etileno
+            if (estadoAtual == MaturacaoEstado.AMARELA || estadoAtual == MaturacaoEstado.PINTADA) {
+                val existing = moverMap[produto.id]
+                moverMap[produto.id] = if (existing == null) {
+                    MoverAdvice(produto.id, produto.descricao, lote.quantidadeRestante, lote.unidade ?: produto.unidade)
+                } else {
+                    existing.copy(quantidade = existing.quantidade + lote.quantidadeRestante)
+                }
             }
         }
         return PerecivelCriticoResumo(
@@ -445,6 +454,7 @@ class LoteRepository @Inject constructor(
             kgPodreOuAmanha = podre.sumOf { it.quantidade } + kgAmanha,
             descricaoPodre = podre.maxByOrNull { it.quantidade }?.descricao ?: descAmanha,
             produtoIdPodre = podre.maxByOrNull { it.quantidade }?.produtoId ?: produtoIdAmanha,
+            moverParaArmazenagem = moverMap.values.toList().sortedBy { it.descricao.lowercase() },
         )
     }
 
