@@ -264,9 +264,9 @@
     "semantic_hash": ""
   },
   "app/build.gradle.kts": {
-    "mtime": 1789652241.0075548,
-    "seen": 1789653726.3648717,
-    "ast_hash": "62cb7e0b8cf236caae85a66b46eb5efa",
+    "mtime": 1789658082.1070385,
+    "seen": 1789658187.7569332,
+    "ast_hash": "c03e65574f8e18c212dbbc975a06c88e",
     "semantic_hash": ""
   },
   "app/schemas/br.com.banavita.app.data.local.BanavitaDatabase/3.json": {
@@ -768,9 +768,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/SpeechToTextRepository.kt": {
-    "mtime": 1789649918.8652217,
-    "seen": 1789653726.3649962,
-    "ast_hash": "e1743636fb7e163e369961020520e63a",
+    "mtime": 1789656116.555903,
+    "seen": 1789658187.7570565,
+    "ast_hash": "2a5c0b9c0294a4db483b483350d34c10",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/VendaRepository.kt": {
@@ -1296,9 +1296,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/ExtractionReviewSheet.kt": {
-    "mtime": 1789643222.082584,
-    "seen": 1789653726.365104,
-    "ast_hash": "85efc1ff8d9eca240dc28de62c7a5ba5",
+    "mtime": 1789655265.9534476,
+    "seen": 1789658187.7571592,
+    "ast_hash": "d9e26e0bc909f998385898f589d2db5b",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceCaptureUiState.kt": {
@@ -1962,15 +1962,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/settings/AppSettingsLocalDataSource.kt": {
-    "mtime": 1789592481.3789961,
-    "seen": 1789653726.3649762,
-    "ast_hash": "9555068de01f8c91308c46ab8ad3aa2d",
+    "mtime": 1789656631.977922,
+    "seen": 1789658187.757035,
+    "ast_hash": "170c758709fc1c1cf9c2b42f1bef7deb",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqConfig.kt": {
-    "mtime": 1789221553.9912066,
-    "seen": 1789234284.0311978,
-    "ast_hash": "ca97ec8943630178115494e5298f4c96",
+    "mtime": 1789655328.8235326,
+    "seen": 1789658187.7570386,
+    "ast_hash": "225eab808019940843457660bc12dcef",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/remote/groq/GroqWhisperClient.kt": {
@@ -1980,9 +1980,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/AppSettingsRepository.kt": {
-    "mtime": 1789592526.3057218,
-    "seen": 1789653726.3649821,
-    "ast_hash": "6c8597a68c452591c8e34b3af46e738b",
+    "mtime": 1789655027.0798185,
+    "seen": 1789658187.7570415,
+    "ast_hash": "50fd6f1222e4d34f55fb1a57678a9c6a",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/di/NetworkModule.kt": {
@@ -1998,21 +1998,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsScreen.kt": {
-    "mtime": 1789651902.2703507,
-    "seen": 1789653726.3650913,
-    "ast_hash": "6956e7d351eff03dbc5c8bfed9cdc43f",
+    "mtime": 1789655205.197023,
+    "seen": 1789658187.7571464,
+    "ast_hash": "2c60dd8e6b63a8bf88f98b4f98af1cb7",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsUiState.kt": {
-    "mtime": 1789592872.5646176,
-    "seen": 1789653726.3650923,
-    "ast_hash": "c2f95e3ee98237dd1150e46c402babb2",
+    "mtime": 1789655057.265159,
+    "seen": 1789658187.7571473,
+    "ast_hash": "13ca1eea3a7b91ff1bcd4af26877218f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/settings/SettingsViewModel.kt": {
-    "mtime": 1789592915.783737,
-    "seen": 1789653726.3650935,
-    "ast_hash": "25129a86ae31bad6202624e49258934f",
+    "mtime": 1789655076.813461,
+    "seen": 1789658187.7571483,
+    "ast_hash": "828cbf1f8cba6f055f9bd1c3790b19ba",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/core/speech/WavWriterTest.kt": {
@@ -2496,9 +2496,9 @@
     "semantic_hash": ""
   },
   "tmp/TestesAudio.md": {
-    "mtime": 1789651866.5144956,
-    "seen": 1789653726.3652258,
-    "ast_hash": "d05893d2af610038d89f85367712f31e",
+    "mtime": 1789654152.151381,
+    "seen": 1789658187.7572796,
+    "ast_hash": "c2d9cd9f38db5584dcbaac7259c9f20f",
     "semantic_hash": ""
   },
   "app/src/main/res/mipmap/ic_launcher_banavita.png": {
@@ -2517,6 +2517,18 @@
     "mtime": 1789564261.6668756,
     "seen": 1789653726.3652706,
     "ast_hash": "16e699e6a2ad29fd286486bef0da0664",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-17-groq-key-dinamica-e-dropdown-voz.md": {
+    "mtime": 1789655375.6426306,
+    "seen": 1789658187.7572632,
+    "ast_hash": "77dda6f38065a67760c3373aff02c7d8",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-17-remocao-modelo-tiny-assets.md": {
+    "mtime": 1789658113.5482643,
+    "seen": 1789658187.7572641,
+    "ast_hash": "5aa50c15d7ceeec93f7e79327c21dd2c",
     "semantic_hash": ""
   }
 }
