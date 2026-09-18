@@ -1,16 +1,16 @@
 # Graph Report - App-Banavita  (2026-09-18)
 
 ## Corpus Check
-- 361 files · ~904,773 words
+- 361 files · ~922,461 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2849 nodes · 5162 edges · 220 communities (172 shown, 39 thin omitted)
-- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 132 edges (avg confidence: 0.85)
+- 2889 nodes · 5127 edges · 238 communities (176 shown, 53 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 159 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a00d8fea`
+- Built from commit: `0e282e75`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,63 +23,63 @@
 - DocumentoItemInput
 - ClienteFormViewModel
 - ConsultasViewModel
-- ProdutoDao
 - BanavitaDatabaseIntegrationTest.kt
+- ClienteRepository
 - EstoqueDao
 - GrupoDao
 - VoiceCaptureViewModel
 - Plano de otimização — Whisper Tiny offline no Android
 - 1. Internationalization & Android Errors (Priority: High)
-- EventoDao
+- BanavitaApp.kt
 - LoteDao
 - FormScaffold
 - FornecedorDao
 - SpeechToTextRepository.kt
-- DatabaseModule.kt
-- ProdutoRepository
-- nowEpochMillis
+- VendaFormScreen
+- ReferencedEntityException
+- FornecedorRepository
 - Orientação de implementação (agente)
 - HomeViewModel.kt
 - BanavitaDatabase.kt
-- FornecedorFormViewModel
-- GrupoFormViewModel
+- FinanceiroDetalheViewModel.kt
+- FakeReminderScheduler
 - SettingsViewModel
-- AgendaAlarmReceiver
+- ProdutoListScreen.kt
 - Fix Room Migration Crash
 - VoiceScreenContext
 - MainNavHost.kt
-- PeriodRanges
+- ActivationScreen
 - Prompt — v3: estoque de perecíveis (banana)
 - ClienteListScreen
 - FornecedorListScreen
-- GrupoListScreen
-- BanavitaDomainException
+- ListItemCard
+- nowEpochMillis
 - V2Parsers.kt
 - ExtractionModels.kt
-- PeriodoPreset
+- DateTimeInputParser
 - ExtractionReviewSheet.kt
 - ExtractionDraft
 - BanavitaDatabase
 - AgendaListViewModel
 - EncomendaFormViewModel
-- PereciveisModels.kt
-- formatCurrency
+- LoteRepository.kt
+- HomeScreen.kt
 - Propostos
-- ListItemCard
-- DocumentLineItemCard
+- FinanceiroDetalheScreen
+- CompraFormScreen
 - ExtractionField
 - AmplitudeMeter
 - O que construir (escopo)
-- DeviceFingerprint
-- MoneyInputParser
+- MainAppShell.kt
+- Money
 - VoiceEnabledScreen
-- EncomendaDao
+- DatabaseModule.kt
 - Produto
 - PerdaFormViewModel.kt
-- VendaRepository
+- VendaRepository.kt
 - Correção de Erros de Inspeção da IDE e Internacionalização
 - NomeTelefoneParser
-- BanavitaAppViewModel
+- PereciveisMorningScheduler
 - WavWriterTest
 - ConsultasScreen.kt
 - Prompt — Configurações: seções + exportar/restaurar banco
@@ -88,21 +88,21 @@
 - PhoneHit
 - CompraDao
 - PereciveisAlarmReceiver
-- ConsultaVisao
-- DocumentoSupport.kt
-- ClienteRepository
+- formatCurrency
+- CompraRepository.kt
+- VoiceCaptureUiState.kt
 - EstoqueDetalheViewModel.kt
 - Agenda: chip "1 dia antes" na linha seguinte
 - GroqWhisperClientTest
 - EstoqueDetalheScreen.kt
-- WhisperDecodeParams
+- Integração de Encomenda com Agenda e Ajustes de Preço
 - Banco de dados Banavita (SQLite / Room)
 - Regras e Padrões de Arquitetura
 - formatQuantity
 - SilenceTrimmerTest.kt
 - SpeechModelManagerTest
-- MoneyHit
-- CompraFormViewModel.kt
+- Filtro de Estados Críticos no Detalhe do Estoque
+- DateInputParser
 - AppSettingsRepositoryTest
 - Parte 2 — Gerar o APK e passar para o celular
 - Banavita v3 — estoque de perecíveis
@@ -118,9 +118,9 @@
 - Testes de transcrição de áudio
 - ThemeMode
 - ExtractionFields
-- .setUp
+- BanavitaDatabaseHolder
 - SttDiagnostics
-- ReminderScheduler
+- EventoRepository
 - Configurações: exportar / restaurar banco
 - Extração heurística Nome/Telefone
 - Agenda: calendário de mês
@@ -133,7 +133,7 @@
 - AGENTS.md - Diretrizes do Projeto App-Banavita
 - Log de Modificações Obrigatório
 - Mockups de Telas Compose
-- ConsultaModo
+- Unificação de Telas, Remoção de Atalhos e Filtros Financeiros
 - PereciveisNotifications.kt
 - Modificação: Chave API Groq Dinâmica na UI e Correção do Dropdown por Voz
 - Modificação: Remoção do Modelo Whisper Tiny dos Assets e Validação do Build
@@ -141,26 +141,44 @@
 - Log de Modificações - Correções de Unidade de Medida e Persistência de Título
 - Log de Modificações - Simplificação Extrema e Refinamento de Estoque (Figma-First)
 - ConsultasNavEvent
-- BaixaExtractionParser
+- Preço em Encomendas e Validação Preditiva de Conflitos
 - EntityListContent
 - Modificação: Otimização de Estoque (Caixas), Notificações e Reformulação da Home
 - Checklist de Validação - App-Banavita
-- ReferencedEntityException
-- GrupoRepository
-- ConsultasList
-- ConsultasViewModel.kt
+- AgregadoConsultaItem
+- MaturacaoEstado
+- MaturacaoEstado
+- Modifier
 - Ajuste de Saldo no Filtro de Perecíveis
 - CadastrosHubScreen.kt
 - Simplificação das Telas de Consultas e Atualização de Títulos
 - EntityMappers.kt
 - Validação de Disponibilidade e Alocação de Encomendas
-- DocumentoItemFactory
+- BanavitaDomainException
 - VendaFormViewModel
-- ConsultaModo
+- StateFlow
 - java
 - InputsResult
+- ViewModel
+- ImageVector
+- MaturacaoEstado
+- MaturacaoEstado
+- Modifier
+- StateFlow
+- ViewModel
+- ConsultasFilters
+- ConsultasUiState
+- ConsultasViewModel
+- DocumentoConsultaItem
+- EstoqueLinha
+- EtilenoCapacidadeSnapshot
+- Lote
+- OfertaPrevista
+- Perda
+- PerdaMotivo
+- PerecivelCriticoResumo
 - ContextParsers.kt
-- FinanceiroRepository
+- FinanceiroRepository.kt
 - Backlog Banavita v2 — Consultas e controle
 - ProdutoFormViewModel
 - AppSettingsLocalDataSource
@@ -209,7 +227,7 @@
 - SpeechToTextRepositoryTest
 - generate-keys.js
 - Configurações: transcrição Groq ou Whisper local
-- ActivationViewModelTest.kt
+- MainDispatcherRule
 - TextNormalizer
 - PcmConverter
 - AmplitudeMeterTest
@@ -228,81 +246,85 @@
 - gradlew
 
 ## God Nodes (most connected - your core abstractions)
-1. `BanavitaDatabase` - 51 edges
-2. `nowEpochMillis()` - 46 edges
-3. `VoiceScreenContext` - 40 edges
-4. `ExtractionParsersTest` - 40 edges
-5. `LoteRepository` - 38 edges
+1. `MaturacaoEstado` - 54 edges
+2. `BanavitaDatabase` - 53 edges
+3. `nowEpochMillis()` - 45 edges
+4. `LoteRepository` - 41 edges
+5. `ExtractionParsersTest` - 40 edges
 6. `ExtractionFields` - 38 edges
-7. `MaturacaoEstado` - 38 edges
-8. `AppSettingsRepository` - 38 edges
-9. `DocumentoItemInput` - 38 edges
-10. `ReferencedEntityException` - 37 edges
+7. `AppSettingsRepository` - 38 edges
+8. `DocumentoItemInput` - 38 edges
+9. `ReferencedEntityException` - 37 edges
+10. `VoiceScreenContext` - 37 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `EncomendaFormRoute()` --calls--> `DeleteConfirmDialog()`  [INFERRED]
-  app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/FormComponents.kt
-- `EncomendaFormRoute()` --calls--> `FormLoadingState()`  [INFERRED]
-  app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/FormComponents.kt
-- `EncomendaFormScreen()` --calls--> `DocumentDateField()`  [INFERRED]
-  app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/DocumentFormComponents.kt
-- `EncomendaFormScreen()` --calls--> `DocumentLineItemCard()`  [INFERRED]
-  app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/DocumentFormComponents.kt
-- `EncomendaFormScreen()` --calls--> `SearchableEntityDropdown()`  [INFERRED]
-  app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/DocumentFormComponents.kt
+- `ConsultasScreen()` --calls--> `ListLoadingState()`  [INFERRED]
+  app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/ListComponents.kt
+- `ConsultasScreen()` --calls--> `VoiceEnabledScreen()`  [INFERRED]
+  app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt → app/src/main/java/br/com/banavita/app/ui/voice/VoiceEnabledScreen.kt
+- `ConsultasList()` --calls--> `formatCurrency()`  [INFERRED]
+  app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/Formatters.kt
+- `ConsultasList()` --calls--> `ListEmptyState()`  [INFERRED]
+  app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/ListComponents.kt
+- `ConsultasList()` --calls--> `ListItemCard()`  [INFERRED]
+  app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt → app/src/main/java/br/com/banavita/app/ui/common/ListComponents.kt
 
 ## Import Cycles
 - None detected.
 
-## Communities (220 total, 39 thin omitted)
+## Communities (238 total, 53 thin omitted)
 
 ### Community 0 - "LoteRepository"
-Cohesion: 0.11
-Nodes (11): Flow, MaturacaoEstado, LoteRepository, CompraItemEntity, EstoqueLinha, EtilenoCapacidadeSnapshot, Lote, OfertaPrevista (+3 more)
+Cohesion: 0.14
+Nodes (4): PerdaEntity, PrecoQueimaEntity, DocumentoItemInput, LoteRepository
 
 ### Community 1 - "MaturacaoEstado"
 Cohesion: 0.12
 Nodes (14): RipeningClock, Camara, ETILENO, FRIA, MaturacaoEstado, AMARELA, CRUA, EM_MATURACAO (+6 more)
 
 ### Community 2 - "CompraFormViewModel"
-Cohesion: 0.15
-Nodes (5): CompraFormScreen(), CompraFormUiState, CompraFormViewModel, InputsResult, InputsResult
+Cohesion: 0.13
+Nodes (6): CompraFormUiState, CompraFormViewModel, InputsResult, InputsResult, StateFlow, ViewModel
 
 ### Community 3 - "BackupManifest"
-Cohesion: 0.08
-Nodes (12): BackupManifest, DatabaseBackupRepository, Uri, BackupException, BackupInvalidException, BackupSchemaTooNewException, BackupManifestTest, DatabaseBackupRepositoryTest (+4 more)
+Cohesion: 0.15
+Nodes (7): BackupManifest, DatabaseBackupRepository, Uri, BackupException, BackupInvalidException, BackupSchemaTooNewException, BackupManifestTest
 
 ### Community 4 - "ConsultasUiState.kt"
-Cohesion: 0.18
-Nodes (13): AgregadoConsultaItem, AgregadoConsultaItem, ConsultasFilters, ConsultasUiState, DocumentoConsultaItem, EncomendaConsultaItem, EstoqueConsultaItem, PerdaConsultaItem (+5 more)
+Cohesion: 0.29
+Nodes (10): AgregadoConsultaItem, ConsultasFilters, ConsultasUiState, DocumentoConsultaItem, EncomendaConsultaItem, EstoqueConsultaItem, PerdaConsultaItem, PrevisaoConsultaItem (+2 more)
 
 ### Community 5 - "DocumentoItemInput"
-Cohesion: 0.17
-Nodes (3): DocumentoItemInput, BanavitaDatabaseIntegrationTest, PereciveisIntegrationTest
+Cohesion: 0.10
+Nodes (6): EstoqueRepository, DocumentoItemInput, BanavitaDatabaseIntegrationTest, FinanceiroRepositoryTest, PereciveisIntegrationTest, TestRepositories
 
 ### Community 6 - "ClienteFormViewModel"
 Cohesion: 0.18
 Nodes (5): ClienteFormUiState, ClienteFormViewModel, br, StateFlow, ViewModel
 
 ### Community 7 - "ConsultasViewModel"
-Cohesion: 0.11
-Nodes (8): ConsultasViewModel, StateFlow, ViewModel, MasterCatalog, MoneyCatalog, PereciveisCatalog, ConfirmResult, EstoqueOrdenacao
+Cohesion: 0.10
+Nodes (10): ConsultasViewModel, ConsultaVisao, PeriodoPreset, StateFlow, ViewModel, MasterCatalog, MoneyCatalog, PereciveisCatalog (+2 more)
 
-### Community 8 - "ProdutoDao"
-Cohesion: 0.22
+### Community 8 - "BanavitaDatabaseIntegrationTest.kt"
+Cohesion: 0.26
 Nodes (3): Flow, ProdutoDao, ProdutoEntity
 
-### Community 9 - "BanavitaDatabaseIntegrationTest.kt"
-Cohesion: 0.23
-Nodes (3): ClienteDao, Flow, ClienteEntity
+### Community 9 - "ClienteRepository"
+Cohesion: 0.17
+Nodes (6): ClienteDao, Flow, ClienteEntity, ClienteRepository, br, Flow
 
 ### Community 10 - "EstoqueDao"
-Cohesion: 0.19
+Cohesion: 0.21
 Nodes (4): EstoqueDao, Flow, EstoqueMovimentoRow, ProdutoEstoqueView
 
 ### Community 11 - "GrupoDao"
-Cohesion: 0.20
-Nodes (3): GrupoDao, Flow, GrupoEntity
+Cohesion: 0.18
+Nodes (5): GrupoDao, Flow, GrupoEntity, GrupoRepository, Flow
+
+### Community 12 - "VoiceCaptureViewModel"
+Cohesion: 0.22
+Nodes (5): VoiceCaptureUiState, Job, StateFlow, ViewModel, VoiceCaptureViewModel
 
 ### Community 13 - "Plano de otimização — Whisper Tiny offline no Android"
 Cohesion: 0.06
@@ -312,65 +334,65 @@ Nodes (30): Alternativas a avaliar, Configuração inicial recomendada, Conjunto
 Cohesion: 0.13
 Nodes (14): 1. Internationalization & Android Errors (Priority: High), 2. Kotlin & General Clean-up (Priority: Medium), 3. XML & Resource Warnings (Priority: Low), Automated Tests, Implementation Plan - Fixing IDE Inspection Results, Manual Verification, [MODIFY] Kotlin Files (Project-wide), [MODIFY] [strings.xml](file:///C:/projetos-Lucas/App-Banavita/app/src/main/res/values/strings.xml) (+6 more)
 
-### Community 15 - "EventoDao"
-Cohesion: 0.27
-Nodes (3): EventoDao, Flow, EventoEntity
+### Community 15 - "BanavitaApp.kt"
+Cohesion: 0.23
+Nodes (8): MainActivity, ActivationRoute(), BanavitaApp(), Modifier, RequestNotificationPermissionIfNeeded(), BanavitaTheme(), Bundle, ComponentActivity
 
 ### Community 16 - "LoteDao"
-Cohesion: 0.11
+Cohesion: 0.12
 Nodes (5): Flow, LoteDao, LoteEntity, LoteBaixaEntity, EstoqueLinhaView
 
 ### Community 17 - "FormScaffold"
-Cohesion: 0.15
-Nodes (26): EventoFormRoute(), EventoFormScreen(), Modifier, EventoFormUiState, ClienteFormRoute(), ClienteFormScreen(), Modifier, FornecedorFormRoute() (+18 more)
+Cohesion: 0.23
+Nodes (18): EventoFormRoute(), Modifier, ClienteFormRoute(), ClienteFormScreen(), Modifier, FornecedorFormRoute(), FornecedorFormScreen(), Modifier (+10 more)
 
 ### Community 18 - "FornecedorDao"
-Cohesion: 0.24
+Cohesion: 0.27
 Nodes (3): FornecedorDao, Flow, FornecedorEntity
 
 ### Community 19 - "SpeechToTextRepository.kt"
-Cohesion: 0.16
-Nodes (9): GroqSpeechConstants, PtBrPromptHints, SpeechConstants, GroqWhisperClient, FloatArray, OkHttpClient, SpeechException, SpeechModelException (+1 more)
+Cohesion: 0.13
+Nodes (8): GroqSpeechConstants, PtBrPromptHints, SpeechConstants, WhisperDecodeParams, GroqWhisperClient, FloatArray, OkHttpClient, SpeechRemoteException
 
-### Community 20 - "DatabaseModule.kt"
-Cohesion: 0.16
-Nodes (5): Flow, PagamentoDao, PrecoQueimaDao, PagamentoEntity, PrecoQueimaEntity
+### Community 20 - "VendaFormScreen"
+Cohesion: 0.24
+Nodes (3): Modifier, VendaFormRoute(), VendaFormScreen()
 
-### Community 21 - "ProdutoRepository"
-Cohesion: 0.16
-Nodes (4): EstoqueRepository, ProdutoRepository, FinanceiroRepositoryTest, TestRepositories
+### Community 21 - "ReferencedEntityException"
+Cohesion: 0.19
+Nodes (6): Flow, ProdutoRepository, ReferencedEntityException, PrecosPorEstado, StateFlow, ViewModel
 
-### Community 22 - "nowEpochMillis"
-Cohesion: 0.20
-Nodes (7): BootCompletedReceiver, BroadcastReceiver, Context, Intent, nowEpochMillis(), FornecedorRepository, Flow
+### Community 22 - "FornecedorRepository"
+Cohesion: 0.36
+Nodes (3): FornecedorRepository, Flow, Fornecedor
 
 ### Community 23 - "Orientação de implementação (agente)"
 Cohesion: 0.07
 Nodes (29): A receber / A pagar (`RECEBER` / `PAGAR`), Agenda — calendário e novo evento (`AGENDA`), Arquivos típicos, Cadastros, Cliente / fornecedor (`NomeTelefoneParser`), Clientes — lista e novo (`VoiceScreenContext.CLIENTE`), Compra, Compras — lista e nova (`COMPRA`) (+21 more)
 
 ### Community 24 - "HomeViewModel.kt"
-Cohesion: 0.18
-Nodes (7): EncomendaStatus, ABERTO, ATENDIDO, HomeViewModel, StateFlow, ViewModel, QueimaUi
+Cohesion: 0.21
+Nodes (6): HomeViewModel, StateFlow, ViewModel, QueimaUi, ConsultaModo, PeriodoPreset
 
 ### Community 25 - "BanavitaDatabase.kt"
-Cohesion: 0.18
-Nodes (7): UuidConverters, EncomendaEntity, EncomendaItemEntity, PerdaEntity, PrecoQueimaEntity, EncomendaWithItems, RoomDatabase
+Cohesion: 0.05
+Nodes (16): UuidConverters, ClienteDao, CompraDao, CompraItemEntity, EncomendaDao, EventoDao, FornecedorDao, GrupoDao (+8 more)
 
-### Community 26 - "FornecedorFormViewModel"
-Cohesion: 0.21
-Nodes (4): FornecedorFormUiState, FornecedorFormViewModel, StateFlow, ViewModel
+### Community 26 - "FinanceiroDetalheViewModel.kt"
+Cohesion: 0.31
+Nodes (5): DialogState, FinanceiroDetalheUiState, FinanceiroDetalheViewModel, StateFlow, ViewModel
 
-### Community 27 - "GrupoFormViewModel"
-Cohesion: 0.21
-Nodes (4): GrupoFormUiState, GrupoFormViewModel, StateFlow, ViewModel
+### Community 27 - "FakeReminderScheduler"
+Cohesion: 0.29
+Nodes (3): EventoRepositoryTest, FakeReminderScheduler, Evento
 
 ### Community 28 - "SettingsViewModel"
 Cohesion: 0.15
 Nodes (4): StateFlow, Uri, ViewModel, SettingsViewModel
 
-### Community 29 - "AgendaAlarmReceiver"
-Cohesion: 0.47
-Nodes (4): AgendaAlarmReceiver, BroadcastReceiver, Context, Intent
+### Community 29 - "ProdutoListScreen.kt"
+Cohesion: 0.36
+Nodes (7): Modifier, ProdutoListItem(), ProdutoListRoute(), ProdutoListScreen(), ProdutoListItem, ProdutoListUiState, toListItem()
 
 ### Community 30 - "Fix Room Migration Crash"
 Cohesion: 0.50
@@ -381,8 +403,12 @@ Cohesion: 0.17
 Nodes (12): VoiceScreenContext, AGENDA, CLIENTE, COMPRA, CONSULTAS, FORNECEDOR, GRUPO, INICIO (+4 more)
 
 ### Community 32 - "MainNavHost.kt"
-Cohesion: 0.35
-Nodes (11): AgendaNotifications, addAgendaScreens(), addCadastroFormScreens(), addCadastrosNestedScreens(), addConsultasScreens(), addDocumentoFormScreens(), addSettingsScreen(), addTopLevelScreens() (+3 more)
+Cohesion: 0.34
+Nodes (12): AgendaNotifications, addAgendaScreens(), addCadastroFormScreens(), addCadastrosNestedScreens(), addConsultasScreens(), addDocumentoFormScreens(), addSettingsScreen(), addTopLevelScreens() (+4 more)
+
+### Community 33 - "ActivationScreen"
+Cohesion: 0.43
+Nodes (6): ActivationScreen(), copyRequestCode(), Context, Modifier, RequestCodeCard(), ActivationUiState
 
 ### Community 34 - "Prompt — v3: estoque de perecíveis (banana)"
 Cohesion: 0.08
@@ -396,65 +422,61 @@ Nodes (8): ClienteListItem(), ClienteListRoute(), ClienteListScreen(), Modifier,
 Cohesion: 0.38
 Nodes (8): FornecedorListItem(), FornecedorListRoute(), FornecedorListScreen(), Modifier, FornecedorListUiState, FornecedorListViewModel, StateFlow, ViewModel
 
-### Community 37 - "GrupoListScreen"
-Cohesion: 0.38
-Nodes (8): GrupoListItem(), GrupoListRoute(), GrupoListScreen(), Modifier, GrupoListUiState, GrupoListViewModel, StateFlow, ViewModel
+### Community 37 - "ListItemCard"
+Cohesion: 0.35
+Nodes (9): GrupoListItem(), GrupoListRoute(), GrupoListScreen(), Modifier, GrupoListUiState, GrupoListViewModel, StateFlow, ViewModel (+1 more)
 
-### Community 38 - "BanavitaDomainException"
+### Community 38 - "nowEpochMillis"
 Cohesion: 0.21
-Nodes (10): EncomendaRepository, DocumentoItemInput, Flow, MaturacaoEstado, toDomain(), BanavitaDomainException, InsufficientStockException, InvalidDocumentException (+2 more)
+Nodes (10): nowEpochMillis(), EncomendaEntity, EncomendaItemEntity, EncomendaWithItems, EncomendaRepository, DocumentoItemInput, Flow, toDomain() (+2 more)
 
 ### Community 39 - "V2Parsers.kt"
 Cohesion: 0.20
 Nodes (6): ConsultasExtractionParser, EventoExtractionParser, InicioIntentParser, ParsedConsultasSlots, ParsedEventoSlots, PrazoParser
 
 ### Community 40 - "ExtractionModels.kt"
-Cohesion: 0.15
-Nodes (12): AgendaRecorte, AMANHA, HOJE, PROXIMOS_7_DIAS, TODOS, BaixaTipo, PAGAR, RECEBER (+4 more)
-
-### Community 41 - "PeriodoPreset"
-Cohesion: 0.22
-Nodes (6): PeriodoPreset, HOJE, INTERVALO, MES, SEMANA, PeriodRangesTest
+Cohesion: 0.06
+Nodes (33): AgendaRecorte, AMANHA, HOJE, PROXIMOS_7_DIAS, TODOS, ConsultaModo, COMPRAS, ENCOMENDAS (+25 more)
 
 ### Community 42 - "ExtractionReviewSheet.kt"
 Cohesion: 0.26
 Nodes (13): calculateSimilarity(), edited(), EditText(), EntityDropdown(), ExtractionReviewSheet(), Modifier, T, MoneyEdit() (+5 more)
 
 ### Community 43 - "ExtractionDraft"
-Cohesion: 0.13
+Cohesion: 0.12
 Nodes (5): ExtractionSessionCache, java, ExtractionDraft, ExtractionRepositoryTest, br
 
 ### Community 44 - "BanavitaDatabase"
-Cohesion: 0.15
-Nodes (3): BanavitaDatabase, BanavitaDatabaseHolder, DatabaseModule
+Cohesion: 0.19
+Nodes (3): BanavitaDatabase, DatabaseModule, EstoqueDao
 
 ### Community 45 - "AgendaListViewModel"
-Cohesion: 0.05
-Nodes (38): YearMonth, MonthCalendar, MainActivity, ActivationScreen(), copyRequestCode(), Context, Modifier, RequestCodeCard() (+30 more)
+Cohesion: 0.06
+Nodes (28): YearMonth, MonthCalendar, EpochRange, PeriodRanges, PeriodoPreset, HOJE, INTERVALO, MES (+20 more)
 
 ### Community 46 - "EncomendaFormViewModel"
-Cohesion: 0.12
-Nodes (9): EncomendaFormRoute(), EncomendaFormScreen(), Modifier, EncomendaFormUiState, EncomendaFormViewModel, DocumentoItemInput, MaturacaoEstado, StateFlow (+1 more)
+Cohesion: 0.11
+Nodes (12): EncomendaStatus, ABERTO, ATENDIDO, EncomendaFormRoute(), EncomendaFormScreen(), Modifier, EncomendaFormUiState, EncomendaFormViewModel (+4 more)
 
-### Community 47 - "PereciveisModels.kt"
-Cohesion: 0.17
-Nodes (8): Encomenda, EncomendaItem, EtilenoCapacidadeSnapshot, OfertaPrevista, PerecivelCriticoResumo, PrecoQueima, PrecosPorEstado, RelatorioPerdaLinha
+### Community 47 - "LoteRepository.kt"
+Cohesion: 0.20
+Nodes (11): Flow, Encomenda, EstoqueLinha, EtilenoCapacidadeSnapshot, Lote, MoverAdvice, OfertaPrevista, Perda (+3 more)
 
-### Community 49 - "formatCurrency"
-Cohesion: 0.09
-Nodes (30): ProdutoListItem, ProdutoListUiState, toListItem(), StateFlow, ViewModel, ProdutoListViewModel, formatCurrency(), formatDate() (+22 more)
+### Community 49 - "HomeScreen.kt"
+Cohesion: 0.47
+Nodes (8): formatKg(), HomeRoute(), HomeScreen(), Modifier, PereciveisCard(), ShortcutCard(), HomeUiState, ImageVector
 
 ### Community 50 - "Propostos"
 Cohesion: 0.10
 Nodes (19): [Android Manifest], Atualização de Ícone e Som de Lembrete, [MODIFY] [AgendaAlarmReceiver.kt](file:///C:/projetos-Lucas/App-Banavita/app/src/main/java/br/com/banavita/app/core/reminder/AgendaAlarmReceiver.kt), [MODIFY] [AndroidManifest.xml](file:///C:/projetos-Lucas/App-Banavita/app/src/main/AndroidManifest.xml), [MODIFY] [AppSettingsLocalDataSource.kt](file:///C:/projetos-Lucas/App-Banavita/app/src/main/java/br/com/banavita/app/data/local/settings/AppSettingsLocalDataSource.kt), [MODIFY] [AppSettingsRepository.kt](file:///C:/projetos-Lucas/App-Banavita/app/src/main/java/br/com/banavita/app/data/repository/AppSettingsRepository.kt), [MODIFY] [Icone Banavita.png](file:///C:/projetos-Lucas/App-Banavita/app/src/main/res/mipmap/Icone%20Banavita.png) -> `ic_launcher_banavita.png`, [MODIFY] [PereciveisAlarmReceiver.kt](file:///C:/projetos-Lucas/App-Banavita/app/src/main/java/br/com/banavita/app/core/reminder/PereciveisAlarmReceiver.kt) (+11 more)
 
-### Community 51 - "ListItemCard"
-Cohesion: 0.32
-Nodes (11): Modifier, ListEmptyState(), ListItemCard(), ListLoadingState(), CompraListItem(), CompraListRoute(), CompraListScreen(), Modifier (+3 more)
+### Community 51 - "FinanceiroDetalheScreen"
+Cohesion: 0.47
+Nodes (7): formatDate(), Modifier, ListEmptyState(), ListLoadingState(), FinanceiroDetalheRoute(), FinanceiroDetalheScreen(), Modifier
 
-### Community 52 - "DocumentLineItemCard"
-Cohesion: 0.42
-Nodes (8): DocumentDateField(), DocumentLineItemCard(), DocumentTotalRow(), Modifier, SearchableEntityDropdown(), Modifier, PerdaFormRoute(), PerdaFormScreen()
+### Community 52 - "CompraFormScreen"
+Cohesion: 0.29
+Nodes (11): DocumentDateField(), DocumentLineItemCard(), DocumentTotalRow(), Modifier, SearchableEntityDropdown(), CompraFormRoute(), CompraFormScreen(), Modifier (+3 more)
 
 ### Community 53 - "ExtractionField"
 Cohesion: 0.24
@@ -468,33 +490,33 @@ Nodes (5): AmplitudeMeter, ByteArray, AmplitudeBars(), Modifier, VoiceRecordingB
 Cohesion: 0.12
 Nodes (15): 1. Cabeçalho do calendário (mês e ano), 2. Grade do mês, 3. Lista do dia (só depois do toque / seleção), 4. Criar evento a partir do calendário, 5. Início e notificação (não redesenhar), 6. Voz depois desta mudança, 7. O que não fazer, Arquivos e pontos de partida (+7 more)
 
-### Community 56 - "DeviceFingerprint"
-Cohesion: 0.18
-Nodes (7): AndroidDeviceFingerprintProvider, DeviceFingerprint, DeviceFingerprintProvider, LicenseConstants, SecurityModule, FixedDeviceFingerprintProvider, LicensePublicKeyProvider
+### Community 56 - "MainAppShell.kt"
+Cohesion: 0.39
+Nodes (6): BanavitaIcons, ImageVector, Modifier, MainAppShell(), titleForRoute(), TopLevelTab
 
-### Community 57 - "MoneyInputParser"
-Cohesion: 0.14
-Nodes (3): Money, MoneyInputParser, MoneyInputParserTest
+### Community 57 - "Money"
+Cohesion: 0.09
+Nodes (7): MoneyHit, MoneyParser, BaixaExtractionParser, ParsedBaixaSlots, Money, MoneyInputParser, MoneyInputParserTest
 
 ### Community 58 - "VoiceEnabledScreen"
-Cohesion: 0.27
-Nodes (12): android, Modifier, VendaListItem(), VendaListRoute(), VendaListScreen(), VoiceEnabledScreen(), hasAudioPermission(), Modifier (+4 more)
+Cohesion: 0.42
+Nodes (8): android, VoiceEnabledScreen(), hasAudioPermission(), Modifier, rememberAudioPermissionState(), VoiceErrorBanner(), VoiceFabLayout(), VoiceProcessingOverlay()
 
-### Community 59 - "EncomendaDao"
-Cohesion: 0.13
-Nodes (7): EncomendaDao, Flow, PerdaDao, EncomendaEntity, EncomendaItemEntity, EncomendaWithItems, PerdaEntity
+### Community 59 - "DatabaseModule.kt"
+Cohesion: 0.12
+Nodes (9): EncomendaDao, Flow, PerdaDao, PrecoQueimaDao, EncomendaEntity, EncomendaItemEntity, EncomendaWithItems, PerdaEntity (+1 more)
 
 ### Community 60 - "Produto"
-Cohesion: 0.33
-Nodes (4): Flow, Produto, computeDocumentTotalCentavos(), DocumentLineItemFormState
+Cohesion: 0.46
+Nodes (3): Produto, computeDocumentTotalCentavos(), DocumentLineItemFormState
 
 ### Community 61 - "PerdaFormViewModel.kt"
 Cohesion: 0.17
 Nodes (8): PerdaMotivo, APODRECEU, MANUSEIO, OUTRO, StateFlow, ViewModel, PerdaFormUiState, PerdaFormViewModel
 
-### Community 62 - "VendaRepository"
-Cohesion: 0.31
-Nodes (5): totalVendaCentavos(), br, Flow, Venda, VendaRepository
+### Community 62 - "VendaRepository.kt"
+Cohesion: 0.15
+Nodes (8): Flow, RecebimentoDao, RecebimentoEntity, totalVendaCentavos(), br, Flow, Venda, VendaRepository
 
 ### Community 63 - "Correção de Erros de Inspeção da IDE e Internacionalização"
 Cohesion: 0.50
@@ -504,13 +526,13 @@ Nodes (3): Arquivos Modificados, Correção de Erros de Inspeção da IDE e Inte
 Cohesion: 0.29
 Nodes (4): editDistanceAtMostOne(), NomeTelefoneParser, PersonNameSanitizer, Token
 
-### Community 65 - "BanavitaAppViewModel"
-Cohesion: 0.31
-Nodes (4): AppUiState, BanavitaAppViewModel, StateFlow, ViewModel
+### Community 65 - "PereciveisMorningScheduler"
+Cohesion: 0.20
+Nodes (6): PendingIntent, PereciveisMorningScheduler, AppUiState, BanavitaAppViewModel, StateFlow, ViewModel
 
 ### Community 67 - "ConsultasScreen.kt"
-Cohesion: 0.28
-Nodes (9): ConsultasRoute(), ConsultasScreen(), IntervaloFields(), Modifier, PeriodoChips(), VisaoChips(), ConsultasViewModel, ConsultaVisao (+1 more)
+Cohesion: 0.17
+Nodes (14): ConsultasList(), ConsultasRoute(), ConsultasScreen(), IntervaloFields(), ConsultaModo, ConsultaVisao, Modifier, PeriodoPreset (+6 more)
 
 ### Community 68 - "Prompt — Configurações: seções + exportar/restaurar banco"
 Cohesion: 0.15
@@ -525,24 +547,24 @@ Cohesion: 0.18
 Nodes (10): 1. Stack Tecnológica, 2. Estrutura do Projeto, 3. Comandos Úteis, 4. Padrões de Código e Arquitetura, 5. Regras Obrigatórias do Repositório, Compilação e Testes, Ferramentas Auxiliares, GEMINI.md - Diretrizes do Projeto App-Banavita (+2 more)
 
 ### Community 72 - "CompraDao"
-Cohesion: 0.19
+Cohesion: 0.22
 Nodes (5): CompraDao, Flow, CompraEntity, CompraItemEntity, CompraWithItems
 
 ### Community 73 - "PereciveisAlarmReceiver"
 Cohesion: 0.42
 Nodes (4): BroadcastReceiver, Context, Intent, PereciveisAlarmReceiver
 
-### Community 74 - "ConsultaVisao"
-Cohesion: 0.15
-Nodes (12): ConsultaVisao, DOCUMENTOS, POR_PARCEIRO, POR_PRODUTO, EstoqueMovimentoTipo, ENTRADA, PERDA, SAIDA (+4 more)
+### Community 74 - "formatCurrency"
+Cohesion: 0.43
+Nodes (4): StateFlow, ViewModel, ProdutoListViewModel, formatCurrency()
 
-### Community 75 - "DocumentoSupport.kt"
-Cohesion: 0.24
-Nodes (6): CompraRepository, Compra, Flow, EstoqueValidator, now(), totalCompraCentavos()
+### Community 75 - "CompraRepository.kt"
+Cohesion: 0.17
+Nodes (8): Flow, PagamentoDao, PagamentoEntity, CompraRepository, Compra, Flow, now(), totalCompraCentavos()
 
-### Community 76 - "ClienteRepository"
-Cohesion: 0.16
-Nodes (9): ClienteRepository, br, Flow, Cliente, VoiceCapturePhase, IDLE, PROCESSING, RECORDING (+1 more)
+### Community 76 - "VoiceCaptureUiState.kt"
+Cohesion: 0.33
+Nodes (5): VoiceCapturePhase, IDLE, PROCESSING, RECORDING, REVIEW
 
 ### Community 77 - "EstoqueDetalheViewModel.kt"
 Cohesion: 0.11
@@ -553,8 +575,12 @@ Cohesion: 0.40
 Nodes (4): Agenda: chip "1 dia antes" na linha seguinte, Arquivos, O que conferir na IDE, Resumo
 
 ### Community 80 - "EstoqueDetalheScreen.kt"
-Cohesion: 0.36
-Nodes (9): EstadoChips(), Modifier, labelRes(), EstoqueAcoesPopup(), EstoqueDetalheRoute(), EstoqueDetalheScreen(), Modifier, StateQuantityCard() (+1 more)
+Cohesion: 0.35
+Nodes (10): EstadoChips(), Modifier, labelRes(), QueimaPrecoDialog(), EstoqueAcoesPopup(), EstoqueDetalheRoute(), EstoqueDetalheScreen(), Modifier (+2 more)
+
+### Community 81 - "Integração de Encomenda com Agenda e Ajustes de Preço"
+Cohesion: 0.33
+Nodes (5): Arquivos Alterados, Instruções para Conferência na IDE, Integração de Encomenda com Agenda e Ajustes de Preço, Mudanças Realizadas, Resumo
 
 ### Community 82 - "Banco de dados Banavita (SQLite / Room)"
 Cohesion: 0.20
@@ -565,16 +591,16 @@ Cohesion: 0.22
 Nodes (8): 1. Camada de Dados (Room ORM), 1. Testes de Data/Room, 2. Camada de UI (Jetpack Compose), 2. Testes de ViewModel, 3. Conectividade (ViewModel & Coroutines), Modern Android Development Skill (Jetpack Compose & Room), Padrões de Testes Unitários, Regras e Padrões de Arquitetura
 
 ### Community 84 - "formatQuantity"
-Cohesion: 0.30
-Nodes (8): formatQuantity(), EtilenoFilaRoute(), EtilenoFilaScreen(), Modifier, EtilenoFilaUiState, EtilenoFilaViewModel, StateFlow, ViewModel
+Cohesion: 0.22
+Nodes (9): formatQuantity(), QuantityInputParser, EtilenoFilaRoute(), EtilenoFilaScreen(), Modifier, EtilenoFilaUiState, EtilenoFilaViewModel, StateFlow (+1 more)
 
 ### Community 85 - "SilenceTrimmerTest.kt"
 Cohesion: 0.22
 Nodes (3): SilenceTrimmerTest, SttDiagnosticsTest, WhisperDecodeParamsTest
 
-### Community 88 - "CompraFormViewModel.kt"
-Cohesion: 0.25
-Nodes (4): DateInputParser, QuantityInputParser, StateFlow, ViewModel
+### Community 87 - "Filtro de Estados Críticos no Detalhe do Estoque"
+Cohesion: 0.40
+Nodes (4): Arquivos Modificados, Filtro de Estados Críticos no Detalhe do Estoque, Instruções para Conferência na IDE, Resumo
 
 ### Community 89 - "AppSettingsRepositoryTest"
 Cohesion: 0.29
@@ -624,13 +650,13 @@ Nodes (8): ThemeMode, DARK, LIGHT, Modifier, SettingsOptionCard(), SettingsRoute
 Cohesion: 0.16
 Nodes (12): ExtractionPipeline, BaixaDraft, ClienteDraft, CompraDraft, ConsultasDraft, DraftLineItem, EventoDraft, ExtractionFields (+4 more)
 
-### Community 104 - ".setUp"
-Cohesion: 0.32
-Nodes (4): PendingIntent, PereciveisMorningScheduler, GroqConfig, GroqConfig
+### Community 104 - "BanavitaDatabaseHolder"
+Cohesion: 0.14
+Nodes (5): BanavitaDatabaseHolder, DatabaseBackupRepositoryTest, GroqConfig, Context, GroqConfig
 
-### Community 106 - "ReminderScheduler"
-Cohesion: 0.18
-Nodes (6): AndroidReminderScheduler, Evento, PendingIntent, ReminderModule, Evento, ReminderScheduler
+### Community 106 - "EventoRepository"
+Cohesion: 0.08
+Nodes (16): AndroidReminderScheduler, Evento, PendingIntent, BootCompletedReceiver, BroadcastReceiver, Context, Intent, EventoDao (+8 more)
 
 ### Community 107 - "Configurações: exportar / restaurar banco"
 Cohesion: 0.40
@@ -668,9 +694,9 @@ Nodes (7): 1. Gerar par de chaves (uma vez no PC), 2. Instalar o APK no celular,
 Cohesion: 0.50
 Nodes (3): Arquivos Alterados, Novas Unidades e Fluxo de Maturação Ampliado, O que conferir na IDE
 
-### Community 119 - "ConsultaModo"
-Cohesion: 0.20
-Nodes (9): ConsultaModo, COMPRAS, ENCOMENDAS, ESTOQUE, PAGAR, PERDAS, PREVISAO, RECEBER (+1 more)
+### Community 119 - "Unificação de Telas, Remoção de Atalhos e Filtros Financeiros"
+Cohesion: 0.40
+Nodes (4): Arquivos Modificados / Removidos, Instruções para Conferência na IDE, Resumo, Unificação de Telas, Remoção de Atalhos e Filtros Financeiros
 
 ### Community 121 - "Modificação: Chave API Groq Dinâmica na UI e Correção do Dropdown por Voz"
 Cohesion: 0.40
@@ -693,12 +719,16 @@ Cohesion: 0.50
 Nodes (3): Instruções para Conferência na IDE, Log de Modificações - Simplificação Extrema e Refinamento de Estoque (Figma-First), Tabela de Arquivos Modificados
 
 ### Community 126 - "ConsultasNavEvent"
-Cohesion: 0.18
-Nodes (11): Compra, ConsultasNavEvent, Encomenda, EstoqueDetalhe, FilaEtileno, NovaEncomenda, NovaPerda, PagarDetalhe (+3 more)
+Cohesion: 0.15
+Nodes (13): Compra, ConsultasNavEvent, Encomenda, EstoqueDetalhe, FilaEtileno, NovaCompra, NovaEncomenda, NovaPerda (+5 more)
+
+### Community 127 - "Preço em Encomendas e Validação Preditiva de Conflitos"
+Cohesion: 0.40
+Nodes (4): Arquivos Criados / Alterados, Instruções para Conferência na IDE, Preço em Encomendas e Validação Preditiva de Conflitos, Resumo
 
 ### Community 128 - "EntityListContent"
-Cohesion: 0.38
-Nodes (9): Modifier, ProdutoListItem(), ProdutoListRoute(), ProdutoListScreen(), EntityListContent(), EntityListScreen(), Modifier, PaddingValues (+1 more)
+Cohesion: 0.73
+Nodes (5): EntityListContent(), EntityListScreen(), Modifier, PaddingValues, T
 
 ### Community 129 - "Modificação: Otimização de Estoque (Caixas), Notificações e Reformulação da Home"
 Cohesion: 0.40
@@ -707,14 +737,6 @@ Nodes (4): Arquivos Modificados, Instruções de Conferência na IDE, Modificaç
 ### Community 130 - "Checklist de Validação - App-Banavita"
 Cohesion: 0.50
 Nodes (3): Checklist de Validação - App-Banavita, 🎙️ Funcionalidades de Voz e ASR (Whisper Local / Groq), 📦 Gestão de Estoque e Maturação
-
-### Community 131 - "ReferencedEntityException"
-Cohesion: 0.33
-Nodes (4): EventoRepository, Evento, Flow, ReferencedEntityException
-
-### Community 133 - "ConsultasList"
-Cohesion: 0.47
-Nodes (3): ConsultasList(), ProductStockCard(), java
 
 ### Community 135 - "Ajuste de Saldo no Filtro de Perecíveis"
 Cohesion: 0.40
@@ -729,24 +751,28 @@ Cohesion: 0.40
 Nodes (4): Arquivos Modificados, Instruções para Conferência na IDE, Resumo, Simplificação das Telas de Consultas e Atualização de Títulos
 
 ### Community 138 - "EntityMappers.kt"
-Cohesion: 0.15
-Nodes (20): Compra, Evento, Venda, toDomain(), Flow, Compra, CompraItem, EstoqueMovimento (+12 more)
+Cohesion: 0.17
+Nodes (16): Compra, Evento, Venda, toDomain(), Flow, Cliente, Compra, CompraItem (+8 more)
 
 ### Community 139 - "Validação de Disponibilidade e Alocação de Encomendas"
 Cohesion: 0.40
 Nodes (4): Arquivos Criados / Alterados, Instruções para Conferência na IDE, Resumo, Validação de Disponibilidade e Alocação de Encomendas
 
+### Community 140 - "BanavitaDomainException"
+Cohesion: 0.29
+Nodes (6): DocumentoItemFactory, EstoqueValidator, BanavitaDomainException, InsufficientStockException, InvalidDocumentException, Exception
+
 ### Community 141 - "VendaFormViewModel"
-Cohesion: 0.11
-Nodes (10): Modifier, VendaFormRoute(), VendaFormScreen(), VendaFormUiState, InputsResult, DocumentoItemInput, MaturacaoEstado, StateFlow (+2 more)
+Cohesion: 0.15
+Nodes (6): InputsResult, DocumentoItemInput, StateFlow, ViewModel, VendaFormViewModel, VendaFormUiState
 
 ### Community 168 - "ContextParsers.kt"
 Cohesion: 0.11
 Nodes (18): ClienteExtractionParser, CompraExtractionParser, DocumentLineParser, FornecedorExtractionParser, GrupoExtractionParser, LineItemRole, COMPRA, VENDA (+10 more)
 
-### Community 173 - "FinanceiroRepository"
-Cohesion: 0.10
-Nodes (13): Flow, RecebimentoDao, RecebimentoEntity, FinanceiroRepository, Flow, OverpaymentException, DocumentoAberto, ParceiroSaldo (+5 more)
+### Community 173 - "FinanceiroRepository.kt"
+Cohesion: 0.26
+Nodes (5): FinanceiroRepository, Flow, OverpaymentException, DocumentoAberto, ParceiroSaldo
 
 ### Community 230 - "Backlog Banavita v2 — Consultas e controle"
 Cohesion: 0.04
@@ -754,18 +780,18 @@ Nodes (46): 10.1 Permissão e canal, 10.2 Lembrete por evento, 10.3 Comportament
 
 ### Community 237 - "ProdutoFormViewModel"
 Cohesion: 0.09
-Nodes (4): ProdutoFormUiState, StateFlow, ViewModel, ProdutoFormViewModel
+Nodes (5): Modifier, ProdutoFormRoute(), ProdutoFormScreen(), ProdutoFormUiState, ProdutoFormViewModel
 
 ### Community 285 - "AppSettingsLocalDataSource"
 Cohesion: 0.10
 Nodes (5): AppSettingsLocalDataSource, StateFlow, TranscriptionProvider, GROQ, LOCAL
 
 ### Community 331 - "ConfirmResult"
-Cohesion: 0.12
-Nodes (20): ExtractionRepository, ExtractionConfirmException, ExtractionDraftNotFoundException, ExtractionException, ExtractionParseException, AgendaFiltroAplicado, ClienteCriado, CompraCriada (+12 more)
+Cohesion: 0.14
+Nodes (17): ExtractionRepository, ExtractionConfirmException, ExtractionDraftNotFoundException, ExtractionException, ExtractionParseException, AgendaFiltroAplicado, ClienteCriado, CompraCriada (+9 more)
 
 ### Community 360 - "VendaDao"
-Cohesion: 0.19
+Cohesion: 0.20
 Nodes (5): Flow, VendaDao, VendaEntity, VendaItemEntity, VendaWithItems
 
 ### Community 381 - "SpeechModelSpec"
@@ -773,12 +799,12 @@ Cohesion: 0.13
 Nodes (14): SpeechModelCatalog, SpeechModelManager, DeviceSpeechProfile, INTERMEDIATE, MINIMUM, PREMIUM, ModelStatus, INVALID_CHECKSUM (+6 more)
 
 ### Community 397 - "EventoFormViewModel"
-Cohesion: 0.09
-Nodes (4): EventoFormViewModel, StateFlow, ViewModel, DateTimeInputParser
+Cohesion: 0.11
+Nodes (6): EventoFormScreen(), EventoFormUiState, EventoFormViewModel, StateFlow, ViewModel, DocumentEntityDropdown()
 
 ### Community 408 - "AppSettingsRepository"
-Cohesion: 0.15
-Nodes (3): BanavitaApplication, AppSettingsRepository, Application
+Cohesion: 0.13
+Nodes (7): BanavitaApplication, AgendaAlarmReceiver, BroadcastReceiver, Context, Intent, AppSettingsRepository, Application
 
 ### Community 437 - "target-banavita_whisper-Debug-1fa5bd414745eca54479.json"
 Cohesion: 0.09
@@ -822,19 +848,19 @@ Nodes (22): API do backend (`ActivationRepository`), Ativação offline Banavita
 
 ### Community 518 - "LicenseCodec"
 Cohesion: 0.15
-Nodes (6): LicenseCodec, ParsedLicense, InvalidLicenseException, ActivationRequest, LicensePayload, LicenseCodecTest
+Nodes (5): LicenseCodec, ParsedLicense, ActivationRequest, LicensePayload, LicenseCodecTest
 
 ### Community 573 - "WhisperEngine"
-Cohesion: 0.13
-Nodes (9): FloatArray, WhisperCppEngine, FloatArray, WhisperEngine, EnvGroqConfig, GroqConfig, GroqConfig, SpeechModule (+1 more)
+Cohesion: 0.11
+Nodes (11): FloatArray, WhisperCppEngine, FloatArray, WhisperEngine, EnvGroqConfig, GroqConfig, GroqConfig, SpeechModule (+3 more)
 
 ### Community 574 - "ActivationRepository"
 Cohesion: 0.23
 Nodes (4): ActivationLocalDataSource, StoredActivation, ActivationRepository, ActivationStatus
 
 ### Community 575 - "ActivationViewModel"
-Cohesion: 0.18
-Nodes (5): ActivationUiState, ActivationViewModel, StateFlow, ViewModel, ActivationViewModelTest
+Cohesion: 0.22
+Nodes (4): ActivationViewModel, StateFlow, ViewModel, ActivationViewModelTest
 
 ### Community 577 - "generate-license.js"
 Cohesion: 0.22
@@ -846,7 +872,7 @@ Nodes (3): EntityResolver, EntityCandidate, ResolvedEntity
 
 ### Community 604 - "LicenseType"
 Cohesion: 0.24
-Nodes (9): ByteArray, LicenseValidator, ValidatedLicense, ActivationException, DeviceMismatchException, LicenseExpiredException, LicenseType, MONTHLY (+1 more)
+Nodes (10): ByteArray, LicenseValidator, ValidatedLicense, ActivationException, DeviceMismatchException, InvalidLicenseException, LicenseExpiredException, LicenseType (+2 more)
 
 ### Community 605 - "Modern Android Development Skill (Jetpack Compose & Room)"
 Cohesion: 0.13
@@ -876,6 +902,10 @@ Nodes (12): ASSETS_DIR, CATALOG, CHECKSUMS_PATH, copyToAssets(), __dirname, down
 Cohesion: 0.26
 Nodes (9): AudioCapture, FloatArray, Job, StateFlow, RecordingLevels, FloatArray, WavReader, SpeechAudioException (+1 more)
 
+### Community 670 - "BanavitaRoutes"
+Cohesion: 0.05
+Nodes (11): FornecedorFormUiState, FornecedorFormViewModel, StateFlow, ViewModel, GrupoFormUiState, GrupoFormViewModel, StateFlow, ViewModel (+3 more)
+
 ### Community 674 - "Tabelas"
 Cohesion: 0.12
 Nodes (17): `cliente`, `compra` (cabeçalho), `compra_item`, `encomenda` / `encomenda_item` (schema v4), `evento` (schema v3), `fornecedor`, `grupo`, `lote_baixa` (schema v4) (+9 more)
@@ -885,8 +915,8 @@ Cohesion: 0.17
 Nodes (12): App-Banavita, Ativação por dispositivo, Banco de dados, Estrutura, Etapas do projeto, Extração / classificação, Requisitos de build, Requisitos de dispositivo (IA local) (+4 more)
 
 ### Community 696 - "AndroidDeviceKeystoreManager"
-Cohesion: 0.29
-Nodes (4): AndroidDeviceKeystoreManager, DeviceKeystoreManager, KeystoreFingerprint, KeyStore
+Cohesion: 0.16
+Nodes (7): AndroidDeviceFingerprintProvider, AndroidDeviceKeystoreManager, DeviceKeystoreManager, KeystoreFingerprint, SecurityModule, KeyStore, LicensePublicKeyProvider
 
 ### Community 697 - "LicenseValidatorTest"
 Cohesion: 0.29
@@ -903,6 +933,10 @@ Nodes (11): Entrada manual (sem request code), Fluxo operacional, Gerador de lic
 ### Community 727 - "DefaultLicensePublicKeyProvider"
 Cohesion: 0.33
 Nodes (5): DefaultLicensePublicKeyProvider, LicensePublicKeyLoader, LicensePublicKeyProvider, LicensePublicKeyProvider, PublicKey
+
+### Community 728 - "ActivationRepositoryTest"
+Cohesion: 0.16
+Nodes (6): DeviceFingerprint, DeviceFingerprintProvider, LicenseConstants, ActivationRepositoryTest, FixedDeviceFingerprintProvider, java
 
 ### Community 729 - "speech-model/package.json"
 Cohesion: 0.20
@@ -924,8 +958,8 @@ Nodes (6): ANDROID_CONSTANTS_PATH, __dirname, KEYS_DIR, PRIVATE_KEY_PATH, PUBLIC
 Cohesion: 0.33
 Nodes (5): Alterado, Configurações: transcrição Groq ou Whisper local, Criado, O que conferir na IDE, Removido
 
-### Community 823 - "ActivationViewModelTest.kt"
-Cohesion: 0.43
+### Community 823 - "MainDispatcherRule"
+Cohesion: 0.53
 Nodes (3): MainDispatcherRule, Description, TestWatcher
 
 ### Community 862 - "PcmConverter"
@@ -945,24 +979,24 @@ Cohesion: 0.33
 Nodes (5): Alterado, Criado, O que conferir na IDE, Removido, Voz: segurar para gravar, intensidade e modelo
 
 ## Knowledge Gaps
-- **680 isolated node(s):** `MasterCatalog`, `MoneyCatalog`, `PereciveisCatalog`, `Resumo`, `Arquivos Modificados` (+675 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1157 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **39 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **688 isolated node(s):** `FRIA`, `ETILENO`, `CRUA`, `EM_MATURACAO`, `VERDE` (+683 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 1180 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **53 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `nowEpochMillis()` connect `nowEpochMillis` to `LoteRepository`, `BackupManifest`, `ReferencedEntityException`, `GrupoRepository`, `ConsultasViewModel.kt`, `V2Parsers.kt`, `.setUp`, `ExtractionFields`, `ReminderScheduler`, `DocumentoSupport.kt`, `ClienteRepository`, `BanavitaDomainException`, `ConfirmResult`, `FinanceiroRepository`, `GrupoDao`, `ProdutoRepository`, `HomeViewModel.kt`, `ActivationRepository`?**
-  _High betweenness centrality (0.078) - this node is a cross-community bridge._
-- **Why does `ConfirmResult` connect `ConfirmResult` to `MainNavHost.kt`, `ExtractionFields`, `ExtractionModels.kt`, `AgendaListViewModel`, `FormScaffold`, `formatCurrency`, `HomeViewModel.kt`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Why does `BanavitaDomainException` connect `BanavitaDomainException` to `ReferencedEntityException`, `BackupManifest`, `ConsultasViewModel.kt`, `ClienteFormViewModel`, `ConfirmResult`, `FinanceiroRepository`, `EventoFormViewModel`, `ProdutoFormViewModel`, `EstoqueDetalheViewModel.kt`, `SettingsViewModel`, `SpeechToTextRepository.kt`, `formatQuantity`, `CompraFormViewModel.kt`, `HomeViewModel.kt`, `FornecedorFormViewModel`, `GrupoFormViewModel`, `LicenseType`, `PerdaFormViewModel.kt`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
-- **Are the 8 inferred relationships involving `nowEpochMillis()` (e.g. with `.atender()` and `.create()`) actually correct?**
-  _`nowEpochMillis()` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `MasterCatalog`, `MoneyCatalog`, `PereciveisCatalog` to the rest of the system?**
-  _680 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `nowEpochMillis()` connect `nowEpochMillis` to `LoteRepository`, `PereciveisMorningScheduler`, `BackupManifest`, `V2Parsers.kt`, `ExtractionFields`, `ClienteRepository`, `EventoRepository`, `CompraRepository.kt`, `BanavitaDomainException`, `ConfirmResult`, `FinanceiroRepository.kt`, `GrupoDao`, `ReferencedEntityException`, `FornecedorRepository`, `HomeViewModel.kt`, `ActivationRepository`?**
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._
+- **Why does `MaturacaoEstado` connect `MaturacaoEstado` to `LoteRepository`, `ConsultasUiState.kt`, `ConsultasViewModel`, `EntityMappers.kt`, `BanavitaDomainException`, `VendaFormViewModel`, `LoteDao`, `FormScaffold`, `VendaFormScreen`, `ReferencedEntityException`, `HomeViewModel.kt`, `nowEpochMillis`, `ContextParsers.kt`, `ExtractionModels.kt`, `EncomendaFormViewModel`, `LoteRepository.kt`, `CompraFormScreen`, `ExtractionField`, `Produto`, `VendaRepository.kt`, `EstoqueDetalheViewModel.kt`, `EstoqueDetalheScreen.kt`, `EntityResolver`?**
+  _High betweenness centrality (0.042) - this node is a cross-community bridge._
+- **Why does `AppSettingsRepository` connect `AppSettingsRepository` to `PereciveisMorningScheduler`, `WhisperEngine`, `SpeechToTextRepositoryTest`, `DocumentoItemInput`, `ThemeMode`, `BanavitaDatabaseHolder`, `PereciveisAlarmReceiver`, `AppSettingsRepositoryTest`, `SettingsViewModel`, `AppSettingsLocalDataSource`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+- **Are the 9 inferred relationships involving `nowEpochMillis()` (e.g. with `.atender()` and `.create()`) actually correct?**
+  _`nowEpochMillis()` has 9 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `FRIA`, `ETILENO`, `CRUA` to the rest of the system?**
+  _688 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `LoteRepository` be split into smaller, more focused modules?**
-  _Cohesion score 0.1126984126984127 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13846153846153847 - nodes in this community are weakly interconnected._
 - **Should `MaturacaoEstado` be split into smaller, more focused modules?**
-  _Cohesion score 0.11666666666666667 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
