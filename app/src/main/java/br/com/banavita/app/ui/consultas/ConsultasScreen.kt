@@ -22,6 +22,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import br.com.banavita.app.ui.common.BanavitaIcons
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.ConsultaModo
@@ -56,16 +70,11 @@ fun ConsultasRoute(
         onBusca = viewModel::onBusca,
         onPeriodo = viewModel::onPeriodo,
         onVisao = viewModel::onVisao,
-        onSomenteZerados = viewModel::onSomenteZerados,
-        onSomenteCriticos = viewModel::onSomenteCriticos,
-        onOrdenacao = viewModel::onOrdenacao,
         onIntervaloInicio = viewModel::onIntervaloInicio,
         onIntervaloFim = viewModel::onIntervaloFim,
         onEstoqueClick = viewModel::onEstoqueClick,
         onDocumentoClick = viewModel::onDocumentoClick,
         onFinanceiroClick = viewModel::onFinanceiroClick,
-        onFilaEtileno = viewModel::onFilaEtileno,
-        onNovaPerda = viewModel::onNovaPerda,
         onNovaEncomenda = viewModel::onNovaEncomenda,
         onVoiceResult = viewModel::applyVoice,
     )
@@ -78,16 +87,11 @@ fun ConsultasScreen(
     onBusca: (String) -> Unit,
     onPeriodo: (PeriodoPreset) -> Unit,
     onVisao: (ConsultaVisao) -> Unit,
-    onSomenteZerados: (Boolean) -> Unit,
-    onSomenteCriticos: (Boolean) -> Unit,
-    onOrdenacao: (EstoqueOrdenacao) -> Unit,
     onIntervaloInicio: (String) -> Unit,
     onIntervaloFim: (String) -> Unit,
     onEstoqueClick: (java.util.UUID) -> Unit,
     onDocumentoClick: (java.util.UUID) -> Unit,
     onFinanceiroClick: (java.util.UUID?) -> Unit,
-    onFilaEtileno: () -> Unit,
-    onNovaPerda: () -> Unit,
     onNovaEncomenda: () -> Unit,
     onVoiceResult: (ConfirmResult) -> Unit,
     modifier: Modifier = Modifier,
@@ -110,16 +114,19 @@ fun ConsultasScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
         ) {
-            ModeChips(selected = uiState.filters.modo, onModo = onModo)
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                value = uiState.filters.busca,
-                onValueChange = onBusca,
-                singleLine = true,
-                label = { Text(stringResource(R.string.consultas_busca)) },
-            )
+            if (uiState.filters.modo != ConsultaModo.ESTOQUE) {
+                ModeChips(selected = uiState.filters.modo, onModo = onModo)
+                OutlinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    value = uiState.filters.busca,
+                    onValueChange = onBusca,
+                    singleLine = true,
+                    label = { Text(stringResource(R.string.consultas_busca)) },
+                )
+            }
+            
             when (uiState.filters.modo) {
                 ConsultaModo.VENDAS, ConsultaModo.COMPRAS -> {
                     PeriodoChips(selected = uiState.filters.periodo, onPeriodo = onPeriodo)
@@ -143,50 +150,25 @@ fun ConsultasScreen(
                     }
                 }
                 ConsultaModo.ESTOQUE -> {
-                    Row(
-                        modifier = Modifier.horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        FilterChip(
-                            selected = uiState.filters.ordenacaoEstoque == EstoqueOrdenacao.SALDO_ASC,
-                            onClick = { onOrdenacao(EstoqueOrdenacao.SALDO_ASC) },
-                            label = { Text(stringResource(R.string.consultas_ordenar_saldo)) },
-                        )
-                        FilterChip(
-                            selected = uiState.filters.ordenacaoEstoque == EstoqueOrdenacao.NOME_ASC,
-                            onClick = { onOrdenacao(EstoqueOrdenacao.NOME_ASC) },
-                            label = { Text(stringResource(R.string.consultas_ordenar_nome)) },
-                        )
-                        FilterChip(
-                            selected = uiState.filters.somenteZerados,
-                            onClick = { onSomenteZerados(!uiState.filters.somenteZerados) },
-                            label = { Text(stringResource(R.string.consultas_so_zerados)) },
-                        )
-                        FilterChip(
-                            selected = uiState.filters.somenteCriticos,
-                            onClick = { onSomenteCriticos(!uiState.filters.somenteCriticos) },
-                            label = { Text(stringResource(R.string.consultas_estoque_criticos)) },
-                        )
-                        FilterChip(
-                            selected = false,
-                            onClick = onFilaEtileno,
-                            label = { Text(stringResource(R.string.consultas_fila_etileno)) },
-                        )
-                        FilterChip(
-                            selected = false,
-                            onClick = onNovaPerda,
-                            label = { Text(stringResource(R.string.consultas_nova_perda)) },
-                        )
-                    }
+                    StockSummaryCard(uiState.totalValue)
+                    Text(
+                        text = "VARIEDADES DISPONÍVEIS",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = Color.Gray,
+                        modifier = Modifier.padding(vertical = 12.dp)
+                    )
                 }
                 ConsultaModo.RECEBER, ConsultaModo.PAGAR, ConsultaModo.PREVISAO -> Unit
             }
-            Text(
-                text = "${uiState.totalLabel}: ${uiState.totalValue}",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(vertical = 8.dp),
-            )
+            
+            if (uiState.filters.modo != ConsultaModo.ESTOQUE) {
+                Text(
+                    text = "${uiState.totalLabel}: ${uiState.totalValue}",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                )
+            }
             uiState.hint?.let { hint ->
                 Text(
                     text = hint,
@@ -258,21 +240,10 @@ private fun ConsultasList(
                     item { ListEmptyState(message = emptyMessage) }
                 } else {
                     items(uiState.estoqueItems, key = { it.key }) { item ->
-                        val estadoCamara = listOfNotNull(
-                            item.estado?.let { stringResource(it.labelRes()) },
-                            item.camara?.let { stringResource(it.labelRes()) },
-                        ).joinToString(" · ")
-                        val subtitle = if (estadoCamara.isBlank()) {
-                            stringResource(R.string.estoque_unit_label, item.unidade)
-                        } else {
-                            stringResource(R.string.estoque_linha_subtitle, estadoCamara, item.unidade)
-                        }
-                        ListItemCard(
+                        ProductStockCard(
                             title = item.descricao,
-                            subtitle = subtitle,
-                            trailing = item.saldoFormatado,
-                            onClick = { onEstoqueClick(item.produtoId) },
-                            highlighted = item.zerado || item.critico,
+                            quantityLabel = "${item.saldoFormatado} em estoque",
+                            onClick = { onEstoqueClick(item.produtoId) }
                         )
                     }
                 }
@@ -359,6 +330,108 @@ private fun ConsultasList(
                         )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun StockSummaryCard(totalValue: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF2E7D32)
+        ),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "VOLUME TOTAL",
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.White.copy(alpha = 0.8f)
+            )
+            Text(
+                text = totalValue,
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Text(
+                text = "Somatória de todas as variedades ativas no pátio.",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.7f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ProductStockCard(
+    title: String,
+    quantityLabel: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(
+                        color = Color(0xFFE8F5E9),
+                        shape = CircleShape
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = BanavitaIcons.Inventory,
+                    contentDescription = null,
+                    tint = Color(0xFF2E7D32)
+                )
+            }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = quantityLabel,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Detalhes",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Color(0xFF2E7D32)
+                )
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = null,
+                    tint = Color(0xFF2E7D32)
+                )
             }
         }
     }

@@ -16,6 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -42,7 +45,10 @@ fun MainAppShell(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val showBottomBar = BanavitaRoutes.isTopLevel(currentRoute)
+    
+    // Oculta a barra inferior se for a tela de detalhes de estoque ou se for a tela de consultas no modo estoque
+    val isEstoqueScreen = currentRoute?.contains("estoque") == true || (currentRoute?.startsWith("consultas") == true && navBackStackEntry?.arguments?.getString("modo") == "estoque")
+    val showBottomBar = BanavitaRoutes.isTopLevel(currentRoute) && !isEstoqueScreen
 
     val topLevelTabs = listOf(
         TopLevelTab(BanavitaRoutes.HOME, R.string.nav_home, Icons.Default.Home),
@@ -53,11 +59,20 @@ fun MainAppShell(
 
     val selectedTabRoute = BanavitaRoutes.topLevelRouteFor(currentRoute) ?: BanavitaRoutes.HOME
 
+    var customTitle by androidx.compose.runtime.remember { mutableStateOf<String?>(null) }
+    
+    androidx.compose.runtime.LaunchedEffect(currentRoute) {
+        customTitle = null
+    }
+
+    val baseTitle = titleForRoute(currentRoute, navBackStackEntry?.arguments?.getString("modo"))
+    val displayTitle = customTitle ?: baseTitle
+
     Scaffold(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = { Text(titleForRoute(currentRoute)) },
+                title = { Text(displayTitle) },
                 navigationIcon = {
                     if (!showBottomBar) {
                         IconButton(onClick = { navController.popBackStack() }) {
@@ -137,12 +152,13 @@ fun MainAppShell(
         MainNavHost(
             navController = navController,
             modifier = Modifier.padding(paddingValues),
+            onTitleChange = { customTitle = it }
         )
     }
 }
 
 @Composable
-private fun titleForRoute(route: String?): String {
+private fun titleForRoute(route: String?, modo: String?): String {
     val titleRes = when {
         route == BanavitaRoutes.HOME -> R.string.home_title
         route == BanavitaRoutes.SETTINGS -> R.string.settings_title
@@ -156,7 +172,9 @@ private fun titleForRoute(route: String?): String {
         route?.startsWith("consultas/estoque/") == true -> R.string.estoque_detalhe_title
         route?.startsWith("consultas/receber/") == true -> R.string.consultas_mode_receber
         route?.startsWith("consultas/pagar/") == true -> R.string.consultas_mode_pagar
-        route?.startsWith("consultas") == true -> R.string.consultas_title
+        route?.startsWith("consultas") == true -> {
+            if (modo == "estoque") R.string.home_card_estoque_title else R.string.consultas_title
+        }
         route == BanavitaRoutes.AGENDA -> R.string.agenda_title
         route == BanavitaRoutes.AGENDA_FORM_NEW -> R.string.agenda_form_new_title
         route?.startsWith("agenda/edit/") == true -> R.string.agenda_form_edit_title

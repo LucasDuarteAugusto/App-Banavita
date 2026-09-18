@@ -447,13 +447,18 @@ class LoteRepository @Inject constructor(
                 }
             }
         }
+        val maisPintada = pintada.maxByOrNull { it.quantidade }
+        val maisPodre = podre.maxByOrNull { it.quantidade }
+
         return PerecivelCriticoResumo(
             kgPintada = pintada.sumOf { it.quantidade },
-            descricaoPintada = pintada.maxByOrNull { it.quantidade }?.descricao,
-            produtoIdPintada = pintada.maxByOrNull { it.quantidade }?.produtoId,
+            descricaoPintada = maisPintada?.descricao,
+            unidadePintada = maisPintada?.unidade,
+            produtoIdPintada = maisPintada?.produtoId,
             kgPodreOuAmanha = podre.sumOf { it.quantidade } + kgAmanha,
-            descricaoPodre = podre.maxByOrNull { it.quantidade }?.descricao ?: descAmanha,
-            produtoIdPodre = podre.maxByOrNull { it.quantidade }?.produtoId ?: produtoIdAmanha,
+            descricaoPodre = maisPodre?.descricao ?: descAmanha,
+            unidadePodre = maisPodre?.unidade ?: (produtoIdAmanha?.let { id -> database.get().produtoDao().getById(id)?.unidade }),
+            produtoIdPodre = maisPodre?.produtoId ?: produtoIdAmanha,
             moverParaArmazenagem = moverMap.values.toList().sortedBy { it.descricao.lowercase() },
         )
     }

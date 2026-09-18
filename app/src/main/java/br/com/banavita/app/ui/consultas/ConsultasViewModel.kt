@@ -237,24 +237,32 @@ class ConsultasViewModel @Inject constructor(
         val clienteMap = data.clientes.associateBy { it.id }
         val fornecedorMap = data.fornecedores.associateBy { it.id }
 
-        val estoqueItems = data.linhas.mapNotNull { linha ->
-            if (busca.isNotBlank() && !linha.descricao.contains(busca, ignoreCase = true)) {
+        val estoqueItems = data.linhas.groupBy { it.produtoId }.mapNotNull { (produtoId, linhasDoProduto) ->
+            val primeira = linhasDoProduto.first()
+            val descricao = primeira.descricao
+            val unidade = primeira.unidade
+
+            if (busca.isNotBlank() && !descricao.contains(busca, ignoreCase = true)) {
                 return@mapNotNull null
             }
-            if (current.somenteZerados && linha.quantidade > 1e-9) return@mapNotNull null
-            val critico = linha.estado == MaturacaoEstado.PINTADA || linha.estado == MaturacaoEstado.PODRE
-            if (current.somenteCriticos && !critico) return@mapNotNull null
+
+            val totalSaldo = linhasDoProduto.sumOf { it.quantidade }
+            if (current.somenteZerados && totalSaldo > 1e-9) return@mapNotNull null
+
+            val temCritico = linhasDoProduto.any { it.estado == MaturacaoEstado.PINTADA || it.estado == MaturacaoEstado.PODRE }
+            if (current.somenteCriticos && !temCritico) return@mapNotNull null
+
             EstoqueConsultaItem(
-                key = "${linha.produtoId}-${linha.estado}-${linha.camara}",
-                produtoId = linha.produtoId,
-                descricao = linha.descricao,
-                unidade = linha.unidade,
-                saldo = linha.quantidade,
-                saldoFormatado = formatQuantity(linha.quantidade, linha.unidade),
-                zerado = linha.quantidade <= 1e-9,
-                estado = linha.estado,
-                camara = linha.camara,
-                critico = critico,
+                key = produtoId.toString(),
+                produtoId = produtoId,
+                descricao = descricao,
+                unidade = unidade,
+                saldo = totalSaldo,
+                saldoFormatado = formatQuantity(totalSaldo, unidade),
+                zerado = totalSaldo <= 1e-9,
+                estado = null,
+                camara = null,
+                critico = temCritico,
             )
         }.let { list ->
             when (current.ordenacaoEstoque) {

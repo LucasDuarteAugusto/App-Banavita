@@ -94,10 +94,12 @@ class HomeViewModel @Inject constructor(
         base.copy(
             proximoEvento = eventos.firstOrNull(),
             kgPintada = resumo.kgPintada,
+            unidadePintada = resumo.unidadePintada,
             descricaoPintada = resumo.descricaoPintada,
             produtoIdPintada = resumo.produtoIdPintada,
             precoQueimaSugeridoCentavos = preco,
             kgPodreOuAmanha = resumo.kgPodreOuAmanha,
+            unidadePodre = resumo.unidadePodre,
             descricaoPodre = resumo.descricaoPodre,
             moverParaArmazenagem = resumo.moverParaArmazenagem,
             encomendasAbertasSemana = encCount,

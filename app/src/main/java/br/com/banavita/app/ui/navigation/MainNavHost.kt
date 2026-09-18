@@ -42,6 +42,7 @@ import br.com.banavita.app.ui.vendas.VendaListRoute
 fun MainNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
+    onTitleChange: (String?) -> Unit = {},
 ) {
     NavHost(
         navController = navController,
@@ -53,7 +54,7 @@ fun MainNavHost(
         addCadastrosNestedScreens(navController)
         addCadastroFormScreens(navController)
         addDocumentoFormScreens(navController)
-        addConsultasScreens(navController)
+        addConsultasScreens(navController, onTitleChange)
         addAgendaScreens(navController)
     }
 }
@@ -137,8 +138,14 @@ private fun NavGraphBuilder.addCadastrosNestedScreens(navController: NavHostCont
     }
 }
 
-private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController) {
-    val popBack: () -> Unit = { navController.popBackStack() }
+private fun NavGraphBuilder.addConsultasScreens(
+    navController: NavHostController,
+    onTitleChange: (String?) -> Unit,
+) {
+    val popBack: () -> Unit = {
+        onTitleChange(null)
+        navController.popBackStack()
+    }
     composable(
         route = BanavitaRoutes.CONSULTAS,
         arguments = listOf(
@@ -201,6 +208,7 @@ private fun NavGraphBuilder.addConsultasScreens(navController: NavHostController
             onLancarPerda = { loteId, produtoId ->
                 navController.navigate(BanavitaRoutes.perdaForm(loteId, produtoId))
             },
+            onTitleChange = onTitleChange,
         )
     }
     composable(

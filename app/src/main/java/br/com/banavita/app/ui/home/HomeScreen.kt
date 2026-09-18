@@ -195,7 +195,7 @@ private fun PereciveisCard(
                     context.getString(
                         R.string.home_card_pereciveis_pintada,
                         formatKg(uiState.kgPintada),
-                        "Kg",
+                        uiState.unidadePintada ?: "Kg",
                         uiState.descricaoPintada.orEmpty(),
                     ),
                 )
@@ -206,7 +206,7 @@ private fun PereciveisCard(
                     context.getString(
                         R.string.home_card_pereciveis_podre,
                         formatKg(uiState.kgPodreOuAmanha),
-                        "Kg",
+                        uiState.unidadePodre ?: "Kg",
                     ),
                 )
             }

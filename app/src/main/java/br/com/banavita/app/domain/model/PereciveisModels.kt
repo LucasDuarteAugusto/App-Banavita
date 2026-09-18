@@ -207,9 +207,11 @@ data class RelatorioPerdaLinha(
 data class PerecivelCriticoResumo(
     val kgPintada: Double,
     val descricaoPintada: String?,
+    val unidadePintada: String? = null,
     val produtoIdPintada: UUID? = null,
     val kgPodreOuAmanha: Double,
     val descricaoPodre: String?,
+    val unidadePodre: String? = null,
     val produtoIdPodre: UUID? = null,
     val moverParaArmazenagem: List<MoverAdvice> = emptyList(),
 )

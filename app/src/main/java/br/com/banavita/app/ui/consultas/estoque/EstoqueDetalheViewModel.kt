@@ -33,6 +33,11 @@ data class EstoqueLoteUi(
     val nextEstado: MaturacaoEstado?,
 )
 
+data class EstoqueEstadoResumoUi(
+    val estado: MaturacaoEstado,
+    val quantidadeFormatada: String,
+)
+
 data class EstoqueDetalheUiState(
     val produtoId: UUID? = null,
     val descricao: String = "",
@@ -40,6 +45,7 @@ data class EstoqueDetalheUiState(
     val perecivel: Boolean = false,
     val saldoFormatado: String = "",
     val lotes: List<EstoqueLoteUi> = emptyList(),
+    val estadosResumo: List<EstoqueEstadoResumoUi> = emptyList(),
     val movimentos: List<EstoqueMovimento> = emptyList(),
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
@@ -48,6 +54,8 @@ data class EstoqueDetalheUiState(
     val corrigirLoteId: UUID? = null,
     val showQueima: Boolean = false,
     val queimaPrecoInput: String = "",
+    val selectedStageForActions: MaturacaoEstado? = null,
+    val selectedLoteIdForAction: UUID? = null,
 )
 
 @HiltViewModel
@@ -81,8 +89,8 @@ class EstoqueDetalheViewModel @Inject constructor(
         produto = atual
         val unidade = atual?.unidade ?: "UN"
         val today = RipeningClock.todayEpochDay()
-        val loteUi = lotes
-            .filter { it.quantidadeRestante > 1e-9 }
+        val lotesValidos = lotes.filter { it.quantidadeRestante > 1e-9 }
+        val loteUi = lotesValidos
             .map { lote ->
                 val snap = if (lote.camara == Camara.ETILENO && atual != null) {
                     RipeningClock.snapshot(
@@ -102,6 +110,15 @@ class EstoqueDetalheViewModel @Inject constructor(
                     nextEstado = snap?.daysUntilNext?.let { lote.estado.next() },
                 )
             }
+        val estadosResumo = lotesValidos
+            .groupBy { it.estado }
+            .map { (estado, lotesEstado) ->
+                EstoqueEstadoResumoUi(
+                    estado = estado,
+                    quantidadeFormatada = formatQuantity(lotesEstado.sumOf { it.quantidadeRestante }, unidade)
+                )
+            }.sortedBy { it.estado.ordinal }
+
         _uiState.update {
             it.copy(
                 produtoId = id,
@@ -110,10 +127,31 @@ class EstoqueDetalheViewModel @Inject constructor(
                 perecivel = atual?.perecivel == true,
                 saldoFormatado = formatQuantity(estoqueRepository.getSaldo(id), unidade),
                 lotes = loteUi,
+                estadosResumo = estadosResumo,
                 movimentos = estoqueRepository.movimentosDoProduto(id),
                 isLoading = false,
             )
         }
+    }
+
+    fun onStageClick(estado: MaturacaoEstado) {
+        val lotesDoEstado = _uiState.value.lotes.filter { it.lote.estado == estado }
+        if (lotesDoEstado.isEmpty()) return
+        
+        _uiState.update { 
+            it.copy(
+                selectedStageForActions = estado,
+                selectedLoteIdForAction = if (lotesDoEstado.size == 1) lotesDoEstado.first().lote.id else null
+            )
+        }
+    }
+
+    fun onLoteSelectForAction(loteId: UUID) {
+        _uiState.update { it.copy(selectedLoteIdForAction = loteId) }
+    }
+
+    fun dismissStageActions() {
+        _uiState.update { it.copy(selectedStageForActions = null, selectedLoteIdForAction = null) }
     }
 
     fun onSoltarClick(loteId: UUID) {

@@ -43,7 +43,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
                                 context.getString(
                                     R.string.home_card_pereciveis_pintada,
                                     formatQty(resumo.kgPintada),
-                                    "Kg",
+                                    resumo.unidadePintada ?: "Kg",
                                     resumo.descricaoPintada.orEmpty(),
                                 ),
                             )
@@ -53,7 +53,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
                                 context.getString(
                                     R.string.home_card_pereciveis_podre,
                                     formatQty(resumo.kgPodreOuAmanha),
-                                    "Kg",
+                                    resumo.unidadePodre ?: "Kg",
                                 ),
                             )
                         }

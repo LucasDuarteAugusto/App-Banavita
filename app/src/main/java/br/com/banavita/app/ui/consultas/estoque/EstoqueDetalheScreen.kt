@@ -23,7 +23,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilterChip
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.SuggestionChip
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.Camara
@@ -45,11 +60,22 @@ fun EstoqueDetalheRoute(
     onLancarPerda: (loteId: UUID, produtoId: UUID) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: EstoqueDetalheViewModel = hiltViewModel(),
+    onTitleChange: (String?) -> Unit = {},
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    
+    androidx.compose.runtime.LaunchedEffect(uiState.descricao) {
+        if (uiState.descricao.isNotBlank()) {
+            onTitleChange(uiState.descricao)
+        }
+    }
+    
     EstoqueDetalheScreen(
         uiState = uiState,
         onEditProduto = { uiState.produtoId?.let(onEditProduto) },
+        onStageClick = viewModel::onStageClick,
+        onLoteSelect = viewModel::onLoteSelectForAction,
+        onDismissActions = viewModel::dismissStageActions,
         onSoltar = viewModel::onSoltarClick,
         onCorrigir = viewModel::onCorrigirClick,
         onPerda = { loteId ->
@@ -72,6 +98,9 @@ fun EstoqueDetalheRoute(
 fun EstoqueDetalheScreen(
     uiState: EstoqueDetalheUiState,
     onEditProduto: () -> Unit,
+    onStageClick: (MaturacaoEstado) -> Unit,
+    onLoteSelect: (UUID) -> Unit,
+    onDismissActions: () -> Unit,
     onSoltar: (UUID) -> Unit,
     onCorrigir: (UUID) -> Unit,
     onPerda: (UUID) -> Unit,
@@ -144,6 +173,19 @@ fun EstoqueDetalheScreen(
         )
     }
 
+    if (uiState.selectedStageForActions != null) {
+        EstoqueAcoesPopup(
+            estado = uiState.selectedStageForActions,
+            lotes = uiState.lotes.filter { it.lote.estado == uiState.selectedStageForActions },
+            selectedLoteId = uiState.selectedLoteIdForAction,
+            onLoteSelect = onLoteSelect,
+            onSoltar = onSoltar,
+            onCorrigir = onCorrigir,
+            onPerda = onPerda,
+            onDismiss = onDismissActions
+        )
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -154,24 +196,44 @@ fun EstoqueDetalheScreen(
             ListLoadingState()
             return
         }
-        Text(
-            text = uiState.descricao,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
+
+        VarietySummaryCard(
+            totalQuantity = uiState.saldoFormatado,
+            stagesCount = uiState.estadosResumo.size
         )
-        Text(
-            text = stringResource(R.string.estoque_detalhe_saldo, uiState.saldoFormatado),
-            style = MaterialTheme.typography.titleMedium,
-        )
+
         uiState.errorMessage
             ?.takeIf { uiState.transferLoteId == null && !uiState.showQueima }
             ?.let { Text(text = it, color = MaterialTheme.colorScheme.error) }
-        Button(
-            modifier = Modifier.fillMaxWidth(),
-            onClick = onEditProduto,
+
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.weight(1f)
         ) {
-            Text(stringResource(R.string.estoque_detalhe_cadastro))
+            if (uiState.perecivel && uiState.estadosResumo.isNotEmpty()) {
+                items(uiState.estadosResumo, key = { it.estado.name }) { resumo ->
+                    StateQuantityCard(
+                        estado = resumo.estado,
+                        quantity = resumo.quantidadeFormatada,
+                        unit = uiState.unidade,
+                        onClick = { onStageClick(resumo.estado) }
+                    )
+                }
+            }
+
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(onClick = onEditProduto) {
+                        Text("Editar Cadastro")
+                    }
+                }
+            }
         }
+
         if (uiState.perecivel && uiState.lotes.any { it.lote.estado == MaturacaoEstado.PINTADA }) {
             OutlinedButton(
                 modifier = Modifier.fillMaxWidth(),
@@ -180,124 +242,180 @@ fun EstoqueDetalheScreen(
                 Text(stringResource(R.string.estoque_aplicar_queima))
             }
         }
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (uiState.perecivel) {
-                item {
-                    Text(
-                        text = stringResource(R.string.estoque_lotes_title),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                }
-                if (uiState.lotes.isEmpty()) {
-                    item { ListEmptyState(message = stringResource(R.string.estoque_lotes_empty)) }
-                } else {
-                    items(uiState.lotes, key = { it.lote.id }) { item ->
-                        LoteCard(
-                            item = item,
-                            onSoltar = { onSoltar(item.lote.id) },
-                            onCorrigir = { onCorrigir(item.lote.id) },
-                            onPerda = { onPerda(item.lote.id) },
-                        )
-                    }
-                }
-            }
-            item {
+    }
+}
+
+@Composable
+private fun VarietySummaryCard(totalQuantity: String, stagesCount: Int) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.5f)),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
                 Text(
-                    text = stringResource(R.string.estoque_detalhe_movimentos),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(top = 8.dp),
+                    text = "Lote total ativo",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.Gray
+                )
+                Text(
+                    text = totalQuantity,
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF2E7D32)
                 )
             }
-            if (uiState.movimentos.isEmpty()) {
-                item { ListEmptyState(message = stringResource(R.string.estoque_detalhe_sem_movimento)) }
-            } else {
-                items(
-                    uiState.movimentos,
-                    key = { it.documentoId.toString() + it.tipo.name + it.data },
-                ) { movimento ->
-                    val tipo = when (movimento.tipo) {
-                        EstoqueMovimentoTipo.ENTRADA -> stringResource(R.string.estoque_movimento_entrada)
-                        EstoqueMovimentoTipo.SAIDA -> stringResource(R.string.estoque_movimento_saida)
-                        EstoqueMovimentoTipo.PERDA -> stringResource(R.string.estoque_movimento_perda)
-                        EstoqueMovimentoTipo.TRANSFERENCIA ->
-                            stringResource(R.string.estoque_movimento_transferencia)
-                    }
-                    ListItemCard(
-                        title = tipo,
-                        subtitle = formatDate(movimento.data),
-                        trailing = formatQuantity(movimento.quantidade, uiState.unidade),
-                    )
-                }
+            SuggestionChip(
+                onClick = {},
+                label = { Text("$stagesCount Estágios", color = Color(0xFF2E7D32)) },
+                colors = androidx.compose.material3.SuggestionChipDefaults.suggestionChipColors(
+                    containerColor = Color(0xFFE8F5E9)
+                ),
+                border = null
+            )
+        }
+    }
+}
+
+@Composable
+private fun StateQuantityCard(
+    estado: MaturacaoEstado,
+    quantity: String,
+    unit: String,
+    onClick: () -> Unit
+) {
+    val color = when (estado) {
+        MaturacaoEstado.CRUA -> Color(0xFF9E9E9E)
+        MaturacaoEstado.EM_MATURACAO -> Color(0xFFCDDC39)
+        MaturacaoEstado.VERDE -> Color(0xFF4CAF50)
+        MaturacaoEstado.VERDOLENGA -> Color(0xFF8BC34A)
+        MaturacaoEstado.AMARELA -> Color(0xFFFFEB3B)
+        MaturacaoEstado.PINTADA -> Color(0xFFFF9800)
+        MaturacaoEstado.PODRE -> Color(0xFF795548)
+    }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onClick,
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray.copy(alpha = 0.3f)),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(16.dp)
+                    .background(color, CircleShape)
+                    .border(1.dp, Color.Black.copy(alpha = 0.1f), CircleShape)
+            )
+            Text(
+                text = stringResource(estado.labelRes()),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Row(verticalAlignment = Alignment.Bottom) {
+                Text(
+                    text = quantity.substringBefore(" "),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(Modifier.size(4.dp))
+                Text(
+                    text = unit,
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.Gray
+                )
             }
         }
     }
 }
 
 @Composable
-private fun LoteCard(
-    item: EstoqueLoteUi,
-    onSoltar: () -> Unit,
-    onCorrigir: () -> Unit,
-    onPerda: () -> Unit,
+private fun EstoqueAcoesPopup(
+    estado: MaturacaoEstado,
+    lotes: List<EstoqueLoteUi>,
+    selectedLoteId: UUID?,
+    onLoteSelect: (UUID) -> Unit,
+    onSoltar: (UUID) -> Unit,
+    onCorrigir: (UUID) -> Unit,
+    onPerda: (UUID) -> Unit,
+    onDismiss: () -> Unit
 ) {
-    val lote = item.lote
-    val subtitle = buildString {
-        append(stringResource(lote.estado.labelRes()))
-        append(" · ")
-        append(stringResource(lote.camara.labelRes()))
-        append(" · ")
-        append(item.quantidadeFormatada)
-        append('\n')
-        if (lote.camara == Camara.FRIA) {
-            append(stringResource(R.string.estoque_lote_fria_pausa))
-        } else {
-            val days = item.daysUntilNext
-            val next = item.nextEstado
-            if (days != null && next != null) {
-                append(
-                    stringResource(
-                        R.string.estoque_lote_vira,
-                        stringResource(next.labelRes()),
-                        days,
-                    ),
-                )
-            }
-        }
-    }
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        ListItemCard(
-            title = lote.rotulo,
-            subtitle = subtitle,
-        )
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                if (lote.camara == Camara.FRIA) {
-                    OutlinedButton(
-                        modifier = Modifier.weight(1f),
-                        onClick = onSoltar
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Ações para ${stringResource(estado.labelRes())}") },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                if (lotes.size > 1) {
+                    Text("Selecione o lote:", style = MaterialTheme.typography.labelMedium)
+                    LazyColumn(
+                        modifier = Modifier.heightIn(max = 200.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Text(stringResource(R.string.estoque_soltar_etileno))
+                        items(lotes, key = { it.lote.id }) { item ->
+                            FilterChip(
+                                selected = selectedLoteId == item.lote.id,
+                                onClick = { onLoteSelect(item.lote.id) },
+                                label = { Text("${item.lote.rotulo} (${item.quantidadeFormatada})") },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
                     }
                 }
-                OutlinedButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = onCorrigir
-                ) {
-                    Text(stringResource(R.string.estoque_corrigir_estado))
+                
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val loteId = selectedLoteId
+                    if (loteId != null) {
+                        val lote = lotes.find { it.lote.id == loteId }?.lote
+                        if (lote?.camara == Camara.FRIA) {
+                            Button(
+                                onClick = { onSoltar(loteId) },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(stringResource(R.string.estoque_soltar_etileno))
+                            }
+                        }
+                        OutlinedButton(
+                            onClick = { onCorrigir(loteId) },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(stringResource(R.string.estoque_corrigir_estado))
+                        }
+                        OutlinedButton(
+                            onClick = { onPerda(loteId) },
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = MaterialTheme.colorScheme.error
+                            )
+                        ) {
+                            Text(stringResource(R.string.estoque_lancar_perda))
+                        }
+                    } else {
+                        Text(
+                            "Por favor, selecione um lote acima para realizar ações.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
-            OutlinedButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onPerda
-            ) {
-                Text(stringResource(R.string.estoque_lancar_perda))
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Fechar")
             }
         }
-    }
+    )
 }
+
