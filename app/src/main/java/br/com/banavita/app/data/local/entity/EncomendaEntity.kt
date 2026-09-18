@@ -40,6 +40,8 @@ data class EncomendaEntity(
     val status: String,
     @ColumnInfo(name = "ENC_VENDA")
     val vendaId: UUID?,
+    @ColumnInfo(name = "ENC_EVENTO")
+    val eventoId: UUID? = null,
 )
 
 @Entity(
@@ -81,4 +83,6 @@ data class EncomendaItemEntity(
     val estado: String,
     @ColumnInfo(name = "ENI_QTDE")
     val quantidade: Double,
+    @ColumnInfo(name = "ENI_VALOR_UNITARIO")
+    val valorUnitarioCentavos: Long? = null,
 )

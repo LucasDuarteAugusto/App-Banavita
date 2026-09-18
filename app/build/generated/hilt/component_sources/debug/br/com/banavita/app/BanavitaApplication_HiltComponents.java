@@ -22,7 +22,6 @@ import br.com.banavita.app.ui.cadastros.grupos.GrupoListViewModel_HiltModules;
 import br.com.banavita.app.ui.cadastros.produtos.ProdutoFormViewModel_HiltModules;
 import br.com.banavita.app.ui.cadastros.produtos.ProdutoListViewModel_HiltModules;
 import br.com.banavita.app.ui.compras.CompraFormViewModel_HiltModules;
-import br.com.banavita.app.ui.compras.CompraListViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.ConsultasViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheViewModel_HiltModules;
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheViewModel_HiltModules;
@@ -32,7 +31,6 @@ import br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaViewModel_HiltModule
 import br.com.banavita.app.ui.pereciveis.perda.PerdaFormViewModel_HiltModules;
 import br.com.banavita.app.ui.settings.SettingsViewModel_HiltModules;
 import br.com.banavita.app.ui.vendas.VendaFormViewModel_HiltModules;
-import br.com.banavita.app.ui.vendas.VendaListViewModel_HiltModules;
 import br.com.banavita.app.ui.voice.VoiceCaptureViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -201,7 +199,6 @@ public final class BanavitaApplication_HiltComponents {
           ClienteFormViewModel_HiltModules.KeyModule.class,
           ClienteListViewModel_HiltModules.KeyModule.class,
           CompraFormViewModel_HiltModules.KeyModule.class,
-          CompraListViewModel_HiltModules.KeyModule.class,
           ConsultasViewModel_HiltModules.KeyModule.class,
           EncomendaFormViewModel_HiltModules.KeyModule.class,
           EstoqueDetalheViewModel_HiltModules.KeyModule.class,
@@ -220,7 +217,6 @@ public final class BanavitaApplication_HiltComponents {
           ProdutoListViewModel_HiltModules.KeyModule.class,
           SettingsViewModel_HiltModules.KeyModule.class,
           VendaFormViewModel_HiltModules.KeyModule.class,
-          VendaListViewModel_HiltModules.KeyModule.class,
           VoiceCaptureViewModel_HiltModules.KeyModule.class
       }
   )
@@ -263,7 +259,6 @@ public final class BanavitaApplication_HiltComponents {
           ClienteFormViewModel_HiltModules.BindsModule.class,
           ClienteListViewModel_HiltModules.BindsModule.class,
           CompraFormViewModel_HiltModules.BindsModule.class,
-          CompraListViewModel_HiltModules.BindsModule.class,
           ConsultasViewModel_HiltModules.BindsModule.class,
           EncomendaFormViewModel_HiltModules.BindsModule.class,
           EstoqueDetalheViewModel_HiltModules.BindsModule.class,
@@ -281,7 +276,6 @@ public final class BanavitaApplication_HiltComponents {
           ProdutoListViewModel_HiltModules.BindsModule.class,
           SettingsViewModel_HiltModules.BindsModule.class,
           VendaFormViewModel_HiltModules.BindsModule.class,
-          VendaListViewModel_HiltModules.BindsModule.class,
           VoiceCaptureViewModel_HiltModules.BindsModule.class
       }
   )

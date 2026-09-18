@@ -21,7 +21,7 @@ object BanavitaRoutes {
     const val ARG_BUSCA = "busca"
     const val ARG_PERIODO = "periodo"
     const val ARG_CRITICOS = "criticos"
-    const val ESTOQUE_DETALHE = "consultas/estoque/{produtoId}"
+    const val ESTOQUE_DETALHE = "consultas/estoque/{produtoId}?criticos={criticos}"
     const val RECEBER_DETALHE = "consultas/receber/{clienteId}"
     const val PAGAR_DETALHE = "consultas/pagar/{fornecedorId}"
     const val ETILENO_FILA = "pereciveis/etileno"
@@ -90,7 +90,10 @@ object BanavitaRoutes {
         return "consultas?modo=${modo.route}&busca=$encodedBusca&periodo=$periodoName&criticos=$criticosFlag"
     }
 
-    fun estoqueDetalhe(produtoId: UUID): String = "consultas/estoque/$produtoId"
+    fun estoqueDetalhe(produtoId: UUID, criticos: Boolean = false): String {
+        val flag = if (criticos) "1" else ""
+        return "consultas/estoque/$produtoId?criticos=$flag"
+    }
     fun receberDetalhe(clienteId: UUID): String = "consultas/receber/$clienteId"
     fun pagarDetalhe(fornecedorId: UUID): String = "consultas/pagar/$fornecedorId"
     fun perdaForm(loteId: UUID? = null, produtoId: UUID? = null): String =

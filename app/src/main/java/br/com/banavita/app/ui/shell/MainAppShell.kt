@@ -173,7 +173,9 @@ private fun titleForRoute(route: String?, modo: String?, criticos: String?): Str
         route == BanavitaRoutes.CADASTROS_FORNECEDORES -> R.string.cadastros_fornecedores_title
         route == BanavitaRoutes.CADASTROS_PRODUTOS -> R.string.cadastros_produtos_title
         route == BanavitaRoutes.CADASTROS_GRUPOS -> R.string.cadastros_grupos_title
-        route?.startsWith("consultas/estoque/") == true -> R.string.estoque_detalhe_title
+        route?.startsWith("consultas/estoque/") == true -> {
+            if (criticos == "1") R.string.home_card_pereciveis_title else R.string.estoque_detalhe_title
+        }
         route?.startsWith("consultas/receber/") == true -> R.string.consultas_mode_receber
         route?.startsWith("consultas/pagar/") == true -> R.string.consultas_mode_pagar
         route?.startsWith("consultas") == true -> {

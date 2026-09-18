@@ -17,7 +17,7 @@ import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.EncomendaStatus
 import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.PeriodoPreset
-import br.com.banavita.app.domain.model.extraction.ConfirmResult
+
 import br.com.banavita.app.ui.common.MoneyInputParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -159,42 +159,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun applyVoice(result: ConfirmResult) {
-        when (result) {
-            is ConfirmResult.VendaCriada -> Unit
-            is ConfirmResult.EventoCriado -> {
-                val epochDay = java.time.Instant.ofEpochMilli(result.dataHoraMillis)
-                    .atZone(java.time.ZoneId.systemDefault())
-                    .toLocalDate()
-                    .toEpochDay()
-                _navEvents.tryEmit(HomeNavEvent.Agenda(epochDay))
-            }
-            is ConfirmResult.AgendaFiltroAplicado -> _navEvents.tryEmit(
-                HomeNavEvent.Agenda(result.epochDay, result.monthOverviewHint),
-            )
-            is ConfirmResult.ConsultaAplicada -> {
-                when {
-                    result.navigateNovaVenda -> _navEvents.tryEmit(HomeNavEvent.NovaVenda)
-                    result.navigateAgenda -> _navEvents.tryEmit(HomeNavEvent.Agenda())
-                    result.openProdutoId != null ->
-                        _navEvents.tryEmit(HomeNavEvent.EstoqueDetalhe(result.openProdutoId))
-                    result.openClienteId != null ->
-                        _navEvents.tryEmit(HomeNavEvent.ReceberDetalhe(result.openClienteId))
-                    result.openFornecedorId != null ->
-                        _navEvents.tryEmit(HomeNavEvent.PagarDetalhe(result.openFornecedorId))
-                    else -> _navEvents.tryEmit(
-                        HomeNavEvent.Consultas(
-                            modo = result.modo ?: ConsultaModo.ESTOQUE,
-                            busca = result.busca,
-                            periodo = result.periodo,
-                            criticos = result.somenteCriticos,
-                        ),
-                    )
-                }
-            }
-            else -> Unit
-        }
-    }
+
 
     private data class QueimaUi(
         val visible: Boolean = false,

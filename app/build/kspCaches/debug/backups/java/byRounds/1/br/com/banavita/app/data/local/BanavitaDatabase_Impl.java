@@ -87,7 +87,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
   @Override
   @NonNull
   protected SupportSQLiteOpenHelper createOpenHelper(@NonNull final DatabaseConfiguration config) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(6) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(config, new RoomOpenHelper.Delegate(8) {
       @Override
       public void createAllTables(@NonNull final SupportSQLiteDatabase db) {
         db.execSQL("CREATE TABLE IF NOT EXISTS `grupo` (`GRU_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `GRU_NOME` TEXT NOT NULL, `GRU_OBS` TEXT, PRIMARY KEY(`GRU_ID`))");
@@ -133,11 +133,11 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_perda_PER_DATA` ON `perda` (`PER_DATA`)");
         db.execSQL("CREATE TABLE IF NOT EXISTS `preco_queima` (`QUE_ID` TEXT NOT NULL, `QUE_PRODUTO` TEXT NOT NULL, `QUE_ESTADO` TEXT NOT NULL, `QUE_PRECO` INTEGER NOT NULL, `QUE_INICIO` INTEGER NOT NULL, `QUE_FIM` INTEGER NOT NULL, PRIMARY KEY(`QUE_ID`), FOREIGN KEY(`QUE_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE CASCADE )");
         db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_preco_queima_QUE_PRODUTO_QUE_ESTADO_QUE_INICIO` ON `preco_queima` (`QUE_PRODUTO`, `QUE_ESTADO`, `QUE_INICIO`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `encomenda` (`ENC_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `ENC_CLIENTE` TEXT NOT NULL, `ENC_DATA_ENTREGA` INTEGER NOT NULL, `ENC_STATUS` TEXT NOT NULL, `ENC_VENDA` TEXT, PRIMARY KEY(`ENC_ID`), FOREIGN KEY(`ENC_CLIENTE`) REFERENCES `cliente`(`CLI_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `encomenda` (`ENC_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `ENC_CLIENTE` TEXT NOT NULL, `ENC_DATA_ENTREGA` INTEGER NOT NULL, `ENC_STATUS` TEXT NOT NULL, `ENC_VENDA` TEXT, `ENC_EVENTO` TEXT, PRIMARY KEY(`ENC_ID`), FOREIGN KEY(`ENC_CLIENTE`) REFERENCES `cliente`(`CLI_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_encomenda_ENC_CLIENTE` ON `encomenda` (`ENC_CLIENTE`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_encomenda_ENC_DATA_ENTREGA` ON `encomenda` (`ENC_DATA_ENTREGA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_encomenda_ENC_STATUS` ON `encomenda` (`ENC_STATUS`)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS `encomenda_item` (`ENI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `ENI_ENCOMENDA` TEXT NOT NULL, `ENI_PRODUTO` TEXT NOT NULL, `ENI_ESTADO` TEXT NOT NULL, `ENI_QTDE` REAL NOT NULL, PRIMARY KEY(`ENI_ID`), FOREIGN KEY(`ENI_ENCOMENDA`) REFERENCES `encomenda`(`ENC_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ENI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
+        db.execSQL("CREATE TABLE IF NOT EXISTS `encomenda_item` (`ENI_ID` TEXT NOT NULL, `created_at` INTEGER NOT NULL, `updated_at` INTEGER NOT NULL, `ENI_ENCOMENDA` TEXT NOT NULL, `ENI_PRODUTO` TEXT NOT NULL, `ENI_ESTADO` TEXT NOT NULL, `ENI_QTDE` REAL NOT NULL, `ENI_VALOR_UNITARIO` INTEGER, PRIMARY KEY(`ENI_ID`), FOREIGN KEY(`ENI_ENCOMENDA`) REFERENCES `encomenda`(`ENC_ID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`ENI_PRODUTO`) REFERENCES `produto`(`PRO_ID`) ON UPDATE NO ACTION ON DELETE RESTRICT )");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_encomenda_item_ENI_ENCOMENDA` ON `encomenda_item` (`ENI_ENCOMENDA`)");
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_encomenda_item_ENI_PRODUTO` ON `encomenda_item` (`ENI_PRODUTO`)");
         db.execSQL("CREATE VIEW `vw_produto_estoque` AS SELECT\n"
@@ -197,7 +197,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                 + "        ) v ON v.id = p.PRO_ID\n"
                 + "        WHERE p.PRO_PERECIVEL = 0");
         db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '24fde4b6e5b5cd5cbe16a5978b83700c')");
+        db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6eed4d5322c1eafdd8f2db7b2b12ab07')");
       }
 
       @Override
@@ -592,7 +592,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoPrecoQueima + "\n"
                   + " Found:\n" + _existingPrecoQueima);
         }
-        final HashMap<String, TableInfo.Column> _columnsEncomenda = new HashMap<String, TableInfo.Column>(7);
+        final HashMap<String, TableInfo.Column> _columnsEncomenda = new HashMap<String, TableInfo.Column>(8);
         _columnsEncomenda.put("ENC_ID", new TableInfo.Column("ENC_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomenda.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomenda.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -600,6 +600,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsEncomenda.put("ENC_DATA_ENTREGA", new TableInfo.Column("ENC_DATA_ENTREGA", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomenda.put("ENC_STATUS", new TableInfo.Column("ENC_STATUS", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomenda.put("ENC_VENDA", new TableInfo.Column("ENC_VENDA", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEncomenda.put("ENC_EVENTO", new TableInfo.Column("ENC_EVENTO", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysEncomenda = new HashSet<TableInfo.ForeignKey>(1);
         _foreignKeysEncomenda.add(new TableInfo.ForeignKey("cliente", "RESTRICT", "NO ACTION", Arrays.asList("ENC_CLIENTE"), Arrays.asList("CLI_ID")));
         final HashSet<TableInfo.Index> _indicesEncomenda = new HashSet<TableInfo.Index>(3);
@@ -613,7 +614,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
                   + " Expected:\n" + _infoEncomenda + "\n"
                   + " Found:\n" + _existingEncomenda);
         }
-        final HashMap<String, TableInfo.Column> _columnsEncomendaItem = new HashMap<String, TableInfo.Column>(7);
+        final HashMap<String, TableInfo.Column> _columnsEncomendaItem = new HashMap<String, TableInfo.Column>(8);
         _columnsEncomendaItem.put("ENI_ID", new TableInfo.Column("ENI_ID", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomendaItem.put("created_at", new TableInfo.Column("created_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomendaItem.put("updated_at", new TableInfo.Column("updated_at", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
@@ -621,6 +622,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         _columnsEncomendaItem.put("ENI_PRODUTO", new TableInfo.Column("ENI_PRODUTO", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomendaItem.put("ENI_ESTADO", new TableInfo.Column("ENI_ESTADO", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsEncomendaItem.put("ENI_QTDE", new TableInfo.Column("ENI_QTDE", "REAL", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsEncomendaItem.put("ENI_VALOR_UNITARIO", new TableInfo.Column("ENI_VALOR_UNITARIO", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysEncomendaItem = new HashSet<TableInfo.ForeignKey>(2);
         _foreignKeysEncomendaItem.add(new TableInfo.ForeignKey("encomenda", "CASCADE", "NO ACTION", Arrays.asList("ENI_ENCOMENDA"), Arrays.asList("ENC_ID")));
         _foreignKeysEncomendaItem.add(new TableInfo.ForeignKey("produto", "RESTRICT", "NO ACTION", Arrays.asList("ENI_PRODUTO"), Arrays.asList("PRO_ID")));
@@ -704,7 +706,7 @@ public final class BanavitaDatabase_Impl extends BanavitaDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "24fde4b6e5b5cd5cbe16a5978b83700c", "ea4142e9e93dd26270eabf99ba1e1dde");
+    }, "6eed4d5322c1eafdd8f2db7b2b12ab07", "f5ddd065ca24f42591a64165370617d3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(config.context).name(config.name).callback(_openCallback).build();
     final SupportSQLiteOpenHelper _helper = config.sqliteOpenHelperFactory.create(_sqliteConfig);
     return _helper;

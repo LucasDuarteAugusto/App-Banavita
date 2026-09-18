@@ -13,7 +13,7 @@ import br.com.banavita.app.domain.model.DocumentoItemInput
 import br.com.banavita.app.domain.model.EncomendaStatus
 import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.domain.model.Produto
-import br.com.banavita.app.ui.common.DateInputParser
+
 import br.com.banavita.app.ui.common.DocumentLineItemFormState
 import br.com.banavita.app.ui.common.QuantityInputParser
 import br.com.banavita.app.ui.navigation.BanavitaRoutes
@@ -27,12 +27,15 @@ import java.util.UUID
 import javax.inject.Inject
 
 data class EncomendaFormUiState(
-    val dataInput: String = DateInputParser.todayInput(),
+    val dataInput: String = br.com.banavita.app.ui.common.DateTimeInputParser.todayDateInput(),
+    val horaInput: String = "08:00",
     val clienteId: UUID? = null,
     val clientes: List<Cliente> = emptyList(),
     val produtos: List<Produto> = emptyList(),
     val itens: List<DocumentLineItemFormState> = listOf(DocumentLineItemFormState()),
     val aPrazo: Boolean = false,
+    val notificar: Boolean = false,
+    val antecipacaoMinutos: Int? = 60,
     val status: EncomendaStatus = EncomendaStatus.ABERTO,
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
@@ -51,6 +54,7 @@ class EncomendaFormViewModel @Inject constructor(
     private val clienteRepository: ClienteRepository,
     private val produtoRepository: ProdutoRepository,
     private val loteRepository: br.com.banavita.app.data.repository.LoteRepository,
+    private val eventoRepository: br.com.banavita.app.data.repository.EventoRepository,
 ) : ViewModel() {
 
     private val encomendaId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_ENCOMENDA_ID)
@@ -85,11 +89,15 @@ class EncomendaFormViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false, errorMessage = "Encomenda não encontrada.") }
                         return@launch
                     }
+                    val evento = enc.eventoId?.let { eventoRepository.getById(it) }
                     _uiState.update {
                         it.copy(
-                            dataInput = DateInputParser.formatForInput(enc.dataEntrega),
+                            dataInput = br.com.banavita.app.ui.common.DateTimeInputParser.formatDate(enc.dataEntrega),
+                            horaInput = br.com.banavita.app.ui.common.DateTimeInputParser.formatTime(enc.dataEntrega),
                             clienteId = enc.clienteId,
                             status = enc.status,
+                            notificar = evento?.notificar ?: false,
+                            antecipacaoMinutos = evento?.antecipacaoMinutos ?: 60,
                             itens = enc.itens.map { item ->
                                 DocumentLineItemFormState(
                                     produtoId = item.produtoId,
@@ -98,6 +106,9 @@ class EncomendaFormViewModel @Inject constructor(
                                     } else {
                                         item.quantidade.toString().replace('.', ',')
                                     },
+                                    precoInput = item.valorUnitarioCentavos?.let { 
+                                        br.com.banavita.app.ui.common.MoneyInputParser.formatForInput(it) 
+                                    } ?: "",
                                     estado = item.estado,
                                 )
                             }.ifEmpty { listOf(DocumentLineItemFormState()) },
@@ -115,7 +126,10 @@ class EncomendaFormViewModel @Inject constructor(
     }
 
     private fun refreshPredictions() {
-        val targetMillis = DateInputParser.parseToEpochMillis(_uiState.value.dataInput) ?: return
+        val targetMillis = br.com.banavita.app.ui.common.DateTimeInputParser.parseToEpochMillis(
+            _uiState.value.dataInput,
+            _uiState.value.horaInput
+        ) ?: return
         viewModelScope.launch {
             val updatedItens = _uiState.value.itens.map { item ->
                 if (item.produtoId != null && item.estado != null) {
@@ -132,6 +146,19 @@ class EncomendaFormViewModel @Inject constructor(
     fun onDataChange(value: String) {
         _uiState.update { it.copy(dataInput = value, errorMessage = null) }
         refreshPredictions()
+    }
+
+    fun onHoraChange(value: String) {
+        _uiState.update { it.copy(horaInput = value, errorMessage = null) }
+        refreshPredictions()
+    }
+
+    fun onNotificarChange(value: Boolean) {
+        _uiState.update { it.copy(notificar = value) }
+    }
+
+    fun onAntecipacaoChange(value: Int?) {
+        _uiState.update { it.copy(antecipacaoMinutos = value) }
     }
 
     fun onClienteSelected(clienteId: UUID?) {
@@ -167,6 +194,10 @@ class EncomendaFormViewModel @Inject constructor(
         updateItem(index) { it.copy(quantidadeInput = value) }
     }
 
+    fun onPrecoChange(index: Int, value: String) {
+        updateItem(index) { it.copy(precoInput = value) }
+    }
+
     fun onAddItem() {
         _uiState.update { it.copy(itens = it.itens + DocumentLineItemFormState()) }
     }
@@ -195,9 +226,9 @@ class EncomendaFormViewModel @Inject constructor(
             _uiState.update { it.copy(errorMessage = "Encomenda já atendida não pode ser alterada.") }
             return
         }
-        val data = DateInputParser.parseToEpochMillis(state.dataInput)
+        val data = br.com.banavita.app.ui.common.DateTimeInputParser.parseToEpochMillis(state.dataInput, state.horaInput)
         if (data == null) {
-            _uiState.update { it.copy(errorMessage = "Informe uma data válida (dd/MM/aaaa).") }
+            _uiState.update { it.copy(errorMessage = "Informe data e hora válidas.") }
             return
         }
         val clienteId = state.clienteId
@@ -210,9 +241,9 @@ class EncomendaFormViewModel @Inject constructor(
             _uiState.update { it.copy(isSaving = true, errorMessage = null) }
             runCatching {
                 if (encomendaId == null) {
-                    encomendaRepository.create(clienteId, data, inputs)
+                    encomendaRepository.create(clienteId, data, inputs, state.notificar, state.antecipacaoMinutos)
                 } else {
-                    encomendaRepository.update(encomendaId, clienteId, data, inputs)
+                    encomendaRepository.update(encomendaId, clienteId, data, inputs, state.notificar, state.antecipacaoMinutos)
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }
@@ -311,7 +342,15 @@ class EncomendaFormViewModel @Inject constructor(
                 _uiState.update { it.copy(errorMessage = "Informe o estado do item ${index + 1}.") }
                 return null
             }
-            inputs += DocumentoItemInput(produtoId = produtoId, quantidade = qtde, estado = estado)
+            val precoCentavos = item.precoInput.trim().takeIf { it.isNotEmpty() }
+                ?.let { br.com.banavita.app.ui.common.MoneyInputParser.parseToCentavos(it) }
+            
+            inputs += DocumentoItemInput(
+                produtoId = produtoId, 
+                quantidade = qtde, 
+                estado = estado,
+                valorUnitarioCentavos = precoCentavos
+            )
         }
         return inputs
     }

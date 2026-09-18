@@ -245,18 +245,8 @@ class VendaFormViewModel @Inject constructor(
 
         if (!forcar) {
             viewModelScope.launch {
-                var conflitoMsg: String? = null
-                for (input in inputsResult.inputs) {
-                    val produto = state.produtos.find { it.id == input.produtoId }
-                    if (produto?.perecivel == true && input.estado != null) {
-                        val disponivel = loteRepository.saldoPorEstado(input.produtoId, input.estado)
-                        val encomendado = encomendaRepository.obterTotalEncomendadoAberto(input.produtoId, input.estado)
-                        if (disponivel - input.quantidade < encomendado) {
-                            conflitoMsg = "A quantidade vendida compromete o estoque reservado para as encomendas em aberto de ${produto.descricao} (${input.estado.name}). Deseja vender mesmo assim?"
-                            break
-                        }
-                    }
-                }
+                val conflitoMsg = loteRepository.analisarConflitosFuturos(inputsResult.inputs, encomendaRepository)
+                
                 if (conflitoMsg != null) {
                     _uiState.update { it.copy(showConflitoEncomendaDialog = true, conflitoMessage = conflitoMsg) }
                     return@launch

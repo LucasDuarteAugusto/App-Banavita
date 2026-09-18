@@ -1176,9 +1176,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasViewModel.kt": {
-    "mtime": 1789689151.451198,
-    "seen": 1789738723.6092095,
-    "ast_hash": "05b4d8f2b246eb477e94b42f3c9f66b2",
+    "mtime": 1789750968.1807444,
+    "seen": 1789753989.304937,
+    "ast_hash": "0bd07ca79ae0968cb28f3bd2ead4e98e",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/estoque/EstoqueDetalheScreen.kt": {
@@ -1236,8 +1236,8 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/shell/MainAppShell.kt": {
-    "mtime": 1789741249.296407,
-    "seen": 1789741511.1175113,
+    "mtime": 1789750392.7141733,
+    "seen": 1789753989.3049872,
     "ast_hash": "7cacfe948eba5693c48178983be26ade",
     "semantic_hash": ""
   },
@@ -1254,21 +1254,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormScreen.kt": {
-    "mtime": 1789221554.02806,
-    "seen": 1789234284.0314317,
-    "ast_hash": "3862caa9cc09e7ccae7028821fd027e4",
+    "mtime": 1789753772.3331714,
+    "seen": 1789753989.304995,
+    "ast_hash": "d2d49ff636e4429a53f99d015b6d03fa",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormUiState.kt": {
-    "mtime": 1789221554.0290565,
-    "seen": 1789234284.031434,
-    "ast_hash": "8d672108477cd927742ce3094d9378a1",
+    "mtime": 1789753671.0659392,
+    "seen": 1789753989.3049963,
+    "ast_hash": "53f557459424380440bd60e9a52c67b0",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaFormViewModel.kt": {
-    "mtime": 1789672627.6776376,
-    "seen": 1789687797.1522412,
-    "ast_hash": "358be62121ce7f977113fa18e789501d",
+    "mtime": 1789753712.3511124,
+    "seen": 1789753989.3049974,
+    "ast_hash": "49672dd64e2479cae5bfc4a920f2fc3f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/vendas/VendaListScreen.kt": {
@@ -2148,9 +2148,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/dao/PerecivelDaos.kt": {
-    "mtime": 1789221553.98621,
-    "seen": 1789234284.0311394,
-    "ast_hash": "1add8c43ef68ae51a486a9dd507bac19",
+    "mtime": 1789753521.4356,
+    "seen": 1789753989.3044906,
+    "ast_hash": "5631c9de701f12e47bcab4701a0b2532",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/local/entity/EncomendaEntity.kt": {
@@ -2184,15 +2184,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/EncomendaRepository.kt": {
-    "mtime": 1789221553.9952083,
-    "seen": 1789234284.0312145,
-    "ast_hash": "d05b329f96005d42450aa86cae651bc7",
+    "mtime": 1789753533.168554,
+    "seen": 1789753989.3045611,
+    "ast_hash": "398004af357b486fafba39ca9d0ed5a4",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/data/repository/LoteRepository.kt": {
-    "mtime": 1789738066.119037,
-    "seen": 1789738723.6090977,
-    "ast_hash": "e4dabfd14bc60912f26304df848f14e9",
+    "mtime": 1789753494.5862281,
+    "seen": 1789753989.3045793,
+    "ast_hash": "6178e5d828e78db241f72eaa57043a8d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/domain/exception/BackupExceptions.kt": {
@@ -2220,15 +2220,15 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt": {
-    "mtime": 1789221554.0208225,
-    "seen": 1789234284.0314066,
-    "ast_hash": "cebd9c8c73e99f5ee6a59f5c0c827f9d",
+    "mtime": 1789753565.2559257,
+    "seen": 1789753989.304966,
+    "ast_hash": "ad3ebb93fcacce57ca99aec7f4e5a48d",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormViewModel.kt": {
-    "mtime": 1789221554.0208225,
-    "seen": 1789234284.0314083,
-    "ast_hash": "9bebeb443237614c700b204bb55b9287",
+    "mtime": 1789753595.5119941,
+    "seen": 1789753989.3049686,
+    "ast_hash": "62a0bebe8665c2ef3d0da5a5c1e01452",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/etileno/EtilenoFilaScreen.kt": {
@@ -2328,9 +2328,9 @@
     "semantic_hash": ""
   },
   "GEMINI.md": {
-    "mtime": 1788806120.6554425,
-    "seen": 1789234284.0315542,
-    "ast_hash": "3ab0b82a4b5796df60aea5fd585bfac4",
+    "mtime": 1789750973.406102,
+    "seen": 1789753989.3050814,
+    "ast_hash": "d7947cb6c13f93e078364fbae43c1050",
     "semantic_hash": ""
   },
   "docs/Modifications/2026-09-08-config-exportar-restaurar.md": {
@@ -2601,6 +2601,18 @@
     "mtime": 1789741316.719692,
     "seen": 1789741511.1176617,
     "ast_hash": "80ca91ab1b64e4eae90e1473c76eeb26",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-18-ajuste-filtro-pereciveis.md": {
+    "mtime": 1789751037.6090586,
+    "seen": 1789753989.3051462,
+    "ast_hash": "048197940a22f4068bbcf00254824cb7",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-18-validacao-encomendas.md": {
+    "mtime": 1789753871.7599356,
+    "seen": 1789753989.305151,
+    "ast_hash": "c241463374bf66ddf6831a4581ce4e6a",
     "semantic_hash": ""
   }
 }

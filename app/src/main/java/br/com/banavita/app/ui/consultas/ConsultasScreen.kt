@@ -76,6 +76,8 @@ fun ConsultasRoute(
         onDocumentoClick = viewModel::onDocumentoClick,
         onFinanceiroClick = viewModel::onFinanceiroClick,
         onNovaEncomenda = viewModel::onNovaEncomenda,
+        onNovaVenda = viewModel::onNovaVenda,
+        onNovaCompra = viewModel::onNovaCompra,
         onVoiceResult = viewModel::applyVoice,
     )
 }
@@ -93,20 +95,42 @@ fun ConsultasScreen(
     onDocumentoClick: (java.util.UUID) -> Unit,
     onFinanceiroClick: (java.util.UUID?) -> Unit,
     onNovaEncomenda: () -> Unit,
+    onNovaVenda: () -> Unit,
+    onNovaCompra: () -> Unit,
     onVoiceResult: (ConfirmResult) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val voiceContext = when (uiState.filters.modo) {
         ConsultaModo.RECEBER -> VoiceScreenContext.RECEBER
         ConsultaModo.PAGAR -> VoiceScreenContext.PAGAR
+        ConsultaModo.VENDAS -> VoiceScreenContext.VENDA
+        ConsultaModo.COMPRAS -> VoiceScreenContext.COMPRA
         else -> VoiceScreenContext.CONSULTAS
+    }
+    val showAddFab = when (uiState.filters.modo) {
+        ConsultaModo.VENDAS, ConsultaModo.COMPRAS, ConsultaModo.ENCOMENDAS -> true
+        else -> false
+    }
+    val addContentDescription = when (uiState.filters.modo) {
+        ConsultaModo.VENDAS -> stringResource(R.string.vendas_new_button)
+        ConsultaModo.COMPRAS -> stringResource(R.string.compras_new_button)
+        ConsultaModo.ENCOMENDAS -> stringResource(R.string.encomenda_form_new_title)
+        else -> ""
+    }
+    val onAddClick = {
+        when (uiState.filters.modo) {
+            ConsultaModo.VENDAS -> onNovaVenda()
+            ConsultaModo.COMPRAS -> onNovaCompra()
+            ConsultaModo.ENCOMENDAS -> onNovaEncomenda()
+            else -> {}
+        }
     }
     VoiceEnabledScreen(
         modifier = modifier,
         voiceContext = voiceContext,
-        addContentDescription = "",
-        showAddFab = false,
-        onAddClick = {},
+        addContentDescription = addContentDescription,
+        showAddFab = showAddFab,
+        onAddClick = onAddClick,
         onVoiceSuccess = onVoiceResult,
     ) { contentModifier ->
         Column(
@@ -118,7 +142,7 @@ fun ConsultasScreen(
                 ConsultaModo.VENDAS, ConsultaModo.COMPRAS -> {
                     PeriodoChips(selected = uiState.filters.periodo, onPeriodo = onPeriodo)
                     IntervaloFields(uiState, onIntervaloInicio, onIntervaloFim)
-                    VisaoChips(selected = uiState.filters.visao, onVisao = onVisao)
+                    VisaoChips(selected = uiState.filters.visao, onVisao = onVisao, modo = uiState.filters.modo)
                 }
                 ConsultaModo.PERDAS, ConsultaModo.ENCOMENDAS -> {
                     PeriodoChips(selected = uiState.filters.periodo, onPeriodo = onPeriodo)
@@ -144,7 +168,12 @@ fun ConsultasScreen(
                         modifier = Modifier.padding(vertical = 12.dp)
                     )
                 }
-                ConsultaModo.RECEBER, ConsultaModo.PAGAR, ConsultaModo.PREVISAO -> Unit
+                ConsultaModo.RECEBER, ConsultaModo.PAGAR -> {
+                    PeriodoChips(selected = uiState.filters.periodo, onPeriodo = onPeriodo)
+                    IntervaloFields(uiState, onIntervaloInicio, onIntervaloFim)
+                    VisaoChips(selected = uiState.filters.visao, onVisao = onVisao, modo = uiState.filters.modo)
+                }
+                ConsultaModo.PREVISAO -> Unit
             }
             uiState.hint?.let { hint ->
                 Text(
@@ -266,7 +295,7 @@ private fun ConsultasList(
                     }
                 }
             }
-            ConsultaModo.VENDAS, ConsultaModo.COMPRAS -> {
+            ConsultaModo.VENDAS, ConsultaModo.COMPRAS, ConsultaModo.RECEBER, ConsultaModo.PAGAR -> {
                 if (uiState.filters.visao == ConsultaVisao.DOCUMENTOS) {
                     if (uiState.documentos.isEmpty()) {
                         item { ListEmptyState(message = emptyMessage) }
@@ -276,7 +305,13 @@ private fun ConsultasList(
                                 title = item.parceiro,
                                 subtitle = formatDate(item.data),
                                 trailing = formatCurrency(item.valorCentavos),
-                                onClick = { onDocumentoClick(item.id) },
+                                onClick = {
+                                    if (uiState.filters.modo == ConsultaModo.RECEBER || uiState.filters.modo == ConsultaModo.VENDAS) {
+                                        onDocumentoClick(item.id)
+                                    } else {
+                                        onDocumentoClick(item.id) // Handles COMPRAS and PAGAR too
+                                    }
+                                },
                             )
                         }
                     }
@@ -289,22 +324,12 @@ private fun ConsultasList(
                                 title = item.nome,
                                 subtitle = item.quantidadeLabel,
                                 trailing = formatCurrency(item.valorCentavos),
+                                onClick = {
+                                    // Para financeiros agregados, poderíamos abrir o detalhe do parceiro.
+                                    // Mas por enquanto vamos manter a consistência.
+                                }
                             )
                         }
-                    }
-                }
-            }
-            ConsultaModo.RECEBER, ConsultaModo.PAGAR -> {
-                if (uiState.financeiroItems.isEmpty()) {
-                    item { ListEmptyState(message = emptyMessage) }
-                } else {
-                    items(uiState.financeiroItems, key = { it.parceiroId ?: it.nome }) { item ->
-                        ListItemCard(
-                            title = item.nome,
-                            subtitle = item.telefone ?: item.dataMaisAntiga?.let { formatDate(it) },
-                            trailing = formatCurrency(item.saldoCentavos),
-                            onClick = { onFinanceiroClick(item.parceiroId) },
-                        )
                     }
                 }
             }
@@ -465,15 +490,27 @@ private fun PeriodoChips(selected: PeriodoPreset, onPeriodo: (PeriodoPreset) -> 
 }
 
 @Composable
-private fun VisaoChips(selected: ConsultaVisao, onVisao: (ConsultaVisao) -> Unit) {
+private fun VisaoChips(selected: ConsultaVisao, onVisao: (ConsultaVisao) -> Unit, modo: ConsultaModo) {
     Row(
         modifier = Modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ConsultaVisao.entries.forEach { visao ->
+        val visoes = if (modo == ConsultaModo.RECEBER || modo == ConsultaModo.PAGAR) {
+            listOf(ConsultaVisao.DOCUMENTOS, ConsultaVisao.POR_PARCEIRO)
+        } else {
+            ConsultaVisao.entries
+        }
+
+        visoes.forEach { visao ->
             val label = when (visao) {
                 ConsultaVisao.DOCUMENTOS -> stringResource(R.string.consultas_visao_lista)
-                ConsultaVisao.POR_PARCEIRO -> stringResource(R.string.consultas_visao_parceiro)
+                ConsultaVisao.POR_PARCEIRO -> {
+                    when (modo) {
+                        ConsultaModo.VENDAS, ConsultaModo.RECEBER -> "Por cliente"
+                        ConsultaModo.COMPRAS, ConsultaModo.PAGAR -> "Por fornecedor"
+                        else -> stringResource(R.string.consultas_visao_parceiro)
+                    }
+                }
                 ConsultaVisao.POR_PRODUTO -> stringResource(R.string.consultas_visao_produto)
             }
             FilterChip(

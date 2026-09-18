@@ -53,6 +53,8 @@ class ConsultasViewModel @Inject constructor(
     financeiroRepository: FinanceiroRepository,
     loteRepository: LoteRepository,
     encomendaRepository: EncomendaRepository,
+    private val recebimentoDao: br.com.banavita.app.data.local.dao.RecebimentoDao,
+    private val pagamentoDao: br.com.banavita.app.data.local.dao.PagamentoDao,
 ) : ViewModel() {
 
     private val initialModo = ConsultaModo.fromRoute(
@@ -83,8 +85,18 @@ class ConsultasViewModel @Inject constructor(
         vendaRepository.observeAll(),
         compraRepository.observeAll(),
         clienteRepository.observeAll(),
-    ) { estoques, produtos, vendas, compras, clientes ->
-        MasterCatalog(estoques, produtos, vendas, compras, clientes)
+        recebimentoDao.observeAll(),
+        pagamentoDao.observeAll(),
+    ) { args ->
+        MasterCatalog(
+            estoques = args[0] as List<br.com.banavita.app.domain.model.ProdutoEstoque>,
+            produtos = args[1] as List<br.com.banavita.app.domain.model.Produto>,
+            vendas = args[2] as List<br.com.banavita.app.domain.model.Venda>,
+            compras = args[3] as List<br.com.banavita.app.domain.model.Compra>,
+            clientes = args[4] as List<br.com.banavita.app.domain.model.Cliente>,
+            recebimentos = args[5] as List<br.com.banavita.app.data.local.entity.RecebimentoEntity>,
+            pagamentos = args[6] as List<br.com.banavita.app.data.local.entity.PagamentoEntity>,
+        )
     }
 
     private val money = combine(
@@ -127,6 +139,8 @@ class ConsultasViewModel @Inject constructor(
                 perdas = perc.perdas,
                 encomendas = perc.encomendas,
                 previsao = perc.previsao,
+                recebimentos = masters.recebimentos,
+                pagamentos = masters.pagamentos,
             ),
         )
     }.stateIn(
@@ -204,8 +218,16 @@ class ConsultasViewModel @Inject constructor(
         _navEvents.tryEmit(ConsultasNavEvent.NovaEncomenda)
     }
 
+    fun onNovaVenda() {
+        _navEvents.tryEmit(ConsultasNavEvent.NovaVenda)
+    }
+
+    fun onNovaCompra() {
+        _navEvents.tryEmit(ConsultasNavEvent.NovaCompra)
+    }
+
     fun onEstoqueClick(produtoId: java.util.UUID) {
-        _navEvents.tryEmit(ConsultasNavEvent.EstoqueDetalhe(produtoId))
+        _navEvents.tryEmit(ConsultasNavEvent.EstoqueDetalhe(produtoId, filters.value.somenteCriticos))
     }
 
     fun onDocumentoClick(id: java.util.UUID) {
@@ -295,12 +317,7 @@ class ConsultasViewModel @Inject constructor(
                     }
             }
 
-        val receber = data.receber.filter {
-            busca.isBlank() || it.nome.contains(busca, ignoreCase = true)
-        }
-        val pagar = data.pagar.filter {
-            busca.isBlank() || it.nome.contains(busca, ignoreCase = true)
-        }
+
 
         return when (current.modo) {
             ConsultaModo.ESTOQUE -> {
@@ -367,20 +384,62 @@ class ConsultasViewModel @Inject constructor(
                 },
                 totalLabel = "Total comprado",
             )
-            ConsultaModo.RECEBER -> ConsultasUiState(
-                filters = current,
-                isLoading = false,
-                totalLabel = "A receber",
-                totalValue = formatCurrency(receber.sumOf { it.saldoCentavos }),
-                financeiroItems = receber,
-            )
-            ConsultaModo.PAGAR -> ConsultasUiState(
-                filters = current,
-                isLoading = false,
-                totalLabel = "A pagar",
-                totalValue = formatCurrency(pagar.sumOf { it.saldoCentavos }),
-                financeiroItems = pagar,
-            )
+            ConsultaModo.RECEBER -> {
+                val pagosMap = data.recebimentos.groupBy { it.vendaId }.mapValues { (_, v) -> v.sumOf { it.valorCentavos } }
+                val parceiroMap = data.vendas.associate { it.id to it.clienteId }
+                val abertos = data.vendas.filter { it.aPrazo && it.data in range }
+                    .mapNotNull { v ->
+                        val saldo = v.valorTotalCentavos - (pagosMap[v.id] ?: 0L)
+                        if (saldo <= 0) return@mapNotNull null
+                        DocumentoConsultaItem(
+                            id = v.id,
+                            data = v.data,
+                            parceiro = v.clienteId?.let { clienteMap[it]?.nome } ?: "Cliente avulso",
+                            valorCentavos = saldo
+                        )
+                    }
+                documentoState(
+                    current = current,
+                    documentos = abertos,
+                    agregadosParceiro = abertos.groupBy { parceiroMap[it.id] }.map { (id, rows) ->
+                        AgregadoConsultaItem(
+                            nome = id?.let { clienteMap[it]?.nome } ?: "Cliente avulso",
+                            quantidadeLabel = null,
+                            valorCentavos = rows.sumOf { it.valorCentavos },
+                        )
+                    },
+                    agregadosProduto = emptyList(),
+                    totalLabel = "A receber",
+                )
+            }
+            ConsultaModo.PAGAR -> {
+                val pagosMap = data.pagamentos.groupBy { it.compraId }.mapValues { (_, v) -> v.sumOf { it.valorCentavos } }
+                val parceiroMap = data.compras.associate { it.id to it.fornecedorId }
+                val abertos = data.compras.filter { it.aPrazo && it.data in range }
+                    .mapNotNull { c ->
+                        val saldo = c.valorTotalCentavos - (pagosMap[c.id] ?: 0L)
+                        if (saldo <= 0) return@mapNotNull null
+                        DocumentoConsultaItem(
+                            id = c.id,
+                            data = c.data,
+                            parceiro = c.fornecedorId?.let { fornecedorMap[it]?.nome } ?: "Sem fornecedor",
+                            valorCentavos = saldo
+                        )
+                    }
+                documentoState(
+                    current = current,
+                    documentos = abertos,
+                    agregadosParceiro = abertos.groupBy { parceiroMap[it.id] }.map { (id, rows) ->
+                        AgregadoConsultaItem(
+                            nome = id?.let { fornecedorMap[it]?.nome } ?: "Sem fornecedor",
+                            quantidadeLabel = null,
+                            valorCentavos = rows.sumOf { it.valorCentavos },
+                        )
+                    },
+                    agregadosProduto = emptyList(),
+                    totalLabel = "A pagar",
+                )
+            }
             ConsultaModo.PREVISAO -> {
                 val items = data.previsao.filter { item ->
                     busca.isBlank() || item.descricao.contains(busca, ignoreCase = true)
@@ -493,6 +552,8 @@ class ConsultasViewModel @Inject constructor(
         val vendas: List<br.com.banavita.app.domain.model.Venda>,
         val compras: List<br.com.banavita.app.domain.model.Compra>,
         val clientes: List<br.com.banavita.app.domain.model.Cliente>,
+        val recebimentos: List<br.com.banavita.app.data.local.entity.RecebimentoEntity>,
+        val pagamentos: List<br.com.banavita.app.data.local.entity.PagamentoEntity>,
     )
 
     private data class MoneyCatalog(
@@ -514,6 +575,8 @@ class ConsultasViewModel @Inject constructor(
         val perdas: List<br.com.banavita.app.domain.model.Perda>,
         val encomendas: List<br.com.banavita.app.domain.model.Encomenda>,
         val previsao: List<br.com.banavita.app.domain.model.OfertaPrevista>,
+        val recebimentos: List<br.com.banavita.app.data.local.entity.RecebimentoEntity>,
+        val pagamentos: List<br.com.banavita.app.data.local.entity.PagamentoEntity>,
     )
 
     private data class PereciveisCatalog(

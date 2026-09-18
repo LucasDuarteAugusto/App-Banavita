@@ -85,13 +85,15 @@ data class EncomendaConsultaItem(
 )
 
 sealed class ConsultasNavEvent {
-    data class EstoqueDetalhe(val produtoId: UUID) : ConsultasNavEvent()
+    data class EstoqueDetalhe(val produtoId: UUID, val somenteCriticos: Boolean = false) : ConsultasNavEvent()
     data class Venda(val vendaId: UUID) : ConsultasNavEvent()
     data class Compra(val compraId: UUID) : ConsultasNavEvent()
     data class ProdutoEdit(val produtoId: UUID) : ConsultasNavEvent()
     data class ReceberDetalhe(val clienteId: UUID) : ConsultasNavEvent()
     data class PagarDetalhe(val fornecedorId: UUID) : ConsultasNavEvent()
     data class Encomenda(val encomendaId: UUID) : ConsultasNavEvent()
+    data object NovaVenda : ConsultasNavEvent()
+    data object NovaCompra : ConsultasNavEvent()
     data object NovaEncomenda : ConsultasNavEvent()
     data object FilaEtileno : ConsultasNavEvent()
     data object NovaPerda : ConsultasNavEvent()

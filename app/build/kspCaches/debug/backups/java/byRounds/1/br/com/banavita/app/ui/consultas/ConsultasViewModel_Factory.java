@@ -1,6 +1,8 @@
 package br.com.banavita.app.ui.consultas;
 
 import androidx.lifecycle.SavedStateHandle;
+import br.com.banavita.app.data.local.dao.PagamentoDao;
+import br.com.banavita.app.data.local.dao.RecebimentoDao;
 import br.com.banavita.app.data.repository.ClienteRepository;
 import br.com.banavita.app.data.repository.CompraRepository;
 import br.com.banavita.app.data.repository.EncomendaRepository;
@@ -53,6 +55,10 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
 
   private final Provider<EncomendaRepository> encomendaRepositoryProvider;
 
+  private final Provider<RecebimentoDao> recebimentoDaoProvider;
+
+  private final Provider<PagamentoDao> pagamentoDaoProvider;
+
   public ConsultasViewModel_Factory(Provider<SavedStateHandle> savedStateHandleProvider,
       Provider<EstoqueRepository> estoqueRepositoryProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
@@ -62,7 +68,9 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
       Provider<FornecedorRepository> fornecedorRepositoryProvider,
       Provider<FinanceiroRepository> financeiroRepositoryProvider,
       Provider<LoteRepository> loteRepositoryProvider,
-      Provider<EncomendaRepository> encomendaRepositoryProvider) {
+      Provider<EncomendaRepository> encomendaRepositoryProvider,
+      Provider<RecebimentoDao> recebimentoDaoProvider,
+      Provider<PagamentoDao> pagamentoDaoProvider) {
     this.savedStateHandleProvider = savedStateHandleProvider;
     this.estoqueRepositoryProvider = estoqueRepositoryProvider;
     this.produtoRepositoryProvider = produtoRepositoryProvider;
@@ -73,11 +81,13 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
     this.financeiroRepositoryProvider = financeiroRepositoryProvider;
     this.loteRepositoryProvider = loteRepositoryProvider;
     this.encomendaRepositoryProvider = encomendaRepositoryProvider;
+    this.recebimentoDaoProvider = recebimentoDaoProvider;
+    this.pagamentoDaoProvider = pagamentoDaoProvider;
   }
 
   @Override
   public ConsultasViewModel get() {
-    return newInstance(savedStateHandleProvider.get(), estoqueRepositoryProvider.get(), produtoRepositoryProvider.get(), vendaRepositoryProvider.get(), compraRepositoryProvider.get(), clienteRepositoryProvider.get(), fornecedorRepositoryProvider.get(), financeiroRepositoryProvider.get(), loteRepositoryProvider.get(), encomendaRepositoryProvider.get());
+    return newInstance(savedStateHandleProvider.get(), estoqueRepositoryProvider.get(), produtoRepositoryProvider.get(), vendaRepositoryProvider.get(), compraRepositoryProvider.get(), clienteRepositoryProvider.get(), fornecedorRepositoryProvider.get(), financeiroRepositoryProvider.get(), loteRepositoryProvider.get(), encomendaRepositoryProvider.get(), recebimentoDaoProvider.get(), pagamentoDaoProvider.get());
   }
 
   public static ConsultasViewModel_Factory create(
@@ -90,8 +100,10 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
       Provider<FornecedorRepository> fornecedorRepositoryProvider,
       Provider<FinanceiroRepository> financeiroRepositoryProvider,
       Provider<LoteRepository> loteRepositoryProvider,
-      Provider<EncomendaRepository> encomendaRepositoryProvider) {
-    return new ConsultasViewModel_Factory(savedStateHandleProvider, estoqueRepositoryProvider, produtoRepositoryProvider, vendaRepositoryProvider, compraRepositoryProvider, clienteRepositoryProvider, fornecedorRepositoryProvider, financeiroRepositoryProvider, loteRepositoryProvider, encomendaRepositoryProvider);
+      Provider<EncomendaRepository> encomendaRepositoryProvider,
+      Provider<RecebimentoDao> recebimentoDaoProvider,
+      Provider<PagamentoDao> pagamentoDaoProvider) {
+    return new ConsultasViewModel_Factory(savedStateHandleProvider, estoqueRepositoryProvider, produtoRepositoryProvider, vendaRepositoryProvider, compraRepositoryProvider, clienteRepositoryProvider, fornecedorRepositoryProvider, financeiroRepositoryProvider, loteRepositoryProvider, encomendaRepositoryProvider, recebimentoDaoProvider, pagamentoDaoProvider);
   }
 
   public static ConsultasViewModel newInstance(SavedStateHandle savedStateHandle,
@@ -99,7 +111,8 @@ public final class ConsultasViewModel_Factory implements Factory<ConsultasViewMo
       VendaRepository vendaRepository, CompraRepository compraRepository,
       ClienteRepository clienteRepository, FornecedorRepository fornecedorRepository,
       FinanceiroRepository financeiroRepository, LoteRepository loteRepository,
-      EncomendaRepository encomendaRepository) {
-    return new ConsultasViewModel(savedStateHandle, estoqueRepository, produtoRepository, vendaRepository, compraRepository, clienteRepository, fornecedorRepository, financeiroRepository, loteRepository, encomendaRepository);
+      EncomendaRepository encomendaRepository, RecebimentoDao recebimentoDao,
+      PagamentoDao pagamentoDao) {
+    return new ConsultasViewModel(savedStateHandle, estoqueRepository, produtoRepository, vendaRepository, compraRepository, clienteRepository, fornecedorRepository, financeiroRepository, loteRepository, encomendaRepository, recebimentoDao, pagamentoDao);
   }
 }

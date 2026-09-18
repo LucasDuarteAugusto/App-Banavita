@@ -172,6 +172,7 @@ data class EncomendaItem(
     val produtoId: UUID,
     val estado: MaturacaoEstado,
     val quantidade: Double,
+    val valorUnitarioCentavos: Long? = null,
 )
 
 data class Encomenda(
@@ -182,6 +183,7 @@ data class Encomenda(
     val dataEntrega: Long,
     val status: EncomendaStatus,
     val vendaId: UUID?,
+    val eventoId: UUID? = null,
     val itens: List<EncomendaItem>,
 )
 

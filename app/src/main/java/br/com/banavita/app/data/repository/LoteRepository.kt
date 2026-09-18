@@ -15,6 +15,8 @@ import br.com.banavita.app.data.local.entity.LoteEntity
 import br.com.banavita.app.data.local.entity.PerdaEntity
 import br.com.banavita.app.data.local.entity.PrecoQueimaEntity
 import br.com.banavita.app.data.mapper.toDomain
+import br.com.banavita.app.domain.model.DocumentoItemInput
+import br.com.banavita.app.domain.model.Encomenda
 import br.com.banavita.app.domain.exception.InsufficientStockException
 import br.com.banavita.app.domain.exception.InvalidDocumentException
 import br.com.banavita.app.domain.exception.ReferencedEntityException
@@ -32,8 +34,10 @@ import br.com.banavita.app.domain.model.PeriodoPreset
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
@@ -408,6 +412,93 @@ class LoteRepository @Inject constructor(
             )
         }.sortedWith(compareBy({ it.descricao.lowercase() }, { it.estado.ordinal }))
     }
+
+    suspend fun analisarConflitosFuturos(
+        itensVenda: List<DocumentoItemInput>,
+        encomendaRepository: EncomendaRepository,
+    ): String? {
+        val produtosAfetados = itensVenda.map { it.produtoId }.distinct()
+
+        for (produtoId in produtosAfetados) {
+            val produto = produtoDao.get().getById(produtoId)?.toDomain() ?: continue
+            val todosLotes = loteDao.get().listByProduto(produtoId)
+            val todasEncomendas = encomendaRepository.getAbertasDoProduto(produtoId)
+
+            if (todasEncomendas.isEmpty()) continue
+
+            // 1. Setup lotes simulados
+            data class LoteSim(
+                val id: UUID,
+                var qtde: Double,
+                val estado: MaturacaoEstado,
+                val camara: Camara,
+                val etapaInicio: Long?,
+                val dataEntrada: Long,
+                val createdAt: Long,
+            )
+
+            val simLotes = todosLotes.map {
+                LoteSim(
+                    id = it.id,
+                    qtde = it.quantidadeRestante,
+                    estado = MaturacaoEstado.valueOf(it.estado),
+                    camara = Camara.valueOf(it.camara),
+                    etapaInicio = it.etapaInicioEpochDay,
+                    dataEntrada = it.dataEntrada,
+                    createdAt = it.createdAt,
+                )
+            }.toMutableList()
+
+            // 2. Aplicar a venda atual (FIFO)
+            for (item in itensVenda.filter { it.produtoId == produtoId }) {
+                var restante = item.quantidade
+                val estadoItem = item.estado ?: continue
+                val comp = compareBy<LoteSim>({ if (it.camara == Camara.ETILENO) 0 else 1 }, { it.dataEntrada }, { it.createdAt })
+                val validos = simLotes.filter { it.estado == estadoItem && it.qtde > 1e-9 }.sortedWith(comp)
+                for (ls in validos) {
+                    if (restante <= 1e-12) break
+                    val consume = min(ls.qtde, restante)
+                    ls.qtde -= consume
+                    restante -= consume
+                }
+            }
+
+            // 3. Simular atendimento de encomendas futuras por data
+            val encSorted = todasEncomendas.sortedBy { it.dataEntrega }
+            for (enc in encSorted) {
+                val targetDay = RipeningClock.todayEpochDay(enc.dataEntrega)
+                for (itemEnc in enc.itens.filter { it.produtoId == produtoId }) {
+                    var falta = itemEnc.quantidade
+                    // Quais lotes simulados estarão no estado itemEnc.estado no dia targetDay?
+                    val comp = compareBy<LoteSim>({ if (it.camara == Camara.ETILENO) 0 else 1 }, { it.dataEntrada }, { it.createdAt })
+                    val disponiveisNaData = simLotes.filter { it.qtde > 1e-9 }.filter { ls ->
+                        val estadoFuturo = RipeningClock.estadoEm(ls.camara, ls.estado, ls.etapaInicio, produto.curva, targetDay)
+                        estadoFuturo == itemEnc.estado
+                    }.sortedWith(comp)
+
+                    for (ls in disponiveisNaData) {
+                        if (falta <= 1e-12) break
+                        val consume = min(ls.qtde, falta)
+                        ls.qtde -= consume
+                        falta -= consume
+                    }
+
+                    if (falta > 1e-9) {
+                        return "A venda atual compromete a encomenda marcada para ${formatarDataParaAviso(enc.dataEntrega)}. Faltarão ${formatarQtdeParaAviso(falta)} ${produto.unidade} de ${produto.descricao} (${itemEnc.estado.name}) para suprir o fluxo de maturação."
+                    }
+                }
+            }
+        }
+        return null
+    }
+
+    private fun formatarDataParaAviso(millis: Long): String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM").withZone(ZoneId.systemDefault())
+        return formatter.format(Instant.ofEpochMilli(millis))
+    }
+
+    private fun formatarQtdeParaAviso(v: Double): String =
+        if (v % 1.0 == 0.0) v.toLong().toString() else String.format(Locale.getDefault(), "%.1f", v)
 
     suspend fun preverSaldoNaData(produtoId: UUID, estado: MaturacaoEstado, targetMillis: Long): Double {
         val targetEpochDay = RipeningClock.todayEpochDay(targetMillis)

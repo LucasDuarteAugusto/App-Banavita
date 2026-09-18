@@ -17,6 +17,7 @@ import br.com.banavita.app.domain.model.EncomendaStatus
 import br.com.banavita.app.domain.model.MaturacaoEstado
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Provider
@@ -27,8 +28,10 @@ class EncomendaRepository @Inject constructor(
     private val database: Provider<BanavitaDatabase>,
     private val encomendaDao: Provider<EncomendaDao>,
     private val clienteDao: Provider<ClienteDao>,
+    private val produtoDao: Provider<br.com.banavita.app.data.local.dao.ProdutoDao>,
     private val loteRepository: LoteRepository,
     private val vendaRepository: VendaRepository,
+    private val eventoRepository: Provider<EventoRepository>,
 ) {
     fun observeAll(): Flow<List<Encomenda>> =
         encomendaDao.get().observeAllWithItems().map { list -> list.map { it.toDomain() } }
@@ -40,6 +43,8 @@ class EncomendaRepository @Inject constructor(
         clienteId: UUID,
         dataEntrega: Long,
         itens: List<DocumentoItemInput>,
+        notificar: Boolean = false,
+        antecipacaoMinutos: Int? = null,
     ): UUID {
         if (clienteDao.get().getById(clienteId) == null) {
             throw ReferencedEntityException("Cliente $clienteId não encontrado.")
@@ -63,20 +68,27 @@ class EncomendaRepository @Inject constructor(
                 produtoId = input.produtoId,
                 estado = estado.name,
                 quantidade = input.quantidade,
+                valorUnitarioCentavos = input.valorUnitarioCentavos,
             )
         }
-        encomendaDao.get().insertComItens(
-            EncomendaEntity(
-                id = id,
-                createdAt = timestamp,
-                updatedAt = timestamp,
-                clienteId = clienteId,
-                dataEntrega = dataEntrega,
-                status = EncomendaStatus.ABERTO.name,
-                vendaId = null,
-            ),
-            itemEntities,
-        )
+
+        val eventoId = gerarEventoDaEncomenda(clienteId, dataEntrega, itens, notificar, antecipacaoMinutos)
+
+        database.get().withTransaction {
+            encomendaDao.get().insertComItens(
+                EncomendaEntity(
+                    id = id,
+                    createdAt = timestamp,
+                    updatedAt = timestamp,
+                    clienteId = clienteId,
+                    dataEntrega = dataEntrega,
+                    status = EncomendaStatus.ABERTO.name,
+                    vendaId = null,
+                    eventoId = eventoId,
+                ),
+                itemEntities,
+            )
+        }
         return id
     }
 
@@ -85,6 +97,8 @@ class EncomendaRepository @Inject constructor(
         clienteId: UUID,
         dataEntrega: Long,
         itens: List<DocumentoItemInput>,
+        notificar: Boolean = false,
+        antecipacaoMinutos: Int? = null,
     ) {
         val existing = encomendaDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Encomenda $id não encontrada.")
@@ -107,17 +121,75 @@ class EncomendaRepository @Inject constructor(
                     produtoId = input.produtoId,
                     estado = estado.name,
                     quantidade = input.quantidade,
+                    valorUnitarioCentavos = input.valorUnitarioCentavos,
                 )
             }
+
+            val eventoId = gerarEventoDaEncomenda(
+                clienteId, 
+                dataEntrega, 
+                itens, 
+                notificar, 
+                antecipacaoMinutos, 
+                existing.encomenda.eventoId
+            )
+
             encomendaDao.get().deleteItens(id)
             encomendaDao.get().update(
                 existing.encomenda.copy(
                     clienteId = clienteId,
                     dataEntrega = dataEntrega,
                     updatedAt = timestamp,
+                    eventoId = eventoId,
                 ),
             )
             encomendaDao.get().insertItens(itemEntities)
+        }
+    }
+
+    private suspend fun gerarEventoDaEncomenda(
+        clienteId: UUID,
+        dataEntrega: Long,
+        itens: List<DocumentoItemInput>,
+        notificar: Boolean,
+        antecipacaoMinutos: Int?,
+        existingEventoId: UUID? = null
+    ): UUID {
+        val cliente = clienteDao.get().getById(clienteId)
+        val titulo = "Encomenda - ${cliente?.nome ?: "Cliente"}"
+        val lines = mutableListOf<String>()
+        for (input in itens) {
+            val p = produtoDao.get().getById(input.produtoId)
+            lines += "${p?.descricao ?: "Produto"} - ${input.estado?.name ?: ""}: ${input.quantidade} ${p?.unidade ?: ""}"
+        }
+        val obs = lines.joinToString("\n")
+        
+        return if (existingEventoId == null) {
+            eventoRepository.get().create(
+                titulo = titulo,
+                dataHora = dataEntrega,
+                observacao = obs,
+                clienteId = clienteId,
+                fornecedorId = null,
+                notificar = notificar,
+                antecipacaoMinutos = antecipacaoMinutos,
+                notifTitulo = titulo,
+                notifCorpo = obs
+            )
+        } else {
+            eventoRepository.get().update(
+                id = existingEventoId,
+                titulo = titulo,
+                dataHora = dataEntrega,
+                observacao = obs,
+                clienteId = clienteId,
+                fornecedorId = null,
+                notificar = notificar,
+                antecipacaoMinutos = antecipacaoMinutos,
+                notifTitulo = titulo,
+                notifCorpo = obs
+            )
+            existingEventoId
         }
     }
 
@@ -126,7 +198,10 @@ class EncomendaRepository @Inject constructor(
         if (existing.encomenda.status != EncomendaStatus.ABERTO.name) {
             throw InvalidDocumentException("Encomenda já atendida não pode ser excluída.")
         }
-        encomendaDao.get().delete(id)
+        database.get().withTransaction {
+            existing.encomenda.eventoId?.let { eventoRepository.get().delete(it) }
+            encomendaDao.get().delete(id)
+        }
     }
 
     /**
@@ -158,6 +233,7 @@ class EncomendaRepository @Inject constructor(
                     produtoId = item.produtoId,
                     quantidade = quantidade,
                     estado = estado,
+                    valorUnitarioCentavos = item.valorUnitarioCentavos,
                 )
             }
         }
@@ -182,6 +258,13 @@ class EncomendaRepository @Inject constructor(
 
     suspend fun obterTotalEncomendadoAberto(produtoId: UUID, estado: MaturacaoEstado): Double =
         encomendaDao.get().totalAbertoPorProdutoEstado(produtoId, estado.name)
+
+    suspend fun getAbertasDoProduto(produtoId: UUID): List<Encomenda> =
+        encomendaDao.get().observeAllWithItems().map { list -> 
+            list.map { it.toDomain() }
+                .filter { it.status == EncomendaStatus.ABERTO }
+                .filter { it.itens.any { item -> item.produtoId == produtoId } }
+        }.first()
 }
 
 fun EncomendaWithItems.toDomain(): Encomenda =
@@ -193,6 +276,7 @@ fun EncomendaWithItems.toDomain(): Encomenda =
         dataEntrega = encomenda.dataEntrega,
         status = EncomendaStatus.valueOf(encomenda.status),
         vendaId = encomenda.vendaId,
+        eventoId = encomenda.eventoId,
         itens = itens.map { item ->
             br.com.banavita.app.domain.model.EncomendaItem(
                 id = item.id,
@@ -200,6 +284,7 @@ fun EncomendaWithItems.toDomain(): Encomenda =
                 produtoId = item.produtoId,
                 estado = MaturacaoEstado.valueOf(item.estado),
                 quantidade = item.quantidade,
+                valorUnitarioCentavos = item.valorUnitarioCentavos,
             )
         },
     )

@@ -42,7 +42,7 @@ sealed class HomeNavEvent {
         val monthOverviewHint: Boolean = false,
     ) : HomeNavEvent()
     data class Evento(val eventoId: UUID) : HomeNavEvent()
-    data class EstoqueDetalhe(val produtoId: UUID) : HomeNavEvent()
+    data class EstoqueDetalhe(val produtoId: UUID, val somenteCriticos: Boolean = false) : HomeNavEvent()
     data class ReceberDetalhe(val clienteId: UUID) : HomeNavEvent()
     data class PagarDetalhe(val fornecedorId: UUID) : HomeNavEvent()
     data object FilaEtileno : HomeNavEvent()

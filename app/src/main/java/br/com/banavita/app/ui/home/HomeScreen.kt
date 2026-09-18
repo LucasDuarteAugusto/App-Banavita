@@ -52,7 +52,6 @@ fun HomeRoute(
     HomeScreen(
         uiState = uiState,
         onConsultasClick = { modo -> onNavEvent(HomeNavEvent.Consultas(modo)) },
-        onVoiceResult = viewModel::applyVoice,
         onPereciveisClick = viewModel::onPereciveisClick,
         onEncomendasClick = viewModel::onEncomendasClick,
         onQueimaClick = viewModel::onQueimaClick,
@@ -67,7 +66,6 @@ fun HomeRoute(
 fun HomeScreen(
     uiState: HomeUiState,
     onConsultasClick: (ConsultaModo) -> Unit,
-    onVoiceResult: (ConfirmResult) -> Unit,
     onPereciveisClick: () -> Unit,
     onEncomendasClick: () -> Unit,
     onQueimaClick: () -> Unit,
@@ -76,106 +74,77 @@ fun HomeScreen(
     onDismissQueima: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    VoiceEnabledScreen(
-        modifier = modifier,
-        voiceContext = VoiceScreenContext.INICIO,
-        addContentDescription = "",
-        showAddFab = false,
-        onAddClick = {},
-        onVoiceSuccess = onVoiceResult,
-    ) { contentModifier ->
-        if (uiState.showQueimaDialog) {
-            QueimaPrecoDialog(
-                precoInput = uiState.queimaPrecoInput,
-                onPrecoChange = onQueimaPreco,
-                onConfirm = onConfirmQueima,
-                onDismiss = onDismissQueima,
-                errorMessage = uiState.queimaError,
-            )
-        }
-        Column(
-            modifier = contentModifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(VoiceListContentPadding)
-                .padding(horizontal = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.home_welcome),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Text(
-                text = stringResource(R.string.home_subtitle),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_estoque_title),
-                description = if (uiState.zerados == 0) {
-                    stringResource(R.string.home_card_estoque_ok)
-                } else {
-                    stringResource(R.string.home_card_estoque_zerados, uiState.zerados)
-                },
-                icon = BanavitaIcons.Inventory,
-                onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
-            )
-            PereciveisCard(
-                uiState = uiState,
-                onClick = onPereciveisClick,
-                onQueimaClick = onQueimaClick,
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_encomendas_title),
-                description = if (uiState.encomendasAbertasSemana == 0) {
-                    stringResource(R.string.home_card_encomendas_empty)
-                } else {
-                    stringResource(R.string.home_card_encomendas_count, uiState.encomendasAbertasSemana)
-                },
-                icon = BanavitaIcons.Event,
-                onClick = onEncomendasClick,
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_vendas_title),
-                description = if (uiState.vendasHojeCentavos == 0L) {
-                    stringResource(R.string.home_card_vendas_empty)
-                } else {
-                    formatCurrency(uiState.vendasHojeCentavos)
-                },
-                icon = BanavitaIcons.Store,
-                onClick = { onConsultasClick(ConsultaModo.VENDAS) },
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_compras_title),
-                description = if (uiState.comprasHojeCentavos == 0L) {
-                    stringResource(R.string.home_card_compras_empty)
-                } else {
-                    formatCurrency(uiState.comprasHojeCentavos)
-                },
-                icon = BanavitaIcons.Inventory,
-                onClick = { onConsultasClick(ConsultaModo.COMPRAS) },
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_receber_title),
-                description = if (uiState.receberCentavos == 0L) {
-                    stringResource(R.string.consultas_receber_empty)
-                } else {
-                    formatCurrency(uiState.receberCentavos)
-                },
-                icon = BanavitaIcons.Payments,
-                onClick = { onConsultasClick(ConsultaModo.RECEBER) },
-            )
-            ShortcutCard(
-                title = stringResource(R.string.home_card_pagar_title),
-                description = if (uiState.pagarCentavos == 0L) {
-                    stringResource(R.string.consultas_pagar_empty)
-                } else {
-                    formatCurrency(uiState.pagarCentavos)
-                },
-                icon = BanavitaIcons.Payments,
-                onClick = { onConsultasClick(ConsultaModo.PAGAR) },
-            )
-        }
+    if (uiState.showQueimaDialog) {
+        QueimaPrecoDialog(
+            precoInput = uiState.queimaPrecoInput,
+            onPrecoChange = onQueimaPreco,
+            onConfirm = onConfirmQueima,
+            onDismiss = onDismissQueima,
+            errorMessage = uiState.queimaError,
+        )
+    }
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.home_welcome),
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Text(
+            text = stringResource(R.string.home_subtitle),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        ShortcutCard(
+            title = stringResource(R.string.home_card_estoque_title),
+            description = if (uiState.zerados == 0) {
+                stringResource(R.string.home_card_estoque_ok)
+            } else {
+                stringResource(R.string.home_card_estoque_zerados, uiState.zerados)
+            },
+            icon = BanavitaIcons.Inventory,
+            onClick = { onConsultasClick(ConsultaModo.ESTOQUE) },
+        )
+        PereciveisCard(
+            uiState = uiState,
+            onClick = onPereciveisClick,
+            onQueimaClick = onQueimaClick,
+        )
+        ShortcutCard(
+            title = stringResource(R.string.home_card_encomendas_title),
+            description = if (uiState.encomendasAbertasSemana == 0) {
+                stringResource(R.string.home_card_encomendas_empty)
+            } else {
+                stringResource(R.string.home_card_encomendas_count, uiState.encomendasAbertasSemana)
+            },
+            icon = BanavitaIcons.Event,
+            onClick = onEncomendasClick,
+        )
+        ShortcutCard(
+            title = stringResource(R.string.home_card_receber_title),
+            description = if (uiState.receberCentavos == 0L) {
+                stringResource(R.string.consultas_receber_empty)
+            } else {
+                formatCurrency(uiState.receberCentavos)
+            },
+            icon = BanavitaIcons.Payments,
+            onClick = { onConsultasClick(ConsultaModo.RECEBER) },
+        )
+        ShortcutCard(
+            title = stringResource(R.string.home_card_pagar_title),
+            description = if (uiState.pagarCentavos == 0L) {
+                stringResource(R.string.consultas_pagar_empty)
+            } else {
+                formatCurrency(uiState.pagarCentavos)
+            },
+            icon = BanavitaIcons.Payments,
+            onClick = { onConsultasClick(ConsultaModo.PAGAR) },
+        )
     }
 }
 

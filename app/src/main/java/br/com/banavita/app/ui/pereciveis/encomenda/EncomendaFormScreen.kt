@@ -1,6 +1,12 @@
 package br.com.banavita.app.ui.pereciveis.encomenda
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,16 +15,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.EncomendaStatus
@@ -38,6 +48,13 @@ fun EncomendaFormRoute(
     viewModel: EncomendaFormViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) {
+        viewModel.save(onDone)
+    }
+
     if (uiState.showDeleteDialog) {
         DeleteConfirmDialog(
             title = stringResource(R.string.encomenda_delete_title),
@@ -61,18 +78,35 @@ fun EncomendaFormRoute(
         FormLoadingState(modifier = modifier)
         return
     }
+
+    val save: () -> Unit = {
+        val needsPermission = uiState.notificar &&
+            Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        if (needsPermission) {
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            viewModel.save(onDone)
+        }
+    }
+
     EncomendaFormScreen(
         uiState = uiState,
         modifier = modifier,
         onDataChange = viewModel::onDataChange,
+        onHoraChange = viewModel::onHoraChange,
         onClienteSelected = viewModel::onClienteSelected,
         onAPrazoChange = viewModel::onAPrazoChange,
+        onNotificarChange = viewModel::onNotificarChange,
+        onAntecipacaoChange = viewModel::onAntecipacaoChange,
         onProdutoSelected = viewModel::onProdutoSelected,
         onEstadoSelected = viewModel::onEstadoSelected,
         onQuantidadeChange = viewModel::onQuantidadeChange,
+        onPrecoChange = viewModel::onPrecoChange,
         onAddItem = viewModel::onAddItem,
         onRemoveItem = viewModel::onRemoveItem,
-        onSave = { viewModel.save(onDone) },
+        onSave = save,
         onDelete = viewModel::onDeleteClick,
         onAtender = { viewModel.atender(onDone) },
     )
@@ -82,11 +116,15 @@ fun EncomendaFormRoute(
 fun EncomendaFormScreen(
     uiState: EncomendaFormUiState,
     onDataChange: (String) -> Unit,
+    onHoraChange: (String) -> Unit,
     onClienteSelected: (UUID?) -> Unit,
     onAPrazoChange: (Boolean) -> Unit,
+    onNotificarChange: (Boolean) -> Unit,
+    onAntecipacaoChange: (Int?) -> Unit,
     onProdutoSelected: (Int, UUID?) -> Unit,
     onEstadoSelected: (Int, MaturacaoEstado?) -> Unit,
     onQuantidadeChange: (Int, String) -> Unit,
+    onPrecoChange: (Int, String) -> Unit,
     onAddItem: () -> Unit,
     onRemoveItem: (Int) -> Unit,
     onSave: () -> Unit,
@@ -118,6 +156,63 @@ fun EncomendaFormScreen(
             enabled = aberto && !uiState.isSaving,
             label = stringResource(R.string.encomenda_data_entrega),
         )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiState.horaInput,
+            onValueChange = onHoraChange,
+            label = { Text(stringResource(R.string.agenda_form_hora)) },
+            singleLine = true,
+            enabled = aberto && !uiState.isSaving,
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = "Lembrete:", style = MaterialTheme.typography.bodyLarge)
+            FilterChip(
+                selected = uiState.notificar,
+                onClick = { onNotificarChange(true) },
+                label = { Text(stringResource(R.string.agenda_notif_on)) },
+                enabled = aberto && !uiState.isSaving,
+            )
+            FilterChip(
+                selected = !uiState.notificar,
+                onClick = { onNotificarChange(false) },
+                label = { Text(stringResource(R.string.agenda_notif_off)) },
+                enabled = aberto && !uiState.isSaving,
+            )
+        }
+        if (uiState.notificar) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = uiState.antecipacaoMinutos == null,
+                    onClick = { onAntecipacaoChange(null) },
+                    label = { Text(stringResource(R.string.agenda_antecipacao_hora)) },
+                    enabled = aberto && !uiState.isSaving,
+                )
+                FilterChip(
+                    selected = uiState.antecipacaoMinutos == 15,
+                    onClick = { onAntecipacaoChange(15) },
+                    label = { Text(stringResource(R.string.agenda_antecipacao_15)) },
+                    enabled = aberto && !uiState.isSaving,
+                )
+                FilterChip(
+                    selected = uiState.antecipacaoMinutos == 60,
+                    onClick = { onAntecipacaoChange(60) },
+                    label = { Text(stringResource(R.string.agenda_antecipacao_1h)) },
+                    enabled = aberto && !uiState.isSaving,
+                )
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilterChip(
+                    selected = uiState.antecipacaoMinutos == 1440,
+                    onClick = { onAntecipacaoChange(1440) },
+                    label = { Text(stringResource(R.string.agenda_antecipacao_1d)) },
+                    enabled = aberto && !uiState.isSaving,
+                )
+            }
+        }
         SearchableEntityDropdown(
             label = stringResource(R.string.form_cliente),
             options = uiState.clientes.map { it.id to it.nome },
@@ -152,7 +247,7 @@ fun EncomendaFormScreen(
                 canRemove = aberto && uiState.itens.size > 1,
                 onProdutoSelected = { onProdutoSelected(index, it) },
                 onQuantidadeChange = { onQuantidadeChange(index, it) },
-                onPrecoChange = {},
+                onPrecoChange = { onPrecoChange(index, it) },
                 onRemove = { onRemoveItem(index) },
                 onEstadoSelected = { onEstadoSelected(index, it) },
             )

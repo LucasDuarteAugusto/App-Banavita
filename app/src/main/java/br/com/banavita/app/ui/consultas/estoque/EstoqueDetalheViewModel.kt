@@ -48,6 +48,7 @@ data class EstoqueDetalheUiState(
     val estadosResumo: List<EstoqueEstadoResumoUi> = emptyList(),
     val movimentos: List<EstoqueMovimento> = emptyList(),
     val isLoading: Boolean = true,
+    val somenteCriticos: Boolean = false,
     val errorMessage: String? = null,
     val transferLoteId: UUID? = null,
     val transferQtyInput: String = "",
@@ -69,7 +70,9 @@ class EstoqueDetalheViewModel @Inject constructor(
     private val produtoId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_PRODUTO_ID)
         ?.let(UUID::fromString)
 
-    private val _uiState = MutableStateFlow(EstoqueDetalheUiState(produtoId = produtoId))
+    private val somenteCriticos: Boolean = savedStateHandle.get<String>(BanavitaRoutes.ARG_CRITICOS) == "1"
+
+    private val _uiState = MutableStateFlow(EstoqueDetalheUiState(produtoId = produtoId, somenteCriticos = somenteCriticos))
     val uiState: StateFlow<EstoqueDetalheUiState> = _uiState.asStateFlow()
 
     private var produto: Produto? = null
@@ -90,6 +93,8 @@ class EstoqueDetalheViewModel @Inject constructor(
         val unidade = atual?.unidade ?: "UN"
         val today = RipeningClock.todayEpochDay()
         val lotesValidos = lotes.filter { it.quantidadeRestante > 1e-9 }
+            .filter { if (somenteCriticos) it.estado == MaturacaoEstado.PINTADA || it.estado == MaturacaoEstado.PODRE else true }
+        
         val loteUi = lotesValidos
             .map { lote ->
                 val snap = if (lote.camara == Camara.ETILENO && atual != null) {
@@ -125,7 +130,7 @@ class EstoqueDetalheViewModel @Inject constructor(
                 descricao = atual?.descricao.orEmpty(),
                 unidade = unidade,
                 perecivel = atual?.perecivel == true,
-                saldoFormatado = formatQuantity(estoqueRepository.getSaldo(id), unidade),
+                saldoFormatado = formatQuantity(lotesValidos.sumOf { it.quantidadeRestante }, unidade),
                 lotes = loteUi,
                 estadosResumo = estadosResumo,
                 movimentos = estoqueRepository.movimentosDoProduto(id),
