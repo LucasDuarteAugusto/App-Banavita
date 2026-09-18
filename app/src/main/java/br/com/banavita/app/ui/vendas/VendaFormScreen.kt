@@ -49,6 +49,17 @@ fun VendaFormRoute(
         )
     }
 
+    if (uiState.showConflitoEncomendaDialog) {
+        DeleteConfirmDialog(
+            title = "Aviso de Encomenda",
+            message = uiState.conflitoMessage,
+            isDeleting = uiState.isSaving,
+            confirmLabel = "Vender assim mesmo",
+            onConfirm = { viewModel.save(onDone, forcar = true) },
+            onDismiss = viewModel::onDismissConflitoDialog,
+        )
+    }
+
     if (uiState.isLoading) {
         FormLoadingState(modifier = modifier)
         return

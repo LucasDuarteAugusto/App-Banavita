@@ -50,6 +50,7 @@ class EncomendaFormViewModel @Inject constructor(
     private val encomendaRepository: EncomendaRepository,
     private val clienteRepository: ClienteRepository,
     private val produtoRepository: ProdutoRepository,
+    private val loteRepository: br.com.banavita.app.data.repository.LoteRepository,
 ) : ViewModel() {
 
     private val encomendaId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_ENCOMENDA_ID)
@@ -103,6 +104,7 @@ class EncomendaFormViewModel @Inject constructor(
                             isLoading = false,
                         )
                     }
+                    refreshPredictions()
                 }
                 .onFailure { error ->
                     _uiState.update {
@@ -112,8 +114,24 @@ class EncomendaFormViewModel @Inject constructor(
         }
     }
 
+    private fun refreshPredictions() {
+        val targetMillis = DateInputParser.parseToEpochMillis(_uiState.value.dataInput) ?: return
+        viewModelScope.launch {
+            val updatedItens = _uiState.value.itens.map { item ->
+                if (item.produtoId != null && item.estado != null) {
+                    val pred = loteRepository.preverSaldoNaData(item.produtoId, item.estado, targetMillis)
+                    item.copy(estoqueDisponivel = pred)
+                } else {
+                    item
+                }
+            }
+            _uiState.update { it.copy(itens = updatedItens) }
+        }
+    }
+
     fun onDataChange(value: String) {
         _uiState.update { it.copy(dataInput = value, errorMessage = null) }
+        refreshPredictions()
     }
 
     fun onClienteSelected(clienteId: UUID?) {
@@ -127,6 +145,7 @@ class EncomendaFormViewModel @Inject constructor(
                 errorMessage = null,
             )
         }
+        refreshPredictions()
     }
 
     fun onAPrazoChange(value: Boolean) {
@@ -136,10 +155,12 @@ class EncomendaFormViewModel @Inject constructor(
     fun onProdutoSelected(index: Int, produtoId: UUID?) {
         val ponto = _uiState.value.clientes.find { it.id == _uiState.value.clienteId }?.pontoPreferido
         updateItem(index) { it.copy(produtoId = produtoId, estado = ponto) }
+        refreshPredictions()
     }
 
     fun onEstadoSelected(index: Int, estado: MaturacaoEstado?) {
         updateItem(index) { it.copy(estado = estado) }
+        refreshPredictions()
     }
 
     fun onQuantidadeChange(index: Int, value: String) {

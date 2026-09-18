@@ -1164,9 +1164,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt": {
-    "mtime": 1789737537.8599985,
-    "seen": 1789738723.6092067,
-    "ast_hash": "17f889b06f99c2dc5589867cfb0fe034",
+    "mtime": 1789741281.7503626,
+    "seen": 1789741511.1174834,
+    "ast_hash": "b8ce3854d5d433732c900b34f7f33eb3",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasUiState.kt": {
@@ -1236,9 +1236,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/shell/MainAppShell.kt": {
-    "mtime": 1789738548.8717353,
-    "seen": 1789738723.6092358,
-    "ast_hash": "6394bd66b3de58e26c0942ce220c0ff3",
+    "mtime": 1789741249.296407,
+    "seen": 1789741511.1175113,
+    "ast_hash": "7cacfe948eba5693c48178983be26ade",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/theme/Color.kt": {
@@ -2322,9 +2322,9 @@
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1788806129.5041726,
-    "seen": 1789234284.0315518,
-    "ast_hash": "198842622b3c765495901191e974d163",
+    "mtime": 1789741089.7018547,
+    "seen": 1789741511.1175923,
+    "ast_hash": "960308f252d699ef1753993f6a5051d1",
     "semantic_hash": ""
   },
   "GEMINI.md": {
@@ -2595,6 +2595,12 @@
     "mtime": 1789687228.2928185,
     "seen": 1789738723.6094875,
     "ast_hash": "e88c4426c518b3c60365cde127ac724e",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-18-simplificacao-telas-consultas.md": {
+    "mtime": 1789741316.719692,
+    "seen": 1789741511.1176617,
+    "ast_hash": "80ca91ab1b64e4eae90e1473c76eeb26",
     "semantic_hash": ""
   }
 }

@@ -2,6 +2,7 @@ package br.com.banavita.app.ui.vendas;
 
 import androidx.lifecycle.SavedStateHandle;
 import br.com.banavita.app.data.repository.ClienteRepository;
+import br.com.banavita.app.data.repository.EncomendaRepository;
 import br.com.banavita.app.data.repository.EstoqueRepository;
 import br.com.banavita.app.data.repository.LoteRepository;
 import br.com.banavita.app.data.repository.ProdutoRepository;
@@ -41,23 +42,27 @@ public final class VendaFormViewModel_Factory implements Factory<VendaFormViewMo
 
   private final Provider<LoteRepository> loteRepositoryProvider;
 
+  private final Provider<EncomendaRepository> encomendaRepositoryProvider;
+
   public VendaFormViewModel_Factory(Provider<SavedStateHandle> savedStateHandleProvider,
       Provider<VendaRepository> vendaRepositoryProvider,
       Provider<ClienteRepository> clienteRepositoryProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
       Provider<EstoqueRepository> estoqueRepositoryProvider,
-      Provider<LoteRepository> loteRepositoryProvider) {
+      Provider<LoteRepository> loteRepositoryProvider,
+      Provider<EncomendaRepository> encomendaRepositoryProvider) {
     this.savedStateHandleProvider = savedStateHandleProvider;
     this.vendaRepositoryProvider = vendaRepositoryProvider;
     this.clienteRepositoryProvider = clienteRepositoryProvider;
     this.produtoRepositoryProvider = produtoRepositoryProvider;
     this.estoqueRepositoryProvider = estoqueRepositoryProvider;
     this.loteRepositoryProvider = loteRepositoryProvider;
+    this.encomendaRepositoryProvider = encomendaRepositoryProvider;
   }
 
   @Override
   public VendaFormViewModel get() {
-    return newInstance(savedStateHandleProvider.get(), vendaRepositoryProvider.get(), clienteRepositoryProvider.get(), produtoRepositoryProvider.get(), estoqueRepositoryProvider.get(), loteRepositoryProvider.get());
+    return newInstance(savedStateHandleProvider.get(), vendaRepositoryProvider.get(), clienteRepositoryProvider.get(), produtoRepositoryProvider.get(), estoqueRepositoryProvider.get(), loteRepositoryProvider.get(), encomendaRepositoryProvider.get());
   }
 
   public static VendaFormViewModel_Factory create(
@@ -66,14 +71,15 @@ public final class VendaFormViewModel_Factory implements Factory<VendaFormViewMo
       Provider<ClienteRepository> clienteRepositoryProvider,
       Provider<ProdutoRepository> produtoRepositoryProvider,
       Provider<EstoqueRepository> estoqueRepositoryProvider,
-      Provider<LoteRepository> loteRepositoryProvider) {
-    return new VendaFormViewModel_Factory(savedStateHandleProvider, vendaRepositoryProvider, clienteRepositoryProvider, produtoRepositoryProvider, estoqueRepositoryProvider, loteRepositoryProvider);
+      Provider<LoteRepository> loteRepositoryProvider,
+      Provider<EncomendaRepository> encomendaRepositoryProvider) {
+    return new VendaFormViewModel_Factory(savedStateHandleProvider, vendaRepositoryProvider, clienteRepositoryProvider, produtoRepositoryProvider, estoqueRepositoryProvider, loteRepositoryProvider, encomendaRepositoryProvider);
   }
 
   public static VendaFormViewModel newInstance(SavedStateHandle savedStateHandle,
       VendaRepository vendaRepository, ClienteRepository clienteRepository,
       ProdutoRepository produtoRepository, EstoqueRepository estoqueRepository,
-      LoteRepository loteRepository) {
-    return new VendaFormViewModel(savedStateHandle, vendaRepository, clienteRepository, produtoRepository, estoqueRepository, loteRepository);
+      LoteRepository loteRepository, EncomendaRepository encomendaRepository) {
+    return new VendaFormViewModel(savedStateHandle, vendaRepository, clienteRepository, produtoRepository, estoqueRepository, loteRepository, encomendaRepository);
   }
 }

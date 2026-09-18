@@ -18,6 +18,8 @@ data class VendaFormUiState(
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,
     val showDeleteDialog: Boolean = false,
+    val showConflitoEncomendaDialog: Boolean = false,
+    val conflitoMessage: String = "",
     val isEditMode: Boolean = false,
     val errorMessage: String? = null,
 ) {

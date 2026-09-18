@@ -147,7 +147,7 @@ fun EncomendaFormScreen(
                 item = item,
                 produtos = uiState.produtos,
                 precoObrigatorio = false,
-                showEstoque = false,
+                showEstoque = true,
                 enabled = aberto && !uiState.isSaving,
                 canRemove = aberto && uiState.itens.size > 1,
                 onProdutoSelected = { onProdutoSelected(index, it) },

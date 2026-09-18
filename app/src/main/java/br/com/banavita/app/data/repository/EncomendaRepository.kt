@@ -179,6 +179,9 @@ class EncomendaRepository @Inject constructor(
         )
         return vendaId
     }
+
+    suspend fun obterTotalEncomendadoAberto(produtoId: UUID, estado: MaturacaoEstado): Double =
+        encomendaDao.get().totalAbertoPorProdutoEstado(produtoId, estado.name)
 }
 
 fun EncomendaWithItems.toDomain(): Encomenda =

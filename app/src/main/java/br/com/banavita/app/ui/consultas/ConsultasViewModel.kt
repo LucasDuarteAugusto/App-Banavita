@@ -246,7 +246,12 @@ class ConsultasViewModel @Inject constructor(
                 return@mapNotNull null
             }
 
-            val totalSaldo = linhasDoProduto.sumOf { it.quantidade }
+            val totalSaldo = if (current.somenteCriticos) {
+                linhasDoProduto.filter { it.estado == MaturacaoEstado.PINTADA || it.estado == MaturacaoEstado.PODRE }
+                    .sumOf { it.quantidade }
+            } else {
+                linhasDoProduto.sumOf { it.quantidade }
+            }
             if (current.somenteZerados && totalSaldo > 1e-9) return@mapNotNull null
 
             val temCritico = linhasDoProduto.any { it.estado == MaturacaoEstado.PINTADA || it.estado == MaturacaoEstado.PODRE }

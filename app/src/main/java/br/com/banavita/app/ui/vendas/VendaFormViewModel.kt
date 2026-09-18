@@ -34,6 +34,7 @@ class VendaFormViewModel @Inject constructor(
     private val produtoRepository: ProdutoRepository,
     private val estoqueRepository: EstoqueRepository,
     private val loteRepository: LoteRepository,
+    private val encomendaRepository: br.com.banavita.app.data.repository.EncomendaRepository,
 ) : ViewModel() {
 
     private val vendaId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_VENDA_ID)
@@ -224,7 +225,11 @@ class VendaFormViewModel @Inject constructor(
         _uiState.update { it.copy(showDeleteDialog = false) }
     }
 
-    fun save(onSuccess: () -> Unit) {
+    fun onDismissConflitoDialog() {
+        _uiState.update { it.copy(showConflitoEncomendaDialog = false) }
+    }
+
+    fun save(onSuccess: () -> Unit, forcar: Boolean = false) {
         val state = _uiState.value
         val data = DateInputParser.parseToEpochMillis(state.dataInput)
         if (data == null) {
@@ -238,20 +243,46 @@ class VendaFormViewModel @Inject constructor(
             return
         }
 
+        if (!forcar) {
+            viewModelScope.launch {
+                var conflitoMsg: String? = null
+                for (input in inputsResult.inputs) {
+                    val produto = state.produtos.find { it.id == input.produtoId }
+                    if (produto?.perecivel == true && input.estado != null) {
+                        val disponivel = loteRepository.saldoPorEstado(input.produtoId, input.estado)
+                        val encomendado = encomendaRepository.obterTotalEncomendadoAberto(input.produtoId, input.estado)
+                        if (disponivel - input.quantidade < encomendado) {
+                            conflitoMsg = "A quantidade vendida compromete o estoque reservado para as encomendas em aberto de ${produto.descricao} (${input.estado.name}). Deseja vender mesmo assim?"
+                            break
+                        }
+                    }
+                }
+                if (conflitoMsg != null) {
+                    _uiState.update { it.copy(showConflitoEncomendaDialog = true, conflitoMessage = conflitoMsg) }
+                    return@launch
+                }
+                executarSalvar(data, inputsResult.inputs, state.clienteId, state.aPrazo, onSuccess)
+            }
+        } else {
+            executarSalvar(data, inputsResult.inputs, state.clienteId, state.aPrazo, onSuccess)
+        }
+    }
+
+    private fun executarSalvar(data: Long, inputs: List<DocumentoItemInput>, clienteId: UUID?, aPrazo: Boolean, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessage = null) }
+            _uiState.update { it.copy(isSaving = true, errorMessage = null, showConflitoEncomendaDialog = false) }
             runCatching {
                 if (vendaId == null) {
-                    vendaRepository.create(data, state.clienteId, inputsResult.inputs, state.aPrazo)
+                    vendaRepository.create(data, clienteId, inputs, aPrazo)
                 } else {
-                    vendaRepository.update(vendaId, data, state.clienteId, inputsResult.inputs)
+                    vendaRepository.update(vendaId, data, clienteId, inputs)
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }
                 onSuccess()
             }.onFailure { error ->
                 _uiState.update {
-                    it.copy(isSaving = false, errorMessage = mapError(error, state))
+                    it.copy(isSaving = false, errorMessage = mapError(error, _uiState.value))
                 }
             }
         }

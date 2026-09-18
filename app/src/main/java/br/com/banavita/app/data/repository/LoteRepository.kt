@@ -409,6 +409,31 @@ class LoteRepository @Inject constructor(
         }.sortedWith(compareBy({ it.descricao.lowercase() }, { it.estado.ordinal }))
     }
 
+    suspend fun preverSaldoNaData(produtoId: UUID, estado: MaturacaoEstado, targetMillis: Long): Double {
+        val targetEpochDay = RipeningClock.todayEpochDay(targetMillis)
+        val today = RipeningClock.todayEpochDay()
+        if (targetEpochDay <= today) {
+            return saldoPorEstado(produtoId, estado)
+        }
+        var total = 0.0
+        loteDao.get().listEtilenoAbertos().forEach { lote ->
+            if (lote.produtoId == produtoId) {
+                val produto = produtoDao.get().getById(lote.produtoId)?.toDomain() ?: return@forEach
+                val estadoFuturo = RipeningClock.estadoEm(
+                    Camara.ETILENO,
+                    MaturacaoEstado.valueOf(lote.estado),
+                    lote.etapaInicioEpochDay,
+                    produto.curva,
+                    targetEpochDay,
+                )
+                if (estadoFuturo == estado) {
+                    total += lote.quantidadeRestante
+                }
+            }
+        }
+        return total
+    }
+
     suspend fun resumoCriticos(): PerecivelCriticoResumo {
         avancarMaturacao()
         val linhas = loteDao.get().listLinhas().map { it.toDomain() }
