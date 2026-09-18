@@ -114,19 +114,6 @@ fun ConsultasScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
         ) {
-            if (uiState.filters.modo != ConsultaModo.ESTOQUE) {
-                ModeChips(selected = uiState.filters.modo, onModo = onModo)
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
-                    value = uiState.filters.busca,
-                    onValueChange = onBusca,
-                    singleLine = true,
-                    label = { Text(stringResource(R.string.consultas_busca)) },
-                )
-            }
-            
             when (uiState.filters.modo) {
                 ConsultaModo.VENDAS, ConsultaModo.COMPRAS -> {
                     PeriodoChips(selected = uiState.filters.periodo, onPeriodo = onPeriodo)
@@ -150,7 +137,6 @@ fun ConsultasScreen(
                     }
                 }
                 ConsultaModo.ESTOQUE -> {
-                    StockSummaryCard(uiState.totalValue)
                     Text(
                         text = "VARIEDADES DISPONÍVEIS",
                         style = MaterialTheme.typography.labelMedium,
@@ -159,15 +145,6 @@ fun ConsultasScreen(
                     )
                 }
                 ConsultaModo.RECEBER, ConsultaModo.PAGAR, ConsultaModo.PREVISAO -> Unit
-            }
-            
-            if (uiState.filters.modo != ConsultaModo.ESTOQUE) {
-                Text(
-                    text = "${uiState.totalLabel}: ${uiState.totalValue}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(vertical = 8.dp),
-                )
             }
             uiState.hint?.let { hint ->
                 Text(

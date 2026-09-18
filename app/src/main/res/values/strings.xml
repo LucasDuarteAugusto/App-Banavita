@@ -224,9 +224,9 @@
     <string name="home_card_estoque_title">Estoque</string>
     <string name="home_card_estoque_ok">Ver estoque</string>
     <string name="home_card_estoque_zerados">%1$d produto(s) zerado(s)</string>
-    <string name="home_card_vendas_title">Vendas de hoje</string>
+    <string name="home_card_vendas_title">Vendas</string>
     <string name="home_card_vendas_empty">Nenhuma venda hoje</string>
-    <string name="home_card_compras_title">Compras de hoje</string>
+    <string name="home_card_compras_title">Compras</string>
     <string name="home_card_compras_empty">Nenhuma compra hoje</string>
     <string name="home_card_receber_title">A receber</string>
     <string name="home_card_pagar_title">A pagar</string>
@@ -391,12 +391,12 @@
     <string name="settings_ringtone">Som de aviso</string>
     <string name="settings_ringtone_default">Padrão (Olha a banana)</string>
 
-    <string name="home_card_pereciveis_title">Perecíveis do dia</string>
+    <string name="home_card_pereciveis_title">Perecíveis</string>
     <string name="home_card_pereciveis_empty">Nenhum perecível crítico hoje</string>
     <string name="home_card_pereciveis_pintada">%1$s %2$s %3$s pintada</string>
     <string name="home_card_pereciveis_podre">%1$s %2$s a apodrecer / podre</string>
     <string name="home_card_pereciveis_mover">Mover %1$s %2$s de %3$s para armazenagem</string>
-    <string name="home_card_encomendas_title">Encomendas da semana</string>
+    <string name="home_card_encomendas_title">Encomendas</string>
     <string name="home_card_encomendas_empty">Nenhuma encomenda nesta semana</string>
     <string name="home_card_encomendas_count">%d encomenda(s) em aberto</string>
     <string name="home_queima_title">Preço de queima (só hoje)</string>

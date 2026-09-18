@@ -65,7 +65,11 @@ fun MainAppShell(
         customTitle = null
     }
 
-    val baseTitle = titleForRoute(currentRoute, navBackStackEntry?.arguments?.getString("modo"))
+    val baseTitle = titleForRoute(
+        route = currentRoute,
+        modo = navBackStackEntry?.arguments?.getString("modo"),
+        criticos = navBackStackEntry?.arguments?.getString("criticos")
+    )
     val displayTitle = customTitle ?: baseTitle
 
     Scaffold(
@@ -158,7 +162,7 @@ fun MainAppShell(
 }
 
 @Composable
-private fun titleForRoute(route: String?, modo: String?): String {
+private fun titleForRoute(route: String?, modo: String?, criticos: String?): String {
     val titleRes = when {
         route == BanavitaRoutes.HOME -> R.string.home_title
         route == BanavitaRoutes.SETTINGS -> R.string.settings_title
@@ -173,7 +177,15 @@ private fun titleForRoute(route: String?, modo: String?): String {
         route?.startsWith("consultas/receber/") == true -> R.string.consultas_mode_receber
         route?.startsWith("consultas/pagar/") == true -> R.string.consultas_mode_pagar
         route?.startsWith("consultas") == true -> {
-            if (modo == "estoque") R.string.home_card_estoque_title else R.string.consultas_title
+            when (modo) {
+                "estoque" -> if (criticos == "1") R.string.home_card_pereciveis_title else R.string.home_card_estoque_title
+                "vendas" -> R.string.home_card_vendas_title
+                "compras" -> R.string.home_card_compras_title
+                "receber" -> R.string.home_card_receber_title
+                "pagar" -> R.string.home_card_pagar_title
+                "encomendas" -> R.string.home_card_encomendas_title
+                else -> R.string.consultas_title
+            }
         }
         route == BanavitaRoutes.AGENDA -> R.string.agenda_title
         route == BanavitaRoutes.AGENDA_FORM_NEW -> R.string.agenda_form_new_title
