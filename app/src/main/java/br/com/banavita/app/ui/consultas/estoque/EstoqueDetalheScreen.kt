@@ -1,55 +1,54 @@
 package br.com.banavita.app.ui.consultas.estoque
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilterChip
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.SuggestionChip
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import br.com.banavita.app.R
 import br.com.banavita.app.domain.model.Camara
-import br.com.banavita.app.domain.model.EstoqueMovimentoTipo
 import br.com.banavita.app.domain.model.MaturacaoEstado
 import br.com.banavita.app.ui.common.EstadoChips
-import br.com.banavita.app.ui.common.ListEmptyState
-import br.com.banavita.app.ui.common.ListItemCard
 import br.com.banavita.app.ui.common.ListLoadingState
 import br.com.banavita.app.ui.common.QueimaPrecoDialog
-import br.com.banavita.app.ui.common.formatDate
 import br.com.banavita.app.ui.common.formatQuantity
 import br.com.banavita.app.ui.common.labelRes
 import java.util.UUID
@@ -64,7 +63,7 @@ fun EstoqueDetalheRoute(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     
-    androidx.compose.runtime.LaunchedEffect(uiState.descricao) {
+    LaunchedEffect(uiState.descricao) {
         if (uiState.descricao.isNotBlank()) {
             onTitleChange(uiState.descricao)
         }
@@ -87,6 +86,14 @@ fun EstoqueDetalheRoute(
         onDismissTransfer = viewModel::dismissTransfer,
         onCorrigirEstado = viewModel::corrigirEstado,
         onDismissCorrigir = viewModel::dismissCorrigir,
+        onCorrigirQtdeChange = viewModel::onCorrigirQtdeChange,
+        onEntradaManualClick = viewModel::onEntradaManualClick,
+        onManualEstadoChange = viewModel::onManualEstadoChange,
+        onManualQtdeChange = viewModel::onManualQtdeChange,
+        onManualUnidadeChange = viewModel::onManualUnidadeChange,
+        onManualCustoChange = viewModel::onManualCustoChange,
+        onConfirmEntradaManual = viewModel::confirmEntradaManual,
+        onDismissEntradaManual = viewModel::dismissEntradaManual,
         onQueimaPreco = viewModel::onQueimaPreco,
         onConfirmQueima = viewModel::confirmQueima,
         onDismissQueima = viewModel::dismissQueima,
@@ -110,6 +117,14 @@ fun EstoqueDetalheScreen(
     onDismissTransfer: () -> Unit,
     onCorrigirEstado: (MaturacaoEstado) -> Unit,
     onDismissCorrigir: () -> Unit,
+    onCorrigirQtdeChange: (String) -> Unit,
+    onEntradaManualClick: () -> Unit,
+    onManualEstadoChange: (MaturacaoEstado) -> Unit,
+    onManualQtdeChange: (String) -> Unit,
+    onManualUnidadeChange: (String) -> Unit,
+    onManualCustoChange: (String) -> Unit,
+    onConfirmEntradaManual: () -> Unit,
+    onDismissEntradaManual: () -> Unit,
     onQueimaPreco: (String) -> Unit,
     onConfirmQueima: () -> Unit,
     onDismissQueima: () -> Unit,
@@ -149,11 +164,26 @@ fun EstoqueDetalheScreen(
             onDismissRequest = onDismissCorrigir,
             title = { Text(stringResource(R.string.estoque_corrigir_estado)) },
             text = {
-                EstadoChips(
-                    selected = uiState.lotes.firstOrNull { it.lote.id == uiState.corrigirLoteId }?.lote?.estado,
-                    onSelected = onCorrigirEstado,
-                    includePodre = true,
-                )
+                Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    uiState.errorMessage?.let { Text(text = it, color = MaterialTheme.colorScheme.error) }
+                    
+                    OutlinedTextField(
+                        modifier = Modifier.fillMaxWidth(),
+                        value = uiState.corrigirQtdeInput,
+                        onValueChange = onCorrigirQtdeChange,
+                        label = { Text("Quantidade a alterar") },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    )
+
+                    Text(text = "Selecione o novo estado:", style = MaterialTheme.typography.labelLarge)
+                    
+                    EstadoChips(
+                        selected = null,
+                        onSelected = onCorrigirEstado,
+                        includePodre = true,
+                    )
+                }
             },
             confirmButton = {},
             dismissButton = {
@@ -163,6 +193,19 @@ fun EstoqueDetalheScreen(
             },
         )
     }
+
+    if (uiState.showEntradaManual) {
+        EntradaManualPopup(
+            uiState = uiState,
+            onEstadoChange = onManualEstadoChange,
+            onQtdeChange = onManualQtdeChange,
+            onUnidadeChange = onManualUnidadeChange,
+            onCustoChange = onManualCustoChange,
+            onConfirm = onConfirmEntradaManual,
+            onDismiss = onDismissEntradaManual
+        )
+    }
+
     if (uiState.showQueima) {
         QueimaPrecoDialog(
             precoInput = uiState.queimaPrecoInput,
@@ -203,7 +246,7 @@ fun EstoqueDetalheScreen(
         )
 
         uiState.errorMessage
-            ?.takeIf { uiState.transferLoteId == null && !uiState.showQueima }
+            ?.takeIf { uiState.transferLoteId == null && !uiState.showQueima && !uiState.showEntradaManual && uiState.corrigirLoteId == null }
             ?.let { Text(text = it, color = MaterialTheme.colorScheme.error) }
 
         LazyColumn(
@@ -234,15 +277,96 @@ fun EstoqueDetalheScreen(
             }
         }
 
-        if (uiState.perecivel && uiState.lotes.any { it.lote.estado == MaturacaoEstado.PINTADA }) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             OutlinedButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onQueima,
+                modifier = Modifier.weight(1f),
+                onClick = onEntradaManualClick,
             ) {
-                Text(stringResource(R.string.estoque_aplicar_queima))
+                Text("Entrada manual")
+            }
+            if (uiState.perecivel && uiState.lotes.any { it.lote.estado == MaturacaoEstado.PINTADA }) {
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = onQueima,
+                ) {
+                    Text(stringResource(R.string.estoque_aplicar_queima))
+                }
             }
         }
     }
+}
+
+@Composable
+private fun EntradaManualPopup(
+    uiState: EstoqueDetalheUiState,
+    onEstadoChange: (MaturacaoEstado) -> Unit,
+    onQtdeChange: (String) -> Unit,
+    onUnidadeChange: (String) -> Unit,
+    onCustoChange: (String) -> Unit,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Entrada Manual de Estoque") },
+        text = {
+            Column(
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                uiState.errorMessage?.let { Text(text = it, color = MaterialTheme.colorScheme.error) }
+
+                Text("Estado de maturação:", style = MaterialTheme.typography.labelLarge)
+                EstadoChips(
+                    selected = uiState.manualEstado,
+                    onSelected = onEstadoChange,
+                    includePodre = true
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = uiState.manualQuantidadeInput,
+                    onValueChange = onQtdeChange,
+                    label = { Text("Quantidade") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
+
+                Text("Unidade:", style = MaterialTheme.typography.labelLarge)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf("CX PLASTICA", "CX MADEIRA").forEach { un ->
+                        FilterChip(
+                            selected = uiState.manualUnidade == un,
+                            onClick = { onUnidadeChange(un) },
+                            label = { Text(un) }
+                        )
+                    }
+                }
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = uiState.manualCustoInput,
+                    onValueChange = onCustoChange,
+                    label = { Text("Custo Unitário (Opcional)") },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal)
+                )
+            }
+        },
+        confirmButton = {
+            Button(onClick = onConfirm) {
+                Text("Confirmar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
 }
 
 @Composable
@@ -418,4 +542,3 @@ private fun EstoqueAcoesPopup(
         }
     )
 }
-

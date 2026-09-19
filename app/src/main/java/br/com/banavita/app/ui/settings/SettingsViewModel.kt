@@ -40,6 +40,7 @@ class SettingsViewModel @Inject constructor(
             selectedTheme = appSettingsRepository.getThemeMode(),
             groqApiKeyConfigured = appSettingsRepository.isGroqApiKeyConfigured(),
             etilenoCapacidadeInput = formatQuantity(appSettingsRepository.getEtilenoCapacidadeKg(), ""),
+            friaCapacidadeInput = formatQuantity(appSettingsRepository.getFriaCapacidadeKg(), ""),
             avisoMatinalInput = formatMinutes(appSettingsRepository.getAvisoMatinalMinutos()),
             selectedRingtoneName = getRingtoneName(appSettingsRepository.getRingtoneUri()),
             selectedOfflineModelId = appSettingsRepository.getOfflineModelId(),
@@ -97,6 +98,12 @@ class SettingsViewModel @Inject constructor(
         _uiState.update { it.copy(etilenoCapacidadeInput = value, errorMessage = null) }
         val parsed = QuantityInputParser.parse(value) ?: return
         appSettingsRepository.setEtilenoCapacidadeKg(parsed.coerceAtLeast(0.0))
+    }
+
+    fun onFriaCapacidadeChange(value: String) {
+        _uiState.update { it.copy(friaCapacidadeInput = value, errorMessage = null) }
+        val parsed = QuantityInputParser.parse(value) ?: return
+        appSettingsRepository.setFriaCapacidadeKg(parsed.coerceAtLeast(0.0))
     }
 
     fun onAvisoMatinalChange(value: String) {

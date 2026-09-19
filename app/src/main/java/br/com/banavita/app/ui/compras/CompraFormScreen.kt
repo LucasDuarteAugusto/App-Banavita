@@ -50,6 +50,17 @@ fun CompraFormRoute(
         )
     }
 
+    if (uiState.showCapacidadeWarning) {
+        DeleteConfirmDialog(
+            title = "Aviso de Capacidade",
+            message = uiState.capacidadeWarningMessage,
+            isDeleting = uiState.isSaving,
+            confirmLabel = "Comprar mesmo assim",
+            onConfirm = { viewModel.save(onDone, forcar = true) },
+            onDismiss = viewModel::onDismissCapacidadeWarning,
+        )
+    }
+
     if (uiState.isLoading) {
         FormLoadingState(modifier = modifier)
         return

@@ -8,6 +8,7 @@ data class SettingsUiState(
     val selectedTheme: ThemeMode = ThemeMode.LIGHT,
     val groqApiKeyConfigured: Boolean = false,
     val etilenoCapacidadeInput: String = "",
+    val friaCapacidadeInput: String = "",
     val avisoMatinalInput: String = "07:00",
     val isBackupBusy: Boolean = false,
     val showRestoreConfirm: Boolean = false,

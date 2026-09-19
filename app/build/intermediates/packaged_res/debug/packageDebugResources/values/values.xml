@@ -295,6 +295,7 @@
     <string name="perda_lote">Lote</string>
     <string name="perda_motivo">Motivo</string>
     <string name="perda_motivo_apodreceu">Apodreceu</string>
+    <string name="perda_motivo_doenca">Doença</string>
     <string name="perda_motivo_manuseio">Manuseio</string>
     <string name="perda_motivo_outro">Outro</string>
     <string name="produto_curva_title">Curva de maturação (dias)</string>
@@ -331,11 +332,13 @@
     <string name="settings_aviso_matinal_hint">Padrão 07:00. Canal próprio, separado da agenda.</string>
     <string name="settings_database_section">Banco de dados</string>
     <string name="settings_database_section_desc">Os dados do negócio ficam neste aparelho. Use exportar/restaurar para trocar de celular ou após desinstalar.</string>
-    <string name="settings_etileno_capacidade">Capacidade da câmara (caixas)</string>
-    <string name="settings_etileno_capacidade_hint">Limite total de caixas na etileno. 0 = sem teto.</string>
+    <string name="settings_etileno_capacidade">Capacidade da câmara de etileno (caixas)</string>
+    <string name="settings_etileno_capacidade_hint">Limite total de caixas em maturação. 0 = sem teto.</string>
     <string name="settings_export_button">Exportar dados</string>
     <string name="settings_export_desc">Salva uma cópia dos cadastros, vendas, compras, estoque, financeiro e agenda num arquivo que você escolhe (pasta, Drive, etc.).</string>
     <string name="settings_export_success">Cópia salva com sucesso.</string>
+    <string name="settings_fria_capacidade">Capacidade da câmara fria (caixas)</string>
+    <string name="settings_fria_capacidade_hint">Limite total de caixas em outros estados. 0 = sem teto.</string>
     <string name="settings_notifications_section">Notificações</string>
     <string name="settings_offline_model_base">Base (Mais preciso, um pouco mais lento)</string>
     <string name="settings_offline_model_tiny">Tiny (Mais rápido, menos preciso)</string>

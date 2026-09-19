@@ -47,6 +47,12 @@ class AppSettingsRepository @Inject constructor(
         localDataSource.setEtilenoCapacidadeKg(value.toFloat())
     }
 
+    fun getFriaCapacidadeKg(): Double = localDataSource.getFriaCapacidadeKg().toDouble()
+
+    fun setFriaCapacidadeKg(value: Double) {
+        localDataSource.setFriaCapacidadeKg(value.toFloat())
+    }
+
     fun getAvisoMatinalMinutos(): Int = localDataSource.getAvisoMatinalMinutos()
 
     fun setAvisoMatinalMinutos(value: Int) {

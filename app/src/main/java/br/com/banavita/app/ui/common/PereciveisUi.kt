@@ -41,6 +41,7 @@ fun Camara.labelRes(): Int = when (this) {
 fun PerdaMotivo.labelRes(): Int = when (this) {
     PerdaMotivo.APODRECEU -> R.string.perda_motivo_apodreceu
     PerdaMotivo.MANUSEIO -> R.string.perda_motivo_manuseio
+    PerdaMotivo.DOENCA -> R.string.perda_motivo_doenca
     PerdaMotivo.OUTRO -> R.string.perda_motivo_outro
 }
 

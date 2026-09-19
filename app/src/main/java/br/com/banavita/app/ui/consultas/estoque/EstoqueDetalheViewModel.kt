@@ -57,6 +57,13 @@ data class EstoqueDetalheUiState(
     val queimaPrecoInput: String = "",
     val selectedStageForActions: MaturacaoEstado? = null,
     val selectedLoteIdForAction: UUID? = null,
+    val showEntradaManual: Boolean = false,
+    val manualEstado: MaturacaoEstado = MaturacaoEstado.CRUA,
+    val manualCamara: Camara = Camara.FRIA,
+    val manualQuantidadeInput: String = "",
+    val manualUnidade: String = "CX PLASTICA",
+    val manualCustoInput: String = "",
+    val corrigirQtdeInput: String = "",
 )
 
 @HiltViewModel
@@ -201,7 +208,18 @@ class EstoqueDetalheViewModel @Inject constructor(
     }
 
     fun onCorrigirClick(loteId: UUID) {
-        _uiState.update { it.copy(corrigirLoteId = loteId, errorMessage = null) }
+        val lote = _uiState.value.lotes.firstOrNull { it.lote.id == loteId }?.lote
+        _uiState.update { 
+            it.copy(
+                corrigirLoteId = loteId, 
+                errorMessage = null,
+                corrigirQtdeInput = lote?.quantidadeRestante?.toString()?.replace('.', ',') ?: ""
+            ) 
+        }
+    }
+
+    fun onCorrigirQtdeChange(value: String) {
+        _uiState.update { it.copy(corrigirQtdeInput = value) }
     }
 
     fun dismissCorrigir() {
@@ -210,9 +228,14 @@ class EstoqueDetalheViewModel @Inject constructor(
 
     fun corrigirEstado(estado: MaturacaoEstado) {
         val loteId = _uiState.value.corrigirLoteId ?: return
+        val qtde = QuantityInputParser.parse(_uiState.value.corrigirQtdeInput)
+        if (qtde == null) {
+            _uiState.update { it.copy(errorMessage = "Informe a quantidade.") }
+            return
+        }
         viewModelScope.launch {
-            runCatching { loteRepository.corrigirEstado(loteId, estado) }
-                .onSuccess { _uiState.update { it.copy(corrigirLoteId = null) } }
+            runCatching { loteRepository.corrigirEstado(loteId, estado, qtde) }
+                .onSuccess { _uiState.update { it.copy(corrigirLoteId = null, errorMessage = null) } }
                 .onFailure { error ->
                     _uiState.update {
                         it.copy(
@@ -222,6 +245,73 @@ class EstoqueDetalheViewModel @Inject constructor(
                         )
                     }
                 }
+        }
+    }
+
+    fun onEntradaManualClick() {
+        _uiState.update { 
+            it.copy(
+                showEntradaManual = true,
+                manualEstado = MaturacaoEstado.CRUA,
+                manualCamara = Camara.FRIA,
+                manualQuantidadeInput = "",
+                manualUnidade = "CX PLASTICA",
+                manualCustoInput = "",
+                errorMessage = null
+            ) 
+        }
+    }
+
+    fun onManualEstadoChange(estado: MaturacaoEstado) {
+        _uiState.update { it.copy(manualEstado = estado) }
+    }
+
+    fun onManualQtdeChange(value: String) {
+        _uiState.update { it.copy(manualQuantidadeInput = value) }
+    }
+
+    fun onManualUnidadeChange(value: String) {
+        _uiState.update { it.copy(manualUnidade = value) }
+    }
+
+    fun onManualCustoChange(value: String) {
+        _uiState.update { it.copy(manualCustoInput = value) }
+    }
+
+    fun dismissEntradaManual() {
+        _uiState.update { it.copy(showEntradaManual = false) }
+    }
+
+    fun confirmEntradaManual() {
+        val id = produtoId ?: return
+        val state = _uiState.value
+        val qtde = QuantityInputParser.parse(state.manualQuantidadeInput)
+        if (qtde == null || qtde <= 0) {
+            _uiState.update { it.copy(errorMessage = "Informe uma quantidade válida.") }
+            return
+        }
+        val custo = MoneyInputParser.parseToCentavos(state.manualCustoInput) ?: 0L
+        
+        viewModelScope.launch {
+            runCatching {
+                loteRepository.registrarEntradaManual(
+                    produtoId = id,
+                    estado = state.manualEstado,
+                    quantidade = qtde,
+                    unidade = state.manualUnidade,
+                    custoUnitarioCentavos = custo
+                )
+            }.onSuccess {
+                _uiState.update { it.copy(showEntradaManual = false, errorMessage = null) }
+            }.onFailure { error ->
+                _uiState.update {
+                    it.copy(
+                        errorMessage = (error as? BanavitaDomainException)?.message
+                            ?: error.message
+                            ?: "Erro ao registrar entrada manual."
+                    )
+                }
+            }
         }
     }
 

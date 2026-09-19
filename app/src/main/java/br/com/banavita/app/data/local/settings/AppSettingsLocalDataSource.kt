@@ -43,6 +43,13 @@ class AppSettingsLocalDataSource @Inject constructor(
         preferences.edit { putFloat(KEY_ETILENO_CAPACIDADE_KG, value.coerceAtLeast(0f)) }
     }
 
+    fun getFriaCapacidadeKg(): Float =
+        preferences.getFloat(KEY_FRIA_CAPACIDADE_KG, 0f)
+
+    fun setFriaCapacidadeKg(value: Float) {
+        preferences.edit { putFloat(KEY_FRIA_CAPACIDADE_KG, value.coerceAtLeast(0f)) }
+    }
+
     fun getAvisoMatinalMinutos(): Int =
         preferences.getInt(KEY_AVISO_MATINAL_MINUTOS, DEFAULT_AVISO_MATINAL_MINUTOS)
 
@@ -74,6 +81,7 @@ class AppSettingsLocalDataSource @Inject constructor(
         private const val KEY_TRANSCRIPTION_PROVIDER = "transcription_provider"
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_ETILENO_CAPACIDADE_KG = "etileno_capacidade_kg"
+        private const val KEY_FRIA_CAPACIDADE_KG = "fria_capacidade_kg"
         private const val KEY_AVISO_MATINAL_MINUTOS = "aviso_matinal_minutos"
         private const val KEY_RINGTONE_URI = "ringtone_uri"
         private const val KEY_OFFLINE_MODEL_ID = "offline_model_id"

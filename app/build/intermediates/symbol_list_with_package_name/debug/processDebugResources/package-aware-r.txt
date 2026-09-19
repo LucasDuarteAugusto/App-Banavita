@@ -578,6 +578,7 @@ string perda_form_title
 string perda_lote
 string perda_motivo
 string perda_motivo_apodreceu
+string perda_motivo_doenca
 string perda_motivo_manuseio
 string perda_motivo_outro
 string produto_curva_title
@@ -622,6 +623,8 @@ string settings_etileno_capacidade_hint
 string settings_export_button
 string settings_export_desc
 string settings_export_success
+string settings_fria_capacidade
+string settings_fria_capacidade_hint
 string settings_notifications_section
 string settings_offline_model_base
 string settings_offline_model_tiny

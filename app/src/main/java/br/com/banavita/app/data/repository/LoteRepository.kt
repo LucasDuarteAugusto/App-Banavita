@@ -185,6 +185,55 @@ class LoteRepository @Inject constructor(
         return novoId
     }
 
+    suspend fun registrarEntradaManual(
+        produtoId: UUID,
+        estado: MaturacaoEstado,
+        quantidade: Double,
+        unidade: String,
+        custoUnitarioCentavos: Long,
+    ): UUID {
+        if (quantidade <= 0) throw InvalidDocumentException("Informe a quantidade.")
+        val timestamp = nowEpochMillis()
+        val today = RipeningClock.todayEpochDay(timestamp)
+        val id = UUID.randomUUID()
+        val produto = produtoDao.get().getById(produtoId)
+        val rotulo = "Entrada Manual · ${produto?.descricao ?: "Produto"}"
+        
+        // Regra: EM_MATURACAO -> ETILENO, outros -> FRIA
+        val camaraFinal = if (estado == MaturacaoEstado.EM_MATURACAO) Camara.ETILENO else Camara.FRIA
+        
+        if (camaraFinal == Camara.ETILENO) {
+            val folga = folgaEtileno()
+            if (folga != null && quantidade > folga + 1e-9) {
+                throw InvalidDocumentException(
+                    "A etileno não comporta essa quantidade. Espaço restante: ${"%.1f".format(folga)} $unidade.",
+                )
+            }
+        }
+
+        loteDao.get().insert(
+            LoteEntity(
+                id = id,
+                createdAt = timestamp,
+                updatedAt = timestamp,
+                produtoId = produtoId,
+                compraId = null,
+                compraItemId = null,
+                origemId = null,
+                dataEntrada = timestamp,
+                quantidadeInicial = quantidade,
+                quantidadeRestante = quantidade,
+                camara = camaraFinal.name,
+                estado = estado.name,
+                etapaInicioEpochDay = if (camaraFinal == Camara.ETILENO) today else null,
+                custoUnitarioCentavos = custoUnitarioCentavos,
+                rotulo = rotulo,
+                unidade = unidade,
+            )
+        )
+        return id
+    }
+
     /**
      * Folga para soltar: capacidade − total de itens na etileno.
      * Null = sem teto (capacidade em 0 nas Configurações).
@@ -193,6 +242,13 @@ class LoteRepository @Inject constructor(
         val capacidade = settings.getEtilenoCapacidadeKg()
         if (capacidade <= 0.0) return null
         val naCamara = loteDao.get().qtdeNaEtileno()
+        return (capacidade - naCamara).coerceAtLeast(0.0)
+    }
+
+    suspend fun folgaFria(): Double? {
+        val capacidade = settings.getFriaCapacidadeKg()
+        if (capacidade <= 0.0) return null
+        val naCamara = loteDao.get().qtdeNaFria()
         return (capacidade - naCamara).coerceAtLeast(0.0)
     }
 
@@ -209,6 +265,12 @@ class LoteRepository @Inject constructor(
         )
     }
 
+    suspend fun friaCapacidadeSnapshot(): Pair<Double, Double> {
+        val cap = settings.getFriaCapacidadeKg()
+        val naFria = loteDao.get().qtdeNaFria()
+        return cap to naFria
+    }
+
     suspend fun avancarMaturacao(nowMillis: Long = nowEpochMillis()) {
         val today = RipeningClock.todayEpochDay(nowMillis)
         loteDao.get().listEtilenoAbertos().forEach { lote ->
@@ -221,9 +283,12 @@ class LoteRepository @Inject constructor(
                 todayEpochDay = today,
             )
             if (snap.estado.name != lote.estado || snap.etapaInicioEpochDay != lote.etapaInicioEpochDay) {
+                // Se o estado novo não for mais EM_MATURACAO, deve ir para a FRIA automaticamente
+                val novaCamara = if (snap.estado == MaturacaoEstado.EM_MATURACAO) Camara.ETILENO else Camara.FRIA
                 loteDao.get().update(
                     lote.copy(
                         estado = snap.estado.name,
+                        camara = novaCamara.name,
                         etapaInicioEpochDay = snap.etapaInicioEpochDay,
                         updatedAt = nowMillis,
                     ),
@@ -233,17 +298,61 @@ class LoteRepository @Inject constructor(
         queimaDao.get().apagarExpiradas(nowMillis)
     }
 
-    suspend fun corrigirEstado(loteId: UUID, estado: MaturacaoEstado) {
+    suspend fun corrigirEstado(loteId: UUID, estado: MaturacaoEstado, quantidade: Double? = null) {
         val lote = loteDao.get().getById(loteId)
             ?: throw ReferencedEntityException("Lote não encontrado.")
+        
+        val qtyToChange = quantidade ?: lote.quantidadeRestante
+        if (qtyToChange <= 0) throw InvalidDocumentException("Quantidade inválida.")
+        if (qtyToChange > lote.quantidadeRestante + 1e-9) throw InvalidDocumentException("Quantidade maior que o lote.")
+
         val today = RipeningClock.todayEpochDay()
-        loteDao.get().update(
-            lote.copy(
-                estado = estado.name,
-                etapaInicioEpochDay = if (lote.camara == Camara.ETILENO.name) today else lote.etapaInicioEpochDay,
-                updatedAt = nowEpochMillis(),
-            ),
-        )
+        val timestamp = nowEpochMillis()
+        
+        // Regra de câmara baseada no estado
+        val novaCamara = if (estado == MaturacaoEstado.EM_MATURACAO) Camara.ETILENO else Camara.FRIA
+        
+        if (novaCamara == Camara.ETILENO) {
+            val folga = folgaEtileno()
+            if (folga != null && qtyToChange > folga + 1e-9) {
+                throw InvalidDocumentException("A etileno não comporta essa quantidade.")
+            }
+        }
+
+        database.get().withTransaction {
+            if (qtyToChange < lote.quantidadeRestante - 1e-9) {
+                // Alteração parcial: diminui o atual, cria um novo
+                loteDao.get().update(
+                    lote.copy(
+                        quantidadeRestante = lote.quantidadeRestante - qtyToChange,
+                        updatedAt = timestamp,
+                    )
+                )
+                loteDao.get().insert(
+                    lote.copy(
+                        id = UUID.randomUUID(),
+                        createdAt = timestamp,
+                        updatedAt = timestamp,
+                        quantidadeInicial = qtyToChange,
+                        quantidadeRestante = qtyToChange,
+                        estado = estado.name,
+                        camara = novaCamara.name,
+                        etapaInicioEpochDay = if (novaCamara == Camara.ETILENO) today else null,
+                        rotulo = lote.rotulo + " (corrigido)"
+                    )
+                )
+            } else {
+                // Alteração total
+                loteDao.get().update(
+                    lote.copy(
+                        estado = estado.name,
+                        camara = novaCamara.name,
+                        etapaInicioEpochDay = if (novaCamara == Camara.ETILENO) today else null,
+                        updatedAt = timestamp,
+                    )
+                )
+            }
+        }
     }
 
     suspend fun consumirFifo(

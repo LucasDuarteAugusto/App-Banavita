@@ -383,8 +383,10 @@
     <string name="estoque_lotes_empty">Nenhum lote restante.</string>
 
     <string name="settings_pereciveis_section">Câmara de etileno</string>
-    <string name="settings_etileno_capacidade">Capacidade da câmara (caixas)</string>
-    <string name="settings_etileno_capacidade_hint">Limite total de caixas na etileno. 0 = sem teto.</string>
+    <string name="settings_etileno_capacidade">Capacidade da câmara de etileno (caixas)</string>
+    <string name="settings_etileno_capacidade_hint">Limite total de caixas em maturação. 0 = sem teto.</string>
+    <string name="settings_fria_capacidade">Capacidade da câmara fria (caixas)</string>
+    <string name="settings_fria_capacidade_hint">Limite total de caixas em outros estados. 0 = sem teto.</string>
     <string name="settings_aviso_matinal">Horário do aviso matinal (HH:mm)</string>
     <string name="settings_aviso_matinal_hint">Padrão 07:00. Canal próprio, separado da agenda.</string>
     <string name="settings_notifications_section">Notificações</string>
@@ -414,6 +416,7 @@
     <string name="perda_motivo">Motivo</string>
     <string name="perda_motivo_apodreceu">Apodreceu</string>
     <string name="perda_motivo_manuseio">Manuseio</string>
+    <string name="perda_motivo_doenca">Doença</string>
     <string name="perda_motivo_outro">Outro</string>
     <string name="perda_confirm">A perda some do lote e não conta como venda.</string>
     <string name="perda_lote">Lote</string>

@@ -2,6 +2,7 @@ package br.com.banavita.app.ui.pereciveis.perda
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -120,18 +121,29 @@ fun PerdaFormScreen(
             enabled = !uiState.isSaving,
         )
         Text(text = stringResource(R.string.perda_motivo))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            PerdaMotivo.entries.forEach { motivo ->
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                listOf(PerdaMotivo.APODRECEU, PerdaMotivo.MANUSEIO, PerdaMotivo.DOENCA).forEach { motivo ->
+                    FilterChip(
+                        selected = uiState.motivo == motivo,
+                        onClick = { onMotivo(motivo) },
+                        enabled = !uiState.isSaving,
+                        label = { Text(stringResource(motivo.labelRes())) },
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
                 FilterChip(
-                    selected = uiState.motivo == motivo,
-                    onClick = { onMotivo(motivo) },
+                    selected = uiState.motivo == PerdaMotivo.OUTRO,
+                    onClick = { onMotivo(PerdaMotivo.OUTRO) },
                     enabled = !uiState.isSaving,
-                    label = { Text(stringResource(motivo.labelRes())) },
+                    label = { Text(stringResource(PerdaMotivo.OUTRO.labelRes())) },
                 )
             }
         }

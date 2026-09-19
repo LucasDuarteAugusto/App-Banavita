@@ -18,6 +18,8 @@ data class CompraFormUiState(
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,
     val showDeleteDialog: Boolean = false,
+    val showCapacidadeWarning: Boolean = false,
+    val capacidadeWarningMessage: String = "",
     val isEditMode: Boolean = false,
     val errorMessage: String? = null,
 ) {

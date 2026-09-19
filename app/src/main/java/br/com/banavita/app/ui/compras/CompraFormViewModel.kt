@@ -28,6 +28,7 @@ class CompraFormViewModel @Inject constructor(
     private val compraRepository: CompraRepository,
     private val fornecedorRepository: FornecedorRepository,
     private val produtoRepository: ProdutoRepository,
+    private val loteRepository: br.com.banavita.app.data.repository.LoteRepository,
 ) : ViewModel() {
 
     private val compraId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_COMPRA_ID)
@@ -158,7 +159,11 @@ class CompraFormViewModel @Inject constructor(
         _uiState.update { it.copy(showDeleteDialog = false) }
     }
 
-    fun save(onSuccess: () -> Unit) {
+    fun onDismissCapacidadeWarning() {
+        _uiState.update { it.copy(showCapacidadeWarning = false) }
+    }
+
+    fun save(onSuccess: () -> Unit, forcar: Boolean = false) {
         val state = _uiState.value
         val data = DateInputParser.parseToEpochMillis(state.dataInput)
         if (data == null) {
@@ -172,13 +177,38 @@ class CompraFormViewModel @Inject constructor(
             return
         }
 
+        if (!forcar) {
+            viewModelScope.launch {
+                val snapshot = loteRepository.friaCapacidadeSnapshot()
+                val cap = snapshot.first
+                val naFria = snapshot.second
+                val novaQtde = inputsResult.inputs.sumOf { it.quantidade }
+                
+                if (cap > 0 && naFria + novaQtde > cap) {
+                    val excesso = (naFria + novaQtde) - cap
+                    _uiState.update { 
+                        it.copy(
+                            showCapacidadeWarning = true, 
+                            capacidadeWarningMessage = "A capacidade da câmara fria foi excedida em ${"%.1f".format(excesso)} caixas. Será necessário armazenar o excesso fora da câmara. Deseja continuar?"
+                        ) 
+                    }
+                    return@launch
+                }
+                executarSalvar(data, inputsResult.inputs, state.fornecedorId, state.aPrazo, onSuccess)
+            }
+        } else {
+            executarSalvar(data, inputsResult.inputs, state.fornecedorId, state.aPrazo, onSuccess)
+        }
+    }
+
+    private fun executarSalvar(data: Long, inputs: List<DocumentoItemInput>, fornecedorId: UUID?, aPrazo: Boolean, onSuccess: () -> Unit) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, errorMessage = null) }
+            _uiState.update { it.copy(isSaving = true, errorMessage = null, showCapacidadeWarning = false) }
             runCatching {
                 if (compraId == null) {
-                    compraRepository.create(data, state.fornecedorId, inputsResult.inputs, state.aPrazo)
+                    compraRepository.create(data, fornecedorId, inputs, aPrazo)
                 } else {
-                    compraRepository.update(compraId, data, state.fornecedorId, inputsResult.inputs)
+                    compraRepository.update(compraId, data, fornecedorId, inputs)
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }

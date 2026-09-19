@@ -36,6 +36,7 @@ enum class MaturacaoEstado {
 enum class PerdaMotivo {
     APODRECEU,
     MANUSEIO,
+    DOENCA,
     OUTRO,
 }
 
