@@ -123,6 +123,7 @@ fun AgendaListScreen(
         addContentDescription = stringResource(R.string.agenda_add),
         onAddClick = onAddClick,
         onVoiceSuccess = onVoiceResult,
+        enabled = false,
     ) { contentModifier ->
         Box(modifier = contentModifier.fillMaxSize()) {
             Column(

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,37 +34,58 @@ fun VoiceRecordingBar(
     elapsedMs: Long,
     bars: List<Float>,
     modifier: Modifier = Modifier,
+    hint: String? = null,
 ) {
-    val recordingLabel = stringResource(R.string.voice_recording)
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .semantics { contentDescription = recordingLabel },
-        shape = RoundedCornerShape(28.dp),
-        color = MaterialTheme.colorScheme.inverseSurface,
-        contentColor = MaterialTheme.colorScheme.inverseOnSurface,
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        if (hint != null) {
+            Surface(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape = RoundedCornerShape(16.dp),
+                shadowElevation = 2.dp
+            ) {
+                Text(
+                    text = hint,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+        }
+        val recordingLabel = stringResource(R.string.voice_recording)
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .semantics { contentDescription = recordingLabel },
+            shape = RoundedCornerShape(28.dp),
+            color = MaterialTheme.colorScheme.inverseSurface,
+            contentColor = MaterialTheme.colorScheme.inverseOnSurface,
         ) {
-            Box(
-                modifier = Modifier
-                    .size(10.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.error),
-            )
-            Text(
-                text = AmplitudeMeter.formatElapsed(elapsedMs),
-                style = MaterialTheme.typography.titleMedium,
-            )
-            AmplitudeBars(
-                levels = bars,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(28.dp),
-            )
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.error),
+                )
+                Text(
+                    text = AmplitudeMeter.formatElapsed(elapsedMs),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                AmplitudeBars(
+                    levels = bars,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(28.dp),
+                )
+            }
         }
     }
 }

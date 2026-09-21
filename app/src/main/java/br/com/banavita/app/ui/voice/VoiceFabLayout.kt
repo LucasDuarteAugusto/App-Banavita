@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,6 +40,7 @@ fun VoiceFabLayout(
     onMicPressed: () -> Unit,
     onMicReleased: () -> Unit,
     onAddClick: () -> Unit,
+    onHelpClick: () -> Unit,
     addContentDescription: String,
     modifier: Modifier = Modifier,
     isRecording: Boolean = false,
@@ -50,48 +52,62 @@ fun VoiceFabLayout(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 20.dp),
-        horizontalArrangement = if (showAddFab && !isRecording) {
-            Arrangement.SpaceBetween
-        } else {
-            Arrangement.Start
-        },
+        horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Bottom,
     ) {
-        Surface(
-            modifier = Modifier
-                .size(60.dp) // Aumentado em 50% de 40.dp para 60.dp
-                .pointerInput(allowHold) {
-                    if (!allowHold) return@pointerInput
-                    detectTapGestures(
-                        onPress = {
-                            onMicPressed()
-                            tryAwaitRelease()
-                            onMicReleased()
-                        },
-                    )
-                },
-            shape = CircleShape,
-            color = if (allowHold) {
-                MaterialTheme.colorScheme.primary
-            } else {
-                MaterialTheme.colorScheme.surfaceVariant
-            },
-            contentColor = if (allowHold) {
-                MaterialTheme.colorScheme.onPrimary
-            } else {
-                MaterialTheme.colorScheme.onSurfaceVariant
-            },
-            shadowElevation = 6.dp,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+            Surface(
+                modifier = Modifier
+                    .size(60.dp)
+                    .pointerInput(allowHold) {
+                        if (!allowHold) return@pointerInput
+                        detectTapGestures(
+                            onPress = {
+                                onMicPressed()
+                                tryAwaitRelease()
+                                onMicReleased()
+                            },
+                        )
+                    },
+                shape = CircleShape,
+                color = if (allowHold) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.surfaceVariant
+                },
+                contentColor = if (allowHold) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSurfaceVariant
+                },
+                shadowElevation = 6.dp,
             ) {
-                Icon(
-                    imageVector = BanavitaIcons.Mic,
-                    contentDescription = stringResource(R.string.voice_mic_button),
-                    modifier = Modifier.size(30.dp) // Aumentando proporcionalmente o ícone interno
-                )
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = BanavitaIcons.Mic,
+                        contentDescription = stringResource(R.string.voice_mic_button),
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+            }
+
+            if (!isRecording && !isProcessing) {
+                SmallFloatingActionButton(
+                    onClick = onHelpClick,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Ajuda de voz"
+                    )
+                }
             }
         }
 

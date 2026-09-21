@@ -204,7 +204,10 @@ fun EncomendaFormScreen(
                     enabled = aberto && !uiState.isSaving,
                 )
             }
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 FilterChip(
                     selected = uiState.antecipacaoMinutos == 1440,
                     onClick = { onAntecipacaoChange(1440) },

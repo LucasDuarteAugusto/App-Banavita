@@ -125,6 +125,8 @@ fun ConsultasScreen(
             else -> {}
         }
     }
+    val isVoiceEnabled = uiState.filters.modo == ConsultaModo.VENDAS || uiState.filters.modo == ConsultaModo.COMPRAS
+
     VoiceEnabledScreen(
         modifier = modifier,
         voiceContext = voiceContext,
@@ -132,6 +134,7 @@ fun ConsultasScreen(
         showAddFab = showAddFab,
         onAddClick = onAddClick,
         onVoiceSuccess = onVoiceResult,
+        enabled = isVoiceEnabled,
     ) { contentModifier ->
         Column(
             modifier = contentModifier

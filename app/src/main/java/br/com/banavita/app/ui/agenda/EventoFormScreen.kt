@@ -77,7 +77,7 @@ fun EventoFormRoute(
 
     VoiceEnabledFormHost(
         voiceContext = VoiceScreenContext.AGENDA,
-        enabled = !uiState.isEditMode,
+        enabled = false,
         onVoiceSuccess = onVoiceSuccess,
         modifier = modifier,
     ) { formModifier ->
