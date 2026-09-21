@@ -888,9 +888,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/AgendaListScreen.kt": {
-    "mtime": 1789221554.0048306,
-    "seen": 1789234284.031285,
-    "ast_hash": "39c1ae21165d67761f3918c46f24a90d",
+    "mtime": 1789990071.2473197,
+    "seen": 1789990330.904591,
+    "ast_hash": "fcbe1d3c814f347832ed9c8305c55528",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/AgendaListViewModel.kt": {
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/EventoFormScreen.kt": {
-    "mtime": 1789221554.0068245,
-    "seen": 1789234284.0312905,
-    "ast_hash": "c9ef9373c494c152e3efaa39b775b8c1",
+    "mtime": 1789990091.1179128,
+    "seen": 1789990330.9045956,
+    "ast_hash": "2cab6e92bb4b87d09f6b849cb65cdbda",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/agenda/EventoFormUiState.kt": {
@@ -1146,9 +1146,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasScreen.kt": {
-    "mtime": 1789770329.6782365,
-    "seen": 1789771688.0857732,
-    "ast_hash": "214e599ba67d177d2ad8dedea6f91f52",
+    "mtime": 1789990001.6399984,
+    "seen": 1789990330.9046445,
+    "ast_hash": "07d3ef373081a470da68affc1724aec1",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/consultas/ConsultasUiState.kt": {
@@ -1278,21 +1278,21 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceEnabledScreen.kt": {
-    "mtime": 1789592465.1739364,
-    "seen": 1789653726.3651063,
-    "ast_hash": "10ddd7fbc0989fa94f03a7d4c4758272",
+    "mtime": 1789989981.4144204,
+    "seen": 1789990330.9046876,
+    "ast_hash": "9c67b5e00994cacc811bc29dab64618f",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceFabLayout.kt": {
-    "mtime": 1789651925.1344965,
-    "seen": 1789653726.3651075,
-    "ast_hash": "8338f4a3c86c3b784fd3234aa6d248d3",
+    "mtime": 1789987504.4165866,
+    "seen": 1789990330.9046886,
+    "ast_hash": "66ad167da87f726b352e4867851efddc",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/voice/VoiceRecordingBar.kt": {
-    "mtime": 1788635392.9615867,
-    "seen": 1789234284.0314572,
-    "ast_hash": "2a62715151d30cd463ae838d22b27e20",
+    "mtime": 1789987387.839013,
+    "seen": 1789990330.9046922,
+    "ast_hash": "78bde252f8d644127ce37ce1d0869075",
     "semantic_hash": ""
   },
   "app/src/test/java/br/com/banavita/app/BanavitaDatabaseIntegrationTest.kt": {
@@ -2184,9 +2184,9 @@
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormScreen.kt": {
-    "mtime": 1789769272.7338197,
-    "seen": 1789771688.0857894,
-    "ast_hash": "f9958f7915c5e8662d4a2837d36c3b0b",
+    "mtime": 1789987817.1557686,
+    "seen": 1789990330.9046638,
+    "ast_hash": "a61a38e31f9f91c07464410f0830e639",
     "semantic_hash": ""
   },
   "app/src/main/java/br/com/banavita/app/ui/pereciveis/encomenda/EncomendaFormViewModel.kt": {
@@ -2625,6 +2625,18 @@
     "mtime": 1789821102.7823565,
     "seen": 1789821578.4279583,
     "ast_hash": "f0ad336df8364c6908921d66094cd374",
+    "semantic_hash": ""
+  },
+  "app/src/main/java/br/com/banavita/app/ui/voice/VoiceHints.kt": {
+    "mtime": 1789987319.8008156,
+    "seen": 1789990330.9046905,
+    "ast_hash": "d501097dd71a8e72508f3e8e8b0785a1",
+    "semantic_hash": ""
+  },
+  "docs/Modifications/2026-09-21-ajuda-de-voz-e-ux.md": {
+    "mtime": 1789987838.7067492,
+    "seen": 1789990330.9048336,
+    "ast_hash": "b607075bfd0ee6fbb340f237c4496e55",
     "semantic_hash": ""
   }
 }
