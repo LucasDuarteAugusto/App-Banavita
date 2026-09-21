@@ -231,7 +231,7 @@ private fun PereciveisCard(
 }
 
 private fun formatKg(value: Double): String =
-    if (value % 1.0 == 0.0) value.toLong().toString() else String.format("%.1f", value)
+    if (value % 1.0 == 0.0) value.toLong().toString() else String.format(java.util.Locale.getDefault(), "%.1f", value)
 
 @Composable
 private fun ShortcutCard(

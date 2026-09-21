@@ -1,78 +1,78 @@
 [
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_mic.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_mic.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_settings.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_settings.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_payments.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_payments.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_launcher.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_settings.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_settings.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_payments.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_payments.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_store.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_store.xml"
     },
     {
         "merged": "br.com.banavita.app-debug-62:/mipmap_ic_launcher_banavita.png.flat",
         "source": "br.com.banavita.app-main-64:/mipmap/ic_launcher_banavita.png"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_category.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_category.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_local_shipping.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_local_shipping.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_apps.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_apps.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_chevron_right.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_chevron_right.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_chevron_right.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_chevron_right.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_event.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_event.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_launcher.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_launcher.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_content_copy.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_content_copy.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_chevron_left.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_chevron_left.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_people.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_people.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_people.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_people.xml"
-    },
-    {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_visibility_off.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_visibility_off.xml"
-    },
-    {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_visibility.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_visibility.xml"
-    },
-    {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_shopping_bag.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_shopping_bag.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_shopping_bag.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_shopping_bag.xml"
     },
     {
         "merged": "br.com.banavita.app-debug-62:/raw_olha_a_banana.m4a.flat",
         "source": "br.com.banavita.app-main-64:/raw/olha_a_banana.m4a"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_local_shipping.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_local_shipping.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_visibility_off.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_visibility_off.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_event.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_event.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_inventory.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_inventory.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_content_copy.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_content_copy.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_chevron_left.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_chevron_left.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_inventory.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_inventory.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_mic.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_mic.xml"
     },
     {
-        "merged": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-debug-62:\\drawable_ic_store.xml.flat",
-        "source": "C:\\Users\\lucas\\.gradle\\daemon\\8.13\\br.com.banavita.app-main-64:\\drawable\\ic_store.xml"
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_category.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_category.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_visibility.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_visibility.xml"
+    },
+    {
+        "merged": "br.com.banavita.app-debug-62:/drawable_ic_apps.xml.flat",
+        "source": "br.com.banavita.app-main-64:/drawable/ic_apps.xml"
     }
 ]

@@ -63,4 +63,15 @@ class TestRepositories(
         loteRepository,
         Provider { database.produtoDao() },
     )
+
+    val eventoRepository = br.com.banavita.app.data.repository.EventoRepository(
+        Provider { database.eventoDao() },
+        Provider { database.clienteDao() },
+        Provider { database.fornecedorDao() },
+        object : br.com.banavita.app.domain.reminder.ReminderScheduler {
+            override fun schedule(evento: br.com.banavita.app.domain.model.Evento) {}
+            override fun cancel(eventoId: java.util.UUID) {}
+            override fun rescheduleAll(eventos: List<br.com.banavita.app.domain.model.Evento>) {}
+        }
+    )
 }

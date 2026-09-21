@@ -8,7 +8,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -17,10 +16,11 @@ import br.com.banavita.app.R
 import br.com.banavita.app.data.repository.AppSettingsRepository
 import br.com.banavita.app.data.repository.EventoRepository
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.UUID
+import androidx.core.net.toUri
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +49,7 @@ class AgendaAlarmReceiver : BroadcastReceiver() {
         ensureChannel(context, appSettingsRepository)
         val deepLink = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(AgendaNotifications.DEEP_LINK_PREFIX + eventoId),
+            (AgendaNotifications.DEEP_LINK_PREFIX + eventoId).toUri(),
             context,
             MainActivity::class.java,
         ).apply {
@@ -90,8 +90,8 @@ class AgendaAlarmReceiver : BroadcastReceiver() {
         fun ensureChannel(context: Context, appSettingsRepository: AppSettingsRepository? = null) {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             
-            val soundUri = appSettingsRepository?.getRingtoneUri()?.let { Uri.parse(it) }
-                ?: Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.olha_a_banana}")
+            val soundUri = appSettingsRepository?.getRingtoneUri()?.toUri()
+                ?: ("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.olha_a_banana}").toUri()
 
             val channelId = if (appSettingsRepository?.getRingtoneUri() != null) {
                 "${AgendaNotifications.CHANNEL_ID}_custom"

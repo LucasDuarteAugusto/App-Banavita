@@ -16,9 +16,9 @@ import java.util.UUID
 
 @Composable
 fun ProdutoListRoute(
+    modifier: Modifier = Modifier,
     onAddClick: () -> Unit = {},
     onItemClick: (UUID) -> Unit = {},
-    modifier: Modifier = Modifier,
     viewModel: ProdutoListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()

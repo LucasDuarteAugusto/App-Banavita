@@ -8,7 +8,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -21,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class PereciveisAlarmReceiver : BroadcastReceiver() {
@@ -78,13 +78,13 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
     }
 
     private fun formatQty(value: Double): String =
-        if (value % 1.0 == 0.0) value.toLong().toString() else String.format("%.1f", value)
+        if (value % 1.0 == 0.0) value.toLong().toString() else String.format(java.util.Locale.getDefault(), "%.1f", value)
 
     private fun showNotification(context: Context, body: String) {
         ensureChannel(context, appSettingsRepository)
         val deepLink = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(PereciveisNotifications.DEEP_LINK),
+            PereciveisNotifications.DEEP_LINK.toUri(),
             context,
             MainActivity::class.java,
         ).apply {
@@ -127,8 +127,8 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
         fun ensureChannel(context: Context, appSettingsRepository: AppSettingsRepository? = null) {
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             
-            val soundUri = appSettingsRepository?.getRingtoneUri()?.let { Uri.parse(it) }
-                ?: Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.olha_a_banana}")
+            val soundUri = appSettingsRepository?.getRingtoneUri()?.toUri()
+                ?: ("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${context.packageName}/${R.raw.olha_a_banana}").toUri()
 
             val channelId = if (appSettingsRepository?.getRingtoneUri() != null) {
                 "${PereciveisNotifications.CHANNEL_ID}_custom"

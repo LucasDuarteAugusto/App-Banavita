@@ -58,8 +58,10 @@ class PereciveisIntegrationTest {
             Provider { database },
             Provider { database.encomendaDao() },
             Provider { database.clienteDao() },
+            Provider { database.produtoDao() },
             graph.loteRepository,
             graph.vendaRepository,
+            Provider { graph.eventoRepository },
         )
     }
 

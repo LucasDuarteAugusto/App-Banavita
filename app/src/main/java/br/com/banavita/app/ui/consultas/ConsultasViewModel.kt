@@ -486,7 +486,7 @@ class ConsultasViewModel @Inject constructor(
                     PerdaConsultaItem(
                         produtoId = produtoId,
                         descricao = produto.descricao,
-                        detalhe = "Comprado ${formatQuantity(kgComp, produto.unidade)} · vendido ${formatQuantity(kgVend, produto.unidade)} · perdido ${formatQuantity(kgPerd, produto.unidade)} (${String.format("%.1f", pct)}%)",
+                        detalhe = "Comprado ${formatQuantity(kgComp, produto.unidade)} · vendido ${formatQuantity(kgVend, produto.unidade)} · perdido ${formatQuantity(kgPerd, produto.unidade)} (${String.format(java.util.Locale.getDefault(), "%.1f", pct)}%)",
                         valorFormatado = formatCurrency(valor),
                     )
                 }.sortedByDescending { it.descricao }

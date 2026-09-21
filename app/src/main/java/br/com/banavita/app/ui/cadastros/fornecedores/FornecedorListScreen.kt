@@ -17,9 +17,9 @@ import java.util.UUID
 
 @Composable
 fun FornecedorListRoute(
+    modifier: Modifier = Modifier,
     onAddClick: () -> Unit = {},
     onItemClick: (UUID) -> Unit = {},
-    modifier: Modifier = Modifier,
     viewModel: FornecedorListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()

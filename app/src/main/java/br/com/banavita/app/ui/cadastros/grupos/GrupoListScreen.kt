@@ -17,9 +17,9 @@ import java.util.UUID
 
 @Composable
 fun GrupoListRoute(
+    modifier: Modifier = Modifier,
     onAddClick: () -> Unit = {},
     onItemClick: (UUID) -> Unit = {},
-    modifier: Modifier = Modifier,
     viewModel: GrupoListViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()

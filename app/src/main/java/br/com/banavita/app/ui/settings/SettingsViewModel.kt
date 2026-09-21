@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.banavita.app.core.reminder.PereciveisMorningScheduler
 import br.com.banavita.app.data.backup.BackupManifest
+import androidx.core.net.toUri
 import br.com.banavita.app.data.repository.AppSettingsRepository
 import br.com.banavita.app.data.repository.DatabaseBackupRepository
 import br.com.banavita.app.data.repository.SpeechToTextRepository
@@ -127,7 +128,7 @@ class SettingsViewModel @Inject constructor(
     private fun getRingtoneName(uriString: String?): String? {
         if (uriString == null) return null
         return try {
-            val uri = Uri.parse(uriString)
+            val uri = uriString.toUri()
             RingtoneManager.getRingtone(context, uri)?.getTitle(context)
         } catch (e: Exception) {
             null

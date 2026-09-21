@@ -116,6 +116,13 @@ android {
         buildConfig = true
     }
 
+    lint {
+        disable += "ChromeOsAbiSupport"
+        disable += "UnusedResources"
+        disable += "PluralsCandidate"
+        disable += "IconLauncherShape"
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -190,7 +197,7 @@ dependencies {
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.security.crypto)
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.core)
