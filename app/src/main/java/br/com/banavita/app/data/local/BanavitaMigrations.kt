@@ -337,3 +337,26 @@ val MIGRATION_7_8 = object : Migration(7, 8) {
         db.execSQL("ALTER TABLE encomenda ADD COLUMN ENC_EVENTO TEXT")
     }
 }
+
+val MIGRATION_8_9 = object : Migration(8, 9) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE venda ADD COLUMN VEN_VENCIMENTO INTEGER")
+        db.execSQL("ALTER TABLE compra ADD COLUMN COM_VENCIMENTO INTEGER")
+        db.execSQL("ALTER TABLE evento ADD COLUMN EVE_TIPO TEXT NOT NULL DEFAULT 'LEMBRETE'")
+        db.execSQL("ALTER TABLE evento ADD COLUMN EVE_STATUS TEXT NOT NULL DEFAULT 'PENDENTE'")
+        db.execSQL("ALTER TABLE evento ADD COLUMN EVE_PRIORIDADE TEXT NOT NULL DEFAULT 'MEDIA'")
+        db.execSQL("ALTER TABLE encomenda_item ADD COLUMN ENI_ENTREGUE REAL NOT NULL DEFAULT 0")
+        db.execSQL("ALTER TABLE encomenda_item ADD COLUMN ENI_UNIDADE TEXT")
+        db.execSQL("UPDATE encomenda_item SET ENI_UNIDADE = (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = ENI_PRODUTO)")
+        db.execSQL("UPDATE encomenda_item SET ENI_ENTREGUE = ENI_QTDE WHERE ENI_ENCOMENDA IN (SELECT ENC_ID FROM encomenda WHERE ENC_STATUS = 'ATENDIDO')")
+        db.execSQL("UPDATE evento SET EVE_TIPO = 'ENTREGA', EVE_STATUS = CASE WHEN EVE_ID IN (SELECT ENC_EVENTO FROM encomenda WHERE ENC_STATUS = 'ATENDIDO') THEN 'CONCLUIDO' ELSE 'PENDENTE' END WHERE EVE_ID IN (SELECT ENC_EVENTO FROM encomenda)")
+        db.execSQL("UPDATE encomenda SET ENC_STATUS = 'ENTREGUE' WHERE ENC_STATUS = 'ATENDIDO'")
+        db.execSQL("CREATE TABLE entrega_item (requestId TEXT NOT NULL, itemId TEXT NOT NULL, vendaId TEXT NOT NULL, quantidade REAL NOT NULL, data INTEGER NOT NULL, PRIMARY KEY(requestId, itemId), FOREIGN KEY(itemId) REFERENCES encomenda_item(ENI_ID) ON UPDATE NO ACTION ON DELETE RESTRICT, FOREIGN KEY(vendaId) REFERENCES venda(VEN_ID) ON UPDATE NO ACTION ON DELETE RESTRICT)")
+        db.execSQL("CREATE INDEX index_entrega_item_itemId ON entrega_item(itemId)")
+        db.execSQL("CREATE INDEX index_entrega_item_vendaId ON entrega_item(vendaId)")
+        db.execSQL("CREATE TABLE estoque_snapshot (dia INTEGER NOT NULL, produtoId TEXT NOT NULL, unidade TEXT NOT NULL, estado TEXT NOT NULL, camara TEXT NOT NULL, quantidade REAL NOT NULL, PRIMARY KEY(dia, produtoId, unidade, estado, camara))")
+        db.execSQL("CREATE TABLE caixa_base (id INTEGER NOT NULL PRIMARY KEY, data INTEGER NOT NULL, saldoCentavos INTEGER NOT NULL)")
+        // Restart the new clock at the local migration day; preserve existing states.
+        db.execSQL("UPDATE lote SET LOT_ETAPA_INICIO_DAY = CAST(julianday('now', 'localtime', 'start of day') - julianday('1970-01-01') AS INTEGER) WHERE LOT_ESTADO NOT IN ('CRUA', 'PODRE')")
+    }
+}

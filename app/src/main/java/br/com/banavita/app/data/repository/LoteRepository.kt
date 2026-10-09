@@ -68,8 +68,8 @@ class LoteRepository @Inject constructor(
 
     suspend fun getById(id: UUID): Lote? = loteDao.get().getById(id)?.toDomain()
 
-    suspend fun saldoPorEstado(produtoId: UUID, estado: MaturacaoEstado): Double =
-        loteDao.get().saldoPorEstado(produtoId, estado.name)
+    suspend fun saldoPorEstado(produtoId: UUID, estado: MaturacaoEstado, unidade: String? = null): Double =
+        loteDao.get().saldoPorEstado(produtoId, estado.name, unidade)
 
     suspend fun criarLotesDaCompra(
         compraId: UUID,
@@ -225,7 +225,7 @@ class LoteRepository @Inject constructor(
                 quantidadeRestante = quantidade,
                 camara = camaraFinal.name,
                 estado = estado.name,
-                etapaInicioEpochDay = if (camaraFinal == Camara.ETILENO) today else null,
+                etapaInicioEpochDay = if (estado != MaturacaoEstado.CRUA) today else null,
                 custoUnitarioCentavos = custoUnitarioCentavos,
                 rotulo = rotulo,
                 unidade = unidade,
@@ -337,7 +337,7 @@ class LoteRepository @Inject constructor(
                         quantidadeRestante = qtyToChange,
                         estado = estado.name,
                         camara = novaCamara.name,
-                        etapaInicioEpochDay = if (novaCamara == Camara.ETILENO) today else null,
+                        etapaInicioEpochDay = if (estado != MaturacaoEstado.CRUA) today else null,
                         rotulo = lote.rotulo + " (corrigido)"
                     )
                 )
@@ -347,7 +347,7 @@ class LoteRepository @Inject constructor(
                     lote.copy(
                         estado = estado.name,
                         camara = novaCamara.name,
-                        etapaInicioEpochDay = if (novaCamara == Camara.ETILENO) today else null,
+                        etapaInicioEpochDay = if (estado != MaturacaoEstado.CRUA) today else null,
                         updatedAt = timestamp,
                     )
                 )
@@ -361,9 +361,10 @@ class LoteRepository @Inject constructor(
         quantidade: Double,
         vendaId: UUID,
         timestamp: Long,
+        unidade: String? = null,
     ) {
         var restante = quantidade
-        val lotes = loteDao.get().fifoDisponiveis(produtoId, estado.name)
+        val lotes = loteDao.get().fifoDisponiveis(produtoId, estado.name, unidade)
         val disponivel = lotes.sumOf { it.quantidadeRestante }
         if (disponivel + 1e-9 < quantidade) {
             throw InsufficientStockException(produtoId.toString(), disponivel, quantidade)
@@ -577,7 +578,7 @@ class LoteRepository @Inject constructor(
             for (enc in encSorted) {
                 val targetDay = RipeningClock.todayEpochDay(enc.dataEntrega)
                 for (itemEnc in enc.itens.filter { it.produtoId == produtoId }) {
-                    var falta = itemEnc.quantidade
+                    var falta = itemEnc.quantidadePendente
                     // Quais lotes simulados estarão no estado itemEnc.estado no dia targetDay?
                     val comp = compareBy<LoteSim>({ if (it.camara == Camara.ETILENO) 0 else 1 }, { it.dataEntrada }, { it.createdAt })
                     val disponiveisNaData = simLotes.filter { it.qtde > 1e-9 }.filter { ls ->

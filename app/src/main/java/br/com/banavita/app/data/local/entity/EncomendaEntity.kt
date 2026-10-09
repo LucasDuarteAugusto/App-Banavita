@@ -85,4 +85,8 @@ data class EncomendaItemEntity(
     val quantidade: Double,
     @ColumnInfo(name = "ENI_VALOR_UNITARIO")
     val valorUnitarioCentavos: Long? = null,
+    @ColumnInfo(name = "ENI_ENTREGUE", defaultValue = "0")
+    val quantidadeEntregue: Double = 0.0,
+    @ColumnInfo(name = "ENI_UNIDADE")
+    val unidade: String? = null,
 )

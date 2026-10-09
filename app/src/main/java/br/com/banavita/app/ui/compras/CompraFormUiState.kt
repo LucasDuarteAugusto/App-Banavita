@@ -14,6 +14,7 @@ data class CompraFormUiState(
     val produtos: List<Produto> = emptyList(),
     val itens: List<DocumentLineItemFormState> = listOf(DocumentLineItemFormState()),
     val aPrazo: Boolean = false,
+    val vencimentoInput: String = "",
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isDeleting: Boolean = false,

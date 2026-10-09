@@ -454,4 +454,5 @@
     <string name="voice_sheet_subtitle">Fale apenas os dados na ordem para melhor precisão:</string>
     <string name="voice_sheet_example_label">Exemplo:</string>
     <string name="voice_sheet_pattern_label">Padrão:</string>
+    <string name="dashboard_general_title">Dashboard Geral</string>
 </resources>

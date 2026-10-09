@@ -65,7 +65,8 @@ fun MainAppShell(
         customTitle = null
     }
 
-    val baseTitle = titleForRoute(
+    val dashboardTitle = navBackStackEntry?.arguments?.getString("kind")?.let { raw -> br.com.banavita.app.domain.model.DashboardKind.entries.find { it.name == raw }?.title }
+    val baseTitle = dashboardTitle ?: titleForRoute(
         route = currentRoute,
         modo = navBackStackEntry?.arguments?.getString("modo"),
         criticos = navBackStackEntry?.arguments?.getString("criticos")
@@ -164,7 +165,7 @@ fun MainAppShell(
 @Composable
 private fun titleForRoute(route: String?, modo: String?, criticos: String?): String {
     val titleRes = when {
-        route == BanavitaRoutes.HOME -> R.string.home_title
+        route == BanavitaRoutes.HOME -> R.string.dashboard_general_title
         route == BanavitaRoutes.SETTINGS -> R.string.settings_title
         route == BanavitaRoutes.VENDAS -> R.string.vendas_title
         route == BanavitaRoutes.COMPRAS -> R.string.compras_title

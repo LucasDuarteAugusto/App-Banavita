@@ -78,6 +78,7 @@ fun VendaFormRoute(
             onDataChange = viewModel::onDataChange,
             onClienteSelected = viewModel::onClienteSelected,
             onAPrazoChange = viewModel::onAPrazoChange,
+            onVencimentoChange = viewModel::onVencimentoChange,
             onProdutoSelected = viewModel::onProdutoSelected,
             onEstadoSelected = viewModel::onEstadoSelected,
             onQuantidadeChange = viewModel::onQuantidadeChange,
@@ -106,6 +107,7 @@ fun VendaFormScreen(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
     voiceEnabled: Boolean = false,
+    onVencimentoChange: (String) -> Unit = {},
 ) {
     FormScaffold(
         modifier = modifier,
@@ -152,6 +154,10 @@ fun VendaFormScreen(
             )
         }
 
+        if (uiState.aPrazo) {
+            DocumentDateField(value = uiState.vencimentoInput, onValueChange = onVencimentoChange, enabled = !uiState.isSaving, label = "Vencimento")
+            if (uiState.vencimentoInput.isBlank() && uiState.isEditMode) Text("Sem vencimento: preencha para incluir na projeção.")
+        }
         uiState.itens.forEachIndexed { index, item ->
             DocumentLineItemCard(
                 index = index,

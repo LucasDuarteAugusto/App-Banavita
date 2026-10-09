@@ -40,6 +40,9 @@ import br.com.banavita.app.data.local.view.ProdutoEstoqueView
 
 @Database(
     entities = [
+        br.com.banavita.app.data.local.entity.EntregaItemEntity::class,
+        br.com.banavita.app.data.local.entity.EstoqueSnapshotEntity::class,
+        br.com.banavita.app.data.local.entity.CaixaBaseEntity::class,
         GrupoEntity::class,
         ProdutoEntity::class,
         ClienteEntity::class,
@@ -59,11 +62,12 @@ import br.com.banavita.app.data.local.view.ProdutoEstoqueView
         EncomendaItemEntity::class,
     ],
     views = [ProdutoEstoqueView::class, EstoqueLinhaView::class],
-    version = 8,
+    version = 9,
     exportSchema = true,
 )
 @TypeConverters(UuidConverters::class)
 abstract class BanavitaDatabase : RoomDatabase() {
+    abstract fun dashboardDao(): br.com.banavita.app.data.local.dao.DashboardDao
     abstract fun grupoDao(): GrupoDao
     abstract fun produtoDao(): ProdutoDao
     abstract fun clienteDao(): ClienteDao
@@ -81,6 +85,6 @@ abstract class BanavitaDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "banavita.db"
-        const val SCHEMA_VERSION = 8
+        const val SCHEMA_VERSION = 9
     }
 }

@@ -91,6 +91,7 @@ class FinanceiroRepositoryTest {
             clienteId = clienteId,
             itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
             aPrazo = true,
+            vencimento = System.currentTimeMillis() + 86_400_000L,
         )
         val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
         financeiroRepository.registrarRecebimento(vendaId, total / 2)
@@ -116,6 +117,7 @@ class FinanceiroRepositoryTest {
                 clienteId = clienteId,
                 itens = listOf(DocumentoItemInput(produtoId, 1.0, 1000)),
                 aPrazo = true,
+            vencimento = System.currentTimeMillis() + 86_400_000L,
             )
             val total = vendaRepository.getById(vendaId)!!.valorTotalCentavos
             financeiroRepository.registrarRecebimento(vendaId, total + 1)

@@ -71,6 +71,7 @@ sealed class ExtractionFields {
         val cliente: ResolvedEntity?,
         val clienteRaw: ExtractionField<String>,
         val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
+        val vencimentoInput: String = "",
     ) : ExtractionFields()
 
     data class CompraDraft(
@@ -78,6 +79,7 @@ sealed class ExtractionFields {
         val fornecedor: ResolvedEntity?,
         val fornecedorRaw: ExtractionField<String>,
         val aPrazo: ExtractionField<Boolean> = ExtractionField(false, "à vista", 0.4f),
+        val vencimentoInput: String = "",
     ) : ExtractionFields()
 
     data class ClienteDraft(

@@ -38,12 +38,14 @@ class CompraRepository @Inject constructor(
         fornecedorId: UUID?,
         itens: List<DocumentoItemInput>,
         aPrazo: Boolean = false,
+        vencimento: Long? = null,
     ): UUID {
         fornecedorId?.let {
             if (fornecedorDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Fornecedor $it não encontrado.")
             }
         }
+        if (aPrazo && vencimento == null) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Informe o vencimento.")
         val timestamp = now()
         val compraId = UUID.randomUUID()
         val itemEntities = documentoItemFactory.buildCompraItens(compraId, itens, timestamp)
@@ -56,6 +58,7 @@ class CompraRepository @Inject constructor(
             fornecedorId = fornecedorId,
             valorTotalCentavos = total,
             aPrazo = aPrazo,
+            vencimento = if (aPrazo) vencimento else null,
         )
         database.get().withTransaction {
             compraDao.get().insertCompraComItens(compra, itemEntities)
@@ -81,6 +84,7 @@ class CompraRepository @Inject constructor(
         data: Long,
         fornecedorId: UUID?,
         itens: List<DocumentoItemInput>,
+        vencimento: Long? = null,
     ) {
         val existing = compraDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Compra $id não encontrada.")
@@ -95,6 +99,7 @@ class CompraRepository @Inject constructor(
             data = data,
             fornecedorId = fornecedorId,
             valorTotalCentavos = totalCompraCentavos(itemEntities),
+            vencimento = if (existing.compra.aPrazo) vencimento else null,
             updatedAt = timestamp,
         )
         database.get().withTransaction {

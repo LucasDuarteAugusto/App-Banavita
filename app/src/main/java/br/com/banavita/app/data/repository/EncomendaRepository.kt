@@ -69,12 +69,12 @@ class EncomendaRepository @Inject constructor(
                 estado = estado.name,
                 quantidade = input.quantidade,
                 valorUnitarioCentavos = input.valorUnitarioCentavos,
+                unidade = input.unidade ?: produtoDao.get().getById(input.produtoId)?.unidade,
             )
         }
 
-        val eventoId = gerarEventoDaEncomenda(clienteId, dataEntrega, itens, notificar, antecipacaoMinutos)
-
         database.get().withTransaction {
+            val eventoId = gerarEventoDaEncomenda(clienteId, dataEntrega, itens, notificar, antecipacaoMinutos)
             encomendaDao.get().insertComItens(
                 EncomendaEntity(
                     id = id,
@@ -102,7 +102,7 @@ class EncomendaRepository @Inject constructor(
     ) {
         val existing = encomendaDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Encomenda $id não encontrada.")
-        if (existing.encomenda.status != EncomendaStatus.ABERTO.name) {
+        if (existing.encomenda.status == EncomendaStatus.ENTREGUE.name || existing.itens.any { it.quantidadeEntregue > 0 }) {
             throw InvalidDocumentException("Encomenda já atendida não pode ser alterada.")
         }
         database.get().withTransaction {
@@ -122,6 +122,7 @@ class EncomendaRepository @Inject constructor(
                     estado = estado.name,
                     quantidade = input.quantidade,
                     valorUnitarioCentavos = input.valorUnitarioCentavos,
+                unidade = input.unidade ?: produtoDao.get().getById(input.produtoId)?.unidade,
                 )
             }
 
@@ -174,6 +175,7 @@ class EncomendaRepository @Inject constructor(
                 notificar = notificar,
                 antecipacaoMinutos = antecipacaoMinutos,
                 notifTitulo = titulo,
+                tipo = br.com.banavita.app.domain.model.EventoTipo.ENTREGA,
                 notifCorpo = obs
             )
         } else {
@@ -195,12 +197,12 @@ class EncomendaRepository @Inject constructor(
 
     suspend fun delete(id: UUID) {
         val existing = encomendaDao.get().getWithItems(id) ?: return
-        if (existing.encomenda.status != EncomendaStatus.ABERTO.name) {
+        if (existing.encomenda.status != EncomendaStatus.ABERTO.name || existing.itens.any { it.quantidadeEntregue > 0 }) {
             throw InvalidDocumentException("Encomenda já atendida não pode ser excluída.")
         }
         database.get().withTransaction {
-            existing.encomenda.eventoId?.let { eventoRepository.get().delete(it) }
             encomendaDao.get().delete(id)
+            existing.encomenda.eventoId?.let { eventoRepository.get().delete(it) }
         }
     }
 
@@ -208,61 +210,75 @@ class EncomendaRepository @Inject constructor(
      * Gera uma venda com os itens da encomenda.
      * [permitirParcial]: se faltar saldo, reduz a quantidade ao disponível (com confirmação na UI).
      */
-    suspend fun atender(id: UUID, aPrazo: Boolean, permitirParcial: Boolean): UUID {
-        val existing = encomendaDao.get().getWithItems(id)
-            ?: throw ReferencedEntityException("Encomenda $id não encontrada.")
-        if (existing.encomenda.status != EncomendaStatus.ABERTO.name) {
-            throw InvalidDocumentException("Esta encomenda já foi atendida.")
+    suspend fun mudarEtapa(id: UUID, status: EncomendaStatus) {
+        if (status == EncomendaStatus.ENTREGUE) throw InvalidDocumentException("Confirme a entrega para gerar a venda.")
+        database.get().withTransaction {
+            val current = encomendaDao.get().getWithItems(id) ?: throw ReferencedEntityException("Encomenda não encontrada.")
+            if (!EncomendaStatus.valueOf(current.encomenda.status).pendente) throw InvalidDocumentException("Encomenda entregue.")
+            if (status.ordinal != EncomendaStatus.valueOf(current.encomenda.status).ordinal + 1) throw InvalidDocumentException("Avance uma etapa por vez.")
+            encomendaDao.get().update(current.encomenda.copy(status = status.name, updatedAt = nowEpochMillis()))
+            current.encomenda.eventoId?.let { database.get().dashboardDao().syncDeliveryEvent(it, if (status == EncomendaStatus.EM_ROTA) "EM_ANDAMENTO" else "PENDENTE", nowEpochMillis()) }
         }
-        val inputs = mutableListOf<DocumentoItemInput>()
-        existing.itens.forEach { item ->
-            val estado = MaturacaoEstado.fromStored(item.estado)
-                ?: throw InvalidDocumentException("Item da encomenda sem estado.")
-            val disponivel = loteRepository.saldoPorEstado(item.produtoId, estado)
-            val quantidade = when {
-                disponivel + 1e-9 >= item.quantidade -> item.quantidade
-                permitirParcial -> disponivel
-                else -> throw InsufficientStockException(
-                    produtoId = item.produtoId.toString(),
-                    disponivel = disponivel,
-                    solicitado = item.quantidade,
-                )
+    }
+
+    suspend fun atender(
+        id: UUID, aPrazo: Boolean, permitirParcial: Boolean,
+        vencimento: Long? = null, requestId: UUID = UUID.randomUUID(),
+        quantidades: Map<UUID, Double>? = null,
+    ): UUID {
+        val result = database.get().withTransaction {
+            val history = database.get().dashboardDao().delivery(requestId)
+            if (history.isNotEmpty()) return@withTransaction history.first().vendaId
+            val existing = encomendaDao.get().getWithItems(id) ?: throw ReferencedEntityException("Encomenda não encontrada.")
+            if (existing.encomenda.status == EncomendaStatus.ENTREGUE.name) throw InvalidDocumentException("Esta encomenda já foi entregue.")
+            val now = nowEpochMillis()
+            if (quantidades != null && quantidades.any { (itemId, qty) -> !qty.isFinite() || qty < 0 || existing.itens.none { it.id == itemId } }) {
+                throw InvalidDocumentException("Quantidades de entrega inválidas.")
             }
-            if (quantidade > 1e-9) {
-                inputs += DocumentoItemInput(
-                    produtoId = item.produtoId,
-                    quantidade = quantidade,
-                    estado = estado,
-                    valorUnitarioCentavos = item.valorUnitarioCentavos,
-                )
+            val inputs = mutableListOf<DocumentoItemInput>()
+            val delivered = mutableMapOf<UUID, Double>()
+            val available = mutableMapOf<Triple<UUID, String, String?>, Double>()
+            existing.itens.forEach { item ->
+                val pending = (item.quantidade - item.quantidadeEntregue).coerceAtLeast(0.0)
+                if (pending <= 1e-9) return@forEach
+                val requested = quantidades?.get(item.id) ?: if (quantidades == null) pending else 0.0
+                if (requested > pending + 1e-9) throw InvalidDocumentException("A entrega excede a quantidade pendente.")
+                if (requested <= 1e-9) return@forEach
+                val key = Triple(item.produtoId, item.estado, item.unidade)
+                val stock = available[key] ?: loteRepository.saldoPorEstado(item.produtoId, MaturacaoEstado.valueOf(item.estado), item.unidade)
+                val qty = if (permitirParcial) minOf(requested, stock) else requested
+                if (qty > stock + 1e-9) throw InsufficientStockException(item.produtoId.toString(), stock, requested)
+                available[key] = (stock - qty).coerceAtLeast(0.0)
+                if (qty > 1e-9) {
+                    inputs += DocumentoItemInput(item.produtoId, qty, item.valorUnitarioCentavos, MaturacaoEstado.valueOf(item.estado), item.unidade)
+                    delivered[item.id] = qty
+                }
             }
+            if (inputs.isEmpty()) throw InvalidDocumentException("Não há saldo para entregar os itens pendentes.")
+            val sale = vendaRepository.create(now, existing.encomenda.clienteId, inputs, aPrazo, vencimento)
+            existing.itens.forEach { item -> delivered[item.id]?.let { qty ->
+                encomendaDao.get().updateItem(item.copy(quantidadeEntregue = item.quantidadeEntregue + qty, updatedAt = now))
+            } }
+            val complete = existing.itens.all { it.quantidadeEntregue + (delivered[it.id] ?: 0.0) >= it.quantidade - 1e-9 }
+            encomendaDao.get().update(existing.encomenda.copy(status = if (complete) "ENTREGUE" else "ABERTO", vendaId = sale, updatedAt = now))
+            database.get().dashboardDao().insertDelivery(delivered.map { (item, qty) -> br.com.banavita.app.data.local.entity.EntregaItemEntity(requestId, item, sale, qty, now) })
+            existing.encomenda.eventoId?.let { database.get().dashboardDao().syncDeliveryEvent(it, if (complete) "CONCLUIDO" else "PENDENTE", now) }
+            sale
         }
-        if (inputs.isEmpty()) {
-            throw InvalidDocumentException("Não há saldo do estado pedido para atender esta encomenda.")
-        }
-        val vendaId = vendaRepository.create(
-            data = nowEpochMillis(),
-            clienteId = existing.encomenda.clienteId,
-            itens = inputs,
-            aPrazo = aPrazo,
-        )
-        encomendaDao.get().update(
-            existing.encomenda.copy(
-                status = EncomendaStatus.ATENDIDO.name,
-                vendaId = vendaId,
-                updatedAt = nowEpochMillis(),
-            ),
-        )
-        return vendaId
+        getById(id)?.eventoId?.let { eventoRepository.get().refreshReminder(it) }
+        return result
     }
 
     suspend fun obterTotalEncomendadoAberto(produtoId: UUID, estado: MaturacaoEstado): Double =
         encomendaDao.get().totalAbertoPorProdutoEstado(produtoId, estado.name)
 
+    suspend fun historicoEntregas(id: UUID): List<br.com.banavita.app.data.local.entity.EntregaItemEntity> =
+        database.get().dashboardDao().deliveryHistory(id)
+
     suspend fun getAbertasDoProduto(produtoId: UUID): List<Encomenda> =
         encomendaDao.get().observeAllWithItems().map { list -> 
             list.map { it.toDomain() }
-                .filter { it.status == EncomendaStatus.ABERTO }
+                .filter { it.status.pendente }
                 .filter { it.itens.any { item -> item.produtoId == produtoId } }
         }.first()
 }
@@ -284,6 +300,8 @@ fun EncomendaWithItems.toDomain(): Encomenda =
                 produtoId = item.produtoId,
                 estado = MaturacaoEstado.valueOf(item.estado),
                 quantidade = item.quantidade,
+                quantidadeEntregue = item.quantidadeEntregue,
+                unidade = item.unidade,
                 valorUnitarioCentavos = item.valorUnitarioCentavos,
             )
         },

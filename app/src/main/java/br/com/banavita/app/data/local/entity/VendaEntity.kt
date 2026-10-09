@@ -39,4 +39,6 @@ data class VendaEntity(
     val valorTotalCentavos: Long,
     @ColumnInfo(name = "VEN_PRAZO")
     val aPrazo: Boolean = false,
+    @ColumnInfo(name = "VEN_VENCIMENTO")
+    val vencimento: Long? = null,
 )

@@ -34,6 +34,12 @@ data class EncomendaFormUiState(
     val produtos: List<Produto> = emptyList(),
     val itens: List<DocumentLineItemFormState> = listOf(DocumentLineItemFormState()),
     val aPrazo: Boolean = false,
+    val vencimentoInput: String = "",
+    val entregaResumo: String = "",
+    val itensEntrega: List<br.com.banavita.app.domain.model.EncomendaItem> = emptyList(),
+    val quantidadesEntrega: Map<UUID, String> = emptyMap(),
+    val historicoEntregas: List<String> = emptyList(),
+    val temEntrega: Boolean = false,
     val notificar: Boolean = false,
     val antecipacaoMinutos: Int? = 60,
     val status: EncomendaStatus = EncomendaStatus.ABERTO,
@@ -57,6 +63,7 @@ class EncomendaFormViewModel @Inject constructor(
     private val eventoRepository: br.com.banavita.app.data.repository.EventoRepository,
 ) : ViewModel() {
 
+    private val entregaRequestId = UUID.randomUUID()
     private val encomendaId: UUID? = savedStateHandle.get<String>(BanavitaRoutes.ARG_ENCOMENDA_ID)
         ?.let(UUID::fromString)
 
@@ -89,6 +96,7 @@ class EncomendaFormViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = false, errorMessage = "Encomenda não encontrada.") }
                         return@launch
                     }
+                    val history = encomendaRepository.historicoEntregas(id).groupBy { it.vendaId }.map { (sale, rows) -> "${br.com.banavita.app.ui.common.formatDateTime(rows.first().data)} · Venda $sale" }
                     val evento = enc.eventoId?.let { eventoRepository.getById(it) }
                     _uiState.update {
                         it.copy(
@@ -96,6 +104,11 @@ class EncomendaFormViewModel @Inject constructor(
                             horaInput = br.com.banavita.app.ui.common.DateTimeInputParser.formatTime(enc.dataEntrega),
                             clienteId = enc.clienteId,
                             status = enc.status,
+                            itensEntrega = enc.itens,
+                            historicoEntregas = history,
+                            quantidadesEntrega = enc.itens.associate { it.id to it.quantidadePendente.toString().replace('.', ',') },
+                            temEntrega = enc.itens.any { it.quantidadeEntregue > 0 },
+                            entregaResumo = enc.itens.joinToString(" · ") { "Entregue: ${it.quantidadeEntregue} / ${it.quantidade}" },
                             notificar = evento?.notificar ?: false,
                             antecipacaoMinutos = evento?.antecipacaoMinutos ?: 60,
                             itens = enc.itens.map { item ->
@@ -140,6 +153,19 @@ class EncomendaFormViewModel @Inject constructor(
                 }
             }
             _uiState.update { it.copy(itens = updatedItens) }
+        }
+    }
+
+    fun onEntregaQuantidade(id: UUID, value: String) = _uiState.update { it.copy(quantidadesEntrega = it.quantidadesEntrega + (id to value), errorMessage = null) }
+
+    fun onVencimentoChange(value: String) = _uiState.update { it.copy(vencimentoInput = value) }
+
+    fun avancarEtapa() {
+        val id = encomendaId ?: return
+        val next = EncomendaStatus.entries.getOrNull(_uiState.value.status.ordinal + 1) ?: return
+        if (next == EncomendaStatus.ENTREGUE) return
+        viewModelScope.launch {
+            runCatching { encomendaRepository.mudarEtapa(id, next) }.onSuccess { _uiState.update { it.copy(status = next) } }.onFailure { error -> _uiState.update { it.copy(errorMessage = error.message) } }
         }
     }
 
@@ -222,7 +248,7 @@ class EncomendaFormViewModel @Inject constructor(
 
     fun save(onSuccess: () -> Unit) {
         val state = _uiState.value
-        if (state.status != EncomendaStatus.ABERTO && state.isEditMode) {
+        if (!state.status.pendente && state.isEditMode) {
             _uiState.update { it.copy(errorMessage = "Encomenda já atendida não pode ser alterada.") }
             return
         }
@@ -263,9 +289,15 @@ class EncomendaFormViewModel @Inject constructor(
 
     fun atender(onSuccess: () -> Unit, parcial: Boolean = false) {
         val id = encomendaId ?: return
+        if (_uiState.value.isAtendendo) return
+        val due = _uiState.value.vencimentoInput.takeIf { it.isNotBlank() }?.let(br.com.banavita.app.ui.common.DateInputParser::parseToEpochMillis)
+        val quantities = _uiState.value.quantidadesEntrega.mapValues { (_, value) -> value.trim().replace(',', '.').toDoubleOrNull() }
+        if (quantities.values.any { it == null || !it.isFinite() || it < 0 }) { _uiState.update { it.copy(errorMessage = "Informe quantidades de entrega válidas, ou zero para manter pendente.") }; return }
+        val selected = quantities.mapValues { it.value!! }
+        if (_uiState.value.aPrazo && due == null) { _uiState.update { it.copy(errorMessage = "Informe um vencimento válido.") }; return }
         viewModelScope.launch {
             _uiState.update { it.copy(isAtendendo = true, showParcialDialog = false, errorMessage = null) }
-            runCatching { encomendaRepository.atender(id, _uiState.value.aPrazo, parcial) }
+            runCatching { encomendaRepository.atender(id, _uiState.value.aPrazo, parcial, due, entregaRequestId, selected) }
                 .onSuccess {
                     _uiState.update { it.copy(isAtendendo = false) }
                     onSuccess()

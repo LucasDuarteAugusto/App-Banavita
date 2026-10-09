@@ -70,7 +70,7 @@ object BanavitaRoutes {
     fun topLevelRouteFor(route: String?): String? = when {
         route == null -> null
         route == HOME || route.startsWith("$HOME/") -> HOME
-        route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") ||
+        route.startsWith("dashboards/") || route == SETTINGS || route.startsWith("consultas") || route.startsWith("agenda") ||
             route.startsWith("pereciveis") -> HOME
         route == VENDAS || route.startsWith("$VENDAS/") -> VENDAS
         route == COMPRAS || route.startsWith("$COMPRAS/") -> COMPRAS

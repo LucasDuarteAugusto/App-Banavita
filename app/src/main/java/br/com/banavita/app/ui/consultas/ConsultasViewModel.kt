@@ -509,7 +509,7 @@ class ConsultasViewModel @Inject constructor(
                         id = enc.id,
                         titulo = clienteMap[enc.clienteId]?.nome ?: "Cliente",
                         subtitle = formatDate(enc.dataEntrega),
-                        trailing = if (enc.status == EncomendaStatus.ATENDIDO) "Atendido" else "Aberto",
+                        trailing = enc.status.label,
                     )
                 }
                 ConsultasUiState(

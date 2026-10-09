@@ -85,6 +85,9 @@ fun EventoFormRoute(
             uiState = uiState,
             voiceEnabled = !uiState.isEditMode,
             onTitulo = viewModel::onTitulo,
+            onTipo = viewModel::onTipo,
+            onStatus = viewModel::onStatus,
+            onPrioridade = viewModel::onPrioridade,
             onData = viewModel::onData,
             onHora = viewModel::onHora,
             onObservacao = viewModel::onObservacao,
@@ -116,6 +119,9 @@ fun EventoFormScreen(
     onNotifCorpo: (String) -> Unit,
     onSave: () -> Unit,
     onDelete: () -> Unit,
+    onTipo: (br.com.banavita.app.domain.model.EventoTipo) -> Unit = {},
+    onStatus: (br.com.banavita.app.domain.model.EventoStatus) -> Unit = {},
+    onPrioridade: (br.com.banavita.app.domain.model.Prioridade) -> Unit = {},
     modifier: Modifier = Modifier,
     voiceEnabled: Boolean = false,
 ) {
@@ -123,11 +129,12 @@ fun EventoFormScreen(
         modifier = modifier,
         errorMessage = uiState.errorMessage,
         isSaving = uiState.isSaving,
-        showDelete = uiState.isEditMode,
+        showDelete = uiState.isEditMode && !uiState.vinculadoEncomenda,
         contentPadding = if (voiceEnabled) VoiceFormContentPadding else PaddingValues(),
         onSave = onSave,
         onDelete = onDelete,
     ) {
+        br.com.banavita.app.ui.common.AgendaClassification(uiState.tipo, uiState.status, uiState.prioridade, onTipo, onStatus, onPrioridade, locked = uiState.vinculadoEncomenda)
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = uiState.titulo,

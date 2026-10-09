@@ -93,6 +93,7 @@ class VendaFormViewModel @Inject constructor(
                             dataInput = DateInputParser.formatForInput(venda.data),
                             clienteId = venda.clienteId,
                             aPrazo = venda.aPrazo,
+                            vencimentoInput = venda.vencimento?.let(DateInputParser::formatForInput).orEmpty(),
                             itens = itens.ifEmpty { listOf(DocumentLineItemFormState()) },
                             isLoading = false,
                         )
@@ -108,6 +109,8 @@ class VendaFormViewModel @Inject constructor(
                 }
         }
     }
+
+    fun onVencimentoChange(value: String) = _uiState.update { it.copy(vencimentoInput = value, errorMessage = null) }
 
     fun onDataChange(value: String) {
         _uiState.update { it.copy(dataInput = value, errorMessage = null) }
@@ -262,10 +265,14 @@ class VendaFormViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, errorMessage = null, showConflitoEncomendaDialog = false) }
             runCatching {
+                val state = _uiState.value
+                val due = state.vencimentoInput.takeIf { it.isNotBlank() }?.let(DateInputParser::parseToEpochMillis)
+                if (state.vencimentoInput.isNotBlank() && due == null) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Vencimento inválido.")
+                if (aPrazo && due == null && !state.isEditMode) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Informe o vencimento.")
                 if (vendaId == null) {
-                    vendaRepository.create(data, clienteId, inputs, aPrazo)
+                    vendaRepository.create(data, clienteId, inputs, aPrazo, due)
                 } else {
-                    vendaRepository.update(vendaId, data, clienteId, inputs)
+                    vendaRepository.update(vendaId, data, clienteId, inputs, due)
                 }
             }.onSuccess {
                 _uiState.update { it.copy(isSaving = false) }

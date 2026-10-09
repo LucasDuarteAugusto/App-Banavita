@@ -113,6 +113,7 @@ fun VendaWithItems.toDomain(): Venda =
         clienteId = venda.clienteId,
         valorTotalCentavos = venda.valorTotalCentavos,
         aPrazo = venda.aPrazo,
+        vencimento = venda.vencimento,
         itens = itens.map { it.toDomain() },
     )
 
@@ -138,6 +139,7 @@ fun CompraWithItems.toDomain(): Compra =
         fornecedorId = compra.fornecedorId,
         valorTotalCentavos = compra.valorTotalCentavos,
         aPrazo = compra.aPrazo,
+        vencimento = compra.vencimento,
         itens = itens.map { it.toDomain() },
     )
 
@@ -228,5 +230,8 @@ fun EventoEntity.toDomain(): Evento =
         antecipacaoMinutos = antecipacaoMinutos,
         notifTitulo = notifTitulo,
         notifCorpo = notifCorpo,
+        tipo = br.com.banavita.app.domain.model.EventoTipo.valueOf(tipo),
+        status = br.com.banavita.app.domain.model.EventoStatus.valueOf(status),
+        prioridade = br.com.banavita.app.domain.model.Prioridade.valueOf(prioridade),
     )
 

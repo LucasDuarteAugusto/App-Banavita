@@ -252,6 +252,9 @@ private fun ReviewEditor(
                     onDraftChange(draft.copy(fields = fields.copy(cliente = resolved, clienteRaw = fields.clienteRaw.edited(label))))
                 }
             )
+            if (fields.aPrazo.value == true) {
+                br.com.banavita.app.ui.common.DocumentDateField(value = fields.vencimentoInput, onValueChange = { onDraftChange(draft.copy(fields = fields.copy(vencimentoInput = it))) }, label = "Vencimento")
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -328,6 +331,9 @@ private fun ReviewEditor(
                     onDraftChange(draft.copy(fields = fields.copy(fornecedor = resolved, fornecedorRaw = fields.fornecedorRaw.edited(label))))
                 }
             )
+            if (fields.aPrazo.value == true) {
+                br.com.banavita.app.ui.common.DocumentDateField(value = fields.vencimentoInput, onValueChange = { onDraftChange(draft.copy(fields = fields.copy(vencimentoInput = it))) }, label = "Vencimento")
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

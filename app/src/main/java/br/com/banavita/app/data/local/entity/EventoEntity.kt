@@ -57,4 +57,10 @@ data class EventoEntity(
     val notifTitulo: String? = null,
     @ColumnInfo(name = "EVE_NOTIF_CORPO")
     val notifCorpo: String? = null,
+    @ColumnInfo(name = "EVE_TIPO", defaultValue = "'LEMBRETE'")
+    val tipo: String = "LEMBRETE",
+    @ColumnInfo(name = "EVE_STATUS", defaultValue = "'PENDENTE'")
+    val status: String = "PENDENTE",
+    @ColumnInfo(name = "EVE_PRIORIDADE", defaultValue = "'MEDIA'")
+    val prioridade: String = "MEDIA",
 )

@@ -22,7 +22,7 @@ class AndroidReminderScheduler @Inject constructor(
 
     override fun schedule(evento: Evento) {
         cancel(evento.id)
-        if (!evento.notificar) return
+        if (!evento.notificar || evento.status == br.com.banavita.app.domain.model.EventoStatus.CONCLUIDO) return
         val now = nowEpochMillis()
         if (evento.dataHora > now) {
             setAlarm(evento, evento.dataHora, AgendaNotifications.KIND_ON_TIME)

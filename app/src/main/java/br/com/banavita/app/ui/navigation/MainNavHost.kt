@@ -12,6 +12,10 @@ import androidx.navigation.navDeepLink
 import br.com.banavita.app.core.reminder.AgendaNotifications
 import br.com.banavita.app.domain.model.ConsultaModo
 import br.com.banavita.app.domain.model.extraction.ConfirmResult
+import br.com.banavita.app.domain.model.extraction.VoiceScreenContext
+import br.com.banavita.app.ui.voice.VoiceEnabledScreen
+import java.time.Instant
+import java.time.ZoneId
 import br.com.banavita.app.ui.agenda.AgendaListRoute
 import br.com.banavita.app.ui.agenda.EventoFormRoute
 import br.com.banavita.app.ui.cadastros.CadastrosHubScreen
@@ -28,8 +32,6 @@ import br.com.banavita.app.ui.consultas.ConsultasNavEvent
 import br.com.banavita.app.ui.consultas.ConsultasRoute
 import br.com.banavita.app.ui.consultas.estoque.EstoqueDetalheRoute
 import br.com.banavita.app.ui.consultas.financeiro.FinanceiroDetalheRoute
-import br.com.banavita.app.ui.home.HomeNavEvent
-import br.com.banavita.app.ui.home.HomeRoute
 import br.com.banavita.app.ui.pereciveis.encomenda.EncomendaFormRoute
 import br.com.banavita.app.ui.pereciveis.etileno.EtilenoFilaRoute
 import br.com.banavita.app.ui.pereciveis.perda.PerdaFormRoute
@@ -65,30 +67,52 @@ private fun NavGraphBuilder.addSettingsScreen() {
 
 private fun NavGraphBuilder.addTopLevelScreens(navController: NavHostController) {
     composable(BanavitaRoutes.HOME) {
-        HomeRoute(
-            onNavEvent = { event ->
-                when (event) {
-                    HomeNavEvent.NovaVenda -> navController.navigate(BanavitaRoutes.VENDA_FORM_NEW)
-                    is HomeNavEvent.Consultas -> navController.navigate(
-                        BanavitaRoutes.consultas(event.modo, event.busca, event.periodo, event.criticos),
-                    )
-                    is HomeNavEvent.Agenda -> navController.navigate(
-                        BanavitaRoutes.agenda(event.epochDay, event.monthOverviewHint),
-                    )
-                    is HomeNavEvent.Evento -> navController.navigate(BanavitaRoutes.eventoEdit(event.eventoId))
-                    is HomeNavEvent.EstoqueDetalhe ->
-                        navController.navigate(BanavitaRoutes.estoqueDetalhe(event.produtoId, event.somenteCriticos))
-                    is HomeNavEvent.ReceberDetalhe ->
-                        navController.navigate(BanavitaRoutes.receberDetalhe(event.clienteId))
-                    is HomeNavEvent.PagarDetalhe ->
-                        navController.navigate(BanavitaRoutes.pagarDetalhe(event.fornecedorId))
-                    HomeNavEvent.FilaEtileno -> navController.navigate(BanavitaRoutes.ETILENO_FILA)
-                    HomeNavEvent.NovaPerda -> navController.navigate(BanavitaRoutes.perdaForm())
-                    HomeNavEvent.NovaEncomenda -> navController.navigate(BanavitaRoutes.ENCOMENDA_FORM_NEW)
-                    is HomeNavEvent.Encomenda -> navController.navigate(BanavitaRoutes.encomendaEdit(event.encomendaId))
+        br.com.banavita.app.ui.voice.VoiceEnabledScreen(
+            voiceContext = VoiceScreenContext.INICIO,
+            addContentDescription = "Nova venda", onAddClick = { navController.navigate(BanavitaRoutes.VENDA_FORM_NEW) },
+            onVoiceSuccess = { result ->
+                if (result is ConfirmResult.ConsultaAplicada) {
+                    val route = when {
+                        result.navigateNovaVenda -> BanavitaRoutes.VENDA_FORM_NEW
+                        result.navigateAgenda -> BanavitaRoutes.agenda()
+                        result.openProdutoId != null -> BanavitaRoutes.estoqueDetalhe(result.openProdutoId, result.somenteCriticos)
+                        result.openClienteId != null -> BanavitaRoutes.receberDetalhe(result.openClienteId)
+                        result.openFornecedorId != null -> BanavitaRoutes.pagarDetalhe(result.openFornecedorId)
+                        else -> BanavitaRoutes.consultas(result.modo ?: ConsultaModo.ESTOQUE, result.busca, result.periodo, result.somenteCriticos)
+                    }
+                    navController.navigate(route)
                 }
             },
-        )
+        ) { dashboardModifier ->
+            br.com.banavita.app.ui.dashboard.DashboardRoute(onNavigate = { navController.navigate(it) }, modifier = dashboardModifier)
+        }
+    }
+    composable("dashboards/{kind}", arguments = listOf(navArgument("kind") { type = NavType.StringType })) { entry ->
+        val kind = entry.arguments?.getString("kind")
+        val voice = when (kind) {
+            "VENDAS" -> VoiceScreenContext.VENDA
+            "COMPRAS" -> VoiceScreenContext.COMPRA
+            "ESTOQUE", "ENCOMENDAS" -> VoiceScreenContext.CONSULTAS
+            "AGENDA" -> VoiceScreenContext.AGENDA
+            else -> VoiceScreenContext.INICIO
+        }
+        val (addLabel, addRoute) = when (kind) {
+            "VENDAS" -> "Nova venda" to BanavitaRoutes.VENDA_FORM_NEW
+            "COMPRAS" -> "Nova compra" to BanavitaRoutes.COMPRA_FORM_NEW
+            "ESTOQUE" -> "Registrar perda" to BanavitaRoutes.perdaForm()
+            "FINANCEIRO" -> "Contas a receber" to BanavitaRoutes.consultas(ConsultaModo.RECEBER)
+            "ENCOMENDAS" -> "Nova encomenda" to BanavitaRoutes.ENCOMENDA_FORM_NEW
+            "AGENDA" -> "Novo evento" to BanavitaRoutes.agendaFormNew()
+            else -> "Nova venda" to BanavitaRoutes.VENDA_FORM_NEW
+        }
+        VoiceEnabledScreen(
+            voiceContext = voice,
+            addContentDescription = addLabel,
+            onAddClick = { navController.navigate(addRoute) },
+            onVoiceSuccess = { result -> voiceDestination(result)?.let(navController::navigate) },
+        ) { dashboardModifier ->
+            br.com.banavita.app.ui.dashboard.DashboardRoute(onNavigate = { navController.navigate(it) }, modifier = dashboardModifier)
+        }
     }
     composable(
         route = BanavitaRoutes.VENDAS,
@@ -401,4 +425,26 @@ private fun handleConsultasNavEvent(navController: NavHostController, event: Con
         ConsultasNavEvent.NovaPerda ->
             navController.navigate(BanavitaRoutes.perdaForm())
     }
+}
+
+private fun voiceDestination(result: ConfirmResult): String? = when (result) {
+    is ConfirmResult.ConsultaAplicada -> when {
+        result.navigateNovaVenda -> BanavitaRoutes.VENDA_FORM_NEW
+        result.navigateAgenda -> BanavitaRoutes.agenda()
+        result.openProdutoId != null -> BanavitaRoutes.estoqueDetalhe(result.openProdutoId, result.somenteCriticos)
+        result.openClienteId != null -> BanavitaRoutes.receberDetalhe(result.openClienteId)
+        result.openFornecedorId != null -> BanavitaRoutes.pagarDetalhe(result.openFornecedorId)
+        else -> BanavitaRoutes.consultas(result.modo ?: ConsultaModo.ESTOQUE, result.busca, result.periodo, result.somenteCriticos)
+    }
+    is ConfirmResult.VendaCriada -> BanavitaRoutes.vendaEdit(result.vendaId)
+    is ConfirmResult.CompraCriada -> BanavitaRoutes.compraEdit(result.compraId)
+    is ConfirmResult.EventoCriado -> BanavitaRoutes.agenda(
+        Instant.ofEpochMilli(result.dataHoraMillis).atZone(ZoneId.systemDefault()).toLocalDate().toEpochDay(),
+    )
+    is ConfirmResult.AgendaFiltroAplicado -> BanavitaRoutes.agenda(result.epochDay, result.monthOverviewHint)
+    is ConfirmResult.ClienteCriado -> BanavitaRoutes.clienteEdit(result.clienteId)
+    is ConfirmResult.FornecedorCriado -> BanavitaRoutes.fornecedorEdit(result.fornecedorId)
+    is ConfirmResult.ProdutoCriado -> BanavitaRoutes.produtoEdit(result.produtoId)
+    is ConfirmResult.GrupoCriado -> BanavitaRoutes.grupoEdit(result.grupoId)
+    is ConfirmResult.RecebimentoCriado, is ConfirmResult.PagamentoCriado -> null
 }

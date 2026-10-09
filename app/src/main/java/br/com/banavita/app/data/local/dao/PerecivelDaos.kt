@@ -82,14 +82,17 @@ interface EncomendaDao {
         insertItens(itens)
     }
 
+    @Update
+    suspend fun updateItem(item: EncomendaItemEntity)
+
     @Query("DELETE FROM encomenda_item WHERE ENI_ENCOMENDA = :encomendaId")
     suspend fun deleteItens(encomendaId: UUID)
 
     @Query(
         """
-        SELECT COALESCE(SUM(ENI_QTDE), 0) FROM encomenda_item
+        SELECT COALESCE(SUM(ENI_QTDE - ENI_ENTREGUE), 0) FROM encomenda_item
         INNER JOIN encomenda ON ENC_ID = ENI_ENCOMENDA
-        WHERE ENI_PRODUTO = :produtoId AND ENI_ESTADO = :estado AND ENC_STATUS = 'ABERTO'
+        WHERE ENI_PRODUTO = :produtoId AND ENI_ESTADO = :estado AND ENC_STATUS != 'ENTREGUE'
         """
     )
     suspend fun totalAbertoPorProdutoEstado(produtoId: UUID, estado: String): Double

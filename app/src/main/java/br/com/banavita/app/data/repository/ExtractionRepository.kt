@@ -107,6 +107,7 @@ class ExtractionRepository @Inject constructor(
                 ),
             ),
             aPrazo = fields.aPrazo.value == true,
+            vencimento = fields.vencimentoInput.takeIf { it.isNotBlank() }?.let(br.com.banavita.app.ui.common.DateInputParser::parseToEpochMillis),
         )
         return ConfirmResult.VendaCriada(vendaId)
     }
@@ -135,6 +136,7 @@ class ExtractionRepository @Inject constructor(
                 ),
             ),
             aPrazo = fields.aPrazo.value == true,
+            vencimento = fields.vencimentoInput.takeIf { it.isNotBlank() }?.let(br.com.banavita.app.ui.common.DateInputParser::parseToEpochMillis),
         )
         return ConfirmResult.CompraCriada(compraId)
     }

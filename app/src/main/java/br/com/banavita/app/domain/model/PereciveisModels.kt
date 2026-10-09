@@ -42,7 +42,19 @@ enum class PerdaMotivo {
 
 enum class EncomendaStatus {
     ABERTO,
-    ATENDIDO,
+    EM_SEPARACAO,
+    PRONTA,
+    EM_ROTA,
+    ENTREGUE;
+
+    val pendente: Boolean get() = this != ENTREGUE
+    val label: String get() = when (this) {
+        ABERTO -> "Aberta"
+        EM_SEPARACAO -> "Em separação"
+        PRONTA -> "Pronta"
+        EM_ROTA -> "Em rota"
+        ENTREGUE -> "Entregue"
+    }
 }
 
 data class RipeningCurve(
@@ -174,7 +186,11 @@ data class EncomendaItem(
     val estado: MaturacaoEstado,
     val quantidade: Double,
     val valorUnitarioCentavos: Long? = null,
-)
+    val quantidadeEntregue: Double = 0.0,
+    val unidade: String? = null,
+) {
+    val quantidadePendente: Double get() = (quantidade - quantidadeEntregue).coerceAtLeast(0.0)
+}
 
 data class Encomenda(
     val id: UUID,

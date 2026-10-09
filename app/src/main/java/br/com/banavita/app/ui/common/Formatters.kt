@@ -16,7 +16,7 @@ private val timeFormat = DateTimeFormatter.ofPattern("HH:mm")
     .withZone(ZoneId.systemDefault())
 
 fun formatCurrency(centavos: Long): String =
-    currencyFormat.format(Money.fromCents(centavos))
+    (currencyFormat.clone() as NumberFormat).format(Money.fromCents(centavos))
 
 fun formatDate(epochMillis: Long): String =
     dateFormat.format(Instant.ofEpochMilli(epochMillis))

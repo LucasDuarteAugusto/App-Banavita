@@ -73,6 +73,7 @@ data class Venda(
     val valorTotalCentavos: Long,
     val aPrazo: Boolean = false,
     val itens: List<VendaItem>,
+    val vencimento: Long? = null,
 )
 
 data class CompraItem(
@@ -96,6 +97,7 @@ data class Compra(
     val valorTotalCentavos: Long,
     val aPrazo: Boolean = false,
     val itens: List<CompraItem>,
+    val vencimento: Long? = null,
 )
 
 data class ProdutoEstoque(
@@ -158,4 +160,7 @@ data class Evento(
     val antecipacaoMinutos: Int?,
     val notifTitulo: String?,
     val notifCorpo: String?,
+    val tipo: EventoTipo = EventoTipo.LEMBRETE,
+    val status: EventoStatus = EventoStatus.PENDENTE,
+    val prioridade: Prioridade = Prioridade.MEDIA,
 )

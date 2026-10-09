@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 fun DocumentDateField(
     value: String,
     onValueChange: (String) -> Unit,
-    enabled: Boolean,
+    enabled: Boolean = true,
     modifier: Modifier = Modifier,
     label: String? = null,
 ) {

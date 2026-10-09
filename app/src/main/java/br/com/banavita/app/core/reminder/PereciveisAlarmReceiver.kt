@@ -25,6 +25,7 @@ import androidx.core.net.toUri
 @AndroidEntryPoint
 class PereciveisAlarmReceiver : BroadcastReceiver() {
 
+    @Inject lateinit var dashboardRepository: br.com.banavita.app.data.repository.DashboardRepository
     @Inject lateinit var loteRepository: LoteRepository
     @Inject lateinit var morningScheduler: PereciveisMorningScheduler
     @Inject lateinit var appSettingsRepository: AppSettingsRepository
@@ -33,7 +34,7 @@ class PereciveisAlarmReceiver : BroadcastReceiver() {
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                loteRepository.avancarMaturacao()
+                dashboardRepository.refreshStockSnapshot()
                 val resumo = loteRepository.resumoCriticos()
                 val hasAlert = resumo.kgPintada > 1e-9 || resumo.kgPodreOuAmanha > 1e-9 || resumo.moverParaArmazenagem.isNotEmpty()
                 if (hasAlert) {

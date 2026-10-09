@@ -80,7 +80,7 @@ class HomeViewModel @Inject constructor(
 
     private val encomendasSemana = encomendaRepository.observeAll().mapLatest { list ->
         val semana = PeriodRanges.of(PeriodoPreset.SEMANA)
-        list.count { it.status == EncomendaStatus.ABERTO && it.dataEntrega in semana }
+        list.count { it.status.pendente && it.dataEntrega in semana }
     }
 
     val uiState: StateFlow<HomeUiState> = combine(

@@ -44,6 +44,7 @@ fun FormScaffold(
     errorMessage: String? = null,
     isSaving: Boolean = false,
     showDelete: Boolean = false,
+    showSave: Boolean = true,
     contentPadding: PaddingValues = PaddingValues(0.dp),
     onSave: () -> Unit,
     onDelete: () -> Unit = {},
@@ -73,7 +74,7 @@ fun FormScaffold(
             )
         }
 
-        Button(
+        if (showSave) Button(
             modifier = Modifier.fillMaxWidth(),
             enabled = !isSaving,
             onClick = onSave,

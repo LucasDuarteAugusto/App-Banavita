@@ -53,9 +53,12 @@ class EventoFormViewModel @Inject constructor(
                     _uiState.update { it.copy(isLoading = false, errorMessage = "Evento não encontrado.") }
                     return@launch
                 }
+                val vinculado = eventoRepository.isLinkedToOrder(eventoId)
                 _uiState.update {
                     it.copy(
                         titulo = evento.titulo,
+                        tipo = evento.tipo, status = evento.status, prioridade = evento.prioridade,
+                        vinculadoEncomenda = vinculado,
                         dataInput = DateTimeInputParser.formatDate(evento.dataHora),
                         horaInput = DateTimeInputParser.formatTime(evento.dataHora),
                         observacao = evento.observacao.orEmpty(),
@@ -79,6 +82,9 @@ class EventoFormViewModel @Inject constructor(
         }
     }
 
+    fun onTipo(value: br.com.banavita.app.domain.model.EventoTipo) = _uiState.update { if (it.vinculadoEncomenda) it else it.copy(tipo = value) }
+    fun onStatus(value: br.com.banavita.app.domain.model.EventoStatus) = _uiState.update { if (it.vinculadoEncomenda) it else it.copy(status = value) }
+    fun onPrioridade(value: br.com.banavita.app.domain.model.Prioridade) = _uiState.update { it.copy(prioridade = value) }
     fun onTitulo(value: String) = _uiState.update { it.copy(titulo = value, errorMessage = null) }
     fun onData(value: String) = _uiState.update { it.copy(dataInput = value, errorMessage = null) }
     fun onHora(value: String) = _uiState.update { it.copy(horaInput = value, errorMessage = null) }
@@ -107,6 +113,7 @@ class EventoFormViewModel @Inject constructor(
             runCatching {
                 if (eventoId == null) {
                     eventoRepository.create(
+                        tipo = state.tipo, status = state.status, prioridade = state.prioridade,
                         titulo = state.titulo,
                         dataHora = dataHora,
                         observacao = state.observacao,
@@ -129,6 +136,9 @@ class EventoFormViewModel @Inject constructor(
                         antecipacaoMinutos = state.antecipacaoMinutos,
                         notifTitulo = state.notifTitulo,
                         notifCorpo = state.notifCorpo,
+                        tipo = state.tipo,
+                        status = state.status,
+                        prioridade = state.prioridade,
                     )
                 }
             }.onSuccess {

@@ -40,12 +40,14 @@ class VendaRepository @Inject constructor(
         clienteId: UUID?,
         itens: List<DocumentoItemInput>,
         aPrazo: Boolean = false,
+        vencimento: Long? = null,
     ): UUID {
         clienteId?.let {
             if (clienteDao.get().getById(it) == null) {
                 throw ReferencedEntityException("Cliente $it não encontrado.")
             }
         }
+        if (aPrazo && vencimento == null) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Informe o vencimento.")
         val timestamp = now()
         val vendaId = UUID.randomUUID()
         val itemEntities = documentoItemFactory.buildVendaItens(vendaId, itens, timestamp)
@@ -59,6 +61,7 @@ class VendaRepository @Inject constructor(
             clienteId = clienteId,
             valorTotalCentavos = total,
             aPrazo = aPrazo,
+            vencimento = if (aPrazo) vencimento else null,
         )
         database.get().withTransaction {
             vendaDao.get().insertVendaComItens(venda, itemEntities)
@@ -84,7 +87,9 @@ class VendaRepository @Inject constructor(
         data: Long,
         clienteId: UUID?,
         itens: List<DocumentoItemInput>,
+        vencimento: Long? = null,
     ) {
+        if (database.get().dashboardDao().linkedSale(id) > 0) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Venda vinculada a entrega não pode ser alterada.")
         val existing = vendaDao.get().getWithItems(id)
             ?: throw ReferencedEntityException("Venda $id não encontrada.")
         clienteId?.let {
@@ -98,6 +103,7 @@ class VendaRepository @Inject constructor(
             data = data,
             clienteId = clienteId,
             valorTotalCentavos = totalVendaCentavos(itemEntities),
+            vencimento = if (existing.venda.aPrazo) vencimento else null,
             updatedAt = timestamp,
         )
         database.get().withTransaction {
@@ -109,6 +115,7 @@ class VendaRepository @Inject constructor(
     }
 
     suspend fun delete(id: UUID) {
+        if (database.get().dashboardDao().linkedSale(id) > 0) throw br.com.banavita.app.domain.exception.InvalidDocumentException("Venda vinculada a entrega não pode ser excluída.")
         database.get().withTransaction {
             loteRepository.restaurarVenda(id)
             vendaDao.get().deleteVendaComItens(id)
@@ -127,7 +134,7 @@ class VendaRepository @Inject constructor(
                 ?: throw br.com.banavita.app.domain.exception.InvalidDocumentException(
                     "Informe o estado da banana para vender.",
                 )
-            loteRepository.consumirFifo(item.produtoId, estado, item.quantidade, vendaId, timestamp)
+            loteRepository.consumirFifo(item.produtoId, estado, item.quantidade, vendaId, timestamp, item.unidade)
         }
     }
 }

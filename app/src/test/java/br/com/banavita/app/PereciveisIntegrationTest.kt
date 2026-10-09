@@ -265,6 +265,54 @@ class PereciveisIntegrationTest {
         assertEquals(3.0, estoqueRepository.getSaldo(produtoId), 0.0001)
     }
 
+    @Test
+    fun `entrega parcial preserva saldo e repetir confirmacao nao duplica venda`() = runBlocking {
+        val produtoId = nanica()
+        val clienteId = br.com.banavita.app.data.repository.ClienteRepository(
+            Provider { database.clienteDao() },
+        ).create("Padaria", null)
+        graph.compraRepository.create(timestamp, null, listOf(DocumentoItemInput(produtoId, 50.0, 200)))
+        val orderId = encomendaRepository.create(clienteId, timestamp, listOf(DocumentoItemInput(produtoId, 20.0, 350, MaturacaoEstado.CRUA)))
+        val itemId = encomendaRepository.getById(orderId)!!.itens.single().id
+        val request = java.util.UUID.randomUUID()
+        val firstSale = encomendaRepository.atender(orderId, false, false, requestId = request, quantidades = mapOf(itemId to 7.0))
+        assertEquals(firstSale, encomendaRepository.atender(orderId, false, false, requestId = request, quantidades = mapOf(itemId to 7.0)))
+        val partial = encomendaRepository.getById(orderId)!!
+        assertEquals(13.0, partial.itens.single().quantidadePendente, 0.0001)
+        assertTrue(partial.status.pendente)
+        assertEquals(43.0, estoqueRepository.getSaldo(produtoId), 0.0001)
+        assertEquals(br.com.banavita.app.domain.model.EventoStatus.PENDENTE, graph.eventoRepository.getById(partial.eventoId!!)!!.status)
+        val finalSale = encomendaRepository.atender(orderId, false, false, quantidades = mapOf(itemId to 13.0))
+        assertTrue(firstSale != finalSale)
+        val complete = encomendaRepository.getById(orderId)!!
+        assertEquals(br.com.banavita.app.domain.model.EncomendaStatus.ENTREGUE, complete.status)
+        assertEquals(0.0, complete.itens.single().quantidadePendente, 0.0001)
+        assertEquals(30.0, estoqueRepository.getSaldo(produtoId), 0.0001)
+        assertEquals(2, encomendaRepository.historicoEntregas(orderId).size)
+        assertEquals(br.com.banavita.app.domain.model.EventoStatus.CONCLUIDO, graph.eventoRepository.getById(complete.eventoId!!)!!.status)
+    }
+
+    @Test
+    fun `etapas do pedido nao baixam estoque e entrega excedente nao grava`() = runBlocking {
+        val produtoId = nanica()
+        val clienteId = br.com.banavita.app.data.repository.ClienteRepository(
+            Provider { database.clienteDao() },
+        ).create("Mercado", null)
+        graph.compraRepository.create(timestamp, null, listOf(DocumentoItemInput(produtoId, 50.0, 200)))
+        val orderId = encomendaRepository.create(clienteId, timestamp, listOf(DocumentoItemInput(produtoId, 20.0, 350, MaturacaoEstado.CRUA)))
+        for (stage in listOf(br.com.banavita.app.domain.model.EncomendaStatus.EM_SEPARACAO, br.com.banavita.app.domain.model.EncomendaStatus.PRONTA, br.com.banavita.app.domain.model.EncomendaStatus.EM_ROTA)) {
+            encomendaRepository.mudarEtapa(orderId, stage)
+            assertEquals(50.0, estoqueRepository.getSaldo(produtoId), 0.0001)
+            assertTrue(encomendaRepository.historicoEntregas(orderId).isEmpty())
+        }
+        val itemId = encomendaRepository.getById(orderId)!!.itens.single().id
+        val failure = runCatching { encomendaRepository.atender(orderId, false, false, quantidades = mapOf(itemId to 21.0)) }.exceptionOrNull()
+        assertTrue(failure is InvalidDocumentException)
+        assertEquals(20.0, encomendaRepository.getById(orderId)!!.itens.single().quantidadePendente, 0.0001)
+        assertEquals(50.0, estoqueRepository.getSaldo(produtoId), 0.0001)
+        assertTrue(encomendaRepository.historicoEntregas(orderId).isEmpty())
+    }
+
     private suspend fun nanica() = produtoRepository.create(
         descricao = "Banana-nanica",
         precoCentavos = 350,

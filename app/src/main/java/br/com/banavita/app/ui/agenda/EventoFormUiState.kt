@@ -6,6 +6,9 @@ import br.com.banavita.app.ui.common.DateTimeInputParser
 import java.util.UUID
 
 data class EventoFormUiState(
+    val tipo: br.com.banavita.app.domain.model.EventoTipo = br.com.banavita.app.domain.model.EventoTipo.LEMBRETE,
+    val status: br.com.banavita.app.domain.model.EventoStatus = br.com.banavita.app.domain.model.EventoStatus.PENDENTE,
+    val prioridade: br.com.banavita.app.domain.model.Prioridade = br.com.banavita.app.domain.model.Prioridade.MEDIA,
     val titulo: String = "",
     val dataInput: String = DateTimeInputParser.todayDateInput(),
     val horaInput: String = DateTimeInputParser.nowTimeInput(),
@@ -23,6 +26,7 @@ data class EventoFormUiState(
     val isDeleting: Boolean = false,
     val showDeleteDialog: Boolean = false,
     val isEditMode: Boolean = false,
+    val vinculadoEncomenda: Boolean = false,
     val errorMessage: String? = null,
 ) {
     val clienteOptions: List<Pair<UUID, String>>

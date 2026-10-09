@@ -9,8 +9,8 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 /**
- * Relógio de maturação: só anda na câmara de etileno.
- * Um “dia” é meia-noite a meia-noite no [ZoneId] do aparelho.
+ * Relógio de maturação. CRUA permanece pausada. Depois de iniciado, o mesmo relógio
+ * avança na fria e na etileno. Um “dia” é meia-noite a meia-noite no [ZoneId] do aparelho.
  */
 object RipeningClock {
     fun snapshot(
@@ -20,7 +20,7 @@ object RipeningClock {
         curve: RipeningCurve,
         todayEpochDay: Long,
     ): RipeningSnapshot {
-        if (camara == Camara.FRIA || etapaInicioEpochDay == null) {
+        if (estadoRegistrado == MaturacaoEstado.CRUA || etapaInicioEpochDay == null) {
             return RipeningSnapshot(
                 estado = estadoRegistrado,
                 etapaInicioEpochDay = etapaInicioEpochDay ?: todayEpochDay,

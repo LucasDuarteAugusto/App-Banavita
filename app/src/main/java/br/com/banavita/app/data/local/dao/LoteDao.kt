@@ -27,19 +27,20 @@ interface LoteDao {
         SELECT * FROM lote
         WHERE LOT_PRODUTO = :produtoId
           AND LOT_ESTADO = :estado
+          AND (:unidade IS NULL OR COALESCE(LOT_UNIDADE, (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = LOT_PRODUTO)) = :unidade)
           AND LOT_QTDE_RESTANTE > 0.0000001
         ORDER BY CASE LOT_CAMARA WHEN 'ETILENO' THEN 0 ELSE 1 END, LOT_DATA ASC, created_at ASC
         """,
     )
-    suspend fun fifoDisponiveis(produtoId: UUID, estado: String): List<LoteEntity>
+    suspend fun fifoDisponiveis(produtoId: UUID, estado: String, unidade: String? = null): List<LoteEntity>
 
     @Query(
         """
         SELECT COALESCE(SUM(LOT_QTDE_RESTANTE), 0) FROM lote
-        WHERE LOT_PRODUTO = :produtoId AND LOT_ESTADO = :estado AND LOT_QTDE_RESTANTE > 0.0000001
+        WHERE LOT_PRODUTO = :produtoId AND LOT_ESTADO = :estado AND (:unidade IS NULL OR COALESCE(LOT_UNIDADE, (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = LOT_PRODUTO)) = :unidade) AND LOT_QTDE_RESTANTE > 0.0000001
         """,
     )
-    suspend fun saldoPorEstado(produtoId: UUID, estado: String): Double
+    suspend fun saldoPorEstado(produtoId: UUID, estado: String, unidade: String? = null): Double
 
     @Query(
         """
@@ -79,7 +80,7 @@ interface LoteDao {
     @Query(
         """
         SELECT * FROM lote
-        WHERE LOT_CAMARA = 'ETILENO' AND LOT_QTDE_RESTANTE > 0.0000001
+        WHERE LOT_ESTADO != 'CRUA' AND LOT_QTDE_RESTANTE > 0.0000001
         """,
     )
     suspend fun listEtilenoAbertos(): List<LoteEntity>

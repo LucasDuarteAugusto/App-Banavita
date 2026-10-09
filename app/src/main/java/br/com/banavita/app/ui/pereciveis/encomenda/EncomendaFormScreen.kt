@@ -109,6 +109,9 @@ fun EncomendaFormRoute(
         onSave = save,
         onDelete = viewModel::onDeleteClick,
         onAtender = { viewModel.atender(onDone) },
+        onAvancar = viewModel::avancarEtapa,
+        onEntregaQuantidade = viewModel::onEntregaQuantidade,
+        onVencimentoChange = viewModel::onVencimentoChange,
     )
 }
 
@@ -131,25 +134,31 @@ fun EncomendaFormScreen(
     onDelete: () -> Unit,
     onAtender: () -> Unit,
     modifier: Modifier = Modifier,
+    onAvancar: () -> Unit = {},
+    onEntregaQuantidade: (UUID, String) -> Unit = { _, _ -> },
+    onVencimentoChange: (String) -> Unit = {},
 ) {
-    val aberto = uiState.status == EncomendaStatus.ABERTO
+    val pendente = uiState.status.pendente
+    val aberto = pendente && !uiState.temEntrega
     FormScaffold(
         modifier = modifier,
         errorMessage = uiState.errorMessage,
         isSaving = uiState.isSaving || uiState.isAtendendo,
         showDelete = uiState.isEditMode && aberto,
+        showSave = aberto,
         contentPadding = PaddingValues(),
         onSave = onSave,
         onDelete = onDelete,
     ) {
         Text(
-            text = if (uiState.status == EncomendaStatus.ATENDIDO) {
-                stringResource(R.string.encomenda_status_atendido)
-            } else {
-                stringResource(R.string.encomenda_status_aberto)
-            },
+            text = uiState.status.label,
             style = MaterialTheme.typography.titleMedium,
         )
+        if (uiState.temEntrega) Text(uiState.entregaResumo)
+        if (uiState.isEditMode && pendente && uiState.status != EncomendaStatus.EM_ROTA) {
+            OutlinedButton(onClick = onAvancar, enabled = !uiState.isAtendendo) { Text("Avançar para ${EncomendaStatus.entries[uiState.status.ordinal + 1].label}") }
+        }
+        if (uiState.aPrazo && pendente) DocumentDateField(value = uiState.vencimentoInput, onValueChange = onVencimentoChange, label = "Vencimento da venda")
         DocumentDateField(
             value = uiState.dataInput,
             onValueChange = onDataChange,
@@ -228,13 +237,13 @@ fun EncomendaFormScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(enabled = aberto) { onAPrazoChange(!uiState.aPrazo) }
+                .clickable(enabled = pendente && !uiState.isAtendendo) { onAPrazoChange(!uiState.aPrazo) }
                 .padding(vertical = 4.dp),
         ) {
             Checkbox(
                 checked = !uiState.aPrazo,
                 onCheckedChange = { isPago -> onAPrazoChange(!isPago) },
-                enabled = aberto && !uiState.isSaving,
+                enabled = pendente && !uiState.isSaving && !uiState.isAtendendo,
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = stringResource(R.string.form_pago_checkbox))
@@ -264,13 +273,20 @@ fun EncomendaFormScreen(
                 Text(stringResource(R.string.form_add_item))
             }
         }
-        if (uiState.isEditMode && aberto) {
+        uiState.historicoEntregas.forEach { Text(it, style = MaterialTheme.typography.bodySmall) }
+        if (uiState.isEditMode && pendente) {
+            Text("Entrega do pedido salvo", style = MaterialTheme.typography.titleMedium)
+            Text("Informe zero para deixar um item pendente. Salve alterações do pedido antes de confirmar a entrega.", style = MaterialTheme.typography.bodySmall)
+            uiState.itensEntrega.filter { it.quantidadePendente > 1e-9 }.forEach { item ->
+                val produto = uiState.produtos.find { it.id == item.produtoId }
+                OutlinedTextField(value = uiState.quantidadesEntrega[item.id].orEmpty(), onValueChange = { onEntregaQuantidade(item.id, it) }, label = { Text("${produto?.descricao ?: "Produto"} · ${item.unidade ?: produto?.unidade.orEmpty()} (pendente: ${item.quantidadePendente})") }, enabled = !uiState.isAtendendo, singleLine = true, modifier = Modifier.fillMaxWidth())
+            }
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !uiState.isSaving && !uiState.isAtendendo,
                 onClick = onAtender,
             ) {
-                Text(stringResource(R.string.encomenda_atender))
+                Text("Confirmar entrega")
             }
         }
     }

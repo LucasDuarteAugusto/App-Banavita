@@ -33,6 +33,8 @@ class EventoRepository @Inject constructor(
     suspend fun getById(id: UUID): Evento? =
         eventoDao.get().getById(id)?.toDomain()
 
+    suspend fun isLinkedToOrder(id: UUID): Boolean = eventoDao.get().isLinked(id) > 0
+
     suspend fun getPendingReminders(fromMillis: Long = nowEpochMillis()): List<Evento> =
         eventoDao.get().getPendingReminders(fromMillis).map { it.toDomain() }
 
@@ -46,6 +48,9 @@ class EventoRepository @Inject constructor(
         antecipacaoMinutos: Int? = null,
         notifTitulo: String? = null,
         notifCorpo: String? = null,
+        tipo: br.com.banavita.app.domain.model.EventoTipo = br.com.banavita.app.domain.model.EventoTipo.LEMBRETE,
+        status: br.com.banavita.app.domain.model.EventoStatus = br.com.banavita.app.domain.model.EventoStatus.PENDENTE,
+        prioridade: br.com.banavita.app.domain.model.Prioridade = br.com.banavita.app.domain.model.Prioridade.MEDIA,
     ): UUID {
         validate(titulo, clienteId, fornecedorId, antecipacaoMinutos)
         val timestamp = nowEpochMillis()
@@ -64,9 +69,12 @@ class EventoRepository @Inject constructor(
                 antecipacaoMinutos = antecipacaoMinutos,
                 notifTitulo = notifTitulo?.trim()?.takeIf { it.isNotEmpty() },
                 notifCorpo = notifCorpo?.trim()?.takeIf { it.isNotEmpty() },
+                tipo = tipo.name,
+                status = status.name,
+                prioridade = prioridade.name,
             ),
         )
-        getById(id)?.let { reminderScheduler.schedule(it) }
+        refreshReminder(id)
         return id
     }
 
@@ -81,9 +89,13 @@ class EventoRepository @Inject constructor(
         antecipacaoMinutos: Int?,
         notifTitulo: String?,
         notifCorpo: String?,
+        tipo: br.com.banavita.app.domain.model.EventoTipo? = null,
+        status: br.com.banavita.app.domain.model.EventoStatus? = null,
+        prioridade: br.com.banavita.app.domain.model.Prioridade? = null,
     ) {
         val existing = eventoDao.get().getById(id)
             ?: throw ReferencedEntityException("Evento $id não encontrado.")
+        if (eventoDao.get().isLinked(id) > 0 && (tipo != null && tipo.name != existing.tipo || status != null && status.name != existing.status)) throw InvalidDocumentException("Altere a etapa pela encomenda vinculada.")
         validate(titulo, clienteId, fornecedorId, antecipacaoMinutos)
         eventoDao.get().update(
             existing.copy(
@@ -97,12 +109,20 @@ class EventoRepository @Inject constructor(
                 antecipacaoMinutos = antecipacaoMinutos,
                 notifTitulo = notifTitulo?.trim()?.takeIf { it.isNotEmpty() },
                 notifCorpo = notifCorpo?.trim()?.takeIf { it.isNotEmpty() },
+                tipo = tipo?.name ?: existing.tipo,
+                status = status?.name ?: existing.status,
+                prioridade = prioridade?.name ?: existing.prioridade,
             ),
         )
-        getById(id)?.let { reminderScheduler.schedule(it) }
+        refreshReminder(id)
+    }
+
+    suspend fun refreshReminder(id: UUID) {
+        getById(id)?.let { if (it.status == br.com.banavita.app.domain.model.EventoStatus.CONCLUIDO) reminderScheduler.cancel(id) else reminderScheduler.schedule(it) }
     }
 
     suspend fun delete(id: UUID) {
+        if (eventoDao.get().isLinked(id) > 0) throw InvalidDocumentException("Exclua pela encomenda vinculada.")
         val existing = eventoDao.get().getById(id)
             ?: throw ReferencedEntityException("Evento $id não encontrado.")
         reminderScheduler.cancel(id)

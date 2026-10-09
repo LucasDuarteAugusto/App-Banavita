@@ -21,7 +21,7 @@ interface EventoDao {
     @Query("SELECT * FROM evento WHERE EVE_ID = :id")
     suspend fun getById(id: UUID): EventoEntity?
 
-    @Query("SELECT * FROM evento WHERE EVE_NOTIFICAR = 1 AND EVE_DATAHORA >= :fromMillis")
+    @Query("SELECT * FROM evento WHERE EVE_STATUS != 'CONCLUIDO' AND EVE_NOTIFICAR = 1 AND EVE_DATAHORA >= :fromMillis")
     suspend fun getPendingReminders(fromMillis: Long): List<EventoEntity>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -29,6 +29,9 @@ interface EventoDao {
 
     @Update
     suspend fun update(evento: EventoEntity)
+
+    @Query("SELECT COUNT(*) FROM encomenda WHERE ENC_EVENTO = :id")
+    suspend fun isLinked(id: UUID): Int
 
     @Delete
     suspend fun delete(evento: EventoEntity)

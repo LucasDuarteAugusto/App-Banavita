@@ -100,9 +100,9 @@ class EstoqueValidator @Inject constructor(
         itens: List<VendaItemEntity>,
         excludeVendaId: UUID? = null,
     ) {
-        val grupos = itens.groupBy { it.produtoId to it.estado }
+        val grupos = itens.groupBy { Triple(it.produtoId, it.estado, it.unidade) }
         grupos.forEach { (chave, linhas) ->
-            val (produtoId, estadoRaw) = chave
+            val (produtoId, estadoRaw, unidade) = chave
             val quantidadeSolicitada = linhas.sumOf { it.quantidade }
             val produto = produtoDao.get().getById(produtoId)
                 ?: throw InvalidDocumentException("Produto $produtoId não encontrado.")
@@ -112,7 +112,7 @@ class EstoqueValidator @Inject constructor(
                 if (estado == MaturacaoEstado.PODRE) {
                     throw InvalidDocumentException("Podre não se vende. Lance como perda.")
                 }
-                val disponivel = loteDao.get().saldoPorEstado(produtoId, estado.name)
+                val disponivel = loteDao.get().saldoPorEstado(produtoId, estado.name, unidade)
                 if (disponivel + 1e-9 < quantidadeSolicitada) {
                     throw InsufficientStockException(
                         produtoId = produtoId.toString(),
@@ -121,8 +121,8 @@ class EstoqueValidator @Inject constructor(
                     )
                 }
             } else {
-                val comprado = estoqueDao.get().totalComprado(produtoId)
-                val vendido = estoqueDao.get().totalVendido(produtoId, excludeVendaId)
+                val comprado = estoqueDao.get().totalComprado(produtoId, unidade)
+                val vendido = estoqueDao.get().totalVendido(produtoId, excludeVendaId, unidade)
                 val disponivel = comprado - vendido
                 if (disponivel + 1e-9 < quantidadeSolicitada) {
                     throw InsufficientStockException(

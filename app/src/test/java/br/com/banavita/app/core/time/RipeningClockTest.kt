@@ -18,7 +18,7 @@ class RipeningClockTest {
     )
 
     @Test
-    fun `fria nao avanca mesmo com dias decorridos`() {
+    fun `fria continua amadurecimento iniciado`() {
         val snap = RipeningClock.snapshot(
             camara = Camara.FRIA,
             estadoRegistrado = MaturacaoEstado.VERDE,
@@ -26,7 +26,7 @@ class RipeningClockTest {
             curve = curve,
             todayEpochDay = 10_010,
         )
-        assertEquals(MaturacaoEstado.VERDE, snap.estado)
+        assertEquals(MaturacaoEstado.PODRE, snap.estado)
         assertNull(snap.daysUntilNext)
     }
 
@@ -95,7 +95,7 @@ class RipeningClockTest {
     }
 
     @Test
-    fun `previsao em 7 dias ignora fria`() {
+    fun `lote sem inicio permanece parado`() {
         val estado = RipeningClock.estadoEm(
             camara = Camara.FRIA,
             estadoRegistrado = MaturacaoEstado.VERDE,
@@ -104,5 +104,11 @@ class RipeningClockTest {
             targetEpochDay = 99_999,
         )
         assertEquals(MaturacaoEstado.VERDE, estado)
+    }
+
+    @Test
+    fun `lote cru permanece parado mesmo com marcador de tempo`() {
+        val state = RipeningClock.estadoEm(Camara.FRIA, MaturacaoEstado.CRUA, 10_000, curve, 10_030)
+        assertEquals(MaturacaoEstado.CRUA, state)
     }
 }

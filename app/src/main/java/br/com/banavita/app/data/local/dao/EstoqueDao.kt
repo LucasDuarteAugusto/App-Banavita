@@ -19,19 +19,21 @@ interface EstoqueDao {
         SELECT COALESCE(SUM(COI_QTDE), 0)
         FROM compra_item
         WHERE COI_PRODUTO = :produtoId
+        AND (:unidade IS NULL OR COALESCE(COI_UNIDADE, (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = COI_PRODUTO)) = :unidade)
         """,
     )
-    suspend fun totalComprado(produtoId: UUID): Double
+    suspend fun totalComprado(produtoId: UUID, unidade: String? = null): Double
 
     @Query(
         """
         SELECT COALESCE(SUM(VEI_QTDE), 0)
         FROM venda_item
         WHERE VEI_PRODUTO = :produtoId
+        AND (:unidade IS NULL OR COALESCE(VEI_UNIDADE, (SELECT PRO_UNIDADE FROM produto WHERE PRO_ID = VEI_PRODUTO)) = :unidade)
         AND (:excludeVendaId IS NULL OR VEI_VENDA != :excludeVendaId)
         """,
     )
-    suspend fun totalVendido(produtoId: UUID, excludeVendaId: UUID? = null): Double
+    suspend fun totalVendido(produtoId: UUID, excludeVendaId: UUID? = null, unidade: String? = null): Double
 
     @Query(
         """
