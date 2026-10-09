@@ -1,0 +1,387 @@
+1. Tela principal – “Dashboard Geral”
+Objetivo da tela
+Tela inicial de acompanhamento do negócio. Deve mostrar, de forma resumida, os principais indicadores do dia e oferecer acesso rápido a dashboards específicos (Vendas, Compras, Estoque & Maturação, Financeiro, Encomendas e Agenda). O foco é dar uma visão geral em menos de 10 segundos e permitir navegação clara para os detalhes.
+Estrutura sugerida
+Cabeçalho
+Título: “Dashboard Geral”
+Subtítulo pequeno: “Visão rápida do seu negócio hoje”
+Data do dia (ex.: “18 set. 2026”)
+Resumo do dia (KPIs principais)
+4 cards horizontais no topo:
+“Vendas do dia” – valor em R$ e quantidade de caixas/unidades.
+“Compras do dia” – valor em R$.
+“Saldo do dia” – Vendas – Compras, com cor verde (positivo) ou vermelho (negativo).
+“Perdas estimadas” – valor de bananas perdidas/estragadas no dia.
+Cada card com:
+Ícone simples (vendas, compras, saldo, perda).
+Valor principal em destaque.
+Subtexto pequeno (ex.: “+12% vs. ontem”, “–5% vs. ontem”).
+Bloco “Maturação crítica hoje”
+Título: “Maturação crítica hoje”
+Lista vertical com 3–4 itens principais:
+Ex.: “Prata – 120 caixas: verdolenga → amarela hoje”
+Ex.: “Nanica graúda – 80 caixas: risco de perda em 2 dias”
+Cada item com:
+Nome do produto.
+Quantidade de caixas.
+Estado atual → próximo estado.
+Indicador de risco (cor: verde, amarelo, laranja, vermelho).
+Grid de acesso aos dashboards específicos
+Título de seção: “Dashboards”
+Grid de cards (2 colunas no mobile), cada card levando a uma tela específica:
+“Vendas”
+Subtexto: “Desempenho, clientes e margens”
+Ícone de gráfico de vendas.
+“Compras”
+Subtexto: “Fornecedores e custos”
+Ícone de carrinho/caixa de entrada.
+“Estoque & Maturação”
+Subtexto: “Estoque por variedade e estado”
+Ícone de caixa/estoque + relógio.
+“Financeiro”
+Subtexto: “Contas a pagar e a receber”
+Ícone de carteira/gráfico financeiro.
+“Encomendas”
+Subtexto: “Pedidos e entregas”
+Ícone de caixa/pedido.
+“Agenda”
+Subtexto: “Entregas, reuniões e tarefas”
+Ícone de calendário.
+Cada card com:
+Título do dashboard.
+Subtexto curto.
+Ícone representativo.
+Setinha ou indicador visual de “clicável”.
+Bloco de alertas rápidos (opcional)
+Título: “Alertas”
+2–3 alertas em formato de card pequeno:
+Ex.: “Prata: 200 caixas em risco de perda em 2 dias.”
+Ex.: “Nanica graúda: estoque abaixo do recomendado.”
+Cores de alerta (amarelo/laranja/vermelho) conforme gravidade.
+Estilo visual
+Layout limpo, com bastante espaço em branco entre blocos.
+Cards com bordas arredondadas e sombra suave.
+Cores neutras para fundo; cores mais fortes apenas em:
+KPIs de saldo (verde/vermelho).
+Alertas de maturação/perda.
+Tipografia clara, valores principais em peso mais forte (bold/semibold).
+Hierarquia:
+Títulos de seção em tamanho médio.
+Números dos KPIs em tamanho grande.
+Subtextos em tamanho pequeno e cor mais suave.
+Comportamento
+Ao clicar em cada card de dashboard, navegar para a tela específica.
+Ao clicar em um item de “Maturação crítica”, abrir detalhe do produto (pode ser tela futura).
+Ao clicar em um alerta, abrir tela de “Estoque & Maturação” já filtrada naquele produto/estado.
+2. Tela – “Dashboard de Vendas”
+Objetivo da tela
+Acompanhar o desempenho de vendas, identificar os melhores clientes, variedades mais lucrativas e tendências recentes. Deve responder: “Como estão as vendas?”, “Quem mais compra?”, “O que mais vende e dá mais lucro?” e “Como evoluiu nos últimos dias/semanas?”
+Estrutura sugerida
+Cabeçalho
+Título: “Vendas”
+Subtítulo: “Desempenho, clientes e margens”
+Filtros no topo (em chips ou barra de filtro):
+Período: “Hoje”, “7 dias”, “30 dias”, “Personalizado”.
+Cliente (opcional, com busca).
+Variedade (opcional).
+KPIs de vendas (topo)
+4 cards:
+“Total vendido (período)” – valor em R$.
+“Caixas/unidades vendidas” – quantidade.
+“Ticket médio” – R$ por venda ou por caixa.
+“Margem média” – % de lucro sobre vendas.
+Cada card com comparação vs. período anterior (ex.: “+15% vs. período anterior”).
+Gráfico de evolução de vendas
+Título: “Evolução de vendas”
+Gráfico de linha ou coluna:
+Eixo X: dias do período selecionado.
+Eixo Y: valor vendido (R$) ou caixas.
+Possibilidade de alternar entre “Valor” e “Quantidade” (toggle).
+Top clientes
+Título: “Top clientes”
+Visual:
+Treemap simplificado em barras horizontais ou lista com barras:
+Top 5 clientes por valor vendido no período.
+Cada item com:
+Nome do cliente.
+Valor vendido (R$).
+% do total de vendas.
+Quantidade de caixas (opcional).
+Ordenação decrescente por valor.
+Desempenho por variedade
+Título: “Desempenho por variedade”
+Duas visualizações (abas ou blocos):
+“Valor vendido por variedade”
+Gráfico de barras horizontais:
+Variedades no eixo Y.
+Valor em R$ no eixo X.
+Top 7–10 variedades.
+“Margem por variedade”
+Gráfico de barras ou lista:
+Variedade.
+Margem % (ou lucro R$).
+Destaque para as 3 variedades com maior e menor margem.
+Resumo de operações
+Título: “Resumo de operações”
+Cards ou lista:
+“Total de vendas no período” – quantidade de notas/pedidos.
+“Valor médio por operação” – R$.
+“Maior venda do período” – cliente + valor.
+“Menor venda do período” – cliente + valor (opcional).
+Insights / Data Storytelling
+Título: “Insights de vendas”
+2–3 cards de texto com frases acionáveis:
+Ex.: “Nanica graúda representa 35% das vendas, mas só 18% da margem. Avalie reajuste ou negociação com fornecedores.”
+Ex.: “Cliente X aumentou compras em 40% nos últimos 30 dias. Considere oferta especial para fidelizar.”
+Ex.: “Vendas caíram 12% nos últimos 7 dias. Verifique se há perda de clientes ou redução de estoque.”
+Estilo visual
+Manter padrão visual do app (cores, tipografia, cards).
+Gráficos simples, com poucas cores:
+Uma cor principal para vendas.
+Cores diferentes apenas para destacar top clientes/variedades.
+Evitar poluição: máximo de 5–7 categorias por gráfico.
+3. Tela – “Dashboard de Compras”
+Objetivo da tela
+Acompanhar compras, custos e desempenho de fornecedores. Responder: “Quanto comprei?”, “De quem mais compro?”, “Qual o custo por variedade?” e “Como evoluiu o gasto com compras?”
+Estrutura sugerida
+Cabeçalho
+Título: “Compras”
+Subtítulo: “Fornecedores, custos e evolução”
+Filtros:
+Período: “Hoje”, “7 dias”, “30 dias”, “Personalizado”.
+Fornecedor (opcional).
+Variedade (opcional).
+KPIs de compras (topo)
+4 cards:
+“Total comprado (período)” – valor em R$.
+“Caixas/unidades compradas” – quantidade.
+“Custo médio por caixa” – R$.
+“Número de operações de compra” – quantidade de notas/pedidos.
+Comparação vs. período anterior.
+Gráfico de evolução de compras
+Título: “Evolução de compras”
+Gráfico de linha ou coluna:
+Eixo X: dias do período.
+Eixo Y: valor comprado (R$) ou caixas.
+Top fornecedores
+Título: “Top fornecedores”
+Visual:
+Lista com barras horizontais (top 5):
+Nome do fornecedor.
+Valor comprado (R$).
+% do total de compras.
+Quantidade de caixas (opcional).
+Custo por variedade
+Título: “Custo por variedade”
+Gráfico de barras horizontais ou lista:
+Variedades no eixo Y.
+Custo médio por caixa (R$) no eixo X.
+Destaque para as variedades com maior e menor custo.
+Resumo de operações de compra
+Título: “Resumo de operações”
+Cards ou lista:
+“Maior compra do período” – fornecedor + valor.
+“Menor compra do período” – fornecedor + valor (opcional).
+“Fornecedor com mais operações” – nome + quantidade de compras.
+Insights / Data Storytelling
+Título: “Insights de compras”
+2–3 cards de texto:
+Ex.: “Fornecedor A concentra 45% das compras. Avalie negociar melhores condições ou buscar alternativas.”
+Ex.: “Custo da Prata subiu 18% nos últimos 30 dias. Verifique impacto na margem.”
+Ex.: “Compras caíram 20% na última semana. Pode haver risco de ruptura de estoque.”
+4. Tela – “Dashboard de Estoque & Maturação”
+Objetivo da tela
+Ter visão clara do estoque por variedade e estado, e acompanhar a curva de maturação para evitar perdas. Responder: “Quanto tenho de cada produto?”, “Em que estado está?”, “O que vai amadurecer nos próximos dias?” e “O que está em risco de perda?”
+Estrutura sugerida
+Cabeçalho
+Título: “Estoque & Maturação”
+Subtítulo: “Estoque por variedade e estado, e curva de maturação”
+Filtros:
+Variedade (todas ou específica).
+Estado (todos ou filtro: verde, verdolenga, amarela, etc.).
+KPIs de estoque (topo)
+4 cards:
+“Total em estoque” – quantidade de caixas.
+“Valor estimado do estoque” – R$ (baseado em custo ou preço de venda).
+“Caixas em estado crítico” – quantidade em estado “amarela”, “pintada”, “podre”.
+“Perdas estimadas (próximos 3 dias)” – caixas ou R$.
+Estoque por variedade
+Título: “Estoque por variedade”
+Gráfico de barras horizontais:
+Variedades no eixo Y.
+Quantidade de caixas no eixo X.
+Top 7–10 variedades.
+Ao clicar em uma variedade, filtrar os gráficos de estado e maturação.
+Estoque por estado (resumo)
+Título: “Estoque por estado”
+Gráfico de rosca ou barras empilhadas:
+Estados: Crua, Verde, Verdolenga, Amarela, Pintada, Podre.
+Quantidade de caixas ou % do total.
+Curva de maturação (próximos dias)
+Título: “Curva de maturação – próximos 5 dias”
+Gráfico de linha ou área empilhada:
+Eixo X: dias (Hoje, +1, +2, +3, +4, +5).
+Eixo Y: quantidade de caixas entrando em estado crítico (ex.: “amarela+”, “podre”).
+Cores graduais do verde (crua) ao vermelho (podre).
+Maturação por variedade (detalhe)
+Título: “Maturação por variedade”
+Para cada variedade principal (ou filtrada):
+Barra empilhada mostrando a distribuição por estado.
+Ex.: “Prata – 300 caixas: 80 cruas, 100 verdes, 80 verdolengas, 30 amarelas, 10 pintadas, 0 podres.”
+Risco de perda
+Título: “Risco de perda”
+Lista ou cards:
+Produtos com maior quantidade em estado crítico nos próximos 1–3 dias.
+Ex.: “Prata – 200 caixas em risco de perda em 2 dias.”
+Ex.: “Nanica graúda – 120 caixas já em estado ‘pintada’.”
+Insights / Data Storytelling
+Título: “Insights de estoque e maturação”
+2–3 cards de texto:
+Ex.: “30% do estoque de Prata estará em estado crítico em 2 dias. Priorize vendas ou promoções.”
+Ex.: “Estoque de Nanica graúda está 40% abaixo da média dos últimos 30 dias. Risco de ruptura.”
+Ex.: “Quantidade de bananas podres subiu 25% na última semana. Revise critérios de recebimento e armazenamento.”
+5. Tela – “Dashboard Financeiro”
+Objetivo da tela
+Acompanhar contas a pagar, contas a receber e fluxo de caixa projetado. Responder: “Quanto tenho a receber e a pagar?”, “Quando?”, “Qual o saldo projetado?” e “Quem são os principais devedores e credores?”
+Estrutura sugerida
+Cabeçalho
+Título: “Financeiro”
+Subtítulo: “Contas a pagar, a receber e fluxo de caixa”
+Filtros:
+Período: “Próximos 7 dias”, “Próximos 30 dias”, “Mês atual”, “Personalizado”.
+KPIs financeiros (topo)
+4 cards:
+“Total a receber (período)” – R$.
+“Total a pagar (período)” – R$.
+“Saldo projetado (período)” – R$ (receber – pagar).
+“Inadimplência” – % ou valor de contas vencidas e não pagas.
+Evolução de recebimentos e pagamentos
+Título: “Fluxo de caixa projetado”
+Gráfico de coluna empilhada ou linhas:
+Eixo X: dias do período.
+Eixo Y: valor em R$.
+Duas séries: “A receber” e “A pagar”.
+Contas a receber
+Título: “Contas a receber”
+Resumo:
+“Valor total a receber” – R$.
+“Valor vencido” – R$.
+“Valor a receber nos próximos 7 dias” – R$.
+Top clientes a receber:
+Lista com 3–5 clientes:
+Nome do cliente.
+Valor total a receber.
+Quantidade de títulos.
+% vencido (se houver).
+Contas a pagar
+Título: “Contas a pagar”
+Resumo:
+“Valor total a pagar” – R$.
+“Valor vencido” – R$.
+“Valor a pagar nos próximos 7 dias” – R$.
+Top fornecedores/contas a pagar:
+Lista com 3–5 itens:
+Nome do fornecedor/conta.
+Valor total a pagar.
+Quantidade de títulos.
+% vencido.
+Resumo de fluxo de caixa
+Título: “Resumo de fluxo”
+Cards ou lista:
+“Saldo inicial do período” – R$.
+“Entradas previstas” – R$.
+“Saídas previstas” – R$.
+“Saldo final projetado” – R$.
+Insights / Data Storytelling
+Título: “Insights financeiros”
+2–3 cards de texto:
+Ex.: “70% das contas a receber estão concentradas em 3 clientes. Avalie risco de concentração.”
+Ex.: “Contas vencidas representam 15% do total a receber. Revise política de crédito.”
+Ex.: “Saldo projetado para os próximos 7 dias é positivo em R$ X, mas há pico de pagamentos no dia Y.”
+6. Tela – “Dashboard de Encomendas”
+Objetivo da tela
+Acompanhar pedidos/encomendas pendentes, entregas e status. Responder: “Quais encomendas estão abertas?”, “O que preciso entregar hoje?”, “Quais estão atrasadas?” e “Qual o volume de pedidos por período?”
+Estrutura sugerida
+Cabeçalho
+Título: “Encomendas”
+Subtítulo: “Pedidos, entregas e status”
+Filtros:
+Status: “Abertas”, “Em separação”, “Prontas”, “Entregues”, “Atrasadas”.
+Período: “Hoje”, “Próximos 7 dias”, “Mês atual”.
+KPIs de encomendas (topo)
+4 cards:
+“Encomendas abertas” – quantidade.
+“Encomendas a entregar hoje” – quantidade.
+“Encomendas atrasadas” – quantidade.
+“Valor total das encomendas abertas” – R$.
+Entregas do dia
+Título: “Entregas de hoje”
+Lista de cards:
+Cada card com:
+Cliente.
+Produtos e quantidades (resumo).
+Horário previsto.
+Status (ex.: “A separar”, “Pronta”, “Em rota”, “Entregue”).
+Encomendas por status
+Título: “Encomendas por status”
+Gráfico de rosca ou barras:
+Status no eixo X ou fatias.
+Quantidade de encomendas.
+Encomendas por cliente (top)
+Título: “Top clientes em encomendas”
+Lista ou barras horizontais:
+Top 5 clientes por quantidade ou valor de encomendas no período.
+Encomendas atrasadas
+Título: “Encomendas atrasadas”
+Lista de cards:
+Cliente.
+Data prevista.
+Produtos.
+Valor.
+Insights / Data Storytelling
+Título: “Insights de encomendas”
+2–3 cards de texto:
+Ex.: “5 encomendas estão atrasadas, totalizando R$ X. Priorize essas entregas.”
+Ex.: “Cliente X concentra 30% das encomendas do mês. Avalie condições especiais.”
+Ex.: “Volume de encomendas subiu 25% na última semana. Verifique capacidade de separação e entrega.”
+7. Tela – “Dashboard de Agenda”
+Objetivo da tela
+Centralizar entregas, reuniões, tarefas e lembretes do dia e dos próximos dias. Responder: “O que tenho para fazer hoje?”, “Quais são as próximas entregas?” e “Como está minha agenda nos próximos dias?”
+Estrutura sugerida
+Cabeçalho
+Título: “Agenda”
+Subtítulo: “Entregas, reuniões e tarefas”
+Filtros:
+Tipo: “Todas”, “Entregas”, “Reuniões”, “Tarefas”, “Lembretes”.
+Período: “Hoje”, “Próximos 7 dias”, “Mês atual”.
+Resumo do dia (topo)
+3 cards:
+“Entregas hoje” – quantidade.
+“Reuniões hoje” – quantidade.
+“Tarefas pendentes” – quantidade.
+Agenda de hoje
+Título: “Hoje”
+Linha do tempo vertical ou lista de cards:
+Cada item com:
+Horário.
+Tipo (ícone: entrega, reunião, tarefa).
+Título (ex.: “Entrega – Cliente A”, “Reunião – Fornecedor X”).
+Descrição curta.
+Status (ex.: “Pendente”, “Em andamento”, “Concluída”).
+Próximos dias
+Título: “Próximos dias”
+Agrupamento por dia:
+“Amanhã”, “Depois de amanhã”, etc.
+Lista resumida de itens por dia.
+Tarefas pendentes
+Título: “Tarefas pendentes”
+Lista com checkboxes (visual):
+Descrição da tarefa.
+Data limite (se houver).
+Prioridade (baixa, média, alta).
+Insights / Data Storytelling
+Título: “Insights de agenda”
+2–3 cards de texto:
+Ex.: “Você tem 8 entregas hoje, sendo 3 em regiões próximas. Avalie agrupar rotas.”
+Ex.: “3 tarefas estão com data limite nos próximos 2 dias. Priorize essas atividades.”
+Ex.: “Semana que vem tem pico de entregas na quinta e sexta. Organize equipe e veículos.”
