@@ -1,0 +1,8 @@
+$taskCompilerDir = 'C:/Users/IA2/.gradle/wrapper/dists/gradle-8.13-bin/5xuhj0ry160q40clulazy9h7d/gradle-8.13/lib'
+$taskSourceRoot = 'app/src/main/java/br/com/banavita/app'
+$taskFiles = @('tmp/RoomStubs.kt','tmp/SqliteStubs.kt','tmp/InjectStubs.kt','tmp/AppSettingsStub.kt')
+$taskFiles += (Get-ChildItem "$taskSourceRoot/data/local/entity","$taskSourceRoot/data/local/dao","$taskSourceRoot/data/local/relation","$taskSourceRoot/data/local/view","$taskSourceRoot/domain/model","$taskSourceRoot/domain/exception","$taskSourceRoot/domain/reminder","$taskSourceRoot/core/time" -Filter '*.kt' | ForEach-Object FullName)
+$taskFiles += @("$taskSourceRoot/data/local/converter/UuidConverters.kt", "$taskSourceRoot/data/local/BanavitaDatabase.kt", "$taskSourceRoot/data/mapper/EntityMappers.kt", "$taskSourceRoot/data/repository/DashboardRepository.kt", "$taskSourceRoot/data/repository/EncomendaRepository.kt", "$taskSourceRoot/data/repository/EventoRepository.kt", "$taskSourceRoot/data/repository/VendaRepository.kt", "$taskSourceRoot/data/repository/CompraRepository.kt", "$taskSourceRoot/data/repository/LoteRepository.kt", "$taskSourceRoot/data/repository/DocumentoSupport.kt", "$taskSourceRoot/data/repository/ClienteRepository.kt", "$taskSourceRoot/data/repository/ProdutoRepository.kt", "$taskSourceRoot/ui/common/Formatters.kt", "$taskSourceRoot/core/money/Money.kt")
+java -cp "$taskCompilerDir/*" org.jetbrains.kotlin.cli.jvm.K2JVMCompiler @taskFiles -classpath "$taskCompilerDir/kotlin-stdlib-2.0.21.jar;$taskCompilerDir/kotlinx-coroutines-core-jvm-1.6.4.jar" -no-stdlib -no-reflect -d tmp/backend-typecheck.jar 2> tmp/backend-typecheck.log
+Get-Content tmp/backend-typecheck.log -TotalCount 80
+exit $LASTEXITCODE
